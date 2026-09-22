@@ -8,6 +8,7 @@ import "@fontsource/manrope/600.css";
 import "./globals.css";
 import "./editorial.css";
 import "./brand-worlds.css";
+import "./gent-ascend.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s · The Reserve at Sanctum",
   },
   description:
-    "A men’s sanctuary in Eunice, Louisiana. Fix It Shop × Aurelius Collective. Grooming, wellbeing, and community.",
+    "A men’s sanctuary in Eunice, Louisiana. Fix It Shop × GENT Ascend Collective. Personal craft, grooming intelligence, and community.",
   icons: { apple: "/icon-180.png" },
   robots: { index: false, follow: false },
   appleWebApp: {
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#080e13",
+  themeColor: "#080a09",
 };
 export default function RootLayout({
   children,

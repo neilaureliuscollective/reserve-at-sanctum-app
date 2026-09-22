@@ -144,6 +144,11 @@ export function Visits({
           </button>
         </div>
         <div className="workspace-links">
+          {!studio && (
+            <Link className="text-link" href="/my-sanctum">
+              My Sanctum <ArrowUpRight size={16} />
+            </Link>
+          )}
           {!studio && actor.role !== "client" && (
             <Link className="text-link" href="/studio">
               Studio <ArrowUpRight size={16} />

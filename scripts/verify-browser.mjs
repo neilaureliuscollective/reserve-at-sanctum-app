@@ -109,15 +109,15 @@ try {
     fullPage: true,
   });
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await visit("/aurelius");
+  await visit("/gent-ascend");
   await page.screenshot({
-    path: "artifacts/aurelius-desktop.png",
+    path: "artifacts/gent-ascend-desktop.png",
     fullPage: true,
   });
   // Public website review: narrow cover screen, phone, unfolded, laptop, desktop.
   for (const width of [320, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 960 });
-    for (const route of ["/", "/fix-it-shop", "/aurelius", "/visit"]) {
+    for (const route of ["/", "/fix-it-shop", "/gent-ascend", "/sanctum-mirror", "/visit"]) {
       await visit(route);
       assert.equal(await page.locator("main h1").count(), 1);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${route} overflows at ${width}`);
@@ -131,15 +131,28 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   await visit("/");
   await page.getByRole("button", { name: "Open menu" }).click();
-  await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Your visits" }).focus();
+  await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "My Sanctum" }).focus();
   await page.keyboard.press("Escape");
   assert.equal(await page.getByRole("button", { name: "Open menu" }).evaluate(el => el === document.activeElement), true);
   await page.getByRole("link", { name: "Explore Fix It Shop" }).click();
   await page.waitForURL("**/fix-it-shop");
   await page.getByRole("navigation", { name: "Continue exploring" }).getByRole("link").click();
-  await page.waitForURL("**/aurelius");
-  await page.getByRole("navigation", { name: "Continue exploring" }).getByRole("link").click();
-  await page.waitForURL("http://localhost:3000/");
+  await page.waitForURL("**/gent-ascend");
+  await page.getByRole("link", { name: /Discover your Grooming Blueprint/ }).click();
+  await page.waitForURL("**/sanctum-mirror");
+  await page.getByRole("button", { name: "Begin your Blueprint" }).click();
+  await page.getByRole("button", { name: "Complete profile without camera" }).click();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.getByRole("button", { name: "Sharper beard structure" }).click();
+  await page.getByRole("button", { name: "Five minutes or less" }).click();
+  await page.getByRole("button", { name: "Redness or irritation" }).click();
+  await page.getByRole("button", { name: "Wavy" }).click();
+  await page.getByRole("button", { name: "Full beard" }).click();
+  await page.getByRole("button", { name: "Reveal my Blueprint" }).click();
+  assert.ok(await page.getByRole("heading", { name: "Save it to My Sanctum." }).isVisible());
+  await page.getByRole("button", { name: "Open My Sanctum preview" }).click();
+  await page.waitForURL("**/my-sanctum");
+  assert.ok(await page.getByText("Your Grooming Blueprint is now saved to My Sanctum.").isVisible());
   const noScript = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const staticPage = await noScript.newPage();
   await staticPage.goto("http://localhost:3000/");

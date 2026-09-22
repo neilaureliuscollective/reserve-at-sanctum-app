@@ -49,15 +49,15 @@ export default function Home() {
             <Link href="/fix-it-shop" className="text-link">Step into Fix It Shop <ArrowUpRight size={18} /></Link>
           </article>
           <article className="founder founder-neil">
-            <p className="eyebrow">AURELIUS COLLECTIVE</p>
-            <h3>Neil<span>The vision. The possibility.</span></h3>
-            <p>From grooming and products to a wider vision for wellbeing and legacy. Neil brings Aurelius Collective’s belief that caring for yourself can become part of a larger, more intentional life.</p>
-            <Link href="/aurelius" className="text-link">Explore the Collective <ArrowUpRight size={18} /></Link>
+            <p className="eyebrow">GENT ASCEND COLLECTIVE</p>
+            <h3>Neil<span>The ritual. The direction.</span></h3>
+            <p>From grooming products to a living concierge experience. Neil brings a more personal way to understand your hair, beard, skin, and the daily ritual that keeps it together.</p>
+            <Link href="/gent-ascend" className="text-link">Enter GENT Ascend <ArrowUpRight size={18} /></Link>
           </article>
         </div>
       </section>
       <section className="reserve-invitation">
-        <p className="eyebrow">FIX IT SHOP × AURELIUS COLLECTIVE</p>
+        <p className="eyebrow">FIX IT SHOP × GENT ASCEND COLLECTIVE</p>
         <h2>There’s room<br /><em>for you here.</em></h2>
         <Link href="/visit" className="button button-gold">Discover the Reserve <ArrowUpRight size={18} /></Link>
         <p className="invitation-location">EUNICE, LOUISIANA</p>

@@ -61,23 +61,23 @@ export function Header() {
             Fix It Shop
           </Link>
           <Link
-            className={path === "/aurelius" ? "active" : ""}
-            aria-current={path === "/aurelius" ? "page" : undefined}
-            href="/aurelius"
+            className={path === "/gent-ascend" || path === "/sanctum-mirror" ? "active" : ""}
+            aria-current={path === "/gent-ascend" ? "page" : undefined}
+            href="/gent-ascend"
             onClick={() => setOpen(false)}
           >
-            Aurelius Collective
+            GENT Ascend
           </Link>
           <Link href="/visit" onClick={() => setOpen(false)}>
             Visit us
           </Link>
-          <Link href="/account" className="mobile-account" onClick={() => setOpen(false)}>Your visits</Link>
+          <Link href="/my-sanctum" className="mobile-account" onClick={() => setOpen(false)}>My Sanctum</Link>
         </nav>
         <div className="header-actions">
           <Link
-            href="/account"
+            href="/my-sanctum"
             className="account-link"
-            aria-label="Your visits"
+            aria-label="Open My Sanctum"
           >
             <UserRound size={19} />
           </Link>

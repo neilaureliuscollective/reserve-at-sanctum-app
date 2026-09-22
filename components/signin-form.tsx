@@ -1,14 +1,17 @@
 "use client";
 import { useState } from "react";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { SocialAuthButtons } from "@/components/social-auth-buttons";
 export function SigninForm({
   preview,
   hosted,
   next,
+  oauthError = false,
 }: {
   preview: boolean;
   hosted: boolean;
   next: string;
+  oauthError?: boolean;
 }) {
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
@@ -44,6 +47,9 @@ export function SigninForm({
     <div className="signin-panel">
       {hosted ? (
         <>
+          <SocialAuthButtons next={next} />
+          <details className="email-fallback">
+            <summary>Use email instead</summary>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -90,6 +96,7 @@ export function SigninForm({
           <button className="text-link" onClick={() => setSignup(!signup)}>
             {signup ? "Already have an account? Sign in" : "Create an account"}
           </button>
+          </details>
         </>
       ) : (
         !preview && (
@@ -152,6 +159,9 @@ export function SigninForm({
         <p className="error-message" role="alert">
           {error}
         </p>
+      )}
+      {oauthError && !error && (
+        <p className="error-message" role="alert">That sign-in did not finish. Your work is still here—try Google or Apple again.</p>
       )}
       {message && (
         <p className="inline-note" role="status">

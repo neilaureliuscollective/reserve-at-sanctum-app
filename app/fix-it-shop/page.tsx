@@ -69,7 +69,7 @@ export default function Page() {
       </section>
       <nav className="world-continuation" aria-label="Continue exploring">
         <span>ANOTHER SIDE OF THE RESERVE</span>
-        <Link href="/aurelius" className="text-link">Discover Aurelius Collective <ArrowUpRight size={18} /></Link>
+        <Link href="/gent-ascend" className="text-link">Discover GENT Ascend <ArrowUpRight size={18} /></Link>
       </nav>
     </main>
   );

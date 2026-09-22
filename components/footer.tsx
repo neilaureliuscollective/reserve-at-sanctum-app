@@ -16,8 +16,8 @@ export function Footer() {
           <Link href="/fix-it-shop">
             Fix It Shop <ArrowUpRight size={16} />
           </Link>
-          <Link href="/aurelius">
-            Aurelius Collective <ArrowUpRight size={16} />
+          <Link href="/gent-ascend">
+            GENT Ascend Collective <ArrowUpRight size={16} />
           </Link>
           <Link href="/account">
             Your visits <ArrowUpRight size={16} />
@@ -29,7 +29,7 @@ export function Footer() {
       </div>
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} The Reserve at Sanctum</span>
-        <span>Fix It Shop × Aurelius Collective</span>
+        <span>Fix It Shop × GENT Ascend Collective</span>
         <span>Private development preview</span>
       </div>
     </footer>

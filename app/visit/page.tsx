@@ -14,7 +14,7 @@ export default function Page() {
             <em>Ready for more.</em>
           </h1>
           <p>
-            The Reserve at Sanctum brings Fix It Shop and Aurelius Collective
+            The Reserve at Sanctum brings Fix It Shop and GENT Ascend Collective
             together around grooming, wellbeing, and community.
           </p>
           <div className="location-line">

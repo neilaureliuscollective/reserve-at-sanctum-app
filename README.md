@@ -3,30 +3,36 @@
 ## Current visual continuation
 
 The September 21 visual pass continues the recovered original source archive.
-It adds the architectural editorial homepage, distinct blue/purple brand
-environments, readable mobile layouts and connected brand navigation.
+It adds the architectural editorial homepage, distinct Fix It Shop and GENT
+Ascend brand environments, readable mobile layouts and connected navigation.
 See [the visual plan and verification](docs/VISUAL-DIRECTION.md).
 The subsequent [brand-world continuation](docs/BRAND-WORLDS.md) adds distinct
-Fix It and Aurelius compositions, research-grounded story sections, page chapter
+Fix It and GENT Ascend compositions, research-grounded story sections, page chapter
 links and a tighter mobile Arrival. It also records the latest verification.
-This recovered archive has no Git history; the later calendar/time-off commits
-were not recovered. No new Git repository was initialized and no deployment or
-GitHub push is claimed. Booking/backend development remains paused.
+The recovered source is now preserved in the canonical repository. The current
+phase adds the GENT Ascend grooming experience without replacing the validated
+booking and studio foundation.
 
 Phase-one implementation for Neil + Katie: a men's sanctuary in Eunice,
-Louisiana, bringing together **Fix It Shop × Aurelius Collective**.
+Louisiana, bringing together **Fix It Shop × GENT Ascend Collective**.
 
 Official project: `neilaureliuscollective/reserve-at-sanctum-app`.
 This canonical repository replaces the former empty
-`legacy-sanctum-co/the-reserve-at-sanctum-platform` repository. It does not replace or modify the independent
-Aurelius application or the earlier Groomed Gent project.
+`legacy-sanctum-co/the-reserve-at-sanctum-platform` repository. It does not
+replace or modify any independent digital-infrastructure application.
 
 ## What is built
 
 - Cinematic, responsive homepage with original concept architecture and a real
   Three.js Louisiana medallion; mouse-responsive lighting/rotation, pause,
   reduced-motion support, and usable content without WebGL.
-- Separate Fix It Shop and Aurelius worlds, plus an honest location page.
+- Separate Fix It Shop and GENT Ascend worlds, plus an honest location page.
+- Public Sanctum Mirror flow with guided three-angle capture, grooming
+  priorities, a personal Blueprint, and value-first account conversion.
+- Google and Apple OAuth through the existing Supabase PKCE session
+  architecture, with email/password as a quiet fallback.
+- Account-owned My Sanctum grooming profiles persisted server-side without
+  retaining raw face images or presenting the experience as medical diagnosis.
 - Service → available time → sign-in → saved preview appointment.
 - Client appointment history and Katie/owner appointment book with day filtering,
   rescheduling, cancellation, and persisted records.
@@ -91,10 +97,10 @@ It requires the local preview database and will refuse hosted credentials.
    This creates private tables; it does **not** seed preview identities or enable
    a live catalog. The application needs a server role with access to these
    tables. Browser Data API access intentionally has no RLS policies.
-4. Configure Supabase Site URL and allowed redirects for the preview domain.
-   Users sign in with confirmed email/password. Verify email delivery and
-   confirmation against that project before inviting testers. Password reset,
-   social login, MFA, and production email branding remain future work.
+4. Configure Supabase Site URL and allowed redirects for the preview domain,
+   including `/auth/callback`. Enable Google and Apple providers; provider
+   secrets remain in Supabase and never in this repository. Verify both PKCE
+   return journeys on the real preview domain. Email/password remains a fallback.
 5. Have Neil and Katie create/sign in to their accounts, then assign `owner` and
    `staff` roles by **verified Supabase user ID** in the server database. Assign
    Katie's staff row to provider ID `katie`. Never grant roles from signup
@@ -113,9 +119,6 @@ buffers, schedule, address, cancellation policy, and account/privacy copy; wire
 any required reminders and payment policies; add password recovery and staff
 schedule management; and verify the hosted journey. No fake testimonials,
 contact information, or health outcomes have been added.
-
-Optional `NEXT_PUBLIC_AURELIUS_URL` can point to the verified independent Aurelius
-application when it is ready. No shared login or deep integration is assumed.
 
 See `docs/VISION.md` for the implemented cinematic direction and
 `docs/ASSETS.md` for imagery provenance.

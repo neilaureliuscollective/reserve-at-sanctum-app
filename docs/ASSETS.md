@@ -10,6 +10,7 @@ labels are part of the interface and should remain until imagery is replaced.
 | arrival.webp  | Dark modern sanctuary arch, warm gold rim, Louisiana live oak beyond, left-hand negative space for readable type        |
 | fix-it.webp   | Katie's envisioned navy/gold men's salon, refined salon chair and carefully arranged tools, no people or barber imagery |
 | aurelius.webp | Purple/obsidian alcove, bronze Atlas sphere sculpture, journal, coffee, unbranded objects, no product or health claims  |
+| gent-ascend-emblem.png | User-provided GENT Ascend Collective emblem used in the rebranded world |
 
 The icon and simplified header mark are custom SVG geometry, not a claim to
 reproduce the final illustrated brand crest exactly. Raster home-screen icons

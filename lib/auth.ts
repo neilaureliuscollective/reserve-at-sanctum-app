@@ -42,7 +42,7 @@ export async function currentUser(): Promise<Actor | null> {
       [
         user.id,
         user.user_metadata?.name || user.email?.split("@")[0] || "Guest",
-        user.email,
+        user.email || `${user.id}@private.reserve`,
       ],
     );
     return (

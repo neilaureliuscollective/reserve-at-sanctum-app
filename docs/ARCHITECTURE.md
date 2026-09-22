@@ -8,9 +8,10 @@ the hero, navigation, sign-in, booking, and appointment interactions are client
 components. Three.js loads after the initial content and is isolated from forms.
 Fonts are self-hosted. There is no third-party tracking, payment SDK, or AI chat.
 
-Fix It Shop is Katie's men's salon world. Aurelius is Neil's broader world of
-character, discipline, wellbeing, community, and legacy. Its independent app is
-not part of this repository's authentication or booking database.
+Fix It Shop is Katie's men's salon world. GENT Ascend is Neil's men's grooming
+world: consultation, hair/beard/skin priorities, products, rituals, and the
+Sanctum Mirror. The separate digital-infrastructure company is not part of this
+application.
 
 ## Data and authority
 
@@ -27,6 +28,7 @@ synthetic seeding occurs when `DATABASE_URL` is set.
 | reserve_occupancy    | Unique provider/15-minute unit for visit + buffer or block |
 | reserve_sessions     | Hashed, expiring local development sessions only           |
 | reserve_audit        | Appointment mutation events                                |
+| reserve_grooming_profiles | Account-owned Blueprint and grooming priorities       |
 
 Hosted authentication verifies Supabase users on the server with `getUser()`.
 `proxy.ts` refreshes cookies before protected pages render. Customer roles default
@@ -81,10 +83,26 @@ Insert reviewed services with `enabled=false`, then explicitly enable the
 provider and approved services when the preview is ready. Do not copy local
 illustrative menu entries into a real operating schedule as approved prices.
 
+## Sanctum Mirror and social account conversion
+
+The public Sanctum Mirror collects a three-angle guided capture state and the
+client's stated grooming priorities before authentication. The current build
+does not upload or retain facial photographs and does not claim a medical skin
+diagnosis. A short-lived browser draft survives the OAuth redirect; after a
+Google or Apple PKCE callback, the authenticated client explicitly saves the
+derived Blueprint to the server-owned grooming profile table. API access is
+always resolved from the verified session and never accepts a user ID from the
+browser.
+
+Google and Apple must be enabled in Supabase Auth, with the production and
+preview `/auth/callback` URLs allow-listed. Email/password remains a quiet
+fallback. Local preview access exercises the same draft-to-profile journey with
+synthetic identities.
+
 ## Deliberate phase boundaries
 
 No production customer migration, paid membership, checkout, notifications,
-wellness intake, health records, product fulfillment, shared Aurelius identity,
+medical assessment, image retention, product fulfillment,
 or native App Store binary. The manifest provides a home-screen foundation;
 private records are network-only. Hosted signup/confirmation, token refresh,
 Postgres concurrency and deployment must still be tested with real configuration.

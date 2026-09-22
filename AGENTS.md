@@ -3,7 +3,9 @@
 Official repository: neilaureliuscollective/reserve-at-sanctum-app.
 Read README.md and docs/ARCHITECTURE.md before changing architecture.
 Next.js 16: consult installed node_modules/next/dist/docs for relevant APIs.
-Preserve Neil + Katie / Fix It Shop × Aurelius Collective. No Recovery Room.
+Preserve Neil + Katie / Fix It Shop × GENT Ascend Collective. No Recovery Room.
+GENT Ascend uses obsidian, deep green and #C4912F gold. It is a men's grooming
+sanctum, not the separate digital-infrastructure company.
 Katie is a men's salon professional; no barber language or imagery.
 Never enable developer identities or embedded development storage in production.
 Appointments and permission checks are server-authoritative. Test simultaneous booking and ownership whenever modifying the core.

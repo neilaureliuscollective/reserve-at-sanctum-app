@@ -45,6 +45,13 @@ CREATE TABLE IF NOT EXISTS reserve_audit (
  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, actor_id text NOT NULL,
  appointment_id text NOT NULL, action text NOT NULL, created_at timestamptz NOT NULL DEFAULT now()
 );
+CREATE TABLE IF NOT EXISTS reserve_grooming_profiles (
+ user_id text PRIMARY KEY REFERENCES reserve_users(id) ON DELETE CASCADE,
+ focus jsonb NOT NULL DEFAULT '[]', maintenance text NOT NULL DEFAULT '',
+ skin text NOT NULL DEFAULT '', hair text NOT NULL DEFAULT '', beard text NOT NULL DEFAULT '',
+ blueprint jsonb NOT NULL DEFAULT '{}', scan_completed_at timestamptz,
+ updated_at timestamptz NOT NULL DEFAULT now()
+);
 CREATE INDEX IF NOT EXISTS reserve_client_visits ON reserve_appointments(client_id,starts_at);
 CREATE INDEX IF NOT EXISTS reserve_provider_visits ON reserve_appointments(provider_id,starts_at);
 -- Private access is exclusively through authorized server routes. No browser SQL access.
@@ -55,3 +62,4 @@ ALTER TABLE reserve_appointments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE reserve_occupancy ENABLE ROW LEVEL SECURITY;
 ALTER TABLE reserve_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE reserve_audit ENABLE ROW LEVEL SECURITY;
+ALTER TABLE reserve_grooming_profiles ENABLE ROW LEVEL SECURITY;

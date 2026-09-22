@@ -44,10 +44,10 @@ export function Worlds() {
             </span>
           </div>
         </Link>
-        <Link href="/aurelius" className="world-card purple">
+        <Link href="/gent-ascend" className="world-card gent">
           <Image
-            src="/images/aurelius.webp"
-            alt="Concept of Aurelius Collective: bronze Atlas sculpture and daily ritual objects"
+            src="/images/gent-ascend-emblem.png"
+            alt="GENT Ascend Collective gold and deep green emblem"
             fill
             sizes="(max-width: 700px) 100vw, 50vw"
           />
@@ -57,15 +57,15 @@ export function Worlds() {
             <span>Concept imagery</span>
           </div>
           <div className="world-copy">
-            <span className="eyebrow">CHARACTER. DISCIPLINE. LEGACY.</span>
-            <h3>Aurelius Collective</h3>
+            <span className="eyebrow">GROOMING. RITUAL. ASCENSION.</span>
+            <h3>GENT Ascend</h3>
             <p>
-              A wider vision for wellbeing and growth.
+              A living grooming profile and personal direction.
               <br />
-              The person you become.
+              Built before you arrive.
             </p>
             <span className="world-enter">
-              Explore Aurelius Collective <ArrowUpRight size={22} />
+              Enter GENT Ascend <ArrowUpRight size={22} />
             </span>
           </div>
         </Link>

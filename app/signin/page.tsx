@@ -6,7 +6,7 @@ export const metadata = { title: "Your Reserve account" };
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; error?: string }>;
 }) {
   const p = await searchParams;
   const next =
@@ -22,7 +22,7 @@ export default async function Page({
         </h1>
         <p>Your preferences. Your visits. A little more time for you.</p>
       </div>
-      <SigninForm preview={isPreview()} hosted={hasSupabase()} next={next} />
+      <SigninForm preview={isPreview()} hosted={hasSupabase()} next={next} oauthError={p.error === "oauth"} />
     </main>
   );
 }
