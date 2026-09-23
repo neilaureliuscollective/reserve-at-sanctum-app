@@ -43,10 +43,10 @@ export function ReserveCompass() {
 
   function choose(key: Direction, event: React.MouseEvent<HTMLButtonElement>) {
     setChoice(key);
-    if (event.detail > 0 && window.matchMedia("(max-width: 760px)").matches) {
+    if (event.detail > 0) {
       requestAnimationFrame(() => {
         const bounds = stage.current?.getBoundingClientRect();
-        if (bounds && bounds.top > window.innerHeight * .45) {
+        if (bounds && bounds.top > window.innerHeight * .35) {
           stage.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "center" });
         }
       });

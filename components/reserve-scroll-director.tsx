@@ -62,6 +62,7 @@ export function ReserveScrollDirector() {
         scene.style.setProperty("--scene-progress", progress.toFixed(3));
         scene.style.setProperty("--scene-shift", `${((progress - .5) * 72).toFixed(1)}px`);
         scene.style.setProperty("--scene-turn", `${((progress - .5) * 7).toFixed(2)}deg`);
+        scene.style.setProperty("--scene-aperture", `${(Math.max(0, .43 - progress) * 27).toFixed(2)}%`);
       }
     }
     function requestSceneFrame() { if (!frame) frame = requestAnimationFrame(updateScenes); }
