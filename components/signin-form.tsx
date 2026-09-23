@@ -47,9 +47,7 @@ export function SigninForm({
     <div className="signin-panel">
       {hosted ? (
         <>
-          <SocialAuthButtons next={next} />
-          <details className="email-fallback">
-            <summary>Use email instead</summary>
+          <div className="email-fallback">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -96,13 +94,17 @@ export function SigninForm({
           <button className="text-link" onClick={() => setSignup(!signup)}>
             {signup ? "Already have an account? Sign in" : "Create an account"}
           </button>
+          </div>
+          <details className="email-fallback">
+            <summary>Continue with Google or Apple</summary>
+            <SocialAuthButtons next={next} />
           </details>
         </>
       ) : (
         !preview && (
           <p>
-            Member accounts are being prepared. Sign-in will be available when
-            the hosted platform is connected.
+            Account setup is temporarily unavailable. The Reserve team is
+            connecting secure sign-in and the private workspace.
           </p>
         )
       )}

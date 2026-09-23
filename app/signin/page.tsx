@@ -1,4 +1,4 @@
-import { isPreview } from "@/lib/db";
+import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/auth";
 import { SigninForm } from "@/components/signin-form";
 export const dynamic = "force-dynamic";
@@ -22,7 +22,7 @@ export default async function Page({
         </h1>
         <p>Your preferences. Your visits. A little more time for you.</p>
       </div>
-      <SigninForm preview={isPreview()} hosted={hasSupabase()} next={next} oauthError={p.error === "oauth"} />
+      <SigninForm preview={isPreview()} hosted={hasSupabase() && configured()} next={next} oauthError={p.error === "oauth"} />
     </main>
   );
 }

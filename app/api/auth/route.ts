@@ -2,6 +2,7 @@ import { z } from "zod";
 import { hasSupabase, previewLogin, signout, supabase } from "@/lib/auth";
 import { mutationOrigin, failure } from "@/lib/http";
 import { BookingError } from "@/lib/booking";
+import { configured } from "@/lib/db";
 export async function POST(req: Request) {
   try {
     mutationOrigin(req);
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
       );
       return Response.json({ ok: true });
     }
-    if (!hasSupabase())
+    if (!hasSupabase() || !configured())
       throw new BookingError(
         "Member sign-in will open when hosted accounts are connected.",
         503,
@@ -41,7 +42,10 @@ export async function POST(req: Request) {
       const { data, error } = await client.auth.signUp({
         email: input.email,
         password: input.password,
-        options: { data: { name: input.name } },
+        options: {
+          data: { name: input.name },
+          emailRedirectTo: new URL("/auth/callback?next=%2Fsetup", req.url).toString(),
+        },
       });
       if (error)
         throw new BookingError(
