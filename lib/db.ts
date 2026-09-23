@@ -2,6 +2,7 @@ import { PGlite } from "@electric-sql/pglite";
 import postgres from "postgres";
 import { readFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
+import { serverlessDatabaseUrl } from "./db-connection";
 export type Row = Record<string, unknown>;
 export interface Queryable {
   query<T extends Row = Row>(sql: string, params?: unknown[]): Promise<T[]>;
@@ -58,7 +59,7 @@ export async function database(): Promise<Database> {
   if (!globalDb.reserveDb)
     globalDb.reserveDb = (async () => {
       if (process.env.DATABASE_URL) {
-        const sql = postgres(process.env.DATABASE_URL, {
+        const sql = postgres(serverlessDatabaseUrl(process.env.DATABASE_URL), {
           prepare: false,
           max: 3,
         });
