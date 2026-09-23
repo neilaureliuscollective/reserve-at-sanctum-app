@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { LivingEmblem } from "@/components/living-emblem";
 export function Worlds() {
   return (
     <section id="worlds" className="section worlds">
@@ -28,6 +29,7 @@ export function Worlds() {
             sizes="(max-width: 700px) 100vw, 50vw"
           />
           <div className="world-overlay" />
+          <div className="world-emblem"><LivingEmblem brand="fix" ambient={false} /></div>
           <div className="world-top">
             <span>01 / THE CRAFT</span>
             <span>Concept imagery</span>
@@ -45,16 +47,12 @@ export function Worlds() {
           </div>
         </Link>
         <Link href="/gent-ascend" className="world-card gent">
-          <Image
-            src="/images/gent-ascend-emblem.png"
-            alt="GENT Ascend Collective gold and deep green emblem"
-            fill
-            sizes="(max-width: 700px) 100vw, 50vw"
-          />
+          <div className="world-gent-backdrop" />
           <div className="world-overlay" />
+          <div className="world-emblem world-emblem--gent"><LivingEmblem brand="gent" ambient={false} /></div>
           <div className="world-top">
             <span>02 / THE COLLECTIVE</span>
-            <span>Concept imagery</span>
+            <span>Official emblem</span>
           </div>
           <div className="world-copy">
             <span className="eyebrow">GROOMING. RITUAL. ASCENSION.</span>

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { LivingEmblem } from "@/components/living-emblem";
 import Link from "next/link";
 import { ArrowDown, ArrowLeft, ArrowUpRight, ScanFace, ShieldCheck, Sparkles } from "lucide-react";
 
@@ -20,7 +20,7 @@ export default function Page() {
           <p>A modern men’s grooming sanctum where personal consultation, intelligent rituals, and the right products become one evolving experience.</p>
           <div className="gent-actions"><Link href="/sanctum-mirror" className="button button-gold">Discover your Grooming Blueprint <ScanFace size={18} /></Link><a href="#experience" className="text-link">Enter the world <ArrowDown size={17} /></a></div>
         </div>
-        <figure className="gent-emblem"><Image src="/images/gent-ascend-emblem.png" alt="GENT Ascend Collective gold and deep green emblem" fill priority sizes="(max-width: 760px) 92vw, 52vw" /></figure>
+        <div className="gent-emblem"><LivingEmblem brand="gent" priority controls /></div>
         <div className="gent-arrival-foot"><span>THE RESERVE · EUNICE, LOUISIANA</span><span>YOUR GROOMING, UNDERSTOOD</span></div>
       </section>
 

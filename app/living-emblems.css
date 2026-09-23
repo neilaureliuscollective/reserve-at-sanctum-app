@@ -1,0 +1,41 @@
+.living-emblem { position:relative; width:100%; aspect-ratio:1; isolation:isolate; --emblem-glow:#a77936; }
+.living-emblem--gent { --emblem-glow:#0d8063; }
+.living-emblem__stage { position:absolute; inset:0; transform:perspective(1000px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)); transition:transform .6s cubic-bezier(.2,.8,.2,1); }
+.living-emblem__aura { position:absolute; inset:6%; border-radius:50%; background:radial-gradient(circle,var(--emblem-glow) 0%,transparent 68%); opacity:.35; filter:blur(30px); }
+.living-emblem__orbit { position:absolute; inset:-2%; border-radius:50%; border:1px solid #d5a95f55; box-shadow:inset 0 0 15px #d5a95f22,0 0 26px #d5a95f18; }
+.living-emblem__orbit::before { content:""; position:absolute; inset:-1px; border-radius:50%; border:2px solid transparent; border-top-color:#ffe9ac; border-right-color:#d5a95f66; transform:rotate(-30deg); animation:emblem-orbit 24s linear infinite; }
+.living-emblem__face { position:absolute; inset:3%; display:block; overflow:hidden; border-radius:50%; background:#05090a; box-shadow:0 24px 65px #000b,0 0 0 1px #c9975555; }
+.living-emblem__face img { object-fit:cover; }
+.living-emblem__glint { pointer-events:none; position:absolute; inset:3%; border-radius:50%; background:linear-gradient(110deg,transparent 43%,#fff8df28 49%,transparent 54%); opacity:.38; mix-blend-mode:screen; animation:emblem-glint 16s ease-in-out infinite; }
+.living-emblem__control { position:absolute; z-index:3; bottom:-34px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:7px; padding:8px 11px; border:1px solid #d1a96366; background:#0a1112cc; color:#ead8b1; font-size:9px; letter-spacing:.13em; white-space:nowrap; cursor:pointer; }
+.living-emblem__control:focus-visible { outline:2px solid #f7d795; outline-offset:3px; }
+.living-emblem[data-paused="true"] .living-emblem__orbit::before,.living-emblem[data-paused="true"] .living-emblem__glint { animation-play-state:paused; }
+.living-emblem[data-paused="true"] .living-emblem__stage { transform:none; }
+@keyframes emblem-orbit { to { transform:rotate(330deg); } }
+@keyframes emblem-glint { 0%,25%,75%,100% { opacity:0; transform:translateX(-12%); } 45%,55% { opacity:.4; transform:translateX(12%); } }
+@media (prefers-reduced-motion:reduce) { .living-emblem__orbit::before,.living-emblem__glint { animation:none !important; } .living-emblem__stage { transition:none; transform:none !important; } .living-emblem__control { display:none; } }
+
+/* Brand hierarchy: the Reserve identifies the place; each world owns its own arrival. */
+.reserve-emblem-stage { position:absolute; z-index:2; width:clamp(220px,25vw,390px); right:4%; top:45%; transform:translateY(-35%); }
+.fix-emblem-stage { position:absolute; z-index:1; width:clamp(210px,27vw,380px); right:7%; top:22%; }
+.gent-emblem .living-emblem { width:100%; }
+.gent-emblem .living-emblem__face img { transform:none; object-fit:cover; }
+.world-card .world-emblem { position:absolute; z-index:1; top:15%; left:50%; transform:translateX(-50%); width:min(56%,310px); filter:drop-shadow(0 30px 35px #000b); transition:transform .6s ease; }
+.world-card:hover .world-emblem { transform:translateX(-50%) scale(1.025); }
+.world-card .world-emblem img { z-index:auto; filter:none; object-fit:cover; }
+.world-gent-backdrop { position:absolute; inset:0; background:radial-gradient(circle at 50% 30%,#065443 0,#081a13 45%,#030605 100%); }
+.world-card.gent .world-overlay { z-index:0; }
+.world-card .world-top,.world-card .world-copy { position:relative; z-index:2; }
+@media(max-width:1100px) { .reserve-emblem-stage { width:240px; top:30%; } }
+@media(max-width:760px) {
+  .reserve-emblem-stage { width:clamp(118px,30vw,180px); right:7%; left:auto; top:125px; transform:none; }
+  .fix-emblem-stage { width:clamp(155px,34vw,230px); right:7%; top:170px; }
+  .gent-emblem { opacity:.75; }
+  .world-card .world-emblem { width:min(58%,260px); top:13%; }
+  .living-emblem__control { font-size:8px; bottom:-32px; }
+}
+@media(max-width:650px) {
+  .reserve-home .reserve-emblem-stage { width:clamp(132px,37vw,185px); top:118px; right:8%; left:auto; }
+  .katie-arrival .fix-emblem-stage { top:170px; right:6%; width:clamp(145px,42vw,210px); }
+  .gent-arrival .gent-emblem { opacity:.55; }
+}

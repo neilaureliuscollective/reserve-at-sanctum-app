@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { LivingEmblem } from "@/components/living-emblem";
 import Link from "next/link";
 import { ArrowUpRight, ArrowLeft } from "lucide-react";
 export const metadata = {
@@ -21,6 +22,7 @@ export default function Page() {
           />
           <figcaption>VISUAL CONCEPT · NOT THE FINISHED LOCATION</figcaption>
         </figure>
+        <div className="fix-emblem-stage"><LivingEmblem brand="fix" controls /></div>
         <div className="katie-arrival-copy">
           <Link href="/" className="back-link">
             <ArrowLeft size={16} /> THE RESERVE AT SANCTUM

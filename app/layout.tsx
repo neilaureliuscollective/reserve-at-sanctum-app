@@ -49,6 +49,7 @@ import "./editorial.css";
 import "./brand-worlds.css";
 import "./gent-ascend.css";
 import "./chair.css";
+import "./living-emblems.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 export const metadata: Metadata = {
