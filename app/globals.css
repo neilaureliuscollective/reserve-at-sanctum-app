@@ -1,12 +1,19 @@
 :root {
-  --ink: #080e13;
-  --surface: #10191f;
-  --surface-2: #142129;
-  --gold: #c8a464;
-  --gold-light: #e9d2a5;
+  --reserve-obsidian: #070909;
+  --reserve-deep-petrol: #0C292D;
+  --reserve-petrol: #163E43;
+  --reserve-gold: #C4912F;
+  --reserve-gold-light: #E0BB6A;
+  --reserve-edge: rgba(224, 187, 106, .22);
+  --reserve-glass: rgba(12, 41, 45, .62);
+  --ink: var(--reserve-obsidian);
+  --surface: var(--reserve-deep-petrol);
+  --surface-2: var(--reserve-petrol);
+  --gold: var(--reserve-gold);
+  --gold-light: var(--reserve-gold-light);
   --paper: #f2eee5;
-  --muted: #aab3b7;
-  --line: rgba(213, 185, 132, 0.2);
+  --muted: #b9c7c5;
+  --line: var(--reserve-edge);
   --serif: var(--reserve-serif), Georgia, serif;
   --sans: var(--reserve-sans), Arial, sans-serif;
   color-scheme: dark;

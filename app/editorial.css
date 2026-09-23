@@ -1,6 +1,5 @@
 /* Public website visual layer. Booking and studio layouts retain their own styles. */
-:root { --gold: #c5a064; --gold-light: #ead8b5; }
-.site-header { background: linear-gradient(180deg, #060b10d9, #060b1026); }
+.site-header { background: linear-gradient(180deg, #070909e8, #0c292d4d 76%, transparent); }
 .nav-links { gap: 24px; }
 .nav-links a { font-size: 14px; }
 .button, .text-link { font-size: 14px; }

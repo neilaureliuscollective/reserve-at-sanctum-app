@@ -50,6 +50,7 @@ import "./brand-worlds.css";
 import "./gent-ascend.css";
 import "./chair.css";
 import "./living-emblems.css";
+import "./reserve-identity.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 export const metadata: Metadata = {
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#080a09",
+  themeColor: "#070909",
 };
 export default function RootLayout({
   children,
