@@ -7,7 +7,7 @@ export function Worlds() {
     <section id="worlds" className="section worlds" data-scene>
       <div className="section-heading" data-reveal>
         <div>
-          <p className="eyebrow">02 / THE TWO WORLDS</p>
+          <p className="eyebrow">04 / THE TWO WORLDS</p>
           <h2>
             Two worlds.
             <br />

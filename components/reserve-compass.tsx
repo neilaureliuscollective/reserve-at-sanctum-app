@@ -56,7 +56,7 @@ export function ReserveCompass() {
               </button>
             );
           })}
-          <p className="compass-privacy">No scan. No account. Just a starting point you choose.</p>
+          <p className="compass-privacy">A starting point shaped around what matters to you.</p>
         </div>
 
         <div className="compass-instrument" aria-hidden="true" data-reveal>
@@ -89,6 +89,7 @@ export function ReserveCompass() {
           <div className="compass-result__idle"><span>YOUR FIRST STEP</span><p>Choose a direction above. The path will take shape here.</p></div>
         )}
       </div>
+      <noscript><p className="compass-fallback">Explore directly: <Link href="/fix-it-shop">Katie’s craft</Link> · <Link href="/gent-ascend">Neil’s rituals</Link> · <Link href="/visit">the Reserve</Link>.</p></noscript>
     </section>
   );
 }

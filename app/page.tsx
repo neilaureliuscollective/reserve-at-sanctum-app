@@ -30,7 +30,7 @@ export default function Home() {
       </section>
       <ReserveCompass />
       <section id="the-people" className="reserve-story-section people-story" data-scene aria-labelledby="people-title">
-        <div className="story-meta"><span>02 / TWO PERSPECTIVES</span><span>DIFFERENT STRENGTHS · ONE SHARED STANDARD</span></div>
+        <div className="story-meta"><span>03 / TWO PERSPECTIVES</span><span>DIFFERENT STRENGTHS · ONE SHARED STANDARD</span></div>
         <div className="people-intro" data-reveal><h2 id="people-title">The craft.<br /><em>The bigger picture.</em></h2><p>Two independent businesses. One belief that caring for a man should go deeper than the appointment.</p></div>
         <div className="people-cards">
           <Link href="/fix-it-shop" className="people-card people-katie" data-reveal><div className="people-image story-scene-chair" aria-hidden="true" /><div className="people-copy"><span className="eyebrow">KATIE · FIX IT SHOP</span><h3>Know the man.<br /><em>Then refine the look.</em></h3><p>Katie’s men’s salon is built on attention to the person in her chair. The cut matters. So does the way you feel while you are there.</p><span className="people-link">Step into Fix It Shop <ArrowUpRight size={19} /></span></div></Link>
