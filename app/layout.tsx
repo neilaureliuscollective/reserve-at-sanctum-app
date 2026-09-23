@@ -62,7 +62,10 @@ export const metadata: Metadata = {
   },
   description:
     "A men’s sanctuary in Eunice, Louisiana. Fix It Shop × GENT Ascend Collective. Personal craft, grooming intelligence, and community.",
-  icons: { apple: "/icon-180.png" },
+  icons: {
+    icon: [{ url: "/reserve-icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/reserve-icon-180.png", sizes: "180x180", type: "image/png" }],
+  },
   robots: { index: false, follow: false },
   appleWebApp: {
     capable: true,
