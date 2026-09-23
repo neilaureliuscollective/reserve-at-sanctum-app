@@ -157,7 +157,7 @@ try {
   const noScript = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const staticPage = await noScript.newPage();
   await staticPage.goto("http://localhost:3000/");
-  assert.ok(await staticPage.getByRole("heading", { name: "A higher you belongs here." }).isVisible());
+  assert.ok(await staticPage.getByRole("heading", { name: "Small-town roots. A bigger standard." }).isVisible());
   assert.equal(await staticPage.locator(".world-card").count(), 2);
   await noScript.close();
   // The Mirror journey signs in first. Start booking as a guest to verify its login handoff.

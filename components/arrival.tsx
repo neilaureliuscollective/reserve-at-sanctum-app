@@ -225,8 +225,8 @@ export function Arrival() {
     >
       <div className="arrival-image">
         <Image
-          src="/images/arrival.webp"
-          alt="Concept of a gold sanctuary arch opening onto a Louisiana live oak"
+          src="/images/reserve-grooming-concept.webp"
+          alt="Concept scene of a grooming ritual at a table in warm Louisiana light"
           fill
           loading="eager"
           fetchPriority="high"
@@ -240,25 +240,25 @@ export function Arrival() {
           <span className="line" /> A MEN’S SANCTUARY · EUNICE, LOUISIANA
         </p>
         <h1 id="arrival-title">
-          A higher you
+          Small-town roots.
           <br />
-          <em>belongs here.</em>
+          <em>A bigger standard.</em>
         </h1>
         <p className="arrival-description">
-          A place to be known. The care to become more.
+          Grooming that goes deeper.
           <br />
-          {" "}Grooming, wellbeing, and community, brought together.
+          With room to become more, together.
         </p>
         <div className="hero-actions">
-          <Link className="button button-gold" href="/book">
-            Book a visit <ArrowUpRight size={18} />
-          </Link>
-          <a className="text-link" href="#the-place">
-            Explore the Reserve <ArrowDown size={16} />
+          <a className="button button-gold" href="#begin">
+            Find your way in <ArrowUpRight size={18} />
           </a>
+          <Link className="text-link" href="/book">
+            Explore visits <ArrowUpRight size={16} />
+          </Link>
         </div>
         <p className="partnership">
-          FIX IT SHOP <span>×</span> AURELIUS COLLECTIVE
+          FIX IT SHOP <span>×</span> GENT ASCEND COLLECTIVE
         </p>
       </div>
       <div className="seal-stage" aria-hidden="true">

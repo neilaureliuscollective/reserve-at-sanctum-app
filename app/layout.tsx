@@ -53,7 +53,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 export const metadata: Metadata = {
   title: {
-    default: "The Reserve at Sanctum — A higher you belongs here",
+    default: "The Reserve at Sanctum — Small-town roots. A bigger standard.",
     template: "%s · The Reserve at Sanctum",
   },
   description:

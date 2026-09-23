@@ -11,6 +11,7 @@ labels are part of the interface and should remain until imagery is replaced.
 | fix-it.webp   | Katie's envisioned navy/gold men's salon, refined salon chair and carefully arranged tools, no people or barber imagery |
 | aurelius.webp | Purple/obsidian alcove, bronze Atlas sphere sculpture, journal, coffee, unbranded objects, no product or health claims  |
 | gent-ascend-emblem.png | User-provided GENT Ascend Collective emblem used in the rebranded world |
+| reserve-grooming-concept.webp | Approved three-scene concept illustration of a men's salon visit, grooming ritual, and small-town conversation; converted to WebP for the September 23 homepage. It does not depict Katie, Neil, actual customers, the finished location, or products for sale. |
 
 The icon and simplified header mark are custom SVG geometry, not a claim to
 reproduce the final illustrated brand crest exactly. Raster home-screen icons
