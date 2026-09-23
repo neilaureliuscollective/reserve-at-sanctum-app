@@ -6,7 +6,7 @@
   background: var(--story-black);
 }
 .reserve-story .arrival { background:#0b100e; }
-.reserve-story .arrival-image img { object-position:50% center; }
+.reserve-story .arrival-image img { width:300% !important; max-width:none; left:-100% !important; object-fit:cover; object-position:center; }
 .reserve-story .arrival-shade { background:linear-gradient(90deg,#080d0ae8 0%,#080d0ac9 34%,#080d0a58 68%),linear-gradient(0deg,#0b100e,transparent 32%); }
 .reserve-story .arrival h1 { font-size:clamp(72px,7.2vw,106px); max-width:850px; }
 .reserve-story .arrival-content { max-width:850px; }
@@ -27,7 +27,7 @@
 .story-scene-art { aspect-ratio:4/4.2; width:100%; background-size:300% 100%; }
 .story-scene-chair .story-scene-art, .people-image.story-scene-chair { background-position:left center; }
 .story-scene-ritual .story-scene-art, .people-image.story-scene-ritual { background-position:center center; }
-.story-scene-ritual { align-self:end; }
+.premise-scenes > .story-scene-ritual { align-self:end; }
 .story-scene figcaption { margin-top:16px; font-size:9px; color:#b7aa93; letter-spacing:.13em; }
 .premise-middle { text-align:center; align-self:center; color:#d6c39a; }
 .premise-middle span { display:block; font:italic 90px var(--serif); line-height:1; }
@@ -99,7 +99,7 @@
 }
 @media(max-width:760px) {
   .reserve-story .arrival h1 { font-size:clamp(54px,12vw,82px); }
-  .reserve-story .arrival-image img { object-position:50% center; }
+  .reserve-story .arrival-image img { object-position:center; }
   .reserve-story .arrival-shade { background:linear-gradient(0deg,#0b100e 0%,#0b100ef0 22%,#0b100e8c 65%,#0b100e7a); }
   .reserve-story-section { padding:75px 22px; }
   .story-meta { font-size:8px; }
