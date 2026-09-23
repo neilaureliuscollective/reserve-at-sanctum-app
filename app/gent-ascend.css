@@ -13,6 +13,7 @@
 .gent-world { background: var(--gent-black); color: var(--gent-cream); --gold: var(--gent-gold); --gold-light: #e2bc6c; --line: rgba(196,145,47,.24); }
 .gent-arrival { min-height: 900px; height: 100svh; display: grid; grid-template-columns: .95fr 1.05fr; position: relative; overflow: hidden; isolation: isolate; padding: 145px 6.5% 90px; }
 .gent-arrival::before { content:""; position:absolute; inset:0; z-index:-3; background:radial-gradient(circle at 78% 45%,#00614d45,transparent 35%),radial-gradient(circle at 40% 80%,#003d332b,transparent 35%),linear-gradient(125deg,#040605 20%,#07140f 64%,#030504); }
+.gent-atmosphere { position:absolute; inset:0; pointer-events:none; }
 .gent-atmosphere span { position:absolute; border:1px solid rgba(196,145,47,.12); border-radius:50%; z-index:-2; }
 .gent-atmosphere span:nth-child(1) { width:780px;height:780px;right:-120px;top:30px; }
 .gent-atmosphere span:nth-child(2) { width:600px;height:600px;right:-30px;top:120px; }
