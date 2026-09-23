@@ -1,3 +1,4 @@
+import { RESERVE_ORGANIZATION_ID as ORG, RESERVE_LOCATION_ID as LOCATION } from "./tenancy";
 import { randomUUID } from "node:crypto";
 import { DateTime } from "luxon";
 import { Actor, BookingError, units, ZONE } from "./booking";
@@ -9,15 +10,16 @@ export type StudioBlock = Row & {
 };
 export function requireKatie(actor: Actor) {
   if (
-    actor.role !== "owner" &&
-    !(actor.role === "staff" && actor.provider_id === "katie")
+    actor.organization_id !== ORG || (actor.role !== "owner" &&
+    !(actor.role === "staff" && actor.provider_id === "katie"))
   )
     throw new BookingError("Katie’s studio access is required.", 403);
 }
 export async function listBlocks(db: Queryable, actor: Actor) {
   requireKatie(actor);
   return db.query<StudioBlock>(
-    "SELECT id,starts_at,ends_at FROM reserve_blocks WHERE provider_id='katie' AND ends_at>now() ORDER BY starts_at LIMIT 200",
+    "SELECT id,starts_at,ends_at FROM reserve_blocks WHERE provider_id='katie' AND organization_id=$1 AND location_id=$2 AND ends_at>now() ORDER BY starts_at LIMIT 200",
+    [actor.organization_id, LOCATION],
   );
 }
 export async function blockTime(
@@ -51,13 +53,13 @@ export async function blockTime(
   try {
     await db.transaction(async (tx) => {
       await tx.query(
-        "INSERT INTO reserve_blocks(id,provider_id,starts_at,ends_at,created_by) VALUES($1,'katie',$2,$3,$4)",
-        [id, start.toUTC().toISO(), end.toUTC().toISO(), actor.id],
+        "INSERT INTO reserve_blocks(id,provider_id,starts_at,ends_at,created_by,organization_id,location_id) VALUES($1,'katie',$2,$3,$4,$5,$6)",
+        [id, start.toUTC().toISO(), end.toUTC().toISO(), actor.id, actor.organization_id, LOCATION],
       );
       for (const slot of units(start, end.diff(start, "minutes").minutes))
         await tx.query(
-          "INSERT INTO reserve_occupancy(provider_id,starts_at,block_reason,block_id) VALUES('katie',$1,'Unavailable',$2)",
-          [slot, id],
+          "INSERT INTO reserve_occupancy(provider_id,starts_at,block_reason,block_id,organization_id,location_id) VALUES('katie',$1,'Unavailable',$2,$3,$4)",
+          [slot, id, actor.organization_id, LOCATION],
         );
     });
   } catch (e) {
@@ -73,8 +75,8 @@ export async function blockTime(
 export async function removeBlock(db: Queryable, actor: Actor, id: string) {
   requireKatie(actor);
   const rows = await db.query(
-    "DELETE FROM reserve_blocks WHERE id=$1 AND provider_id='katie' RETURNING id",
-    [id],
+    "DELETE FROM reserve_blocks WHERE id=$1 AND provider_id='katie' AND organization_id=$2 AND location_id=$3 RETURNING id",
+    [id, actor.organization_id, LOCATION],
   );
   if (!rows.length)
     throw new BookingError(

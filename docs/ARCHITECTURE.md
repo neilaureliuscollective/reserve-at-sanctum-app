@@ -15,6 +15,41 @@ application.
 
 ## Data and authority
 
+### Organization #001 and the professional core
+
+The deployed Reserve site resolves one fixed organization (`reserve-at-sanctum`)
+and its Eunice location (`eunice-sanctum`). These identifiers are server-owned in
+`lib/tenancy.ts`; the browser cannot select another business. Migration 005
+creates `reserve_organizations` and `reserve_locations`, assigns existing records
+to organization #001, and adds location ownership to provider scheduling,
+services, visits, occupancy, and blocks. Composite foreign keys reject links
+between a client, provider, service, appointment, location, or staff note owned
+by different organizations. Public catalog and the authenticated booking,
+Command, Chair, and grooming paths filter by organization. Hosted login still
+provisions a Reserve client account; no shop signup is exposed.
+
+`reserve_users` currently combines an auth identity, organization, and role.
+That fits the one-business launch. Before onboarding another business, split
+identity from per-organization membership, resolve organizations by a trusted
+host/route, make provider/service identifiers organization-aware (or globally
+unique by policy), remove the organization #001 defaults, scope every new API
+and background job, and add explicit multi-organization security tests against
+hosted Postgres. Keep RLS deny-by-default until policies have been designed and
+tested for each access class; the server connection currently bypasses RLS and
+must perform the scoped authorization shown here. No second live organization
+should be inserted until that gate is complete.
+
+Product catalog, inventory, paid membership, analytics beyond the anonymous
+Chair funnel, and general service scheduling remain future features. Brand
+presentation stays in the Reserve UI; `brand_key` records its identity without
+introducing generic themes or onboarding screens. Fix It Shop, GENT Ascend,
+Katie's Chair, and Neil's Mirror retain their existing names and journeys.
+
+Deployment order: run `npm run db:migrate` on the intended hosted database,
+then deploy the code. Migration 005 is additive for the current site, backfills
+existing records, and records its completion in `reserve_schema_migrations`.
+Run the normal hosted sign-in, staff access, and booking smoke checks afterward.
+
 `lib/db.ts` exposes parameterized queries and transactions through two adapters:
 hosted Postgres (`postgres`) and nonproduction-only persistent PGlite. No
 synthetic seeding occurs when `DATABASE_URL` is set.
