@@ -4,8 +4,8 @@ import { ArrowUpRight } from "lucide-react";
 import { LivingEmblem } from "@/components/living-emblem";
 export function Worlds() {
   return (
-    <section id="worlds" className="section worlds">
-      <div className="section-heading">
+    <section id="worlds" className="section worlds" data-scene>
+      <div className="section-heading" data-reveal>
         <div>
           <p className="eyebrow">02 / THE TWO WORLDS</p>
           <h2>
@@ -21,7 +21,7 @@ export function Worlds() {
         </p>
       </div>
       <div className="world-grid">
-        <Link href="/fix-it-shop" className="world-card blue">
+        <Link href="/fix-it-shop" className="world-card blue" data-reveal>
           <Image
             src="/images/fix-it.webp"
             alt="Concept of Fix It Shop's warm navy-and-gold salon environment"
@@ -46,7 +46,7 @@ export function Worlds() {
             </span>
           </div>
         </Link>
-        <Link href="/gent-ascend" className="world-card gent">
+        <Link href="/gent-ascend" className="world-card gent" data-reveal>
           <div className="world-gent-backdrop" />
           <div className="world-overlay" />
           <div className="world-emblem world-emblem--gent"><LivingEmblem brand="gent" ambient={false} /></div>
