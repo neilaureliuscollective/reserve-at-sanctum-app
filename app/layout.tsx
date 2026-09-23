@@ -1,14 +1,54 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/500.css";
-import "@fontsource/cormorant-garamond/400-italic.css";
-import "@fontsource/manrope/400.css";
-import "@fontsource/manrope/500.css";
-import "@fontsource/manrope/600.css";
+import localFont from "next/font/local";
+const reserveSans = localFont({
+  src: [
+    {
+      path: "../node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/manrope/files/manrope-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+  variable: "--reserve-sans",
+  display: "swap",
+  adjustFontFallback: "Arial",
+});
+const reserveSerif = localFont({
+  src: [
+    {
+      path: "../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-italic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+  ],
+  variable: "--reserve-serif",
+  display: "swap",
+  adjustFontFallback: "Times New Roman",
+});
 import "./globals.css";
 import "./editorial.css";
 import "./brand-worlds.css";
 import "./gent-ascend.css";
+import "./chair.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 export const metadata: Metadata = {
@@ -37,14 +77,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${reserveSans.variable} ${reserveSerif.variable}`}
+    >
       <body>
         <Header />
         {children}
         <Footer />
-        <div className="preview-ribbon">
+        <aside className="preview-ribbon" aria-label="Preview status">
           PRIVATE PREVIEW <span>·</span> No live appointments or payments
-        </div>
+        </aside>
       </body>
     </html>
   );

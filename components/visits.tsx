@@ -144,6 +144,7 @@ export function Visits({
           </button>
         </div>
         <div className="workspace-links">
+          {studio && (actor.role === "owner" || actor.provider_id === "katie") && <a className="text-link" href="#chair-studio">Chair check-ins <ArrowUpRight size={16} /></a>}
           {!studio && (
             <Link className="text-link" href="/my-sanctum">
               My Sanctum <ArrowUpRight size={16} />

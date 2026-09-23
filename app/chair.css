@@ -1,0 +1,874 @@
+/* Katie's own voice inside the existing Reserve visual system. */
+.katie-world {
+  background: #090b0d;
+  --gold: #c4912f;
+  --gold-light: #ead4a5;
+}
+.katie-world .eyebrow {
+  color: #d5b575;
+  font-size: 0.875rem;
+  letter-spacing: 0.13em;
+}
+.katie-arrival {
+  position: relative;
+  min-height: 880px;
+  isolation: isolate;
+  overflow: hidden;
+}
+.katie-arrival-image {
+  position: absolute;
+  inset: 0 0 0 44%;
+  margin: 0;
+  z-index: -1;
+}
+.katie-arrival-image img {
+  object-fit: cover;
+  object-position: 68% center;
+  filter: saturate(0.55) brightness(0.68);
+}
+.katie-arrival-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #090b0d, transparent 65%),
+    linear-gradient(0deg, #090b0d, transparent 45%);
+}
+.katie-arrival-image figcaption {
+  position: absolute;
+  z-index: 1;
+  bottom: 32px;
+  right: 6%;
+  font-size: 0.75rem;
+  color: #c8c3ba;
+  max-width: 270px;
+  text-align: right;
+  letter-spacing: 0.1em;
+}
+.katie-arrival-copy {
+  padding: 140px 7.5% 55px;
+  max-width: 890px;
+}
+.katie-arrival-copy > .eyebrow {
+  margin: 42px 0 26px;
+}
+.katie-arrival h1 {
+  font-size: clamp(5rem, 8.6vw, 8.5rem);
+  line-height: 0.91;
+  letter-spacing: -0.025em;
+}
+.katie-arrival h1 em {
+  color: #d7b674;
+}
+.katie-lead {
+  font: 400 clamp(1.75rem, 2.4vw, 2.4rem)/1.25 var(--serif);
+  margin: 28px 0 20px;
+}
+.katie-world .world-body {
+  color: #c5c4c0;
+  max-width: 420px;
+}
+.katie-location {
+  font-size: 0.75rem;
+  color: #c7bfae;
+  letter-spacing: 0.12em;
+  margin-top: 42px;
+}
+.katie-world .world-index {
+  background: #111315;
+}
+.katie-world .world-index a {
+  min-height: 64px;
+}
+.katie-conversation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12%;
+}
+.katie-conversation h2 {
+  font-size: clamp(4.5rem, 8vw, 7.7rem);
+  margin-top: 32px;
+}
+.katie-conversation h2 em {
+  color: #d4b578;
+}
+.katie-fine-rule {
+  display: block;
+  background: #c4912f;
+  width: 75px;
+  height: 1px;
+  margin-top: 40px;
+}
+.katie-story {
+  padding-top: 32px;
+}
+.katie-story > p {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: #c7c5bf;
+  margin-bottom: 24px;
+}
+.katie-story .katie-story-lead {
+  font: 400 2rem/1.3 var(--serif);
+  color: #f3ecdf;
+}
+.katie-story .katie-signoff {
+  color: #dab975;
+}
+.katie-chair-feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12%;
+  border-block: 1px solid #c4912f55;
+  background:
+    radial-gradient(ellipse at 5% 20%, #352b1b, transparent 65%), #121313;
+}
+.katie-chair-title h2 {
+  font-size: clamp(5rem, 9vw, 8rem);
+  margin: 24px 0;
+}
+.katie-chair-title h2 em {
+  color: #e3c38a;
+}
+.katie-chair-title > p:last-child {
+  font: 400 2.4rem/1.4 var(--serif);
+  color: #c9c4b9;
+}
+.chair-feature-number {
+  display: block;
+  font-size: 0.875rem;
+  letter-spacing: 0.18em;
+  color: #d4b577;
+  margin-bottom: 26px;
+}
+.katie-chair-invitation h3 {
+  font-size: 2.5rem;
+  line-height: 1.08;
+  margin-bottom: 25px;
+}
+.katie-chair-invitation p {
+  color: #c6c3bb;
+  font-size: 1rem;
+  margin-top: 22px;
+}
+.katie-chair-invitation ul {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0;
+}
+.katie-chair-invitation li {
+  border-top: 1px solid #ffffff20;
+  padding: 12px 0;
+}
+.katie-chair-invitation li::before {
+  content: "—";
+  color: #c4912f;
+  margin-right: 16px;
+}
+.katie-world .craft-notes article > span {
+  font-size: 0.8rem;
+  color: #d3b272;
+}
+.katie-world .craft-notes p {
+  color: #c6c3bc;
+}
+.katie-over-time {
+  background: #141719;
+  border-block: 1px solid #ffffff15;
+}
+.katie-over-time h2 {
+  margin: 26px 0;
+}
+.katie-over-time > p:last-of-type {
+  max-width: 600px;
+  color: #c4c2bc;
+}
+.katie-story-placeholder {
+  margin-top: 45px;
+  border-left: 1px solid #c4912f;
+  padding-left: 24px;
+  max-width: 600px;
+}
+.katie-story-placeholder span {
+  font-size: 0.8rem;
+  color: #d6ba86;
+  letter-spacing: 0.1em;
+}
+.katie-story-placeholder p {
+  color: #aaa9a4;
+  font-size: 0.875rem;
+  margin-top: 8px;
+}
+.katie-reserve {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 10%;
+}
+.katie-reserve h2 {
+  margin: 26px 0;
+}
+.katie-reserve p:not(.eyebrow) {
+  color: #c7c4bd;
+  margin-bottom: 22px;
+}
+.katie-reserve-links {
+  display: grid;
+  gap: 28px;
+}
+.katie-reserve-links a {
+  border-block-start: 1px solid #c4912f66;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.katie-reserve-links a span {
+  font-size: 0.875rem;
+  color: #dbc08a;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.katie-reserve-links strong {
+  font: 400 2rem/1.15 var(--serif);
+}
+.katie-reserve-links a:hover strong {
+  color: #e7c991;
+}
+.katie-world .craft-invitation {
+  background: linear-gradient(105deg, #231f17, #0e1011);
+}
+.katie-world .craft-invitation-actions p {
+  font-size: 0.875rem;
+  color: #c7c2b8;
+}
+.chair-page {
+  background: #090b0d;
+  padding: 125px 6% 80px;
+  min-height: 100svh;
+}
+.chair-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  font-size: 0.875rem;
+  color: #d6bc89;
+  min-height: 44px;
+}
+.chair-shell {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1.35fr);
+  border: 1px solid #c8a46444;
+  max-width: 1300px;
+  margin: auto;
+}
+.chair-aside {
+  padding: 48px 15%;
+  background:
+    radial-gradient(ellipse at top left, #3a2e1c, transparent 80%), #101212;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-right: 1px solid #c8a46433;
+}
+.chair-aside .eyebrow {
+  font-size: 0.8rem;
+  color: #d0b27b;
+}
+.chair-wordmark {
+  font: 400 clamp(4rem, 7vw, 7rem)/0.9 var(--serif);
+  margin-top: 60px;
+}
+.chair-wordmark em {
+  color: #dbb875;
+}
+.chair-aside-rule {
+  height: 1px;
+  width: 56px;
+  background: #c4912f;
+  margin: 40px 0;
+}
+.chair-aside > p:not(.eyebrow):not(.chair-wordmark) {
+  font: 400 1.7rem/1.5 var(--serif);
+  color: #cec8bb;
+}
+.chair-aside-footer {
+  display: block;
+  margin-top: auto;
+  padding-top: 70px;
+  color: #bdb6a8;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+.chair-aside-footer svg {
+  display: block;
+  margin-bottom: 20px;
+}
+.chair-panel {
+  padding: 44px clamp(24px, 4vw, 64px);
+  min-width: 0;
+  background: #101214;
+}
+.chair-progress-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: #c8b386;
+}
+.chair-progress {
+  display: block;
+  appearance: none;
+  height: 2px;
+  border: 0;
+  width: 100%;
+  margin: 16px 0 36px;
+  background: #38352e;
+}
+.chair-progress::-webkit-progress-bar {
+  background: #38352e;
+}
+.chair-progress::-webkit-progress-value {
+  background: #d2ae68;
+}
+.chair-progress::-moz-progress-bar {
+  background: #d2ae68;
+}
+.chair-heading h1 {
+  font-size: clamp(2.6rem, 4vw, 4.1rem);
+  line-height: 1.03;
+  overflow-wrap: break-word;
+}
+.chair-heading h1:focus {
+  outline: none;
+}
+.chair-heading p {
+  color: #babbb6;
+  font-size: 1rem;
+  margin: 20px 0 28px;
+}
+.chair-options {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.chair-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  min-height: 58px;
+  border: 1px solid #ffffff25;
+  padding: 15px 18px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition:
+    border-color 0.18s,
+    background 0.18s;
+}
+.chair-choice.selected {
+  border-color: #c9a35e;
+  background: #c4912f14;
+  color: #f1dfbd;
+}
+.chair-choice:hover {
+  border-color: #b29460;
+}
+.chair-choice input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.chair-choice:has(input:focus-visible) {
+  outline: 2px solid #ead4a5;
+  outline-offset: 3px;
+}
+.chair-choice-mark {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
+  border: 1px solid #b09b704d;
+  border-radius: 50%;
+  color: #dcbb7a;
+}
+.chair-choice.selected .chair-choice-mark {
+  border-color: #c9a35e;
+}
+.chair-step-actions {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.chair-step-actions .button {
+  min-height: 50px;
+}
+.chair-skip {
+  flex-basis: 100%;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.875rem;
+  min-height: 44px;
+}
+.chair-details fieldset {
+  padding: 0;
+  margin: 0 0 25px;
+  border: 0;
+}
+.chair-details legend {
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.chair-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chair-pills label {
+  cursor: pointer;
+  position: relative;
+}
+.chair-pills input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.chair-pills span {
+  display: block;
+  padding: 10px 14px;
+  min-height: 46px;
+  border: 1px solid #ffffff30;
+  font-size: 0.875rem;
+}
+.chair-pills input:checked + span {
+  background: #c4912f18;
+  border-color: #d2ae68;
+  color: #e6c98f;
+}
+.chair-pills input:focus-visible + span {
+  outline: 2px solid #ead4a5;
+  outline-offset: 3px;
+}
+.chair-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 22px 0;
+  font-size: 1rem;
+}
+.chair-field span {
+  font-size: 0.875rem;
+  color: #b9b9b2;
+}
+.chair-field textarea,
+.chair-field input {
+  border: 1px solid #ffffff35;
+  background: #080a0c;
+  color: #f2eee5;
+  padding: 14px;
+  width: 100%;
+  min-width: 0;
+  border-radius: 0;
+  font: inherit;
+}
+.chair-field textarea {
+  resize: vertical;
+}
+.chair-small {
+  font-size: 0.875rem;
+  color: #bcbcb5;
+  line-height: 1.8;
+  margin-top: 20px;
+}
+.chair-small svg {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.chair-summary {
+  margin: 0;
+  border-top: 1px solid #c8a46450;
+}
+.chair-summary > div {
+  display: grid;
+  grid-template-columns: minmax(90px, 0.6fr) minmax(0, 1.4fr);
+  gap: 20px;
+  border-bottom: 1px solid #ffffff15;
+  padding: 15px 0;
+}
+.chair-summary dt {
+  color: #c7af7e;
+  font-size: 0.875rem;
+}
+.chair-summary dd {
+  font-size: 1rem;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.chair-consent {
+  margin-top: 28px;
+  border-left: 2px solid #b59150;
+  padding-left: 20px;
+}
+.chair-consent label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 18px 0;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+.chair-consent input {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  accent-color: #c4912f;
+  margin-top: 4px;
+}
+.chair-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  margin: 30px 0 20px;
+}
+.chair-actions .button {
+  white-space: normal;
+  text-align: center;
+}
+.chair-delete {
+  border-top: 1px solid #ffffff20;
+  padding-top: 18px;
+  margin-top: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.chair-delete p {
+  flex-basis: 100%;
+  font-size: 0.875rem;
+}
+.chair-delete .text-link {
+  color: #d4bfa8;
+  font-size: 0.875rem;
+}
+.chair-message {
+  border-left: 2px solid #c8a464;
+  padding: 12px 16px;
+  background: #c8a46412;
+  margin-top: 24px;
+}
+.chair-privacy {
+  border-top: 1px solid #ffffff20;
+  margin-top: 36px;
+  padding-top: 16px;
+  color: #bbbcb5;
+  font-size: 0.875rem;
+}
+.chair-privacy summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding-block: 8px;
+}
+.chair-privacy p {
+  margin: 12px 0;
+}
+.chair-privacy a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: #e3c58a;
+}
+.chair-loading {
+  min-height: 50svh;
+  display: grid;
+  place-items: center;
+}
+.chair-profile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 28px;
+  padding: 32px;
+  margin: 24px 0;
+  border: 1px solid #c8a46450;
+  background: #15140f;
+}
+.chair-profile-link h2 {
+  font-size: 2.5rem;
+  margin: 12px 0;
+}
+.chair-profile-link p:not(.eyebrow) {
+  max-width: 550px;
+  color: #c2c1b7;
+}
+.chair-studio {
+  margin-top: 65px;
+  border-top: 1px solid #c8a46455;
+  padding-top: 45px;
+}
+.chair-studio > header {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+.chair-studio h2 {
+  margin: 15px 0;
+}
+.chair-studio > .chair-field {
+  max-width: 500px;
+}
+.chair-studio-list {
+  display: grid;
+  gap: 18px;
+}
+.chair-client {
+  padding: 25px;
+  border: 1px solid #c8a46440;
+  background: #0d1012;
+}
+.chair-client-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.chair-client-top > div {
+  min-width: 0;
+}
+.chair-client h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+.chair-client p {
+  overflow-wrap: anywhere;
+}
+.chair-client-detail {
+  margin-top: 28px;
+}
+.chair-empty {
+  padding: 30px 0;
+  color: #c6c2b9;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .chair-options,
+  .chair-summary,
+  .chair-details {
+    animation: chair-enter 0.25s ease-out;
+  }
+  @keyframes chair-enter {
+    from {
+      opacity: 0.65;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+@media (max-width: 1000px) {
+  .chair-aside {
+    padding: 35px 22px;
+  }
+  .chair-shell {
+    grid-template-columns: minmax(180px, 0.5fr) minmax(0, 1.5fr);
+  }
+  .katie-arrival-copy {
+    max-width: 690px;
+  }
+  .katie-conversation,
+  .katie-chair-feature,
+  .katie-reserve {
+    gap: 7%;
+  }
+}
+@media (max-width: 760px) {
+  .katie-arrival {
+    min-height: auto;
+  }
+  .katie-arrival-image {
+    inset: 0 0 auto 20%;
+    height: 520px;
+    opacity: 0.7;
+  }
+  .katie-arrival-image::after {
+    background:
+      linear-gradient(90deg, #090b0dcc, transparent),
+      linear-gradient(0deg, #090b0d, transparent 80%);
+  }
+  .katie-arrival-image figcaption {
+    top: 140px;
+    bottom: auto;
+    right: 10%;
+    max-width: 170px;
+    font-size: 0.75rem;
+  }
+  .katie-arrival-copy {
+    padding: 112px 7% 45px;
+  }
+  .katie-arrival-copy > .eyebrow {
+    margin-top: 65px;
+    max-width: 210px;
+    line-height: 1.8;
+  }
+  .katie-arrival h1 {
+    font-size: clamp(4.5rem, 15vw, 7rem);
+  }
+  .katie-location {
+    font-size: 0.75rem;
+    max-width: 280px;
+  }
+  .katie-world .world-index {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 7%;
+  }
+  .katie-world .world-index a {
+    padding: 18px 10px 18px 0;
+    font-size: 0.875rem;
+    gap: 10px;
+  }
+  .katie-conversation,
+  .katie-chair-feature,
+  .katie-reserve {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .katie-conversation h2 {
+    font-size: 4.7rem;
+  }
+  .katie-story {
+    padding-top: 0;
+  }
+  .katie-chair-title h2 {
+    font-size: 5.5rem;
+  }
+  .katie-chair-title > p:last-child {
+    font-size: 2rem;
+  }
+  .katie-world .world-section {
+    padding: 68px 7%;
+  }
+  .chair-page {
+    padding: 102px 5% 50px;
+  }
+  .chair-back {
+    font-size: 0.8rem;
+    margin-bottom: 18px;
+  }
+  .chair-shell {
+    grid-template-columns: 1fr;
+  }
+  .chair-aside {
+    padding: 22px;
+    border-right: 0;
+    border-bottom: 1px solid #c8a46433;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .chair-aside .eyebrow {
+    font-size: 0.75rem;
+    flex-basis: 100%;
+  }
+  .chair-wordmark {
+    font-size: 2.8rem;
+    margin: 0;
+  }
+  .chair-wordmark br {
+    display: none;
+  }
+  .chair-wordmark em::before {
+    content: " ";
+  }
+  .chair-aside > p:not(.eyebrow):not(.chair-wordmark) {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .chair-aside-rule,
+  .chair-aside-footer {
+    display: none;
+  }
+  .chair-panel {
+    padding: 28px 20px;
+  }
+  .chair-heading h1 {
+    font-size: 2.65rem;
+  }
+  .chair-progress-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+  .chair-summary > div {
+    grid-template-columns: minmax(80px, 0.7fr) minmax(0, 1.3fr);
+    gap: 14px;
+  }
+  .chair-client {
+    padding: 20px;
+  }
+  .chair-profile-link {
+    padding: 24px;
+  }
+  .chair-profile-link h2 {
+    font-size: 2.3rem;
+  }
+}
+@media (max-width: 370px) {
+  .chair-page {
+    padding-inline: 12px;
+  }
+  .chair-panel {
+    padding: 25px 15px;
+  }
+  .chair-progress-label {
+    flex-wrap: wrap;
+  }
+  .chair-choice {
+    padding: 12px;
+  }
+  .chair-step-actions .button {
+    padding-inline: 16px;
+  }
+  .chair-heading h1 {
+    font-size: 2.4rem;
+  }
+  .katie-arrival h1 {
+    font-size: 4.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chair-page *,
+  .katie-world * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+.chair-options .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

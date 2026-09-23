@@ -35,7 +35,6 @@ export function Header() {
           className="wordmark"
           href="/"
           onClick={() => setOpen(false)}
-          aria-label="The Reserve at Sanctum home"
         >
           <Mark />
           <span>
@@ -53,7 +52,7 @@ export function Header() {
             The experience
           </Link>
           <Link
-            className={path === "/fix-it-shop" ? "active" : ""}
+            className={path === "/fix-it-shop" || path === "/chair" ? "active" : ""}
             aria-current={path === "/fix-it-shop" ? "page" : undefined}
             href="/fix-it-shop"
             onClick={() => setOpen(false)}

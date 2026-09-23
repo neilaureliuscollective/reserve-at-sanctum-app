@@ -40,6 +40,7 @@ export function MySanctum({ name }: { name: string }) {
         <div><p className="eyebrow">MY SANCTUM</p><h1>Welcome, <em>{name}.</em></h1><p>Your grooming direction, visits, and rituals—kept together.</p></div>
         <Link href="/book" className="button button-gold">Book a visit <ArrowUpRight size={17} /></Link>
       </header>
+      <section className="chair-profile-link"><div><p className="eyebrow">KATIE · THE CHAIR</p><h2>Your cut. Your time.</h2><p>Open your saved preferences, prepare for a visit, or change what Katie can see.</p></div><Link href="/chair" className="button button-gold">Open my Chair <ArrowUpRight size={17}/></Link></section>
       {message && <p className="sanctum-success"><Check size={17} />{message}</p>}
       {error && <p className="error-message" role="alert">{error}</p>}
       {!profile ? (

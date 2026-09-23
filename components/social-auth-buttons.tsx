@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Apple, ArrowRight } from "lucide-react";
+import { trackChair } from "@/lib/chair";
 import { browserSupabase } from "@/lib/supabase-browser";
 
 export function SocialAuthButtons({
@@ -15,6 +16,7 @@ export function SocialAuthButtons({
   const [error, setError] = useState("");
 
   async function social(provider: "google" | "apple") {
+    if (next === "/chair") trackChair(provider === "google" ? "oauth_google" : "oauth_apple");
     setBusy(provider);
     setError("");
     const client = browserSupabase();

@@ -13,7 +13,10 @@
     "test": "node --import tsx --test tests/*.test.ts",
     "db:migrate": "node --import tsx scripts/migrate.ts",
     "verify:browser": "node scripts/verify-browser.mjs",
-    "preview:reset": "node --env-file-if-exists=.env.local --import tsx scripts/reset-preview.ts"
+    "preview:reset": "node --env-file-if-exists=.env.local --import tsx scripts/reset-preview.ts",
+    "verify:chair": "node scripts/verify-chair.mjs",
+    "staff:provision": "node --env-file-if-exists=.env.local --import tsx scripts/provision-staff.ts",
+    "verify:pilot": "node scripts/verify-pilot.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.8",

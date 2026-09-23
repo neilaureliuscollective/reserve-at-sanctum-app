@@ -1,6 +1,6 @@
 import { PGlite } from "@electric-sql/pglite";
 import postgres from "postgres";
-import { readFile, mkdir } from "node:fs/promises";
+import { readFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
 export type Row = Record<string, unknown>;
 export interface Queryable {
@@ -27,15 +27,18 @@ export function wrapPglite(pg: PGlite): Database {
   };
 }
 export async function schema(db: Queryable) {
-  const source = await readFile(
-    path.join(process.cwd(), "migrations/001_core.sql"),
-    "utf8",
-  );
-  for (const statement of source
-    .split(";")
-    .map((s) => s.trim())
-    .filter(Boolean))
-    await db.query(statement);
+  const directory = path.join(process.cwd(), "migrations");
+  // Migrations in this repository are idempotent; retain the original core schema.
+  for (const file of (await readdir(directory))
+    .filter((name) => /^\d+.*\.sql$/.test(name))
+    .sort()) {
+    const source = await readFile(path.join(directory, file), "utf8");
+    for (const statement of source
+      .split(";")
+      .map((s) => s.trim())
+      .filter(Boolean))
+      await db.query(statement);
+  }
 }
 export async function seed(db: Queryable) {
   await db.query(`INSERT INTO reserve_users(id,name,email,role,provider_id) VALUES

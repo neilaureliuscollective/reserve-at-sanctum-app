@@ -7,8 +7,8 @@
   --paper: #f2eee5;
   --muted: #aab3b7;
   --line: rgba(213, 185, 132, 0.2);
-  --serif: "Cormorant Garamond", Georgia, serif;
-  --sans: "Manrope", Arial, sans-serif;
+  --serif: var(--reserve-serif), Georgia, serif;
+  --sans: var(--reserve-sans), Arial, sans-serif;
   color-scheme: dark;
 }
 * {
@@ -2466,3 +2466,15 @@ textarea::placeholder {
   font-size: 12px;
   color: var(--muted);
 }
+
+/* Studio pilot tools share the existing Reserve type and button system. */
+.studio-blocks { margin-block: 3rem; padding-block: 2rem; border-top: 1px solid #8b764a; }
+.block-fields { display:flex; flex-wrap:wrap; align-items:end; gap:1rem; border:0; padding:1rem 0; min-width:0; }
+.block-fields label { display:grid; gap:.5rem; flex:1 1 150px; min-width:0; }
+.block-fields input { width:100%; min-width:0; min-height:48px; padding:.7rem; background:#111513; color:#f4efe4; border:1px solid #8b764a; border-radius:3px; font:inherit; color-scheme:dark; }
+.block-list { padding:0; list-style:none; }
+.block-list li { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; padding-block:1rem; border-bottom:1px solid #49473f; }
+.setup-page { max-width:900px; }
+.setup-page section { margin-block:3rem; }
+.setup-page h3 { margin-top:1.5rem; }
+.setup-actions { display:flex; flex-wrap:wrap; gap:1rem; margin-top:1.5rem; }

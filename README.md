@@ -23,6 +23,13 @@ replace or modify any independent digital-infrastructure application.
 
 ## What is built
 
+- Katie’s men’s cosmetology page now leads with “It’s never just a haircut.”
+- The Chair (`/chair`): value-first grooming check-in, optional life context,
+  conversation preferences, explicit save/sharing, and editable client memory.
+- Katie’s existing studio includes shared Chair summaries and private grooming
+  notes; personal life context requires separate consent and expires in seven days.
+  See [The Chair implementation and validation](docs/THE-CHAIR.md).
+
 - Cinematic, responsive homepage with original concept architecture and a real
   Three.js Louisiana medallion; mouse-responsive lighting/rotation, pause,
   reduced-motion support, and usable content without WebGL.
@@ -77,6 +84,7 @@ npm run typecheck
 npm run build
 npx playwright install chromium
 npm run verify:browser
+npm run verify:chair
 ```
 
 Browser verification starts its own development server and writes screenshots
@@ -122,3 +130,10 @@ contact information, or health outcomes have been added.
 
 See `docs/VISION.md` for the implemented cinematic direction and
 `docs/ASSETS.md` for imagery provenance.
+
+## Katie’s phone pilot
+
+Open `/setup` for sign-in status and phone installation instructions. Katie’s
+studio now supports time blocking; verified hosted staff accounts can be assigned
+with `npm run staff:provision`. See [the pilot checklist](docs/BOOKING-PILOT.md)
+for the required hosted configuration and real-device verification.

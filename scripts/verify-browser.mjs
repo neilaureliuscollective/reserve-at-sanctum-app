@@ -59,6 +59,7 @@ try {
     viewport: { width: 1440, height: 1000 },
   });
   const page = await context.newPage();
+  page.setDefaultTimeout(20000);
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   const visit = async (path) => {
@@ -152,13 +153,19 @@ try {
   assert.ok(await page.getByRole("heading", { name: "Save it to My Sanctum." }).isVisible());
   await page.getByRole("button", { name: "Open My Sanctum preview" }).click();
   await page.waitForURL("**/my-sanctum");
-  assert.ok(await page.getByText("Your Grooming Blueprint is now saved to My Sanctum.").isVisible());
+  await page.getByText("Your Grooming Blueprint is now saved to My Sanctum.").waitFor();
   const noScript = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const staticPage = await noScript.newPage();
   await staticPage.goto("http://localhost:3000/");
   assert.ok(await staticPage.getByRole("heading", { name: "A higher you belongs here." }).isVisible());
   assert.equal(await staticPage.locator(".world-card").count(), 2);
   await noScript.close();
+  // The Mirror journey signs in first. Start booking as a guest to verify its login handoff.
+  const signedOut = await context.request.post("http://localhost:3000/api/auth", {
+    headers: { Origin: "http://localhost:3000" },
+    data: { action: "signout" },
+  });
+  assert.equal(signedOut.status(), 200);
   await visit("/book");
   await page.getByRole("button", { name: /Signature grooming/ }).click();
   await page.getByRole("button", { name: "Find a time" }).click();

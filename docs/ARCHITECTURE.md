@@ -29,6 +29,10 @@ synthetic seeding occurs when `DATABASE_URL` is set.
 | reserve_sessions     | Hashed, expiring local development sessions only           |
 | reserve_audit        | Appointment mutation events                                |
 | reserve_grooming_profiles | Account-owned Blueprint and grooming priorities       |
+| reserve_chair_profiles | Current client-selected grooming and chair preferences |
+| reserve_chair_context | Separately consented life context with seven-day expiry |
+| reserve_chair_notes | Provider-scoped staff grooming notes, never in client responses |
+| reserve_chair_funnel | Anonymous daily action counts without answers or identifiers |
 
 Hosted authentication verifies Supabase users on the server with `getUser()`.
 `proxy.ts` refreshes cookies before protected pages render. Customer roles default
@@ -58,8 +62,8 @@ preserving the record and audit trail. Existing visits retain their original
 duration, buffer, and price. Same-request sequential retries return the saved
 visit; simultaneous retries may receive a conflict and can reload the account.
 
-Schedule blocks share the same occupancy ledger. The schema supports blocks,
-but there is no block-management UI yet. The first studio calendar is an
+Schedule blocks share the same occupancy ledger. The studio supports one-day block creation and removal in 15-minute steps,
+using private reserve_blocks and the same atomic occupancy ledger. The first studio calendar is an
 appointment list with day filtering, not an external calendar sync or drag/drop
 resource scheduler. The current view is capped at the latest 100 appointments.
 
@@ -109,3 +113,10 @@ Postgres concurrency and deployment must still be tested with real configuration
 
 Auth reference: [Supabase server-side clients and proxy](https://supabase.com/docs/guides/auth/server-side/creating-a-client).
 Next.js APIs were checked against the documentation installed with Next 16.3.5.
+
+## The Chair
+
+Katie’s `/chair` uses the same Reserve user and Supabase session as Neil’s Mirror.
+It does not read, overwrite, or infer from the Mirror profile. Saving and staff
+sharing are explicit; clients can revoke sharing or delete Chair data independently.
+See [The Chair](THE-CHAIR.md) for consent, migration, retention, and test details.
