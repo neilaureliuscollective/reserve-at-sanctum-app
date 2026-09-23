@@ -146,6 +146,7 @@
 
 /* Reserve's material language: obsidian first, petrol revealed by light, gold as architecture. */
 .reserve-story { background:var(--reserve-obsidian); }
+.reserve-story .eyebrow, .reserve-story .visit-panel > span { color:var(--reserve-gold-light); }
 .reserve-story .arrival { isolation:isolate; }
 .reserve-story .arrival::after {
   content:""; position:absolute; inset:0; pointer-events:none; z-index:0;

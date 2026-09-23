@@ -40,13 +40,33 @@
 .inner-page .steps li.current > span { background:var(--reserve-petrol); }
 .visit-image { box-shadow:0 28px 70px #0008,0 0 0 1px var(--reserve-edge); }
 .visit-image::after { content:""; position:absolute; inset:0; pointer-events:none; box-shadow:inset 0 0 65px rgba(7,9,9,.64); }
+.my-sanctum-page {
+  --gold:var(--reserve-gold);
+  --gold-light:var(--reserve-gold-light);
+  --line:var(--reserve-edge);
+}
 .my-sanctum-page .sanctum-command { background:radial-gradient(ellipse at right,rgba(22,62,67,.5),transparent 65%); }
 .my-sanctum-page .sanctum-loading { color:var(--reserve-gold-light); }
+.my-sanctum-page .profile-hero-card { background:linear-gradient(135deg,var(--reserve-deep-petrol),var(--reserve-obsidian) 72%); border-color:var(--reserve-edge); box-shadow:0 24px 65px #0007; }
+.my-sanctum-page .profile-visual { background:radial-gradient(circle,rgba(22,62,67,.75),transparent 65%); border-color:var(--reserve-edge); }
+.my-sanctum-page .profile-visual::after { border-color:rgba(224,187,106,.25); }
+.my-sanctum-page .profile-silhouette { color:var(--reserve-gold-light); border-color:var(--reserve-gold); box-shadow:0 0 44px rgba(22,62,67,.45); }
+.my-sanctum-page .sanctum-dashboard-grid article { background:linear-gradient(145deg,rgba(22,62,67,.48),var(--reserve-obsidian) 75%); border-color:var(--reserve-edge); box-shadow:inset 0 1px rgba(224,187,106,.09); }
+.my-sanctum-page .dashboard-icon { border-color:var(--reserve-edge); color:var(--reserve-gold-light); }
+.my-sanctum-page .empty-blueprint { background:radial-gradient(circle,rgba(22,62,67,.46),transparent 58%); border-color:var(--reserve-edge); }
+.my-sanctum-page .empty-blueprint > svg { color:var(--reserve-gold-light); }
 @media(max-width:650px) {
   .nav-links.is-open { background:linear-gradient(150deg,var(--reserve-deep-petrol),var(--reserve-obsidian) 80%); border:1px solid var(--reserve-edge); box-shadow:0 24px 50px #000b; }
   .footer-provenance { align-items:flex-start; gap:15px; }
   .footer-crest { width:66px; height:66px; }
   .footer-provenance .footer-title { font-size:clamp(33px,9vw,45px); }
+}
+@media(max-width:370px) {
+  .wordmark { gap:5px; }
+  .wordmark svg { width:21px; }
+  .wordmark strong { font-size:17px; letter-spacing:.09em; }
+  .header-book { padding-inline:8px; font-size:11px; }
+  .header-actions { gap:5px; }
 }
 @media(prefers-reduced-motion:reduce) {
   .header-book, .reserve-home .button-gold { transition:none; transform:none !important; }
