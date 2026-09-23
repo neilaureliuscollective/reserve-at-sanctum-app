@@ -20,18 +20,18 @@
 .fix-emblem-stage { position:absolute; z-index:1; width:clamp(210px,27vw,380px); right:7%; top:22%; }
 .gent-emblem .living-emblem { width:100%; }
 .gent-emblem .living-emblem__face img { transform:none; object-fit:cover; }
-.world-card .world-emblem { position:absolute; z-index:1; top:15%; left:50%; transform:translateX(-50%); width:min(56%,310px); filter:drop-shadow(0 30px 35px #000b); transition:transform .6s ease; }
+.world-card .world-emblem { position:absolute; z-index:1; top:13%; left:50%; transform:translateX(-50%); width:min(47%,260px); filter:drop-shadow(0 30px 35px #000b); transition:transform .6s ease; }
 .world-card:hover .world-emblem { transform:translateX(-50%) scale(1.025); }
-.world-card .world-emblem img { z-index:auto; filter:none; object-fit:cover; }
+.world-card .world-emblem img,.world-card:hover .world-emblem img { z-index:auto; filter:none; object-fit:cover; transform:none; }
 .world-gent-backdrop { position:absolute; inset:0; background:radial-gradient(circle at 50% 30%,#065443 0,#081a13 45%,#030605 100%); }
 .world-card.gent .world-overlay { z-index:0; }
-.world-card .world-top,.world-card .world-copy { position:relative; z-index:2; }
+.world-card .world-top,.world-card .world-copy { z-index:2; }
 @media(max-width:1100px) { .reserve-emblem-stage { width:240px; top:30%; } }
 @media(max-width:760px) {
   .reserve-emblem-stage { width:clamp(118px,30vw,180px); right:7%; left:auto; top:125px; transform:none; }
   .fix-emblem-stage { width:clamp(155px,34vw,230px); right:7%; top:170px; }
   .gent-emblem { opacity:.75; }
-  .world-card .world-emblem { width:min(58%,260px); top:13%; }
+  .world-card .world-emblem { width:min(48%,230px); top:14%; }
   .living-emblem__control { font-size:8px; bottom:-32px; }
 }
 @media(max-width:650px) {
