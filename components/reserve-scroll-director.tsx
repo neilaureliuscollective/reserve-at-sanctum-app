@@ -48,8 +48,32 @@ export function ReserveScrollDirector() {
     const arrivalObserver = new IntersectionObserver(([entry]) => setPastArrival(!entry.isIntersecting), { threshold: 0 });
     if (arrival) arrivalObserver.observe(arrival);
 
+    // A single passive scroll director drives scene depth on touch as well as desktop.
+    // Only visible scenes receive writes; native scrolling remains in full control.
+    const scenes = [...root.querySelectorAll<HTMLElement>("[data-scene]")];
+    let frame = 0;
+    function updateScenes() {
+      frame = 0;
+      const height = window.innerHeight;
+      for (const scene of scenes) {
+        const bounds = scene.getBoundingClientRect();
+        if (bounds.bottom < -height * .2 || bounds.top > height * 1.2) continue;
+        const progress = Math.min(1, Math.max(0, (height - bounds.top) / (height + bounds.height)));
+        scene.style.setProperty("--scene-progress", progress.toFixed(3));
+        scene.style.setProperty("--scene-shift", `${((progress - .5) * 72).toFixed(1)}px`);
+        scene.style.setProperty("--scene-turn", `${((progress - .5) * 7).toFixed(2)}deg`);
+      }
+    }
+    function requestSceneFrame() { if (!frame) frame = requestAnimationFrame(updateScenes); }
+    updateScenes();
+    window.addEventListener("scroll", requestSceneFrame, { passive: true });
+    window.addEventListener("resize", requestSceneFrame);
+
     return () => {
       root.classList.remove("has-cinematic-motion");
+      window.removeEventListener("scroll", requestSceneFrame);
+      window.removeEventListener("resize", requestSceneFrame);
+      if (frame) cancelAnimationFrame(frame);
       sceneObserver.disconnect();
       chapterObserver.disconnect();
       arrivalObserver.disconnect();

@@ -23,8 +23,8 @@ export function Worlds() {
       <div className="world-grid">
         <Link href="/fix-it-shop" className="world-card blue" data-reveal>
           <Image
-            src="/images/fix-it.webp"
-            alt="Concept of Fix It Shop's warm navy-and-gold salon environment"
+            src="/images/reserve-craft.webp"
+            alt="Concept of a salon professional giving a considered cut"
             fill
             sizes="(max-width: 700px) 100vw, 50vw"
           />
@@ -47,7 +47,7 @@ export function Worlds() {
           </div>
         </Link>
         <Link href="/gent-ascend" className="world-card gent" data-reveal>
-          <div className="world-gent-backdrop" />
+          <Image src="/images/reserve-ritual.webp" alt="Concept of a personal grooming ritual" fill sizes="(max-width: 700px) 100vw, 50vw" />
           <div className="world-overlay" />
           <div className="world-emblem world-emblem--gent"><LivingEmblem brand="gent" ambient={false} /></div>
           <div className="world-top">
