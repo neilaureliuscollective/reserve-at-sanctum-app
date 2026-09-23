@@ -1,5 +1,11 @@
 # The Reserve at Sanctum
 
+The approved Reserve identity uses Sanctum Petrol `#163E43`, Deep Petrol
+`#0C292D`, Obsidian `#070909`, and architectural gold `#C4912F` / `#E0BB6A`.
+The canonical new crest, shared tokens, placement, and scope decisions are in
+[the Reserve identity note](docs/RESERVE-IDENTITY.md). Katie's and Neil's
+independent visual worlds remain intact.
+
 ## Current visual continuation
 
 The September 21 visual pass continues the recovered original source archive.
@@ -30,9 +36,9 @@ replace or modify any independent digital-infrastructure application.
   notes; personal life context requires separate consent and expires in seven days.
   See [The Chair implementation and validation](docs/THE-CHAIR.md).
 
-- Cinematic, responsive homepage with original concept architecture and a real
-  Three.js Louisiana medallion; mouse-responsive lighting/rotation, pause,
-  reduced-motion support, and usable content without WebGL.
+- Cinematic, responsive homepage with marked concept imagery and the supplied
+  official Louisiana crest; CSS light/orbit and restrained pointer depth,
+  pause, reduced-motion support, and usable content without WebGL.
 - Separate Fix It Shop and GENT Ascend worlds, plus an honest location page.
 - Public Sanctum Mirror flow with guided three-angle capture, grooming
   priorities, a personal Blueprint, and value-first account conversion.
@@ -118,9 +124,10 @@ It requires the local preview database and will refuse hosted credentials.
    hosted Postgres and Supabase Auth; local verification does not establish that
    external configuration is correct.
 
-No hosted credentials were available during this build, so hosted authentication,
-database migration, deployment, and real availability have **not** been activated
-or verified. The `PRIVATE PREVIEW` label and noindex settings stay in place.
+Vercel preview deployment exists, but a successful build does not establish
+hosted authentication, database migration, or real availability. Confirm those
+separately before inviting a person to test booking. The `PRIVATE PREVIEW`
+label and noindex settings remain in place.
 
 Before any public booking launch: approve the actual menu, prices, durations,
 buffers, schedule, address, cancellation policy, and account/privacy copy; wire
