@@ -7,6 +7,7 @@ export const metadata = { title: "Your visits" };
 export default async function Page() {
   const actor = await currentUser();
   if (!actor) redirect("/signin?next=/account");
+  if (actor.role === "owner" || actor.role === "staff") redirect("/studio");
   return (
     <main id="main" className="inner-page section workspace-page">
       <Visits actor={actor} preview={isPreview()} />
