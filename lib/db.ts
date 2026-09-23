@@ -27,29 +27,42 @@ export function wrapPglite(pg: PGlite): Database {
       pg.transaction((tx) => fn(wrap(tx as unknown as PGlite))),
   };
 }
-export async function schema(db: Queryable) {
+export async function schema(db: Database) {
   const directory = path.join(process.cwd(), "migrations");
-  // Migrations in this repository are idempotent; retain the original core schema.
+  // Historical migrations are idempotent. New structural migrations are atomic
+  // and recorded so constraint additions cannot be half-applied or repeated.
   for (const file of (await readdir(directory))
     .filter((name) => /^\d+.*\.sql$/.test(name))
     .sort()) {
     const source = await readFile(path.join(directory, file), "utf8");
-    for (const statement of source
+    const statements = source
       .split(";")
       .map((s) => s.trim())
-      .filter(Boolean))
-      await db.query(statement);
+      .filter(Boolean);
+    if (file < "005_") {
+      for (const statement of statements) await db.query(statement);
+      continue;
+    }
+    await db.query(`CREATE TABLE IF NOT EXISTS reserve_schema_migrations
+      (name text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())`);
+    await db.query("ALTER TABLE reserve_schema_migrations ENABLE ROW LEVEL SECURITY");
+    await db.transaction(async (tx) => {
+      const existing = await tx.query("SELECT name FROM reserve_schema_migrations WHERE name=$1", [file]);
+      if (existing.length) return;
+      for (const statement of statements) await tx.query(statement);
+      await tx.query("INSERT INTO reserve_schema_migrations(name) VALUES($1)", [file]);
+    });
   }
 }
 export async function seed(db: Queryable) {
+  await db.query(
+    `INSERT INTO reserve_providers(id,name,enabled) VALUES('katie','Katie',true) ON CONFLICT DO NOTHING`,
+  );
   await db.query(`INSERT INTO reserve_users(id,name,email,role,provider_id) VALUES
  ('preview-neil','Neil · owner preview','neil@preview.invalid','owner',NULL),
  ('preview-katie','Katie · studio preview','katie@preview.invalid','staff','katie'),
  ('preview-client','Jordan · client preview','jordan@preview.invalid','client',NULL),
  ('preview-other','Morgan · client preview','morgan@preview.invalid','client',NULL) ON CONFLICT DO NOTHING`);
-  await db.query(
-    `INSERT INTO reserve_providers(id,name,enabled) VALUES('katie','Katie',true) ON CONFLICT DO NOTHING`,
-  );
   await db.query(`INSERT INTO reserve_services(id,provider_id,name,description,minutes,buffer,price,enabled) VALUES
  ('signature','katie','Signature grooming','A considered cut, finish, and time to find your style.',45,15,4500,true),
  ('refresh','katie','The refresh','A focused maintenance visit to keep your look in order.',30,15,3000,true),

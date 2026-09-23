@@ -1,3 +1,4 @@
+import { RESERVE_ORGANIZATION_ID as ORG } from "@/lib/tenancy";
 import { readChairJson } from "@/lib/chair-http";
 import { z } from "zod";
 import { chairEvents } from "@/lib/chair";
@@ -12,9 +13,9 @@ export async function POST(req: Request) {
       await (
         await database()
       ).query(
-        `INSERT INTO reserve_chair_funnel(day,event,total) VALUES(current_date,$1,1)
-      ON CONFLICT(day,event) DO UPDATE SET total=reserve_chair_funnel.total+1`,
-        [event],
+        `INSERT INTO reserve_chair_funnel(organization_id,day,event,total) VALUES($2,current_date,$1,1)
+      ON CONFLICT(organization_id,day,event) DO UPDATE SET total=reserve_chair_funnel.total+1`,
+        [event, ORG],
       );
     return new Response(null, { status: 204 });
   } catch {

@@ -55,6 +55,7 @@ test("Chair access, persistence, revocation, expiry, conflicts and deletion are 
     name: "Client",
     email: "client@example.test",
     role: "client",
+    organization_id: "reserve-at-sanctum",
     provider_id: null,
   };
   const other: Actor = { ...client, id: "other", email: "other@example.test" };
@@ -63,6 +64,7 @@ test("Chair access, persistence, revocation, expiry, conflicts and deletion are 
     id: "katie",
     email: "katie@example.test",
     role: "staff",
+    organization_id: "reserve-at-sanctum",
     provider_id: "katie",
   };
   const wrongStaff: Actor = {
@@ -71,6 +73,7 @@ test("Chair access, persistence, revocation, expiry, conflicts and deletion are 
     email: "staff@example.test",
     provider_id: "neil",
   };
+  await db.query("INSERT INTO reserve_providers(id,name) VALUES('katie','Katie'),('neil','Neil')");
   for (const a of [client, other, katie, wrongStaff])
     await db.query(
       "INSERT INTO reserve_users(id,name,email,role,provider_id) VALUES($1,$2,$3,$4,$5)",
