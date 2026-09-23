@@ -6,11 +6,15 @@ import { ChairStudio } from "@/components/chair-studio";
 import { canReadChairStudio } from "@/lib/chair-store";
 import { StudioBlocks } from "@/components/studio-blocks";
 import { Visits } from "@/components/visits";
+import { ReserveCommand } from "@/components/reserve-command";
+
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Katie’s studio" };
+export const metadata = { title: "Reserve Command" };
+
 export default async function Page() {
   const actor = await currentUser();
   if (!actor) redirect("/signin?next=/studio");
+
   if (actor.role === "client")
     return (
       <main id="main" className="inner-page section center-state">
@@ -29,14 +33,24 @@ export default async function Page() {
         )}
       </main>
     );
+
   return (
     <main id="main" className="inner-page section workspace-page">
-      <Link className="text-link" href="/setup">
-        Set up the Reserve on your phone
-      </Link>
-      <Visits actor={actor} studio preview={isPreview()} />
-      {canReadChairStudio(actor) && <StudioBlocks />}
+      <ReserveCommand name={actor.name} />
+      <section id="schedule">
+        <Visits actor={actor} studio preview={isPreview()} />
+      </section>
+      {canReadChairStudio(actor) && (
+        <section id="availability">
+          <StudioBlocks />
+        </section>
+      )}
       {canReadChairStudio(actor) && <ChairStudio />}
+      <div className="setup-actions">
+        <Link className="text-link" href="/setup">
+          Set up the Reserve on another phone
+        </Link>
+      </div>
     </main>
   );
 }
