@@ -1,12 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { supabaseKey, supabaseUrl } from "./lib/supabase-config";
 
 // Refresh hosted auth cookies before Server Components read them. Authorization
 // remains in each server page / API route, using getUser and database-owned roles.
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const url = supabaseUrl;
+  const key = supabaseKey;
   if (!url || !key) return response;
   const client = createServerClient(url, key, {
     cookies: {

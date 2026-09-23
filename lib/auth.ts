@@ -3,16 +3,13 @@ import { createServerClient } from "@supabase/ssr";
 import { createHash, randomBytes } from "node:crypto";
 import { database, isPreview, configured } from "./db";
 import type { Actor } from "./booking";
-export const hasSupabase = () =>
-  Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-  );
+import { hasSupabase, supabaseKey, supabaseUrl } from "./supabase-config";
+export { hasSupabase } from "./supabase-config";
 export async function supabase() {
   const jar = await cookies();
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    supabaseUrl!,
+    supabaseKey!,
     {
       cookies: {
         getAll: () => jar.getAll(),

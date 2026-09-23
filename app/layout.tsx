@@ -53,6 +53,8 @@ import "./living-emblems.css";
 import "./reserve-identity.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { configured, isPreview } from "@/lib/db";
+import { hasSupabase } from "@/lib/supabase-config";
 export const metadata: Metadata = {
   title: {
     default: "The Reserve at Sanctum — Small-town roots. A bigger standard.",
@@ -88,8 +90,10 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
-        <aside className="preview-ribbon" aria-label="Preview status">
-          PRIVATE PREVIEW <span>·</span> No live appointments or payments
+        <aside className="preview-ribbon" aria-label="Reserve status">
+          {isPreview() || !configured() || !hasSupabase()
+            ? "PRIVATE SETUP"
+            : "PRIVATE PILOT"} <span>·</span> Appointments and payments are not yet live
         </aside>
       </body>
     </html>
