@@ -147,7 +147,7 @@ export function Visits({
           {studio && (actor.role === "owner" || actor.provider_id === "katie") && <a className="text-link" href="#chair-studio">Chair check-ins <ArrowUpRight size={16} /></a>}
           {!studio && (
             <Link className="text-link" href="/my-sanctum">
-              My Sanctum <ArrowUpRight size={16} />
+              Your Reserve account <ArrowUpRight size={16} />
             </Link>
           )}
           {!studio && actor.role !== "client" && (

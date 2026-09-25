@@ -502,8 +502,9 @@ export function ChairExperience({
             </div>
             {!user && (
               <p className="chair-small">
-                One Reserve account for Katie’s Chair, Neil’s Mirror, and your
-                visits.{" "}
+                Your Reserve account keeps Katie’s Chair, your consultation
+                intake, and your visits here. Gent Ascend is a separate
+                experience.{" "}
                 {hosted
                   ? "Google and Apple sign-in are available on the next screen."
                   : preview

@@ -22,6 +22,12 @@ booking and studio foundation.
 Phase-one implementation for Neil + Katie: a men's sanctuary in Eunice,
 Louisiana, bringing together **Fix It Shop × GENT Ascend Collective**.
 
+The Reserve is their first shared physical location, not the parent company
+or the home of Neil's wider LifeOS. Katie's service, Chair, appointments, and
+studio operate here. Gent Ascend owns Neil's products, broader grooming,
+performance, wellness, and ongoing app experience. The public Gent Ascend
+introduction links to its separate app without sharing private Reserve data.
+
 Official project: `neilaureliuscollective/reserve-at-sanctum-app`.
 This canonical repository replaces the former empty
 `legacy-sanctum-co/the-reserve-at-sanctum-platform` repository. It does not
@@ -40,8 +46,9 @@ replace or modify any independent digital-infrastructure application.
   official Louisiana crest; CSS light/orbit and restrained pointer depth,
   pause, reduced-motion support, and usable content without WebGL.
 - Separate Fix It Shop and GENT Ascend worlds, plus an honest location page.
-- Public Sanctum Mirror flow with guided three-angle capture, grooming
-  priorities, a personal Blueprint, and value-first account conversion.
+- Public Sanctum Mirror intake based on stated grooming priorities, a first
+  consultation Blueprint, and optional Reserve account saving. It does not
+  capture or analyze photos.
 - Google and Apple OAuth through the existing Supabase PKCE session
   architecture, with email/password as a quiet fallback.
 - Account-owned My Sanctum grooming profiles persisted server-side without

@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Camera, Check, LockKeyhole, ScanFace, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { ArrowLeft, ArrowRight, Check, LockKeyhole, Sparkles } from "lucide-react";
 import { buildGroomingBlueprint, GROOMING_DRAFT_KEY } from "@/lib/grooming";
 import { SocialAuthButtons } from "@/components/social-auth-buttons";
 
@@ -18,88 +19,34 @@ export function SanctumMirror({ preview }: { preview: boolean }) {
   const [skin, setSkin] = useState("");
   const [hair, setHair] = useState("");
   const [beard, setBeard] = useState("");
-  const [cameraState, setCameraState] = useState<"idle" | "live" | "blocked" | "complete">("idle");
-  const [angle, setAngle] = useState(0);
-  const video = useRef<HTMLVideoElement>(null);
-  const stream = useRef<MediaStream | null>(null);
-  const angles = ["Front", "Turn slightly left", "Turn slightly right"];
-
   const draft = useMemo(() => buildGroomingBlueprint({ focus, maintenance, skin, hair, beard }), [focus, maintenance, skin, hair, beard]);
-
-  useEffect(() => () => stream.current?.getTracks().forEach((track) => track.stop()), []);
-  useEffect(() => {
-    if (cameraState === "live" && video.current && stream.current) {
-      video.current.srcObject = stream.current;
-    }
-  }, [cameraState]);
-
-  async function startCamera() {
-    try {
-      stream.current = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 1280 } }, audio: false });
-      setCameraState("live");
-    } catch {
-      setCameraState("blocked");
-    }
-  }
-
-  function captureAngle() {
-    if (angle < 2) setAngle(angle + 1);
-    else {
-      stream.current?.getTracks().forEach((track) => track.stop());
-      setCameraState("complete");
-    }
-  }
+  const ready = focus.length > 0 && maintenance && skin && hair && beard;
 
   function completeProfile() {
     sessionStorage.setItem(GROOMING_DRAFT_KEY, JSON.stringify(draft));
-    setStep(3);
+    setStep(2);
   }
-
-  const ready = focus.length > 0 && maintenance && skin && hair && beard;
 
   return (
     <div className="mirror-experience">
-      <div className="mirror-progress" aria-label={`Step ${Math.min(step + 1, 4)} of 4`}>
-        {["Enter", "Capture", "Profile", "Blueprint"].map((label, index) => (
+      <div className="mirror-progress" aria-label={`Step ${step + 1} of 3`}>
+        {["Begin", "Priorities", "Blueprint"].map((label, index) => (
           <span key={label} className={index <= step ? "active" : ""}><i>{index < step ? <Check size={12} /> : index + 1}</i>{label}</span>
         ))}
       </div>
-
       {step === 0 && (
         <section className="mirror-intro">
-          <div className="mirror-orbit" aria-hidden="true"><ScanFace /><span /><span /></div>
-          <p className="eyebrow">THE SANCTUM MIRROR</p>
-          <h1>Your grooming,<br /><em>finally understood.</em></h1>
-          <p>Begin with a guided facial capture and a few precise choices. Leave with a personal Grooming Blueprint built to travel with you into every visit.</p>
-          <div className="mirror-trust"><LockKeyhole size={15} /><span>Your capture remains private. Your profile is saved only when you choose.</span></div>
+          <div className="mirror-orbit" aria-hidden="true"><Sparkles /><span /><span /></div>
+          <p className="eyebrow">THE SANCTUM MIRROR · RESERVE INTAKE</p>
+          <h1>Arrive with<br /><em>direction.</em></h1>
+          <p>Tell us what matters to you about your hair, beard, skin, and daily routine. Leave with a first Grooming Blueprint to bring into a Reserve consultation.</p>
+          <div className="mirror-trust"><LockKeyhole size={15} /><span>This guided intake uses your answers, not a photo analysis. Nothing is saved to your Reserve account unless you choose to sign in.</span></div>
           <button className="button button-gold" onClick={() => setStep(1)}>Begin your Blueprint <ArrowRight size={18} /></button>
         </section>
       )}
-
       {step === 1 && (
-        <section className="capture-stage">
-          <div className="mirror-stage-heading"><p className="eyebrow">01 / GUIDED CAPTURE</p><h2>Three angles.<br /><em>One complete view.</em></h2><p>The guided frame prepares a consistent visual reference for your consultation. It does not make a medical diagnosis.</p></div>
-          <div className={`capture-view ${cameraState}`}>
-            {cameraState === "live" && <video ref={video} autoPlay muted playsInline />}
-            <div className="face-guide" aria-hidden="true"><span className="guide-eye left" /><span className="guide-eye right" /><span className="guide-jaw" /></div>
-            <div className="scan-line" />
-            <span className="capture-angle">{cameraState === "complete" ? "CAPTURE COMPLETE" : angles[angle]}</span>
-            {cameraState === "idle" && <button className="capture-start" onClick={startCamera}><Camera size={25} />Activate camera</button>}
-            {cameraState === "blocked" && <div className="camera-message"><p>Camera access was unavailable.</p><button className="text-link" onClick={() => setCameraState("complete")}>Continue with your guided profile</button></div>}
-            {cameraState === "live" && <button className="capture-button" onClick={captureAngle} aria-label={`Capture ${angles[angle]} angle`}><span /></button>}
-            {cameraState === "complete" && <Check className="capture-check" size={42} />}
-          </div>
-          <div className="capture-controls">
-            <button className="text-link" onClick={() => setStep(0)}><ArrowLeft size={16} /> Back</button>
-            {cameraState !== "complete" && <button className="text-link subtle" onClick={() => setCameraState("complete")}>Complete profile without camera</button>}
-            <button className="button button-gold" disabled={cameraState !== "complete"} onClick={() => setStep(2)}>Continue <ArrowRight size={17} /></button>
-          </div>
-        </section>
-      )}
-
-      {step === 2 && (
         <section className="profile-stage">
-          <div className="mirror-stage-heading"><p className="eyebrow">02 / YOUR PRIORITIES</p><h2>Build around<br /><em>your real life.</em></h2><p>Select what matters now. Your answers shape the first Blueprint and give the in-person consultation a stronger starting point.</p></div>
+          <div className="mirror-stage-heading"><p className="eyebrow">01 / YOUR PRIORITIES</p><h2>Build around<br /><em>your real life.</em></h2><p>Your answers shape a starting direction for your consultation. They are not a visual scan or a diagnosis.</p></div>
           <div className="profile-questions">
             <ChoiceGroup title="What should improve first?" options={focusOptions} selected={focus} multiple onChange={(value) => setFocus((current) => current.includes(value) ? current.filter((item) => item !== value) : [...current, value].slice(0, 3))} />
             <ChoiceGroup title="How much daily maintenance feels realistic?" options={maintenanceOptions} selected={[maintenance]} onChange={setMaintenance} />
@@ -107,23 +54,25 @@ export function SanctumMirror({ preview }: { preview: boolean }) {
             <ChoiceGroup title="Your natural hair pattern" options={hairOptions} selected={[hair]} onChange={setHair} />
             <ChoiceGroup title="Your current facial hair" options={beardOptions} selected={[beard]} onChange={setBeard} />
           </div>
-          <div className="capture-controls"><button className="text-link" onClick={() => setStep(1)}><ArrowLeft size={16} /> Back</button><button className="button button-gold" disabled={!ready} onClick={completeProfile}>Reveal my Blueprint <Sparkles size={17} /></button></div>
+          <div className="capture-controls"><button className="text-link" onClick={() => setStep(0)}><ArrowLeft size={16} /> Back</button><button className="button button-gold" disabled={!ready} onClick={completeProfile}>Reveal my Blueprint <Sparkles size={17} /></button></div>
         </section>
       )}
-
-      {step === 3 && (
+      {step === 2 && (
         <section className="blueprint-stage">
-          <div className="blueprint-seal"><Sparkles size={22} /><span>FOUNDATION COMPLETE</span></div>
+          <div className="blueprint-seal"><Sparkles size={22} /><span>YOUR STARTING POINT</span></div>
           <p className="eyebrow">YOUR FIRST GROOMING BLUEPRINT</p>
           <h2>A stronger direction.<br /><em>Built around you.</em></h2>
           <div className="blueprint-grid">
             <article className="blueprint-direction"><span>01 / DIRECTION</span><h3>Your starting point</h3><p>{draft.blueprint.direction}</p><div className="profile-tags">{draft.focus.map((item) => <span key={item}>{item}</span>)}</div></article>
             <article><span>02 / DAILY RITUAL</span><h3>Your foundation</h3><ol>{draft.blueprint.ritual.map((item) => <li key={item}>{item}</li>)}</ol></article>
-            <article><span>03 / CONSULTATION</span><h3>What happens next</h3><p>Bring this Blueprint into the Reserve. We will refine your visual direction, document what works, and evolve the profile after every visit.</p></article>
+            <article><span>03 / CONSULTATION</span><h3>What happens next</h3><p>Bring this first direction into the Reserve. Neil can refine your grooming plan with you; Katie’s Chair preferences and private studio notes stay separate.</p></article>
           </div>
           <div className="save-blueprint">
-            <div><p className="eyebrow">KEEP WHAT YOU BUILT</p><h3>Save it to My Sanctum.</h3><p>One tap creates your private grooming account. No registration form and no new password to remember.</p></div>
-            <SocialAuthButtons next="/my-sanctum" preview={preview} />
+            <div><p className="eyebrow">KEEP WHAT YOU BUILT</p><h3>Save your Reserve intake.</h3><p>Sign in to your Reserve account to save this Blueprint for your consultation. Gent Ascend is a separate app; this does not send your answers there.</p></div>
+            <div className="mirror-save-options">
+              <SocialAuthButtons next="/my-sanctum" preview={preview} />
+              <Link href="/signin?next=/my-sanctum" className="text-link">Continue with email <ArrowRight size={16} /></Link>
+            </div>
           </div>
         </section>
       )}

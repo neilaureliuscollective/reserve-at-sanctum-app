@@ -8,10 +8,13 @@ the hero, navigation, sign-in, booking, and appointment interactions are client
 components. Three.js loads after the initial content and is isolated from forms.
 Fonts are self-hosted. There is no third-party tracking, payment SDK, or AI chat.
 
-Fix It Shop is Katie's men's salon world. GENT Ascend is Neil's men's grooming
-world: consultation, hair/beard/skin priorities, products, rituals, and the
-Sanctum Mirror. The separate digital-infrastructure company is not part of this
-application.
+Fix It Shop is Katie's men's salon world: her service, Chair, appointments and
+studio at the Reserve. GENT Ascend Collective is Neil's independent company
+for products, grooming, performance, wellness and the ongoing LifeOS. The
+Reserve is their first shared physical location and its operating front door,
+not the parent brand of either business. Its GENT Ascend introduction links
+to Neil's separate app. The Reserve-hosted Sanctum Mirror is only a starting
+consultation intake. No account or private data is transferred across apps.
 
 ## Data and authority
 
@@ -89,12 +92,13 @@ illustrative menu entries into a real operating schedule as approved prices.
 
 ## Sanctum Mirror and social account conversion
 
-The public Sanctum Mirror collects a three-angle guided capture state and the
-client's stated grooming priorities before authentication. The current build
-does not upload or retain facial photographs and does not claim a medical skin
-diagnosis. A short-lived browser draft survives the OAuth redirect; after a
-Google or Apple PKCE callback, the authenticated client explicitly saves the
-derived Blueprint to the server-owned grooming profile table. API access is
+The public Sanctum Mirror collects the client's stated grooming priorities
+before authentication and generates a rule-based starting Blueprint. It does
+not request camera access, analyze images, or make a medical diagnosis. A
+browser draft survives sign-in on the Reserve origin; on the authenticated
+My Sanctum page the draft is saved to the server-owned grooming profile table.
+The legacy scan_completed_at column is no longer written as a completed scan.
+API access is
 always resolved from the verified session and never accepts a user ID from the
 browser.
 
@@ -102,6 +106,12 @@ Google and Apple must be enabled in Supabase Auth, with the production and
 preview `/auth/callback` URLs allow-listed. Email/password remains a quiet
 fallback. Local preview access exercises the same draft-to-profile journey with
 synthetic identities.
+
+The first cross-app handoff is a plain link to the stable Gent Ascend origin.
+Because it is another installed web app with its own session, the visitor may
+need to sign in there. There is no automatic identity, Blueprint, Chair, or
+staff-note transfer. A later consent-based exchange requires a separate
+design and authorization review.
 
 ## Deliberate phase boundaries
 

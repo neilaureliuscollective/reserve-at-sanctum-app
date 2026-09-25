@@ -14,8 +14,9 @@ export default function Page() {
             <em>Ready for more.</em>
           </h1>
           <p>
-            The Reserve at Sanctum brings Fix It Shop and GENT Ascend Collective
-            together around grooming, wellbeing, and community.
+            The Reserve at Sanctum is the first physical home shared by Katie’s
+            Fix It Shop and Neil’s Gent Ascend Collective. Each business keeps
+            its own work and identity; this is where their experiences meet.
           </p>
           <div className="location-line">
             <MapPin size={20} /> Eunice, Louisiana
@@ -25,7 +26,7 @@ export default function Page() {
             contact information will appear here before public booking opens.
           </p>
           <Link href="/book" className="button button-gold">
-            Explore a preview visit <ArrowUpRight size={18} />
+            Explore Katie’s booking preview <ArrowUpRight size={18} />
           </Link>
         </div>
         <figure className="visit-image">

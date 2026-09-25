@@ -45,11 +45,11 @@ export async function PUT(request: Request) {
     const rows = await (await database()).query<GroomingProfile>(
       `INSERT INTO reserve_grooming_profiles
        (user_id,focus,maintenance,skin,hair,beard,blueprint,scan_completed_at,updated_at)
-       VALUES($1,$2::jsonb,$3,$4,$5,$6,$7::jsonb,now(),now())
+       VALUES($1,$2::jsonb,$3,$4,$5,$6,$7::jsonb,NULL,now())
        ON CONFLICT(user_id) DO UPDATE SET
        focus=excluded.focus, maintenance=excluded.maintenance, skin=excluded.skin,
        hair=excluded.hair, beard=excluded.beard, blueprint=excluded.blueprint,
-       scan_completed_at=excluded.scan_completed_at, updated_at=now()
+       updated_at=now()
        RETURNING *`,
       [
         actor.id,

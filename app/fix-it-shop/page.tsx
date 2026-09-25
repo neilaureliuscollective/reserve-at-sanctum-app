@@ -219,9 +219,10 @@ export default function Page() {
             drive to keep moving forward.
           </p>
           <p>
-            Both care about the same thing: the man you’re becoming. Your
-            Reserve account keeps the experiences connected, with you choosing
-            what you share.
+            Katie’s Chair and appointments live in your Reserve account.
+            Neil’s broader grooming, products, performance, and wellness
+            experience lives in Gent Ascend. Moving between the two does not
+            automatically share your private answers.
           </p>
         </div>
         <div className="katie-reserve-links">
