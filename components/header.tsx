@@ -70,18 +70,18 @@ export function Header() {
           <Link href="/visit" onClick={() => setOpen(false)}>
             Visit us
           </Link>
-          <Link href="/my-sanctum" className="mobile-account" onClick={() => setOpen(false)}>My Sanctum</Link>
+          <Link href="/my-sanctum" className="mobile-account" onClick={() => setOpen(false)}>Your Reserve</Link>
         </nav>
         <div className="header-actions">
           <Link
             href="/my-sanctum"
             className="account-link"
-            aria-label="Open My Sanctum"
+            aria-label="Open your Reserve account"
           >
             <UserRound size={19} />
           </Link>
           <Link href="/book" className="button button-gold header-book">
-            Book a visit <ArrowUpRight size={16} />
+            Book with Katie <ArrowUpRight size={16} />
           </Link>
           <button
             ref={menuButton}

@@ -26,6 +26,7 @@
 .gent-promise { font:400 35px/1.2 var(--serif); margin-bottom:18px; }
 .gent-arrival-copy>p:not(.eyebrow,.gent-promise) { color:#b7c4bd; max-width:510px; font-size:14px; }
 .gent-actions { display:flex; align-items:center; gap:30px; margin-top:35px; flex-wrap:wrap; }
+.mirror-save-options { display:grid; gap:16px; }
 .gent-emblem { position:relative; align-self:center; width:min(660px,51vw); aspect-ratio:1; filter:drop-shadow(0 35px 60px #000a); }
 .gent-emblem img { object-fit:contain; transform:scale(1.08); }
 .gent-arrival-foot { position:absolute; bottom:25px;left:6.5%;right:6.5%;display:flex;justify-content:space-between;color:#8b9c93;font-size:9px;letter-spacing:.18em; }

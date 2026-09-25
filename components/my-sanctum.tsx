@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, CalendarDays, Check, Clock3, ScanFace, Sparkles } from "lucide-react";
 import { GROOMING_DRAFT_KEY, type GroomingDraft, type GroomingProfile } from "@/lib/grooming";
+import { GENT_ASCEND_URL } from "@/lib/collective-link";
 
 export function MySanctum({ name }: { name: string }) {
   const [profile, setProfile] = useState<GroomingProfile | null>(null);
@@ -21,7 +22,7 @@ export function MySanctum({ name }: { name: string }) {
         if (!response.ok) throw new Error(data.error);
         setProfile(data.profile);
         sessionStorage.removeItem(GROOMING_DRAFT_KEY);
-        setMessage("Your Grooming Blueprint is now saved to My Sanctum.");
+        setMessage("Your consultation Blueprint is saved to your Reserve account.");
         return;
       }
       const response = await fetch("/api/grooming-profile");
@@ -37,10 +38,11 @@ export function MySanctum({ name }: { name: string }) {
   return (
     <div className="my-sanctum-shell">
       <header className="sanctum-command">
-        <div><p className="eyebrow">MY SANCTUM</p><h1>Welcome, <em>{name}.</em></h1><p>Your grooming direction, visits, and rituals—kept together.</p></div>
-        <Link href="/book" className="button button-gold">Book a visit <ArrowUpRight size={17} /></Link>
+        <div><p className="eyebrow">YOUR RESERVE ACCOUNT</p><h1>Welcome, <em>{name}.</em></h1><p>Your visits, Chair preferences, and consultation Blueprint for this location.</p></div>
+        <Link href="/book" className="button button-gold">Book with Katie <ArrowUpRight size={17} /></Link>
       </header>
-      <section className="chair-profile-link"><div><p className="eyebrow">KATIE · THE CHAIR</p><h2>Your cut. Your time.</h2><p>Open your saved preferences, prepare for a visit, or change what Katie can see.</p></div><Link href="/chair" className="button button-gold">Open my Chair <ArrowUpRight size={17}/></Link></section>
+      <section className="chair-profile-link"><div><p className="eyebrow">KATIE · FIX IT SHOP</p><h2>Your cut. Your time.</h2><p>Open your saved Chair preferences, prepare for a visit, or change what Katie can see.</p></div><Link href="/chair" className="button button-gold">Open my Chair <ArrowUpRight size={17}/></Link></section>
+      <section className="chair-profile-link"><div><p className="eyebrow">NEIL · GENT ASCEND COLLECTIVE</p><h2>Take the care further.</h2><p>Gent Ascend is a separate app for the broader personal experience. Your Reserve profile is not sent there and you may need to sign in separately.</p></div><a href={GENT_ASCEND_URL} className="button button-gold">Open Gent Ascend <ArrowUpRight size={17}/></a></section>
       {message && <p className="sanctum-success"><Check size={17} />{message}</p>}
       {error && <p className="error-message" role="alert">{error}</p>}
       {!profile ? (
@@ -49,12 +51,12 @@ export function MySanctum({ name }: { name: string }) {
         <>
           <section className="profile-hero-card">
             <div className="profile-visual"><div className="profile-silhouette"><ScanFace size={76} /></div><span>PROFILE ACTIVE</span></div>
-            <div className="profile-summary"><p className="eyebrow">LIVING GROOMING PROFILE</p><h2>Your current<br /><em>direction.</em></h2><p>{profile.blueprint.direction}</p><div className="profile-tags">{profile.focus.map((item) => <span key={item}>{item}</span>)}</div><Link href="/sanctum-mirror" className="text-link">Update your profile <ArrowUpRight size={16} /></Link></div>
+            <div className="profile-summary"><p className="eyebrow">RESERVE CONSULTATION INTAKE</p><h2>Your current<br /><em>direction.</em></h2><p>{profile.blueprint.direction}</p><div className="profile-tags">{profile.focus.map((item) => <span key={item}>{item}</span>)}</div><Link href="/sanctum-mirror" className="text-link">Update this Blueprint <ArrowUpRight size={16} /></Link></div>
           </section>
           <section className="sanctum-dashboard-grid">
             <article><span className="dashboard-icon"><Sparkles /></span><p className="eyebrow">YOUR RITUAL</p><h3>Daily foundation</h3><ol>{profile.blueprint.ritual.map((item) => <li key={item}>{item}</li>)}</ol></article>
-            <article><span className="dashboard-icon"><CalendarDays /></span><p className="eyebrow">THE RESERVE</p><h3>Your next visit</h3><p>Bring your saved Blueprint into the consultation. Your professional notes and results will build from here.</p><Link href="/account" className="text-link">Open your visits <ArrowUpRight size={16} /></Link></article>
-            <article><span className="dashboard-icon"><Clock3 /></span><p className="eyebrow">MAINTENANCE RHYTHM</p><h3>{profile.maintenance}</h3><p>Your future care plan and recommended return rhythm will appear here after consultation.</p></article>
+            <article><span className="dashboard-icon"><CalendarDays /></span><p className="eyebrow">THE RESERVE</p><h3>Your visits</h3><p>Bring this Blueprint into a consultation if you choose. Katie’s private studio notes and Chair context remain separate.</p><Link href="/account" className="text-link">Open your visits <ArrowUpRight size={16} /></Link></article>
+            <article><span className="dashboard-icon"><Clock3 /></span><p className="eyebrow">YOUR PREFERRED RHYTHM</p><h3>{profile.maintenance}</h3><p>This is what you told us you can maintain; it is not an assessment or a professional recommendation.</p></article>
           </section>
         </>
       )}

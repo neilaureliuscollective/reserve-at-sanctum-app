@@ -21,7 +21,7 @@ export function Footer() {
             Fix It Shop <ArrowUpRight size={16} />
           </Link>
           <Link href="/gent-ascend">
-            GENT Ascend Collective <ArrowUpRight size={16} />
+            Neil’s Gent Ascend <ArrowUpRight size={16} />
           </Link>
           <Link href="/account">
             Your visits <ArrowUpRight size={16} />

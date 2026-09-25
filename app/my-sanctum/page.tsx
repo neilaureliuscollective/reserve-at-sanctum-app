@@ -3,7 +3,7 @@ import { currentUser } from "@/lib/auth";
 import { MySanctum } from "@/components/my-sanctum";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "My Sanctum" };
+export const metadata = { title: "Your Reserve account" };
 
 export default async function Page() {
   const actor = await currentUser();

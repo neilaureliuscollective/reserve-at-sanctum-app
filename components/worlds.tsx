@@ -15,7 +15,7 @@ export function Worlds() {
           </h2>
         </div>
         <p>
-          Distinct identities. A shared address.
+          Independent businesses. Their first shared address.
           <br />
           Discover what each brings to the Reserve.
         </p>
@@ -58,9 +58,9 @@ export function Worlds() {
             <span className="eyebrow">GROOMING. RITUAL. ASCENSION.</span>
             <h3>GENT Ascend</h3>
             <p>
-              A living grooming profile and personal direction.
+              Grooming, products, performance, and wellness
               <br />
-              Built before you arrive.
+              carried beyond this location.
             </p>
             <span className="world-enter">
               Enter GENT Ascend <ArrowUpRight size={22} />
