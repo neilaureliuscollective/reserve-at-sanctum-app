@@ -105,20 +105,26 @@ to ignored `artifacts/`. Set `CHROMIUM_PATH` only if your environment supplies a
 browser executable. The test creates and then cancels a synthetic appointment.
 It requires the local preview database and will refuse hosted credentials.
 
-## Hosted preview setup — still required
+## Hosted shared-backend setup — in progress
 
-1. Create/select a **dedicated preview** Supabase project and Vercel project
-   connected to this exact repository. Enable Vercel Deployment Protection.
-   Search-engine `noindex` is not access control.
-2. Set `DATABASE_URL` to the server-only Postgres connection, plus
+Reserve uses the existing Gent Ascend Supabase project for identity and private
+Reserve tables. Its website, booking, studio and phone icon remain Reserve.
+Read [the cutover guide](docs/SHARED-BACKEND-CUTOVER.md) before changing hosted
+configuration; the former Reserve project cannot yet be inspected.
+
+1. Use the existing protected Vercel preview for review. Search-engine
+   `noindex` is not access control.
+2. Set `DATABASE_URL` to the Reserve-only `reserve_app` transaction-pooler
+   connection for the shared project, plus
    `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, and
    `APP_ORIGIN` to the exact HTTPS preview origin. Set `RESERVE_DEV_PREVIEW=false`.
    Never expose the database connection in a `NEXT_PUBLIC_*` variable.
-3. Run `npm run db:migrate` with the hosted `DATABASE_URL` present in the shell.
-   This creates private tables; it does **not** seed preview identities or enable
-   a live catalog. The application needs a server role with access to these
-   tables. Browser Data API access intentionally has no RLS policies.
-4. Configure Supabase Site URL and allowed redirects for the preview domain,
+3. Apply and verify Reserve migrations and the restricted role grant with a
+   trusted administrative connection, as documented in the cutover guide.
+   This does **not** seed identities or enable a live catalog. Browser Data API
+   access intentionally has no RLS policies for Reserve tables.
+4. Configure Supabase allowed redirects for the Reserve domain while preserving
+   Gent Ascend's existing Site URL and redirects,
    including `/auth/callback`. Enable Google and Apple providers; provider
    secrets remain in Supabase and never in this repository. Verify both PKCE
    return journeys on the real preview domain. Email/password remains a fallback.

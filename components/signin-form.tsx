@@ -47,6 +47,10 @@ export function SigninForm({
     <div className="signin-panel">
       {hosted ? (
         <>
+          <p className="inline-note">
+            Already have a Gent Ascend account? Sign in with that email and password here.
+            Your Reserve visits and Katie’s studio access stay separate.
+          </p>
           <div className="email-fallback">
           <form
             onSubmit={(e) => {

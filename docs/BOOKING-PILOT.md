@@ -29,12 +29,12 @@ with this branch before publishing a combined release.
 
 ## Hosted pilot checklist (required before calling it phone-ready)
 
-1. Use the canonical repository and a dedicated protected HTTPS Vercel preview.
+1. Use the canonical repository and a protected HTTPS Vercel preview. Follow
+   `SHARED-BACKEND-CUTOVER.md` for the Gent shared database and role isolation.
    Set DATABASE_URL, NEXT_PUBLIC_SUPABASE_URL,
    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, APP_ORIGIN; turn RESERVE_DEV_PREVIEW off.
    Never enable synthetic login or embedded storage in production.
-2. `npm run db:migrate` against that intended database. This includes migration
-   003, adding private reserve_blocks and a cascading block_id on occupancy.
+2. Verify migrations 001-004 and restricted role access on the Gent project.
 3. Configure Supabase provider credentials and allow `/auth/callback` for the
    exact preview origin. Verify actual login on that origin; local login tests
    cannot verify provider setup. Katie signs up/signs in with her own account.
@@ -45,8 +45,10 @@ with this branch before publishing a combined release.
    npm run staff:provision -- <Neil-UUID> <Neil-confirmed-email> owner --confirm-verified-account
    ```
 
-   No email is sent. No catalog is silently enabled. This requires server access
-   to auth.users and an existing Reserve user from an actual app sign-in.
+   No email is sent. No catalog is silently enabled. The provisioning script
+   requires a temporary `ADMIN_DATABASE_URL` with access to auth.users and an
+   existing Reserve user from an actual app sign-in. Never put that admin URL
+   in Reserve's Vercel runtime configuration.
 5. Insert/approve actual pilot services, prices, durations, buffers and hours.
    Existing local illustrative services are not an approved operating menu.
 6. Open `/setup` on Katie’s phone, install from her regular browser, reopen the

@@ -1,17 +1,15 @@
-// The direct Supabase host is IPv6-only on this project. Vercel's serverless
-// runtime needs the transaction pooler for the same database and credentials.
-export function serverlessDatabaseUrl(value: string) {
+import { SHARED_AUTH_PROJECT_REF } from "./supabase-config";
+
+// Copy the transaction-pooler connection from the project's Connect panel.
+// The cluster index cannot be reliably inferred from the region.
+export function serverlessDatabaseUrl(value: string, production = process.env.NODE_ENV === "production") {
   const url = new URL(value);
-  const ref = "wfbiytzlaokchfaxgwtt";
-  if (
-    url.hostname === `db.${ref}.supabase.co` &&
-    url.username === "postgres" &&
-    (url.port === "5432" || url.port === "")
-  ) {
-    url.hostname = "aws-0-us-west-2.pooler.supabase.com";
-    url.port = "6543";
-    url.username = `postgres.${ref}`;
-    return url.toString();
+  if (production &&
+    (!url.hostname.endsWith(".pooler.supabase.com") ||
+      url.port !== "6543" ||
+      url.username !== `reserve_app.${SHARED_AUTH_PROJECT_REF}` ||
+      !url.password)) {
+    throw new Error("Reserve requires its shared project's transaction pooler connection.");
   }
   return value;
 }
