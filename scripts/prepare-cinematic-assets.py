@@ -87,9 +87,5 @@ seal("gent-ascend-collective.webp", "gent-ascend-seal.webp", .465)
 for name in ("vitalis", "obsidian-wash", "obsidian-creme", "hydros", "ascend"):
     product(f"{name}.webp", f"{name}-cutout.webp")
 
-for source, dest in (
-    ("exec-81da4274-655a-49cd-ba7a-1bafdd0c28f6.png", "reserve-hall.webp"),
-    ("exec-f92059e9-d8c5-4724-a934-4d313735e40c.png", "reserve-product-chamber.webp"),
-):
-    image = Image.open(ROOT.parent / "generated_images" / source).convert("RGB")
-    image.save(OUTPUT / dest, "WEBP", quality=86, method=6)
+# The two concept environment plates are versioned in public/images/cinematic.
+# This script only regenerates cutouts from the committed approved artwork.

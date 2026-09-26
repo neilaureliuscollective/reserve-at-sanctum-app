@@ -4,19 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { Menu, X, ArrowUpRight, UserRound } from "lucide-react";
-export function Mark() {
-  return (
-    <svg viewBox="0 0 40 48" aria-hidden="true">
-      <path
-        d="M20 2 35 11v21L20 46 5 32V11Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1"
-      />
-      <path d="m20 9 3 12 9 3-9 3-3 12-3-12-9-3 9-3Z" fill="currentColor" />
-    </svg>
-  );
-}
 export function Header() {
   const menuButton = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false),

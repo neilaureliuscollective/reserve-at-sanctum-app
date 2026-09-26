@@ -212,7 +212,7 @@
   .reserve-cinema-v2 .film-product__shelf { left:5%; right:5%; bottom:14%; overflow-x:auto; scroll-snap-type:x proximity; }
   .reserve-cinema-v2 .film-product__shelf button { flex:0 0 125px; min-height:48px; scroll-snap-align:center; }
   .reserve-cinema-v2 .film-product__shelf button strong { font-size:15px; }
-  .reserve-cinema-v2 .film-product__note { left:7%; right:7%; bottom:5%; font-size:9px; line-height:1.4; }
+  .reserve-cinema-v2 .film-product__note { left:7%; right:7%; bottom:max(42px,5%); font-size:9px; line-height:1.4; }
   .reserve-cinema-v2 .film-collection .film-concept { display:none; }
   .reserve-cinema-v2 .film-home__image img { object-position:60% center; }
   .reserve-cinema-v2 .film-home__copy { left:7%; right:7%; bottom:13%; width:auto; }
