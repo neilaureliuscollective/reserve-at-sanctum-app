@@ -46,3 +46,7 @@ Neil supplied three emblem images and five product mockups for the cinematic hom
 | `obsidian-creme.webp` | `536.png` | Legacy Reserve Obsidian Crème concept package |
 
 The five images are product mockups, not verified photographs of retail stock. The site describes them as collection previews. No product purchase flow, live prices, stock status, or claims beyond the printed concept labels are inferred from these images. The environmental scenes remain concept imagery with visible labels until real location and founder photography can replace them. The unchanged hero composition retains its previous concept background; its Reserve emblem now uses the supplied crest.
+
+## Cinematic rebuild derivatives
+
+`public/images/cinematic/` includes transparent WebP seal and product cutouts derived from the exact supplied images above. `scripts/prepare-cinematic-assets.py` creates alpha mattes around existing artwork and packages, retaining original lettering and product pixels. The generated `reserve-hall.webp` and `reserve-product-chamber.webp` are unbranded concept environment plates; original seals and package cutouts are layered into the page at runtime. They are not renderings of the actual building. The square JPEG-derived files remain available as source references and comparison material. The transparent-seal image-generation exploration was not installed because its redraw could change lettering and details.

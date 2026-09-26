@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
@@ -36,7 +37,7 @@ export function Header() {
           href="/"
           onClick={() => setOpen(false)}
         >
-          <Mark />
+          <Image className="wordmark-seal" src="/images/cinematic/reserve-seal.webp" width={58} height={58} alt="" sizes="58px" />
           <span>
             <small>THE</small>
             <strong>RESERVE</strong>
