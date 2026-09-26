@@ -1,0 +1,9 @@
+# Reserve cinematic homepage build — September 26, 2026
+
+The post-hero homepage is now five distinct beats: threshold, one Katie/Neil encounter, a viewport-contained path choice, an interactive Legacy Reserve product display, and a return to Eunice. The former repeated people/world/union/beyond/begin panels and their three CSS layers are no longer imported by `app/page.tsx`; the arrival remains in place under the homepage approval rule.
+
+`app/page.tsx` supplies server-rendered scene text and routes. `components/reserve-journey.tsx` owns the chapter links, still preference and choice stage. `components/reserve-product-gallery.tsx` owns a local selection of five preview images. `app/reserve-journey.css` owns the new scene compositions. Scroll writes one bounded transform variable to visible scenes; content, links and selected choices remain usable with JavaScript or motion turned off. The still control persists locally. Three exact supplied brand emblems are used in the host/partner scenes; Legacy Reserve is kept as the product line.
+
+The product images deliberately keep their source neutral studio backgrounds rather than generating or faking new packaging. The surface becomes a lit product chamber inside the dark environment. Product selection does not call commerce services. Booking remains `/book`; Katie `/fix-it-shop`; Neil `/gent-ascend`; location `/visit`. The current Gent public shop is a preview and does not take orders, so this homepage carries no Buy button.
+
+Verification: `npm run typecheck`, `npm run build`, and browser interaction at 320×568, 360×780, 390×844, and 1440×900. The browser pass checked no horizontal overflow, no runtime page errors, live in-place path changes with CTA visible on the cover phone, product selection and loaded product artwork. The environment is an isolated local preview; it does not verify deployed production, actual Fold hardware, or hosted booking.

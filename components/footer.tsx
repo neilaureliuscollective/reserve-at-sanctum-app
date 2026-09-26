@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-provenance">
-          <Image className="footer-crest" src="/images/reserve-petrol-official.webp" width={100} height={100} alt="" sizes="100px" />
+          <Image className="footer-crest" src="/images/approved/reserve-at-sanctum.webp" width={100} height={100} alt="" sizes="100px" />
           <div>
           <p className="eyebrow">EUNICE, LOUISIANA</p>
           <p className="footer-title">

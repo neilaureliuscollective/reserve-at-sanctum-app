@@ -1,50 +1,56 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Arrival } from "@/components/arrival";
-import { Worlds } from "@/components/worlds";
-import { ReserveCompass } from "@/components/reserve-compass";
-import { ReserveScrollDirector } from "@/components/reserve-scroll-director";
+import { JourneyDirector, ReserveWay } from "@/components/reserve-journey";
+import { ReserveProductGallery } from "@/components/reserve-product-gallery";
 import "./reserve-home.css";
-import "./reserve-cinema.css";
-import "./reserve-rehab.css";
+import "./reserve-journey.css";
 
 export default function Home() {
-  return (
-    <main id="main" className="reserve-home reserve-story">
-      <Arrival />
-      <ReserveScrollDirector />
-      <nav className="reserve-chapters" aria-label="Explore the Reserve">
-        <a href="#the-place"><span>01</span> The place <ArrowUpRight size={16} /></a>
-        <a href="#compass"><span>02</span> Your way in <ArrowUpRight size={16} /></a>
-        <a href="#the-people"><span>03</span> The people <ArrowUpRight size={16} /></a>
-        <a href="#worlds"><span>04</span> The two worlds <ArrowUpRight size={16} /></a>
-      </nav>
-      <section id="the-place" className="reserve-story-section reserve-premise" data-scene aria-labelledby="premise-title">
-        <div className="story-meta"><span>01 / THE PLACE</span><span>A MEN’S SANCTUARY · EUNICE, LOUISIANA</span></div>
-        <div className="premise-heading" data-reveal><h2 id="premise-title">More than<br /><em>the chair.</em></h2><p>A good cut changes how you leave. A place that knows you can change how you come back. That is the bigger picture we are building together.</p></div>
-        <div className="premise-threshold" data-reveal>
-          <div className="premise-threshold__image" role="img" aria-label="Concept architecture with a gold-lit Louisiana live oak beyond an obsidian and petrol stone arch" />
-          <div className="premise-threshold__frame" aria-hidden="true" />
-          <div className="premise-threshold__copy"><span>THROUGH THE THRESHOLD</span><p>The conversation.<br />The care.<br /><em>The place you return to.</em></p></div>
-          <span className="premise-threshold__credit">CONCEPT IMAGERY · THE RESERVE IS TAKING SHAPE</span>
-        </div>
-        <p className="story-afterword">It starts with looking after yourself. It grows when you find a place to belong.</p>
-      </section>
-      <ReserveCompass />
-      <section id="the-people" className="reserve-story-section people-story" data-scene aria-labelledby="people-title">
-        <div className="story-meta"><span>03 / TWO PERSPECTIVES</span><span>DIFFERENT STRENGTHS · ONE SHARED STANDARD</span></div>
-        <div className="people-intro" data-reveal><h2 id="people-title">The craft.<br /><em>The bigger picture.</em></h2><p>Two independent businesses. One belief that caring for a man should go deeper than the appointment.</p></div>
-        <div className="people-cards">
-          <Link href="/fix-it-shop" className="people-card people-katie" data-reveal><div className="people-image" aria-hidden="true" /><div className="people-copy"><span className="eyebrow">KATIE · FIX IT SHOP</span><h3>Know the man.<br /><em>Then refine the look.</em></h3><p>Katie’s men’s salon is built on attention to the person in her chair. The cut matters. So does the way you feel while you are there.</p><span className="people-link">Step into Fix It Shop <ArrowUpRight size={19} /></span><small>CONCEPT IMAGERY</small></div></Link>
-          <Link href="/gent-ascend" className="people-card people-neil" data-reveal><div className="people-image" aria-hidden="true" /><div className="people-copy"><span className="eyebrow">NEIL · GENT ASCEND COLLECTIVE</span><h3>Carry the care<br /><em>into your life.</em></h3><p>Neil’s world brings grooming direction, personal rituals, and a living Blueprint into the time between visits.</p><span className="people-link">Enter GENT Ascend <ArrowUpRight size={19} /></span><small>CONCEPT IMAGERY</small></div></Link>
-        </div>
-      </section>
-      <section className="reserve-union" data-scene aria-labelledby="union-title"><div className="union-architecture" aria-hidden="true"><span /><span /><span /></div><div className="union-content" data-reveal><p className="eyebrow">FIX IT SHOP × GENT ASCEND COLLECTIVE</p><h2 id="union-title">Separate strengths.<br /><em>One Reserve.</em></h2><p>Katie brings the craft and personal care of the chair. Neil brings the rituals and direction that carry forward. Together, we are giving those experiences a home in Eunice.</p><span>THE RESERVE AT SANCTUM · EUNICE, LOUISIANA</span></div></section>
-      <Worlds />
-      <section id="beyond" className="reserve-story-section visit-story" data-scene aria-labelledby="visit-title"><div className="story-meta"><span>05 / BEYOND THE VISIT</span><span>CARE THAT CARRIES FORWARD</span></div><div className="visit-layout"><div data-reveal><p className="eyebrow">THE RESERVE IS TAKING SHAPE</p><h2 id="visit-title">The visit ends.<br /><em>The care carries on.</em></h2><p>A thoughtful appointment is the beginning. Your preferences, your grooming direction, and the people who get to know you can make the next one even better.</p><div className="story-actions"><Link href="/chair" className="button button-gold">Explore Katie’s Chair <ArrowUpRight size={17} /></Link><Link href="/sanctum-mirror" className="text-link">Discover the Sanctum Mirror <ArrowUpRight size={17} /></Link></div></div><div className="visit-panel" data-reveal><span>YOUR NEXT CHAPTER</span><h3>Less starting over.<br />More moving forward.</h3><ul><li>Your preferences, with your permission</li><li>Your grooming priorities and Blueprint</li><li>One place to revisit your journey</li></ul><Link href="/my-sanctum">Open My Sanctum <ArrowUpRight size={17} /></Link></div></div></section>
-      <section className="community-story" data-scene aria-labelledby="community-title"><div className="community-scene" role="img" aria-label="Concept image of an inland Louisiana town street in warm evening light" /><div className="community-copy" data-reveal><p className="eyebrow">ROOTED HERE · OPEN TO WHAT COMES NEXT</p><h2 id="community-title">You’ve got<br /><em>things to build.</em></h2><p>Men need places to show up, take care of themselves, and be part of something. The Reserve begins with grooming and a shared space. Community and wellness are part of the vision we are building toward.</p><span>CONCEPT IMAGERY · NOT A PHOTOGRAPH OF THE RESERVE OR EUNICE</span></div></section>
-      <section id="eunice" className="reserve-story-section eunice-story" data-scene aria-labelledby="eunice-title"><div className="story-meta"><span>06 / OUR HOME</span><span>GROUNDED IN LOUISIANA</span></div><div data-reveal><h2 id="eunice-title">Eunice.<br /><em>Louisiana.</em></h2><p>Built from the character of a real place and the care of real people. This is where Katie and Neil are bringing their separate strengths together.</p></div><div className="eunice-facts"><span>LOCAL ROOTS</span><span>TWO INDEPENDENT BUSINESSES</span><span>ONE SHARED RESERVE</span></div></section>
-      <section id="begin" className="reserve-story-section begin-story" data-scene aria-labelledby="begin-title"><div className="story-meta"><span>07 / YOUR FIRST STEP</span><span>THERE IS NO ONE WAY TO BEGIN</span></div><h2 id="begin-title" data-reveal>Where do<br /><em>you begin?</em></h2><div className="begin-grid"><Link href="/fix-it-shop" className="begin-card" data-reveal><span>01</span><h3>Enter the Shop</h3><p>Meet Katie, explore the care behind the cut, and make room for a better visit.</p><strong>Meet Fix It Shop <ArrowUpRight size={18} /></strong></Link><Link href="/gent-ascend" className="begin-card" data-reveal><span>02</span><h3>Enter Sanctum</h3><p>Find your grooming direction with Neil’s living Blueprint and a ritual built around you.</p><strong>Explore GENT Ascend <ArrowUpRight size={18} /></strong></Link><Link href="/visit" className="begin-card" data-reveal><span>03</span><h3>Join the Reserve</h3><p>See what is taking shape in Eunice and how these two independent worlds come together.</p><strong>Discover the place <ArrowUpRight size={18} /></strong></Link></div></section>
-    </main>
-  );
+  return <main id="main" className="reserve-home reserve-story reserve-journey">
+    <Arrival />
+    <JourneyDirector />
+    <section id="the-place" className="journey-threshold journey-scene" data-journey-scene aria-labelledby="threshold-title">
+      <div className="journey-threshold__world" aria-hidden="true"><Image src="/images/reserve-threshold.webp" alt="" fill sizes="100vw" /></div>
+      <div className="journey-threshold__near" aria-hidden="true" />
+      <div className="journey-threshold__content">
+        <p className="journey-index">01 / THE THRESHOLD <span>EUNICE, LOUISIANA</span></p>
+        <h2 id="threshold-title">Leave the noise<br /><em>at the door.</em></h2>
+        <p>There is a different pace inside. Time to be known, to take care of yourself, and to leave with a clearer sense of where you are going.</p>
+        <a href="#worlds" className="journey-text-link">Step further in <ArrowUpRight size={19} /></a>
+        <small>CONCEPT ENVIRONMENT · THE RESERVE IS TAKING SHAPE</small>
+      </div>
+    </section>
+    <section id="worlds" className="journey-encounter journey-scene" data-journey-scene aria-labelledby="encounter-title">
+      <div className="journey-encounter__opening">
+        <p className="journey-index">02 / THE PEOPLE <span>TWO STRENGTHS · ONE PLACE</span></p>
+        <h2 id="encounter-title">The person matters<br /><em>as much as the craft.</em></h2>
+        <p>Fix It Shop and Gent Ascend Collective meet at the Reserve. Each has its own identity. Together, they give this place its purpose.</p>
+      </div>
+      <article className="journey-person journey-person--katie" aria-labelledby="katie-title">
+        <div className="journey-person__scene" aria-hidden="true"><Image src="/images/reserve-craft.webp" alt="" fill sizes="100vw" /></div>
+        <div className="journey-person__shade" aria-hidden="true" />
+        <div className="journey-person__mark"><Image src="/images/approved/fix-it-shop.webp" alt="Fix It Shop official emblem" width={360} height={360} sizes="(max-width: 760px) 150px, 300px" /></div>
+        <div className="journey-person__copy"><span>01 / KATIE GUIDRY · FIX IT SHOP</span><h3 id="katie-title">Care you can<br /><em>feel in the chair.</em></h3><p>Katie brings the attention and craft of a men’s salon professional. The cut matters. So does the person who returns.</p><Link href="/fix-it-shop" className="journey-text-link">Enter Fix It Shop <ArrowUpRight size={19} /></Link></div>
+        <small>CONCEPT ENVIRONMENT</small>
+      </article>
+      <article className="journey-person journey-person--neil" aria-labelledby="neil-title">
+        <div className="journey-person__scene" aria-hidden="true"><Image src="/images/reserve-ritual.webp" alt="" fill sizes="100vw" /></div>
+        <div className="journey-person__shade" aria-hidden="true" />
+        <div className="journey-person__mark"><Image src="/images/approved/gent-ascend-collective.webp" alt="Gent Ascend Collective official emblem" width={360} height={360} sizes="(max-width: 760px) 150px, 300px" /></div>
+        <div className="journey-person__copy"><span>02 / NEIL STUTES · GENT ASCEND COLLECTIVE</span><h3 id="neil-title">A ritual that<br /><em>travels with you.</em></h3><p>Neil brings grooming direction and considered products into the time between visits. The experience extends beyond the room.</p><Link href="/gent-ascend" className="journey-text-link">Enter Gent Ascend <ArrowUpRight size={19} /></Link></div>
+        <small>CONCEPT ENVIRONMENT</small>
+      </article>
+    </section>
+    <ReserveWay />
+    <section id="the-collection" className="journey-collection journey-scene" data-journey-scene aria-labelledby="collection-title">
+      <div className="journey-collection__intro"><p className="journey-index">04 / WHAT YOU CARRY <span>LEGACY RESERVE</span></p><h2 id="collection-title">The care<br /><em>continues.</em></h2><p>Objects made for the everyday rituals that follow you home. A first look at the Legacy Reserve collection.</p></div>
+      <ReserveProductGallery />
+    </section>
+    <section id="eunice" className="journey-home journey-scene" data-journey-scene aria-labelledby="eunice-title">
+      <div className="journey-home__image" aria-hidden="true"><Image src="/images/reserve-eunice-concept.webp" alt="" fill sizes="100vw" /></div>
+      <div className="journey-home__copy"><p className="journey-index">05 / OUR HOME <span>ROOTED IN LOUISIANA</span></p><h2 id="eunice-title">Eunice is<br /><em>where it begins.</em></h2><p>Katie and Neil are bringing their separate strengths together here. The Reserve begins with personal care and a shared place; community and wellness are part of the vision growing from it.</p><div className="journey-home__actions"><Link href="/visit" className="button button-gold">Discover the place <ArrowUpRight size={17} /></Link><Link href="/book" className="journey-text-link">Explore visits <ArrowUpRight size={19} /></Link></div><small>CONCEPT IMAGERY · NOT A PHOTOGRAPH OF THE RESERVE OR EUNICE</small></div>
+    </section>
+  </main>;
 }
