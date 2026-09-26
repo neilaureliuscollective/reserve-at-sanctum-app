@@ -1,3 +1,4 @@
+import { RESERVE_ORGANIZATION_ID as ORG } from "./tenancy";
 import { DateTime } from "luxon";
 import { randomUUID } from "node:crypto";
 import type { Database, Queryable, Row } from "./db";
@@ -8,12 +9,15 @@ export type Actor = Row & {
   email: string;
   role: "client" | "staff" | "owner";
   provider_id: string | null;
+  organization_id: string;
 };
 export type Service = Row & {
   id: string;
   name: string;
   description: string;
   provider_id: string;
+  organization_id: string;
+  location_id: string;
   minutes: number;
   buffer: number;
   price: number;
@@ -21,6 +25,8 @@ export type Service = Row & {
 export type Appointment = Row & {
   id: string;
   client_id: string;
+  organization_id: string;
+  location_id: string;
   provider_id: string;
   service_id: string;
   starts_at: Date | string;
@@ -45,7 +51,8 @@ export class BookingError extends Error {
 const iso = (x: Date | string) => new Date(x).toISOString();
 export async function catalog(db: Queryable) {
   return db.query<Service>(
-    "SELECT s.* FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id WHERE s.enabled AND p.enabled ORDER BY s.minutes",
+    "SELECT s.* FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id WHERE s.organization_id=$1 AND p.organization_id=s.organization_id AND p.location_id=s.location_id AND s.enabled AND p.enabled ORDER BY s.minutes",
+    [ORG],
   );
 }
 async function service(db: Queryable, id: string) {
@@ -89,8 +96,8 @@ async function validateTime(
     hours ||
     (
       await db.query<ProviderHours>(
-        "SELECT weekdays,open_hour,close_hour FROM reserve_providers WHERE id=$1",
-        [s.provider_id],
+        "SELECT weekdays,open_hour,close_hour FROM reserve_providers WHERE id=$1 AND organization_id=$2 AND location_id=$3",
+        [s.provider_id, s.organization_id, s.location_id],
       )
     )[0];
   if (
@@ -114,13 +121,13 @@ export async function availability(
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !day.isValid)
     throw new BookingError("Choose a valid date.");
   const occupied = await db.query<{ starts_at: Date | string }>(
-    "SELECT starts_at FROM reserve_occupancy WHERE provider_id=$1 AND starts_at >= $2 AND starts_at < $3",
-    [s.provider_id, day.toUTC().toISO(), day.plus({ days: 1 }).toUTC().toISO()],
+    "SELECT starts_at FROM reserve_occupancy WHERE provider_id=$1 AND starts_at >= $2 AND starts_at < $3 AND organization_id=$4 AND location_id=$5",
+    [s.provider_id, day.toUTC().toISO(), day.plus({ days: 1 }).toUTC().toISO(), s.organization_id, s.location_id],
   );
   const busy = new Set(occupied.map((x) => iso(x.starts_at)));
   const [hours] = await db.query<ProviderHours>(
-    "SELECT weekdays,open_hour,close_hour FROM reserve_providers WHERE id=$1",
-    [s.provider_id],
+    "SELECT weekdays,open_hour,close_hour FROM reserve_providers WHERE id=$1 AND organization_id=$2 AND location_id=$3",
+    [s.provider_id, s.organization_id, s.location_id],
   );
   const slots = [];
   for (let minutes = 0; minutes < 1440; minutes += 15) {
@@ -140,9 +147,9 @@ export async function availability(
 }
 export function canAccess(actor: Actor, a: Appointment) {
   return (
-    actor.role === "owner" ||
+    (actor.organization_id === a.organization_id && (actor.role === "owner" ||
     (actor.role === "staff" && actor.provider_id === a.provider_id) ||
-    actor.id === a.client_id
+    actor.id === a.client_id))
   );
 }
 async function occupy(
@@ -153,8 +160,8 @@ async function occupy(
 ) {
   for (const u of units(start, minutes))
     await tx.query(
-      "INSERT INTO reserve_occupancy(provider_id,starts_at,appointment_id) VALUES($1,$2,$3)",
-      [a.provider_id, u, a.id],
+      "INSERT INTO reserve_occupancy(provider_id,starts_at,appointment_id,organization_id,location_id) VALUES($1,$2,$3,$4,$5)",
+      [a.provider_id, u, a.id, a.organization_id, a.location_id],
     );
 }
 function conflict(e: unknown): never {
@@ -170,11 +177,12 @@ export async function book(
   actor: Actor,
   input: { serviceId: string; start: string; note: string; requestKey: string },
 ) {
+  if (actor.organization_id !== ORG) throw new BookingError("Organization not found.", 404);
   try {
     return await db.transaction(async (tx) => {
       const [prior] = await tx.query<Appointment>(
-        "SELECT * FROM reserve_appointments WHERE client_id=$1 AND request_key=$2",
-        [actor.id, input.requestKey],
+        "SELECT * FROM reserve_appointments WHERE client_id=$1 AND request_key=$2 AND organization_id=$3",
+        [actor.id, input.requestKey, actor.organization_id],
       );
       if (prior) {
         if (
@@ -188,11 +196,12 @@ export async function book(
           );
         return prior;
       }
-      const s = await service(tx, input.serviceId),
-        start = await validateTime(tx, s, input.start),
+      const s = await service(tx, input.serviceId);
+      if (s.organization_id !== actor.organization_id) throw new BookingError("This service is not available.", 404);
+      const start = await validateTime(tx, s, input.start),
         id = randomUUID();
       const [a] = await tx.query<Appointment>(
-        `INSERT INTO reserve_appointments(id,client_id,provider_id,service_id,starts_at,ends_at,busy_until,price,note,request_key,original_start) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$5) RETURNING *`,
+        `INSERT INTO reserve_appointments(id,client_id,provider_id,service_id,starts_at,ends_at,busy_until,price,note,request_key,original_start,organization_id,location_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$5,$11,$12) RETURNING *`,
         [
           id,
           actor.id,
@@ -207,12 +216,14 @@ export async function book(
           s.price,
           input.note,
           input.requestKey,
+          actor.organization_id,
+          s.location_id,
         ],
       );
       await occupy(tx, a, start, s.minutes + s.buffer);
       await tx.query(
-        "INSERT INTO reserve_audit(actor_id,appointment_id,action) VALUES($1,$2,'booked')",
-        [actor.id, id],
+        "INSERT INTO reserve_audit(actor_id,appointment_id,action,organization_id) VALUES($1,$2,'booked',$3)",
+        [actor.id, id, actor.organization_id],
       );
       return a;
     });
@@ -226,11 +237,12 @@ export async function change(
   id: string,
   input: { action: "cancel" | "reschedule"; start?: string; revision: number },
 ) {
+  if (actor.organization_id !== ORG) throw new BookingError("Organization not found.", 404);
   try {
     return await db.transaction(async (tx) => {
       const [a] = await tx.query<Appointment>(
-        "SELECT * FROM reserve_appointments WHERE id=$1 FOR UPDATE",
-        [id],
+        "SELECT * FROM reserve_appointments WHERE id=$1 AND organization_id=$2 FOR UPDATE",
+        [id, actor.organization_id],
       );
       if (!a || !canAccess(actor, a))
         throw new BookingError("Appointment not found.", 404);
@@ -259,12 +271,12 @@ export async function change(
         };
         start = await validateTime(tx, s, input.start);
         await tx.query(
-          "DELETE FROM reserve_occupancy WHERE appointment_id=$1",
-          [id],
+          "DELETE FROM reserve_occupancy WHERE appointment_id=$1 AND organization_id=$2",
+          [id, actor.organization_id],
         );
         await occupy(tx, a, start, s.minutes + s.buffer);
         await tx.query(
-          "UPDATE reserve_appointments SET starts_at=$1,ends_at=$2,busy_until=$3,revision=revision+1 WHERE id=$4",
+          "UPDATE reserve_appointments SET starts_at=$1,ends_at=$2,busy_until=$3,revision=revision+1 WHERE id=$4 AND organization_id=$5",
           [
             start.toUTC().toISO(),
             start.plus({ minutes: s.minutes }).toUTC().toISO(),
@@ -273,26 +285,27 @@ export async function change(
               .toUTC()
               .toISO(),
             id,
+            actor.organization_id,
           ],
         );
       } else {
         await tx.query(
-          "DELETE FROM reserve_occupancy WHERE appointment_id=$1",
-          [id],
+          "DELETE FROM reserve_occupancy WHERE appointment_id=$1 AND organization_id=$2",
+          [id, actor.organization_id],
         );
         await tx.query(
-          "UPDATE reserve_appointments SET status='cancelled',revision=revision+1 WHERE id=$1",
-          [id],
+          "UPDATE reserve_appointments SET status='cancelled',revision=revision+1 WHERE id=$1 AND organization_id=$2",
+          [id, actor.organization_id],
         );
       }
       await tx.query(
-        "INSERT INTO reserve_audit(actor_id,appointment_id,action) VALUES($1,$2,$3)",
-        [actor.id, id, input.action],
+        "INSERT INTO reserve_audit(actor_id,appointment_id,action,organization_id) VALUES($1,$2,$3,$4)",
+        [actor.id, id, input.action, actor.organization_id],
       );
       return (
         await tx.query<Appointment>(
-          "SELECT * FROM reserve_appointments WHERE id=$1",
-          [id],
+          "SELECT * FROM reserve_appointments WHERE id=$1 AND organization_id=$2",
+          [id, actor.organization_id],
         )
       )[0];
     });
@@ -301,19 +314,20 @@ export async function change(
   }
 }
 export async function visits(db: Queryable, actor: Actor, studio = false) {
+  if (actor.organization_id !== ORG) throw new BookingError("Organization not found.", 404);
   if (studio && actor.role === "client")
     throw new BookingError("Studio access is required.", 403);
   const where = studio
     ? actor.role === "owner"
-      ? "TRUE"
-      : "a.provider_id=$1"
-    : "a.client_id=$1";
+      ? "a.organization_id=$1"
+      : "a.organization_id=$1 AND a.provider_id=$2"
+    : "a.organization_id=$1 AND a.client_id=$2";
   const values =
     studio && actor.role === "owner"
-      ? []
-      : [studio ? actor.provider_id : actor.id];
+      ? [actor.organization_id]
+      : [actor.organization_id, studio ? actor.provider_id : actor.id];
   return db.query<Appointment>(
-    `SELECT a.*,s.name AS service_name,u.name AS client_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id JOIN reserve_users u ON u.id=a.client_id WHERE ${where} ORDER BY a.starts_at DESC LIMIT 100`,
+    `SELECT a.*,s.name AS service_name,u.name AS client_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id AND s.organization_id=a.organization_id JOIN reserve_users u ON u.id=a.client_id AND u.organization_id=a.organization_id WHERE ${where} ORDER BY a.starts_at DESC LIMIT 100`,
     values,
   );
 }

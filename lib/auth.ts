@@ -1,3 +1,4 @@
+import { RESERVE_ORGANIZATION_ID as ORG } from "./tenancy";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { createHash, randomBytes } from "node:crypto";
@@ -35,17 +36,18 @@ export async function currentUser(): Promise<Actor | null> {
     } = await (await supabase()).auth.getUser();
     if (!user) return null;
     await db.query(
-      "INSERT INTO reserve_users(id,name,email) VALUES($1,$2,$3) ON CONFLICT(id) DO NOTHING",
+      "INSERT INTO reserve_users(id,name,email,organization_id) VALUES($1,$2,$3,$4) ON CONFLICT(id) DO NOTHING",
       [
         user.id,
         user.user_metadata?.name || user.email?.split("@")[0] || "Guest",
         user.email || `${user.id}@private.reserve`,
+        ORG,
       ],
     );
     return (
       (
-        await db.query<Actor>("SELECT * FROM reserve_users WHERE id=$1", [
-          user.id,
+        await db.query<Actor>("SELECT * FROM reserve_users WHERE id=$1 AND organization_id=$2", [
+          user.id, ORG,
         ])
       )[0] || null
     );
@@ -57,8 +59,8 @@ export async function currentUser(): Promise<Actor | null> {
   return (
     (
       await db.query<Actor>(
-        "SELECT u.* FROM reserve_users u JOIN reserve_sessions s ON s.user_id=u.id WHERE s.token_hash=$1 AND s.expires_at>now()",
-        [hash],
+        "SELECT u.* FROM reserve_users u JOIN reserve_sessions s ON s.user_id=u.id WHERE s.token_hash=$1 AND s.expires_at>now() AND u.organization_id=$2 AND s.organization_id=u.organization_id",
+        [hash, ORG],
       )
     )[0] || null
   );

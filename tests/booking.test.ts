@@ -4,13 +4,14 @@ import { randomUUID } from "node:crypto";
 import { PGlite } from "@electric-sql/pglite";
 import { DateTime } from "luxon";
 import { wrapPglite, schema, seed, isPreview, type Database } from "../lib/db";
-import { book, change, visits, availability, type Actor } from "../lib/booking";
+import { book, change, visits, availability, catalog, type Actor } from "../lib/booking";
 let pg: PGlite, db: Database;
 const client: Actor = {
   id: "preview-client",
   name: "Jordan",
   email: "jordan@preview.invalid",
   role: "client",
+  organization_id: "reserve-at-sanctum",
   provider_id: null,
 };
 const other: Actor = {
@@ -18,6 +19,7 @@ const other: Actor = {
   name: "Morgan",
   email: "morgan@preview.invalid",
   role: "client",
+  organization_id: "reserve-at-sanctum",
   provider_id: null,
 };
 const staff: Actor = {
@@ -25,6 +27,7 @@ const staff: Actor = {
   name: "Katie",
   email: "katie@preview.invalid",
   role: "staff",
+  organization_id: "reserve-at-sanctum",
   provider_id: "katie",
 };
 let offset = 1;
@@ -196,4 +199,19 @@ test("production never accepts the development preview flag", () => {
     if (flag === undefined) delete env.RESERVE_DEV_PREVIEW;
     else env.RESERVE_DEV_PREVIEW = flag;
   }
+});
+test("a second organization's records remain outside the Reserve and cross-organization references fail", async () => {
+  await db.query("INSERT INTO reserve_organizations(id,name,brand_key) VALUES('another-shop','Another shop','other')");
+  await db.query("INSERT INTO reserve_locations(id,organization_id,name,time_zone) VALUES('another-location','another-shop','Another location','America/Chicago')");
+  await db.query("INSERT INTO reserve_providers(id,organization_id,location_id,name,enabled) VALUES('other-provider','another-shop','another-location','Other provider',true)");
+  await db.query("INSERT INTO reserve_users(id,name,email,organization_id) VALUES('other-client','Other client','other@another.invalid','another-shop')");
+  await db.query("INSERT INTO reserve_services(id,provider_id,organization_id,location_id,name,description,minutes,price,enabled) VALUES('other-service','other-provider','another-shop','another-location','Private','',45,1000,true)");
+  assert.ok(!(await catalog(db)).some((s) => s.id === "other-service"));
+  const foreignActor: Actor = { ...client, id: "other-client", organization_id: "another-shop" };
+  await assert.rejects(book(db, foreignActor, input(time())), /Organization not found/);
+  await assert.rejects(visits(db, foreignActor, true), /Organization not found/);
+  await assert.rejects(
+    db.query("INSERT INTO reserve_services(id,provider_id,name,description,minutes,price,organization_id,location_id) VALUES('bad-link','other-provider','Invalid','',45,1000,'reserve-at-sanctum','eunice-sanctum')"),
+    /foreign key constraint/,
+  );
 });

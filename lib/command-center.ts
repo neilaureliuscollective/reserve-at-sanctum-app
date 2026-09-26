@@ -1,3 +1,4 @@
+import { RESERVE_ORGANIZATION_ID as ORG } from "./tenancy";
 import { randomUUID } from "node:crypto";
 import { DateTime } from "luxon";
 import type { Actor, Appointment } from "./booking";
@@ -34,7 +35,7 @@ export type CommandPulse = {
 };
 
 export function requireOperator(actor: Actor) {
-  if (actor.role !== "owner" && actor.role !== "staff")
+  if (actor.organization_id !== ORG || (actor.role !== "owner" && actor.role !== "staff"))
     throw new BookingError("Reserve Command access is required.", 403);
 }
 
@@ -52,21 +53,21 @@ export async function commandCenter(db: Queryable, actor: Actor) {
 
   const [todayRows, weekRows, nextRows] = await Promise.all([
     db.query<{ count: string }>(
-      "SELECT count(*)::text AS count FROM reserve_appointments WHERE status='confirmed' AND starts_at >= $1 AND starts_at < $2",
-      [todayStart, tomorrow],
+      "SELECT count(*)::text AS count FROM reserve_appointments WHERE organization_id=$3 AND status='confirmed' AND starts_at >= $1 AND starts_at < $2",
+      [todayStart, tomorrow, actor.organization_id],
     ),
     db.query<{ count: string }>(
-      "SELECT count(*)::text AS count FROM reserve_appointments WHERE status='confirmed' AND starts_at >= $1 AND starts_at <= $2",
-      [now.toUTC().toISO(), sevenDays],
+      "SELECT count(*)::text AS count FROM reserve_appointments WHERE organization_id=$3 AND status='confirmed' AND starts_at >= $1 AND starts_at <= $2",
+      [now.toUTC().toISO(), sevenDays, actor.organization_id],
     ),
     db.query<Appointment & { service_name?: string; client_name?: string }>(
       `SELECT a.*,s.name AS service_name,u.name AS client_name
        FROM reserve_appointments a
-       JOIN reserve_services s ON s.id=a.service_id
-       JOIN reserve_users u ON u.id=a.client_id
-       WHERE a.status='confirmed' AND a.starts_at >= $1
+       JOIN reserve_services s ON s.id=a.service_id AND s.organization_id=a.organization_id
+       JOIN reserve_users u ON u.id=a.client_id AND u.organization_id=a.organization_id
+       WHERE a.organization_id=$2 AND a.status='confirmed' AND a.starts_at >= $1
        ORDER BY a.starts_at ASC LIMIT 1`,
-      [now.toUTC().toISO()],
+      [now.toUTC().toISO(), actor.organization_id],
     ),
   ]);
 
@@ -76,12 +77,14 @@ export async function commandCenter(db: Queryable, actor: Actor) {
     items = await db.query<WorkspaceItem>(
       `SELECT w.*,creator.name AS creator_name,updater.name AS updater_name
        FROM reserve_workspace_items w
-       JOIN reserve_users creator ON creator.id=w.created_by
-       JOIN reserve_users updater ON updater.id=w.updated_by
+       JOIN reserve_users creator ON creator.id=w.created_by AND creator.organization_id=w.organization_id
+       JOIN reserve_users updater ON updater.id=w.updated_by AND updater.organization_id=w.organization_id
+       WHERE w.organization_id=$1
        ORDER BY
          CASE w.status WHEN 'review' THEN 0 WHEN 'building' THEN 1 WHEN 'captured' THEN 2 ELSE 3 END,
          w.updated_at DESC
        LIMIT 120`,
+      [actor.organization_id],
     );
   } catch (error) {
     if (!missingWorkspaceTable(error)) throw error;
@@ -117,10 +120,10 @@ export async function createWorkspaceItem(
   try {
     const [item] = await db.query<WorkspaceItem>(
       `INSERT INTO reserve_workspace_items
-       (id,kind,lane,title,detail,assignee,status,created_by,updated_by)
-       VALUES($1,$2,$3,$4,$5,$6,'captured',$7,$7)
+       (id,kind,lane,title,detail,assignee,status,created_by,updated_by,organization_id)
+       VALUES($1,$2,$3,$4,$5,$6,'captured',$7,$7,$8)
        RETURNING *`,
-      [id, input.kind, input.lane, input.title, input.detail, input.assignee, actor.id],
+      [id, input.kind, input.lane, input.title, input.detail, input.assignee, actor.id, actor.organization_id],
     );
     return item;
   } catch (error) {
@@ -143,8 +146,8 @@ export async function updateWorkspaceItem(
 ) {
   requireOperator(actor);
   const [existing] = await db.query<WorkspaceItem>(
-    "SELECT * FROM reserve_workspace_items WHERE id=$1",
-    [id],
+    "SELECT * FROM reserve_workspace_items WHERE id=$1 AND organization_id=$2",
+    [id, actor.organization_id],
   );
   if (!existing) throw new BookingError("That Build Room item no longer exists.", 404);
   const status = input.status ?? existing.status;
@@ -154,8 +157,8 @@ export async function updateWorkspaceItem(
   const [updated] = await db.query<WorkspaceItem>(
     `UPDATE reserve_workspace_items
      SET status=$1,assignee=$2,title=$3,detail=$4,updated_by=$5,updated_at=now()
-     WHERE id=$6 RETURNING *`,
-    [status, assignee, title, detail, actor.id, id],
+     WHERE id=$6 AND organization_id=$7 RETURNING *`,
+    [status, assignee, title, detail, actor.id, id, actor.organization_id],
   );
   return updated;
 }

@@ -12,6 +12,7 @@ const staff: Actor = {
   name: "Katie",
   email: "katie@preview.invalid",
   role: "staff",
+  organization_id: "reserve-at-sanctum",
   provider_id: "katie",
 };
 const client: Actor = {
@@ -19,6 +20,7 @@ const client: Actor = {
   name: "Jordan",
   email: "jordan@preview.invalid",
   role: "client",
+  organization_id: "reserve-at-sanctum",
   provider_id: null,
 };
 let day = DateTime.now()
