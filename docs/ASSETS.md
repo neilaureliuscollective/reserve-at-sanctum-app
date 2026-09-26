@@ -29,3 +29,20 @@ It is a stylized geographic silhouette, not surveying or navigation data.
 
 Cormorant Garamond and Manrope are bundled through Fontsource; their license
 files are included in their npm packages. Interface icons are from Lucide.
+
+## September 26 founder artwork and collection previews
+
+Neil supplied three emblem images and five product mockups for the cinematic homepage. The input files were named `.png` but contain JPEG data. The derived WebP files in `public/images/approved/` were converted with Sharp at quality 88; the source artwork, logos, labels, and packaging were not redrawn or relabeled. The original conversation attachments are the source of truth. Visual review should compare every rendered logo and label against them.
+
+| Derived file | Supplied source | Usage |
+| --- | --- | --- |
+| `reserve-at-sanctum.webp` | `735.png` | Reserve host crest in arrival and footer |
+| `fix-it-shop.webp` | `616.png` | Katie/Fix It Shop identity |
+| `gent-ascend-collective.webp` | `796.png` | Neil/Gent Ascend Collective identity |
+| `vitalis.webp` | `532.png` | Legacy Reserve Vitalis concept package |
+| `ascend.webp` | `533.png` | Legacy Reserve ASCEND concept package |
+| `hydros.webp` | `534.png` | Legacy Reserve HYDROS concept package |
+| `obsidian-wash.webp` | `535.png` | Legacy Reserve Obsidian Wash concept package |
+| `obsidian-creme.webp` | `536.png` | Legacy Reserve Obsidian Crème concept package |
+
+The five images are product mockups, not verified photographs of retail stock. The site describes them as collection previews. No product purchase flow, live prices, stock status, or claims beyond the printed concept labels are inferred from these images. The environmental scenes remain concept imagery with visible labels until real location and founder photography can replace them. The unchanged hero composition retains its previous concept background; its Reserve emblem now uses the supplied crest.

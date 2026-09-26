@@ -5,9 +5,9 @@ import { Pause, Play } from "lucide-react";
 import { useRef, useState } from "react";
 
 const marks = {
-  reserve: { src: "/images/reserve-petrol-official.webp", alt: "The Reserve at Sanctum official petrol and gold Louisiana crest", name: "The Reserve at Sanctum" },
-  fix: { src: "/images/fix-it-official.jpg", alt: "Fix It Shop emblem", name: "Fix It Shop" },
-  gent: { src: "/images/gent-ascend-official.jpg", alt: "GENT Ascend Collective emblem", name: "GENT Ascend Collective" },
+  reserve: { src: "/images/approved/reserve-at-sanctum.webp", alt: "The Reserve at Sanctum official petrol and gold Louisiana crest", name: "The Reserve at Sanctum" },
+  fix: { src: "/images/approved/fix-it-shop.webp", alt: "Fix It Shop emblem", name: "Fix It Shop" },
+  gent: { src: "/images/approved/gent-ascend-collective.webp", alt: "Gent Ascend Collective emblem", name: "Gent Ascend Collective" },
 } as const;
 
 type Props = { brand: keyof typeof marks; className?: string; priority?: boolean; controls?: boolean; ambient?: boolean };
