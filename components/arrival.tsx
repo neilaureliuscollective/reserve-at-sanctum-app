@@ -36,7 +36,7 @@ export function Arrival() {
           With room to become more, together.
         </p>
         <div className="hero-actions">
-          <a className="button button-gold" href="#begin">
+          <a className="button button-gold" href="#your-way">
             Find your way in <ArrowUpRight size={18} />
           </a>
           <Link className="text-link" href="/book">
