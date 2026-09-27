@@ -41,6 +41,10 @@ export function GentDirector() {
       const p = clamp(-rect.top / Math.max(1, rect.height - window.innerHeight));
       const values = [1 - ramp(p, .16, .34), Math.min(ramp(p, .17, .36), 1 - ramp(p, .52, .70)), ramp(p, .53, .76)];
       values.forEach((value, index) => stage.style.setProperty("--scene-" + (index + 1), value.toFixed(4)));
+      const firstGate = Math.min(ramp(p, .19, .27), 1 - ramp(p, .29, .38));
+      const secondGate = Math.min(ramp(p, .54, .62), 1 - ramp(p, .64, .74));
+      stage.style.setProperty("--gate", Math.max(firstGate, secondGate).toFixed(4));
+      stage.style.setProperty("--camera", p.toFixed(4));
       const next = p < .28 ? 0 : p < .64 ? 1 : 2;
       if (next !== active) {
         active = next;

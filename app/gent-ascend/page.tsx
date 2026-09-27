@@ -41,6 +41,7 @@ export default function Page() {
           <div className="gent-film__copy"><span className="gent-kicker">{scene.number}</span><h2>{scene.title}</h2><p>{scene.body}</p>{index === 0 && <Link href="/sanctum-mirror" className="gent-link">Enter the Sanctum Mirror <ArrowUpRight size={17} /></Link>}</div>
           <small className="gent-film__concept">ILLUSTRATIVE CONCEPT · NOT AN ACTUAL CLIENT OR LOCATION</small>
         </article>)}
+        <div className="gent-film__portal" aria-hidden="true"><i /><i /></div>
         <div className="gent-film__progress" aria-hidden="true"><i /><i /><i /></div>
       </div>
     </section>
