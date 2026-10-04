@@ -22,8 +22,8 @@ export function Visits({
     [slots, setSlots] = useState<{ start: string; label: string }[]>([]),
     [selected, setSelected] = useState(""),
     [busy, setBusy] = useState(false),
-    [view, setView] = useState<"visits" | "calendar">("visits"),
-    [filter, setFilter] = useState(""),
+    [view, setView] = useState<"visits" | "calendar">(studio && actor.role === "staff" ? "calendar" : "visits"),
+    [filter, setFilter] = useState(studio && actor.role === "staff" ? DateTime.now().setZone("America/Chicago").toISODate()! : ""),
     [message, setMessage] = useState("");
   async function load() {
     const r = await fetch(`/api/appointments${studio ? "?studio=true" : ""}`);
@@ -266,6 +266,7 @@ export function Visits({
                     <small>{dt.toFormat("ccc")}</small>
                   </div>
                   <div className="appointment-content">
+                    {!studio && <Link href={`/my-visit?visit=${encodeURIComponent(a.id)}`} className="text-link">Open your visit & preparation ↗</Link>}
                     <div className="appointment-top">
                       <h3>{a.service_name}</h3>
                       <span className={`status ${a.status}`}>{a.status}</span>

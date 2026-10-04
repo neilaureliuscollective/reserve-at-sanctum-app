@@ -1,8 +1,11 @@
+import { VisitContext } from "@/components/experience/visit-context";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { KatieDirector, KatiePreferencePreview } from "@/components/katie-journey";
 import "./katie-cinema.css";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Fix It Shop · Katie Guidry",
@@ -15,18 +18,20 @@ const chapters = [
   { number: "03 / THE RETURN", title: <>Leave ready<br /><em>for what’s next.</em></>, body: "A look that fits your life, and a little more clarity about how to keep it. Come back as yourself; Katie remembers what matters with your permission.", image: "/images/katie/departure.webp", alt: "Illustrative anonymous view of a man leaving a salon chair" },
 ];
 
-export default function Page() {
+export default async function Page() {
   return <main id="main" className="brand-page katie-cinema">
     <section className="katie-hero" aria-labelledby="katie-title">
       <Image src="/images/katie/private-chair.webp" alt="" fill priority sizes="100vw" className="katie-hero__image" />
       <div className="katie-hero__shade" aria-hidden="true" />
       <div className="katie-hero__content">
-        <Link href="/" className="katie-back"><ArrowLeft size={15} /> THE RESERVE AT SANCTUM</Link>
+        <Link href="/home" className="katie-back"><ArrowLeft size={15} /> THE RESERVE AT SANCTUM</Link>
         <div className="katie-hero__identity"><Image src="/images/cinematic/fix-it-seal.webp" alt="Fix It Shop emblem" width={94} height={94} /><span>FIX IT SHOP<br /><small>KATIE GUIDRY · MEN’S SALON</small></span></div>
         <p className="katie-kicker">A WORLD WITHIN THE RESERVE · EUNICE, LOUISIANA</p>
-        <h1 id="katie-title">The chair is yours.<br /><em>The details are hers.</em></h1>
+        <h1 id="katie-title">It’s Never<br /><em>Just a Haircut.</em></h1>
         <p className="katie-hero__lead">A visit built around how you want to look, how you want to spend the time, and the life waiting when you leave.</p>
-        <div className="katie-actions"><a href="#experience" className="button button-gold">Step into Katie’s world <ArrowUpRight size={17} /></a><Link href="/book" className="katie-link">Explore visits <ArrowUpRight size={17} /></Link></div>
+        <div className="katie-actions"><Link href="/chair" className="button button-gold">Get your chair ready <ArrowUpRight size={17} /></Link><Link href="/book" className="katie-link">Explore visits <ArrowUpRight size={17} /></Link></div>
+        <VisitContext providerId="katie" compact />
+        <a href="#experience" className="provider-explore">Explore Katie’s approach ↓</a>
       </div>
       <span className="katie-concept">VISUAL CONCEPT · NOT A PHOTOGRAPH OF THE FINISHED LOCATION</span>
       <span className="katie-hero__rail" aria-hidden="true">SCROLL TO ENTER / 01</span>
@@ -58,6 +63,6 @@ export default function Page() {
 
     <section className="katie-discretion" aria-labelledby="discretion-title"><span className="katie-kicker">THE WAY KATIE WORKS</span><h2 id="discretion-title">The visit belongs<br /><em>to the person in the chair.</em></h2><p>That is why this page shows a concept of the experience instead of a gallery of clients. The imagery illustrates the setting and process; it does not claim to show Katie, her finished space, or her work.</p></section>
 
-    <nav className="katie-outro" aria-label="Continue exploring"><Link href="/" className="katie-link">Return to the Reserve <ArrowUpRight size={17} /></Link><Link href="/gent-ascend" className="katie-link">Explore Neil’s world <ArrowUpRight size={17} /></Link></nav>
+    <nav className="katie-outro" aria-label="Continue exploring"><Link href="/home" className="katie-link">Return to the Reserve <ArrowUpRight size={17} /></Link><Link href="/gent-ascend" className="katie-link">Explore Neil’s world <ArrowUpRight size={17} /></Link></nav>
   </main>;
 }

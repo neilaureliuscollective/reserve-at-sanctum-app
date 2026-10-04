@@ -1,6 +1,7 @@
+import { TaskEnvironment } from "@/components/experience/task-environment";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { isPreview } from "@/lib/db";
+import { currentUser } from "@/lib/auth";
 import { SanctumMirror } from "@/components/sanctum-mirror";
 
 export const dynamic = "force-dynamic";
@@ -9,11 +10,13 @@ export const metadata = {
   description: "Create your private GENT Ascend Grooming Blueprint before your visit.",
 };
 
-export default function Page() {
+export default async function Page() {
+  const actor = await currentUser();
   return (
-    <main id="main" className="mirror-page">
+    <main id="main" className="mirror-page task-world task-world--mirror">
+      <TaskEnvironment world="mirror" />
       <Link href="/gent-ascend" className="mirror-back"><ArrowLeft size={15} /> GENT ASCEND COLLECTIVE</Link>
-      <SanctumMirror preview={isPreview()} />
+      <SanctumMirror user={actor ? {id: actor.id} : null} />
     </main>
   );
 }

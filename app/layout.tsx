@@ -53,6 +53,7 @@ import "./living-emblems.css";
 import "./reserve-identity.css";
 import { ExperienceChrome } from "@/components/experience/chrome";
 import "./experience.css";
+import "./visit-continuity.css";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/supabase-config";

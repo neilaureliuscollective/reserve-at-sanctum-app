@@ -21,11 +21,12 @@ export default function Page() {
       <Image src="/images/neil/consultation-room.webp" alt="" fill priority sizes="100vw" className="gent-gateway__art" />
       <div className="gent-gateway__shade" aria-hidden="true" />
       <div className="gent-gateway__copy">
-        <Link href="/" className="gent-back"><ArrowLeft size={15} /> THE RESERVE AT SANCTUM</Link>
+        <Link href="/home" className="gent-back"><ArrowLeft size={15} /> THE RESERVE AT SANCTUM</Link>
         <span className="gent-kicker">NEIL STUTES · GROOMING DIRECTION · EUNICE, LOUISIANA</span>
         <h1 id="gent-title">Know your direction.<br /><em>Carry it daily.</em></h1>
         <p>GENT Ascend connects a private conversation, a personal grooming Blueprint, and the rituals that continue beyond the room.</p>
-        <div className="gent-gateway__actions"><a href="#the-journey" className="button button-gold">Enter Neil’s world <ArrowUpRight size={17} /></a><Link href="/sanctum-mirror" className="gent-link">Begin the Mirror <ArrowUpRight size={17} /></Link></div>
+        <div className="gent-gateway__actions"><Link href="/sanctum-mirror" className="button button-gold">Begin the Mirror <ArrowUpRight size={17} /></Link><Link href="/my-sanctum" className="gent-link">Your saved direction <ArrowUpRight size={17} /></Link></div>
+        <a href="#the-journey" className="provider-explore">Explore Neil’s approach ↓</a>
       </div>
       <div className="gent-gateway__seal"><Image src="/images/cinematic/gent-ascend-seal.webp" alt="GENT Ascend Collective emblem" fill sizes="(max-width: 650px) 44vw, 30vw" /></div>
       <small className="gent-gateway__concept">CONCEPT ENVIRONMENT · NOT A PHOTOGRAPH OF THE FINISHED LOCATION</small>
@@ -48,7 +49,7 @@ export default function Page() {
 
     <section id="mirror" className="gent-blueprint" aria-labelledby="blueprint-title">
       <div className="gent-blueprint__visual" aria-hidden="true"><span className="gent-blueprint__arc" /><span className="gent-blueprint__line" /><span className="gent-blueprint__point gent-blueprint__point--one" /><span className="gent-blueprint__point gent-blueprint__point--two" /><span className="gent-blueprint__point gent-blueprint__point--three" /><div className="gent-blueprint__words"><span>HAIR</span><span>BEARD</span><span>SKIN</span><span>RITUAL</span></div></div>
-      <div className="gent-blueprint__copy"><span className="gent-kicker">04 / THE SANCTUM MIRROR</span><h2 id="blueprint-title">A starting point<br /><em>that belongs to you.</em></h2><p>Use guided camera framing and your stated priorities to make a first grooming Blueprint. Your photographs are not retained or analyzed. You choose whether to save the profile to your Reserve account.</p><Link href="/sanctum-mirror" className="button button-gold">Build my Blueprint <ArrowUpRight size={17} /></Link></div>
+      <div className="gent-blueprint__copy"><span className="gent-kicker">04 / THE SANCTUM MIRROR</span><h2 id="blueprint-title">A starting point<br /><em>that belongs to you.</em></h2><p>Use your stated priorities to make a first grooming Blueprint. No photographs are taken, retained, or analyzed. You choose whether to save the profile to your Reserve account.</p><Link href="/sanctum-mirror" className="button button-gold">Build my Blueprint <ArrowUpRight size={17} /></Link></div>
     </section>
 
     <section id="collection" className="gent-collection" aria-labelledby="collection-title">
