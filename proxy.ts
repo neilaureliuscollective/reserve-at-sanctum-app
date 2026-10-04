@@ -21,7 +21,8 @@ export async function proxy(request: NextRequest) {
       },
     },
   });
-  await client.auth.getClaims();
+  try { await client.auth.getClaims(); }
+  catch { /* Transport failure must not break public browsing. Private routes still verify getUser. */ }
   response.headers.set("Cache-Control", "private, no-store");
   return response;
 }

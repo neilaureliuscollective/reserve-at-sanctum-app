@@ -73,7 +73,7 @@ export function MySanctum({ name, userId }: { name: string; userId: string }) {
           </section>
           <section className="sanctum-dashboard-grid">
             <article><span className="dashboard-icon"><Sparkles /></span><p className="eyebrow">YOUR RITUAL</p><h3>Daily foundation</h3><ol>{profile.blueprint.ritual.map((item) => <li key={item}>{item}</li>)}</ol></article>
-            <article><span className="dashboard-icon"><CalendarDays /></span><p className="eyebrow">THE RESERVE</p><h3>Your next visit</h3><p>Bring your saved Blueprint into the conversation and refine the direction in person.</p><Link href="/my-visit" className="text-link">Open your visit & ongoing care <ArrowUpRight size={16} /></Link></article>
+            <article><span className="dashboard-icon"><CalendarDays /></span><p className="eyebrow">THE RESERVE</p><h3>Your next visit</h3><p>Bring your saved Blueprint into the conversation and refine the direction in person.</p><Link prefetch={false} href="/my-visit" className="text-link">Open your visit & ongoing care <ArrowUpRight size={16} /></Link></article>
             <article><span className="dashboard-icon"><Clock3 /></span><p className="eyebrow">YOUR DAILY TIME</p><h3>{profile.maintenance}</h3><p>The daily effort you chose for your grooming routine. Refine it with your grooming professional.</p></article>
           </section>
         </>

@@ -25,7 +25,7 @@ export default function Page() {
         <span className="gent-kicker">NEIL STUTES · GROOMING DIRECTION · EUNICE, LOUISIANA</span>
         <h1 id="gent-title">Know your direction.<br /><em>Carry it daily.</em></h1>
         <p>GENT Ascend connects a private conversation, a personal grooming Blueprint, and the rituals that continue beyond the room.</p>
-        <div className="gent-gateway__actions"><Link href="/sanctum-mirror" className="button button-gold">Begin the Mirror <ArrowUpRight size={17} /></Link><Link href="/my-sanctum" className="gent-link">Your saved direction <ArrowUpRight size={17} /></Link></div>
+        <div className="gent-gateway__actions"><Link href="/sanctum-mirror" className="button button-gold">Begin the Mirror <ArrowUpRight size={17} /></Link><Link prefetch={false} href="/my-sanctum" className="gent-link">Your saved direction <ArrowUpRight size={17} /></Link></div>
         <a href="#the-journey" className="provider-explore">Explore Neil’s approach ↓</a>
       </div>
       <div className="gent-gateway__seal"><Image src="/images/cinematic/gent-ascend-seal.webp" alt="GENT Ascend Collective emblem" fill sizes="(max-width: 650px) 44vw, 30vw" /></div>

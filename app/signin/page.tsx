@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { safeDestination } from "@/lib/experience/entry";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/auth";
@@ -27,6 +28,7 @@ export default async function Page({
   return (
     <main id="main" className="inner-page section signin-page">
       <div>
+        <Image src="/brand/reserve-rs-v1/rs-gold.svg" width={80} height={80} alt="The Reserve RS signature" priority />
         <p className="eyebrow">YOUR PLACE AT THE RESERVE</p>
         <h1>
           Welcome <em>back.</em>

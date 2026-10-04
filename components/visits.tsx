@@ -146,12 +146,12 @@ export function Visits({
         <div className="workspace-links">
           {studio && (actor.role === "owner" || actor.provider_id === "katie") && <a className="text-link" href="#chair-studio">Chair check-ins <ArrowUpRight size={16} /></a>}
           {!studio && (
-            <Link className="text-link" href="/my-sanctum">
+            <Link prefetch={false} className="text-link" href="/my-sanctum">
               My Sanctum <ArrowUpRight size={16} />
             </Link>
           )}
           {!studio && actor.role !== "client" && (
-            <Link className="text-link" href="/studio">
+            <Link prefetch={false} className="text-link" href="/studio">
               Studio <ArrowUpRight size={16} />
             </Link>
           )}
@@ -164,7 +164,7 @@ export function Visits({
       {preview && (
         <div className="preview-workspace">
           <span>Development environment · synthetic records only</span>
-          <Link href={`/signin?next=${studio ? "/studio" : "/account"}`}>
+          <Link prefetch={false} href={`/signin?next=${studio ? "/studio" : "/account"}`}>
             Switch preview identity <ArrowUpRight size={14} />
           </Link>
         </div>
@@ -266,7 +266,7 @@ export function Visits({
                     <small>{dt.toFormat("ccc")}</small>
                   </div>
                   <div className="appointment-content">
-                    {!studio && <Link href={`/my-visit?visit=${encodeURIComponent(a.id)}`} className="text-link">Open your visit & preparation ↗</Link>}
+                    {!studio && <Link prefetch={false} href={`/my-visit?visit=${encodeURIComponent(a.id)}`} className="text-link">Open your visit & preparation ↗</Link>}
                     <div className="appointment-top">
                       <h3>{a.service_name}</h3>
                       <span className={`status ${a.status}`}>{a.status}</span>

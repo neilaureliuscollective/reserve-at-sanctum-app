@@ -102,3 +102,10 @@ export async function signout() {
     ]);
   jar.delete("reserve_preview");
 }
+
+/** Public presentation must survive an unavailable account/database service.
+ * Never use this optional identity lookup to authorize a private read or write. */
+export async function publicUser(): Promise<Actor | null> {
+  try { return await currentUser(); }
+  catch { return null; }
+}

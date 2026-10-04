@@ -41,7 +41,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ h
             )}
           </>
         ) : (
-          <Link className="button button-gold" href="/signin?next=/setup">
+          <Link prefetch={false} className="button button-gold" href="/signin?next=/setup">
             Sign in to the Reserve
           </Link>
         )}

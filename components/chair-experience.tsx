@@ -467,14 +467,14 @@ export function ChairExperience({
                 </button>
               ) : (
                 <>
-                  <Link
+                  <Link prefetch={false}
                     href="/my-visit"
                     className="button button-gold"
                     onClick={() => trackChair("booking_selected")}
                   >
                     Return to your visit <ArrowRight size={18} />
                   </Link>
-                  <Link href="/my-sanctum" className="text-link">
+                  <Link prefetch={false} href="/my-sanctum" className="text-link">
                     My Reserve profile
                   </Link>
                 </>

@@ -24,7 +24,7 @@ export function Header() {
           href="/"
           onClick={() => setOpen(false)}
         >
-          <Image className="wordmark-seal" src="/images/cinematic/reserve-seal.webp" width={58} height={58} alt="" sizes="58px" />
+          <Image className="wordmark-seal" src="/brand/reserve-rs-v1/rs-gold.svg" width={58} height={58} alt="" sizes="58px" />
           <span>
             <small>THE</small>
             <strong>RESERVE</strong>
@@ -58,10 +58,10 @@ export function Header() {
           <Link href="/visit" onClick={() => setOpen(false)}>
             Visit us
           </Link>
-          <Link href="/my-sanctum" className="mobile-account" onClick={() => setOpen(false)}>My Sanctum</Link>
+          <Link prefetch={false} href="/my-sanctum" className="mobile-account" onClick={() => setOpen(false)}>My Sanctum</Link>
         </nav>
         <div className="header-actions">
-          <Link
+          <Link prefetch={false}
             href="/my-sanctum"
             className="account-link"
             aria-label="Open My Sanctum"

@@ -144,7 +144,7 @@ export function BookingFlow() {
           notification was sent.
         </p>
         <div className="hero-actions">
-          <Link href={`/my-visit?visit=${encodeURIComponent(confirmed)}`} className="button button-gold">
+          <Link prefetch={false} href={`/my-visit?visit=${encodeURIComponent(confirmed)}`} className="button button-gold">
             Prepare your visit <ArrowUpRight size={18} />
           </Link>
           <Link href="/home" className="text-link">
@@ -377,7 +377,7 @@ export function BookingFlow() {
                         Sign in to save this preview appointment and manage your
                         visits.
                       </p>
-                      <Link
+                      <Link prefetch={false}
                         className="button button-gold"
                         href={`/signin?next=${encodeURIComponent(returnPath)}`}
                       >

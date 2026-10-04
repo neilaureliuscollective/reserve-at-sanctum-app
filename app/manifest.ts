@@ -12,9 +12,9 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#070909",
     theme_color: "#163E43",
     icons: [
-      { src: "/reserve-icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "/reserve-icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
-      { src: "/reserve-icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      { src: "/brand/reserve-rs-v1/app-icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/brand/reserve-rs-v1/app-icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/brand/reserve-rs-v1/app-icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
     shortcuts: [
       {
@@ -22,21 +22,21 @@ export default function manifest(): MetadataRoute.Manifest {
         short_name: "Command",
         description: "Open the private Reserve operator workspace.",
         url: "/studio",
-        icons: [{ src: "/reserve-icon-192.png", sizes: "192x192", type: "image/png" }],
+        icons: [{ src: "/brand/reserve-rs-v1/app-icon-192.png", sizes: "192x192", type: "image/png" }],
       },
       {
         name: "Book a Visit",
         short_name: "Book",
         description: "Open Reserve booking.",
         url: "/book",
-        icons: [{ src: "/reserve-icon-192.png", sizes: "192x192", type: "image/png" }],
+        icons: [{ src: "/brand/reserve-rs-v1/app-icon-192.png", sizes: "192x192", type: "image/png" }],
       },
       {
         name: "The Chair",
         short_name: "Chair",
         description: "Open the Chair experience.",
         url: "/chair",
-        icons: [{ src: "/reserve-icon-192.png", sizes: "192x192", type: "image/png" }],
+        icons: [{ src: "/brand/reserve-rs-v1/app-icon-192.png", sizes: "192x192", type: "image/png" }],
       },
     ],
   };

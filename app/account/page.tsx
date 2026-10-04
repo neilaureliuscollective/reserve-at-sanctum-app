@@ -1,3 +1,4 @@
+import { AccountEntrance } from "@/components/experience/account-entrance";
 import { currentUser } from "@/lib/auth";
 import { isPreview } from "@/lib/db";
 import { redirect } from "next/navigation";
@@ -6,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Your visits" };
 export default async function Page() {
   const actor = await currentUser();
-  if (!actor) redirect("/signin?next=/account");
+  if (!actor) return <AccountEntrance next="/account" />;
   if (actor.role === "owner" || actor.role === "staff") redirect("/studio");
   return (
     <main id="main" className="inner-page section workspace-page">

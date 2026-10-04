@@ -2,7 +2,8 @@
 
 The approved Reserve identity uses Sanctum Petrol `#163E43`, Deep Petrol
 `#0C292D`, Obsidian `#070909`, and architectural gold `#C4912F` / `#E0BB6A`.
-The canonical new crest, shared tokens, placement, and scope decisions are in
+The current RS identity, stable public exploration, and dimensional controls are documented in
+[the brand/entry release](docs/BRAND-ENTRY-DEPTH-RELEASE.md). The earlier crest, shared tokens, placement, and scope decisions are in
 [the Reserve identity note](docs/RESERVE-IDENTITY.md). Katie's and Neil's
 independent visual worlds remain intact.
 
