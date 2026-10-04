@@ -30,6 +30,9 @@ export const config = {
   matcher: [
     "/",
     "/home",
+    "/my-visit",
+    "/sanctum-mirror",
+    "/fix-it-shop",
     "/enter",
     "/account/:path*",
     "/chair",
