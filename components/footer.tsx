@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-provenance">
-          <Image className="footer-crest" src="/images/cinematic/reserve-seal.webp" width={100} height={100} alt="" sizes="100px" />
+          <Image className="footer-crest" src="/brand/reserve-rs-v1/rs-gold.svg" width={100} height={100} alt="" sizes="100px" />
           <div>
           <p className="eyebrow">EUNICE, LOUISIANA</p>
           <p className="footer-title">
@@ -23,10 +23,10 @@ export function Footer() {
           <Link href="/gent-ascend">
             GENT Ascend Collective <ArrowUpRight size={16} />
           </Link>
-          <Link href="/account">
+          <Link prefetch={false} href="/account">
             Your visits <ArrowUpRight size={16} />
           </Link>
-          <Link href="/studio">
+          <Link prefetch={false} href="/studio">
             Studio access <ArrowUpRight size={16} />
           </Link>
         </div>

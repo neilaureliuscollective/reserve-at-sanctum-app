@@ -54,10 +54,12 @@ import "./reserve-identity.css";
 import { ExperienceChrome } from "@/components/experience/chrome";
 import "./experience.css";
 import "./visit-continuity.css";
+import "./reserve-controls.css";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/supabase-config";
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.APP_ORIGIN || "https://reserve-at-sanctum-app.vercel.app"),
   title: {
     default: "The Reserve at Sanctum — Small-town roots. A bigger standard.",
     template: "%s · The Reserve at Sanctum",
@@ -65,9 +67,10 @@ export const metadata: Metadata = {
   description:
     "A men’s sanctuary in Eunice, Louisiana. Fix It Shop × GENT Ascend Collective. Personal craft, grooming intelligence, and community.",
   icons: {
-    icon: [{ url: "/reserve-icon-192.png", sizes: "192x192", type: "image/png" }],
-    apple: [{ url: "/reserve-icon-180.png", sizes: "180x180", type: "image/png" }],
+    icon: [{ url: "/brand/reserve-rs-v1/app-icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/brand/reserve-rs-v1/app-icon-180.png", sizes: "180x180", type: "image/png" }],
   },
+  openGraph: { images: [{ url: "/brand/reserve-rs-v1/open-graph.png", width: 1200, height: 630, alt: "The Reserve at Sanctum" }] },
   robots: { index: false, follow: false },
   appleWebApp: {
     capable: true,

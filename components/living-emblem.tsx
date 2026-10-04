@@ -5,7 +5,7 @@ import { Pause, Play } from "lucide-react";
 import { useRef, useState } from "react";
 
 const marks = {
-  reserve: { src: "/images/cinematic/reserve-seal.webp", alt: "The Reserve at Sanctum gold and petrol Louisiana seal", name: "The Reserve at Sanctum" },
+  reserve: { src: "/brand/reserve-rs-v1/hero-ceremonial.webp", alt: "The Reserve at Sanctum RS ceremonial crest", name: "The Reserve at Sanctum" },
   fix: { src: "/images/cinematic/fix-it-seal.webp", alt: "Fix It Shop emblem", name: "Fix It Shop" },
   gent: { src: "/images/cinematic/gent-ascend-seal.webp", alt: "Gent Ascend Collective emblem", name: "Gent Ascend Collective" },
 } as const;

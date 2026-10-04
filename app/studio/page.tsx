@@ -1,6 +1,6 @@
+import { AccountEntrance } from "@/components/experience/account-entrance";
 import { currentUser } from "@/lib/auth";
 import { isPreview } from "@/lib/db";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChairStudio } from "@/components/chair-studio";
 import { canReadChairStudio } from "@/lib/chair-store";
@@ -13,7 +13,7 @@ export const metadata = { title: "Reserve Command" };
 
 export default async function Page() {
   const actor = await currentUser();
-  if (!actor) redirect("/signin?next=/studio");
+  if (!actor) return <AccountEntrance next="/studio" />;
 
   if (actor.role === "client")
     return (
@@ -23,11 +23,11 @@ export default async function Page() {
           A space for <em>the team.</em>
         </h1>
         <p>This account has access to your own visits.</p>
-        <Link className="button button-gold" href="/account">
+        <Link prefetch={false} className="button button-gold" href="/account">
           Your visits
         </Link>
         {isPreview() && (
-          <Link className="text-link" href="/signin?next=/studio">
+          <Link prefetch={false} className="text-link" href="/signin?next=/studio">
             Switch preview identity
           </Link>
         )}
