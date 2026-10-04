@@ -163,6 +163,10 @@ export async function claimCustomer(db: Database, actor: Actor, token: string) {
     );
     if (existing) {
       await tx.query(
+        "UPDATE reserve_orders SET customer_id=$1 WHERE customer_id=$2",
+        [guest.id, existing.id],
+      );
+      await tx.query(
         "UPDATE reserve_appointments SET customer_id=$1 WHERE customer_id=$2",
         [guest.id, existing.id],
       );

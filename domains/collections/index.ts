@@ -41,6 +41,15 @@ export async function collect(db: Database, actor: Actor, raw: unknown) {
     );
     let id: string;
     if (input.action === "record") {
+      const [order] = await tx.query(
+        "SELECT id FROM reserve_orders WHERE appointment_id=$1 AND status<>'void'",
+        [a.id],
+      );
+      if (order)
+        throw new BookingError(
+          "This visit has a commerce order. Collect and reconcile through that order.",
+          409,
+        );
       if (input.method === "external" && !input.reference)
         throw new BookingError("Enter the external receipt reference.");
       const [prior] = await tx.query<{
