@@ -1,53 +1,65 @@
-import { LivingEmblem } from "@/components/living-emblem";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, ArrowLeft, ArrowUpRight, ScanFace, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { GentDirector, GentCollection } from "@/components/gent-world-journey";
+import "./gent-cinema.css";
 
 export const metadata = {
-  title: "GENT Ascend Collective",
-  description: "A living men’s grooming experience—personal consultation, intelligent rituals, products, and an evolving Grooming Blueprint.",
+  title: "GENT Ascend Collective · The Reserve at Sanctum",
+  description: "Enter Neil's grooming world at The Reserve in Eunice: considered consultation, the Sanctum Mirror, and the Legacy Reserve collection preview.",
 };
 
+const scenes = [
+  { number: "01 / THE MIRROR", title: <>Look closer.<br /><em>Choose a direction.</em></>, body: "Start with what matters to you: hair, beard, skin, and the time you are willing to give them. The Sanctum Mirror turns those priorities into a first Grooming Blueprint.", image: "/images/neil/mirror-desk.webp", alt: "Concept of a private grooming consultation desk and mirror" },
+  { number: "02 / THE CONVERSATION", title: <>Make it yours.<br /><em>Make it workable.</em></>, body: "Neil brings grooming direction into the room. The right approach has to fit your day, your maintenance rhythm, and the man you are working to become.", image: "/images/neil/consultation-room.webp", alt: "Concept of a green and gold private consultation room" },
+  { number: "03 / THE RITUAL", title: <>Take the work<br /><em>with you.</em></>, body: "A better routine continues after the visit. Considered products and repeatable habits help carry your direction into ordinary mornings.", image: "/images/reserve-ritual.webp", alt: "Illustrative concept of grooming tools and a daily ritual" },
+];
+
 export default function Page() {
-  return (
-    <main id="main" className="gent-world">
-      <section className="gent-arrival" aria-labelledby="gent-title">
-        <div className="gent-atmosphere" aria-hidden="true"><span /><span /><span /></div>
-        <div className="gent-arrival-copy">
-          <Link href="/" className="back-link"><ArrowLeft size={15} /> THE RESERVE AT SANCTUM</Link>
-          <p className="eyebrow">CHARACTER · DISCIPLINE · ASCENSION</p>
-          <h1 id="gent-title">GENT<span>ASCEND</span><small>COLLECTIVE</small></h1>
-          <p className="gent-promise">Grooming with <em>direction.</em></p>
-          <p>A modern men’s grooming sanctum where personal consultation, intelligent rituals, and the right products become one evolving experience.</p>
-          <div className="gent-actions"><Link href="/sanctum-mirror" className="button button-gold">Discover your Grooming Blueprint <ScanFace size={18} /></Link><a href="#experience" className="text-link">Enter the world <ArrowDown size={17} /></a></div>
-        </div>
-        <div className="gent-emblem"><LivingEmblem brand="gent" priority controls /></div>
-        <div className="gent-arrival-foot"><span>THE RESERVE · EUNICE, LOUISIANA</span><span>YOUR GROOMING, UNDERSTOOD</span></div>
-      </section>
+  return <main id="main" className="gent-cinema">
+    <section className="gent-gateway" aria-labelledby="gent-title">
+      <Image src="/images/neil/consultation-room.webp" alt="" fill priority sizes="100vw" className="gent-gateway__art" />
+      <div className="gent-gateway__shade" aria-hidden="true" />
+      <div className="gent-gateway__copy">
+        <Link href="/home" className="gent-back"><ArrowLeft size={15} /> THE RESERVE AT SANCTUM</Link>
+        <span className="gent-kicker">NEIL STUTES · GROOMING DIRECTION · EUNICE, LOUISIANA</span>
+        <h1 id="gent-title">Know your direction.<br /><em>Carry it daily.</em></h1>
+        <p>GENT Ascend connects a private conversation, a personal grooming Blueprint, and the rituals that continue beyond the room.</p>
+        <div className="gent-gateway__actions"><Link href="/sanctum-mirror" className="button button-gold">Begin the Mirror <ArrowUpRight size={17} /></Link><Link href="/my-sanctum" className="gent-link">Your saved direction <ArrowUpRight size={17} /></Link></div>
+        <a href="#the-journey" className="provider-explore">Explore Neil’s approach ↓</a>
+      </div>
+      <div className="gent-gateway__seal"><Image src="/images/cinematic/gent-ascend-seal.webp" alt="GENT Ascend Collective emblem" fill sizes="(max-width: 650px) 44vw, 30vw" /></div>
+      <small className="gent-gateway__concept">CONCEPT ENVIRONMENT · NOT A PHOTOGRAPH OF THE FINISHED LOCATION</small>
+    </section>
 
-      <nav className="gent-index" aria-label="Explore GENT Ascend">
-        <a href="#experience"><span>01</span> The experience</a><a href="#mirror"><span>02</span> The Sanctum Mirror</a><a href="#ritual"><span>03</span> Your ritual</a>
-      </nav>
+    <GentDirector />
 
-      <section id="experience" className="gent-origin section">
-        <div><p className="eyebrow">A LIVING GROOMING EXPERIENCE</p><h2>Beyond the visit.<br /><em>Built around the man.</em></h2></div>
-        <div className="gent-origin-copy"><p className="lead">The best grooming begins before the chair—and continues long after it.</p><p>GENT Ascend connects the way you present yourself with the ritual required to maintain it. Your profile remembers your direction, your real routine, and what works for you.</p><p>This is not a generic style quiz. It is the beginning of a relationship between your goals, your consultation, your products, and every future visit.</p></div>
-      </section>
+    <section id="the-journey" className="gent-film" aria-label="The GENT Ascend journey">
+      <div className="gent-film__frame">
+        {scenes.map((scene, index) => <article key={scene.number} className={"gent-film__scene gent-film__scene--" + (index + 1)}>
+          <Image src={scene.image} alt={scene.alt} fill sizes="100vw" />
+          <div className="gent-film__shade" aria-hidden="true" />
+          <div className="gent-film__copy"><span className="gent-kicker">{scene.number}</span><h2>{scene.title}</h2><p>{scene.body}</p>{index === 0 && <Link href="/sanctum-mirror" className="gent-link">Enter the Sanctum Mirror <ArrowUpRight size={17} /></Link>}</div>
+          <small className="gent-film__concept">ILLUSTRATIVE CONCEPT · NOT AN ACTUAL CLIENT OR LOCATION</small>
+        </article>)}
+        <div className="gent-film__portal" aria-hidden="true"><i /><i /></div>
+        <div className="gent-film__progress" aria-hidden="true"><i /><i /><i /></div>
+      </div>
+    </section>
 
-      <section id="mirror" className="gent-mirror-section section">
-        <div className="mirror-preview" aria-hidden="true"><div className="mirror-preview-orbit"><ScanFace /><i /><i /><i /></div><span>FRONT</span><span>PROFILE</span><span>RITUAL</span></div>
-        <div className="gent-mirror-copy"><p className="eyebrow">INTRODUCING THE SANCTUM MIRROR</p><h2>See the whole picture.<br /><em>Before you arrive.</em></h2><p>A guided facial capture and consultation experience creates your first Grooming Blueprint—hair, beard, skin priorities, maintenance, and the direction you want to take.</p><ul><li><ScanFace /> Guided three-angle capture</li><li><Sparkles /> Personal grooming direction</li><li><ShieldCheck /> Private, account-owned profile</li></ul><Link href="/sanctum-mirror" className="button button-gold">Begin the Sanctum Mirror <ArrowUpRight size={18} /></Link></div>
-      </section>
+    <section id="mirror" className="gent-blueprint" aria-labelledby="blueprint-title">
+      <div className="gent-blueprint__visual" aria-hidden="true"><span className="gent-blueprint__arc" /><span className="gent-blueprint__line" /><span className="gent-blueprint__point gent-blueprint__point--one" /><span className="gent-blueprint__point gent-blueprint__point--two" /><span className="gent-blueprint__point gent-blueprint__point--three" /><div className="gent-blueprint__words"><span>HAIR</span><span>BEARD</span><span>SKIN</span><span>RITUAL</span></div></div>
+      <div className="gent-blueprint__copy"><span className="gent-kicker">04 / THE SANCTUM MIRROR</span><h2 id="blueprint-title">A starting point<br /><em>that belongs to you.</em></h2><p>Use your stated priorities to make a first grooming Blueprint. No photographs are taken, retained, or analyzed. You choose whether to save the profile to your Reserve account.</p><Link href="/sanctum-mirror" className="button button-gold">Build my Blueprint <ArrowUpRight size={17} /></Link></div>
+    </section>
 
-      <section id="ritual" className="gent-ritual section">
-        <div className="gent-ritual-heading"><p className="eyebrow">BEFORE · DURING · AFTER</p><h2>One profile.<br /><em>Every chapter.</em></h2></div>
-        <div className="gent-ritual-grid">
-          <article><span>01</span><h3>Arrive prepared.</h3><p>Build your Blueprint at home. Save inspiration, priorities, and questions before your consultation begins.</p></article>
-          <article><span>02</span><h3>Refine it together.</h3><p>Bring the profile into the Reserve. Professional observations and decisions become part of your living record.</p></article>
-          <article><span>03</span><h3>Carry it forward.</h3><p>Open My Sanctum for your ritual, products, progress, maintenance rhythm, visits, and future recommendations.</p></article>
-        </div>
-      </section>
+    <section id="collection" className="gent-collection" aria-labelledby="collection-title">
+      <Image src="/images/neil/ritual-plinth.webp" alt="" fill sizes="100vw" className="gent-collection__environment" />
+      <div className="gent-collection__shade" aria-hidden="true" />
+      <div className="gent-collection__heading"><span className="gent-kicker">05 / LEGACY RESERVE · COLLECTION PREVIEW</span><h2 id="collection-title">The ritual<br /><em>travels with you.</em></h2></div>
+      <GentCollection />
+      <small className="gent-collection__concept">CONCEPT ENVIRONMENT · SUPPLIED PRODUCT PACKAGING MOCKUPS</small>
+    </section>
 
-      <section className="gent-invitation"><p className="eyebrow">YOUR NEXT VERSION STARTS HERE</p><h2>Your grooming deserves<br /><em>more than guesswork.</em></h2><Link href="/sanctum-mirror" className="button button-gold">Build your Grooming Blueprint <ArrowUpRight size={18} /></Link><Link href="/my-sanctum" className="text-link">Open My Sanctum <ArrowUpRight size={16} /></Link></section>
-    </main>
-  );
+    <section id="return" className="gent-return" aria-labelledby="return-title"><span className="gent-kicker">GENT ASCEND COLLECTIVE × THE RESERVE</span><h2 id="return-title">The direction is personal.<br /><em>The place is shared.</em></h2><p>Begin with your Blueprint, then come into the Reserve to explore how grooming direction, Katie’s craft, and the wider vision meet in one place in Eunice.</p><div><Link href="/sanctum-mirror" className="button button-gold">Begin the Mirror <ArrowUpRight size={17} /></Link><Link href="/visit" className="gent-link">Discover the Reserve <ArrowUpRight size={17} /></Link></div></section>
+  </main>;
 }

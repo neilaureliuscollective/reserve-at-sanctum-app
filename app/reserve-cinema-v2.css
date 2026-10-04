@@ -1,0 +1,236 @@
+.reserve-cinema-v2 { --film-gold:#dfb761; --film-ink:#060b0c; background:var(--film-ink); color:#f3eee5; }
+.reserve-cinema-v2 :is(h2,h3) { font-family:var(--serif); font-weight:400; letter-spacing:-.048em; line-height:.91; }
+.reserve-cinema-v2 :is(h2,h3) em { color:var(--film-gold); font-weight:400; }
+.reserve-cinema-v2 p { line-height:1.55; }
+.reserve-cinema-v2 .film-index { color:var(--film-gold); font:600 10px/1.4 var(--sans); letter-spacing:.21em; }
+.reserve-cinema-v2 .film-link { display:inline-flex; width:max-content; max-width:100%; align-items:center; gap:20px; min-height:45px; border-bottom:1px solid var(--film-gold); color:#f3d59a; font-size:13px; font-weight:600; text-decoration:none; }
+.reserve-cinema-v2 .film-link:hover { color:white; }
+.reserve-cinema-v2 :is(a,button):focus-visible { outline:2px solid #ffdc8c; outline-offset:4px; }
+.reserve-cinema-v2 .film-concept { position:absolute; z-index:8; bottom:51px; right:5%; color:#e7dbc5; font:500 9px/1.4 var(--sans); letter-spacing:.14em; text-shadow:0 2px 12px #000; }
+
+/* The approved seal is a real alpha cutout. Its edge, not a square photograph,
+   catches the light. The header uses the same source at a compact size. */
+.site-header .wordmark-seal { width:54px; height:54px; object-fit:contain; filter:drop-shadow(0 0 12px #dcaa6655); flex:none; }
+.reserve-cinema-v2 .reserve-emblem-stage { z-index:4; }
+.reserve-cinema-v2 .living-emblem--reserve .living-emblem__face { inset:1%; background:none; border:0; box-shadow:none; overflow:visible; }
+.reserve-cinema-v2 .living-emblem--reserve .living-emblem__face img { object-fit:contain; filter:drop-shadow(0 19px 26px #000b) drop-shadow(0 0 18px #e5ae5933); }
+.reserve-cinema-v2 .living-emblem--reserve .living-emblem__glint { border-radius:50%; }
+.reserve-cinema-v2 .living-emblem--reserve .living-emblem__orbit { opacity:.7; }
+.reserve-cinema-v2 .arrival { background:#081415; }
+.reserve-cinema-v2 .arrival::after { pointer-events:none; }
+
+.reserve-cinema-v2 .film-navigation { position:relative; z-index:9; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:9px 6vw; min-height:66px; border-block:1px solid #c9a66055; background:linear-gradient(100deg,#071718,#153f40,#071718); }
+.reserve-cinema-v2 .film-navigation nav { display:flex; flex-wrap:wrap; gap:clamp(14px,3vw,48px); }
+.reserve-cinema-v2 .film-navigation a { display:inline-grid; align-items:center; min-height:40px; color:#edf0e9; font:600 11px var(--sans); letter-spacing:.09em; }
+.reserve-cinema-v2 .film-navigation a:hover { color:var(--film-gold); }
+.reserve-cinema-v2 .film-navigation button { display:flex; gap:8px; align-items:center; min-height:40px; padding:7px 12px; border:1px solid #d7b67277; background:#092324; color:var(--film-gold); font:600 10px var(--sans); letter-spacing:.12em; cursor:pointer; white-space:nowrap; }
+
+.reserve-cinema-v2 .film-stage { position:relative; background:#071415; scroll-margin-top:0; }
+.reserve-cinema-v2 .film-frame { position:relative; min-height:100svh; overflow:hidden; isolation:isolate; }
+.reserve-cinema-v2 .film-frame > [class*="__outside"],.reserve-cinema-v2 .film-frame > [class*="__inside"],.reserve-cinema-v2 .film-frame > [class*="__hall"],.reserve-cinema-v2 .film-frame > [class*="__room"],.reserve-cinema-v2 .film-frame > [class*="__environment"],.reserve-cinema-v2 .film-frame > [class*="__image"] { position:absolute; inset:0; z-index:-3; }
+.reserve-cinema-v2 .film-frame img { object-fit:cover; }
+.reserve-cinema-v2 .film-frame::before { content:""; position:absolute; z-index:-1; inset:0; pointer-events:none; background:linear-gradient(90deg,#031013db 0%,#03101396 43%,transparent 85%),linear-gradient(0deg,#020809f2 0%,transparent 57%); }
+
+/* Outside stone opens and the same hall becomes visible beyond it. */
+.reserve-cinema-v2 .film-threshold { background:#112023; }
+.reserve-cinema-v2 .film-threshold__outside img { object-position:62% center; }
+.reserve-cinema-v2 .film-threshold__inside { opacity:0; }
+.reserve-cinema-v2 .film-threshold__door { position:absolute; z-index:1; inset:0; pointer-events:none; display:flex; justify-content:space-between; }
+.reserve-cinema-v2 .film-threshold__door i { width:10%; height:100%; background:linear-gradient(90deg,#010809,#0b2425 80%,#bb914638); box-shadow:inset -1px 0 #e2bd7a55,15px 0 48px #000b; }
+.reserve-cinema-v2 .film-threshold__door i:last-child { transform:scaleX(-1); }
+.reserve-cinema-v2 .film-threshold__copy { position:absolute; z-index:3; left:8%; top:36%; max-width:790px; }
+.reserve-cinema-v2 .film-threshold h2 { font-size:clamp(72px,8.5vw,142px); margin:32px 0; }
+.reserve-cinema-v2 .film-threshold__copy p { max-width:470px; font-size:clamp(15px,1.25vw,18px); color:#e0e6e2; }
+.reserve-cinema-v2 .film-threshold__copy .film-link { margin-top:20px; }
+.reserve-cinema-v2 .film-threshold__arrival { position:absolute; z-index:4; bottom:17%; left:8%; opacity:0; }
+.reserve-cinema-v2 .film-threshold__arrival span { color:var(--film-gold); font-size:11px; letter-spacing:.2em; }
+.reserve-cinema-v2 .film-threshold__arrival p { font:clamp(36px,5vw,82px)/.98 var(--serif); margin:15px 0; }
+
+/* One hallway, two doors. A sideways camera shift and change in colored light
+   makes each encounter feel like entering a room instead of loading a banner. */
+.reserve-cinema-v2 .film-encounter__hall img { object-position:center; }
+.reserve-cinema-v2 .film-encounter__room { opacity:0; }
+.reserve-cinema-v2 .film-encounter__room--craft img { object-position:39% center; }
+.reserve-cinema-v2 .film-encounter__room--ritual img { object-position:62% center; }
+.reserve-cinema-v2 .film-encounter__portal { position:absolute; z-index:2; inset:0; pointer-events:none; display:flex; justify-content:space-between; }
+.reserve-cinema-v2 .film-encounter__portal i { display:block; width:5%; height:100%; background:linear-gradient(90deg,#010506,#12393b 80%,#e9b76366); box-shadow:22px 0 75px #000a; }
+.reserve-cinema-v2 .film-encounter__portal i:last-child { transform:scaleX(-1); }
+.reserve-cinema-v2 .film-encounter__intro,.reserve-cinema-v2 .film-encounter__story { position:absolute; z-index:3; left:9%; bottom:13%; max-width:740px; }
+.reserve-cinema-v2 .film-encounter__intro h2 { font-size:clamp(67px,8vw,128px); margin:26px 0; }
+.reserve-cinema-v2 .film-encounter__intro p { font-size:18px; max-width:450px; }
+.reserve-cinema-v2 .film-encounter__story { max-width:670px; padding-right:15px; }
+.reserve-cinema-v2 .film-encounter__story img { display:block; width:112px; height:112px; object-fit:contain; margin:0 0 25px; filter:drop-shadow(0 12px 24px #000b); }
+.reserve-cinema-v2 .film-encounter__story h3 { font-size:clamp(66px,7.3vw,116px); margin:22px 0; }
+.reserve-cinema-v2 .film-encounter__story p { max-width:490px; color:#e3eae4; font-size:16px; }
+.reserve-cinema-v2 .film-encounter__story .film-link { margin-top:11px; }
+.reserve-cinema-v2 .film-encounter__story--craft { background:radial-gradient(ellipse at 10% 90%,#08182b8f,transparent 70%); }
+.reserve-cinema-v2 .film-encounter__story--ritual { background:radial-gradient(ellipse at 10% 90%,#0b24188f,transparent 70%); }
+
+/* The choice changes the whole room, not merely a label under the controls. */
+.reserve-cinema-v2 .film-way { padding:115px 5vw 125px; background:radial-gradient(ellipse at 50% 10%,#17454a,#071415 65%); scroll-margin-top:70px; }
+.reserve-cinema-v2 .film-way__header { max-width:1100px; margin:auto; }
+.reserve-cinema-v2 .film-way__header h2 { font-size:clamp(67px,8vw,124px); margin:30px 0 18px; }
+.reserve-cinema-v2 .film-way__header p { color:#d4e0d8; font-size:16px; }
+.reserve-cinema-v2 .film-way__world { position:relative; isolation:isolate; overflow:hidden; height:min(820px,92svh); min-height:560px; max-width:1500px; margin:52px auto 0; border:1px solid #d4aa6359; box-shadow:0 45px 110px #000b,inset 0 0 0 10px #0a202055; }
+.reserve-cinema-v2 .film-way__world::before { content:""; position:absolute; z-index:-1; inset:0; background:linear-gradient(0deg,#020808ed,transparent 75%),linear-gradient(90deg,#02080899,transparent 90%); }
+.reserve-cinema-v2 .film-way__image { position:absolute; z-index:-2; inset:-5%; opacity:0; transform:scale(1.13) translateX(3%); transition:opacity .7s ease,transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.reserve-cinema-v2 .film-way__image[data-active="true"] { opacity:1; transform:scale(1) translateX(0); }
+.reserve-cinema-v2 .film-way__image img { object-fit:cover; }
+.reserve-cinema-v2 .film-way__aperture { position:absolute; inset:4%; border:1px solid #d9b66f66; border-radius:45% 45% 0 0 / 20% 20% 0 0; pointer-events:none; box-shadow:inset 0 0 80px #0007; }
+.reserve-cinema-v2 .film-way__controls { position:absolute; z-index:3; display:flex; gap:8px; top:5%; left:7%; right:7%; }
+.reserve-cinema-v2 .film-way__controls button { flex:1; min-height:76px; display:flex; align-items:center; gap:14px; text-align:left; padding:10px 20px; border:1px solid #e1bd795e; background:#061718de; color:#f8f0e2; cursor:pointer; transition:background .4s,border-color .4s,transform .4s; }
+.reserve-cinema-v2 .film-way__controls button[aria-pressed="true"] { background:#1b4a4ac9; border-color:#e8bd6b; transform:translateY(5px); }
+.reserve-cinema-v2 .film-way__controls small { color:var(--film-gold); letter-spacing:.16em; }
+.reserve-cinema-v2 .film-way__controls strong { font:clamp(20px,2vw,28px) var(--serif); }
+.reserve-cinema-v2 .film-way__destination { position:absolute; z-index:2; left:9%; bottom:10%; width:min(80%,770px); animation:film-arrive .5s ease both; }
+.reserve-cinema-v2 .film-way__destination > span { color:var(--film-gold); font:600 10px var(--sans); letter-spacing:.2em; }
+.reserve-cinema-v2 .film-way__destination h3 { font-size:clamp(48px,6vw,92px); margin:14px 0; }
+.reserve-cinema-v2 .film-way__destination p { max-width:460px; font-size:16px; }
+@keyframes film-arrive { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+/* The source packaging is isolated from its old white studio background and
+   stands within a generated empty chamber; typography is still in the HTML. */
+.reserve-cinema-v2 .film-collection { background:#061c1d; }
+.reserve-cinema-v2 .film-collection__environment img { object-position:center; }
+.reserve-cinema-v2 .film-collection .film-frame::before { background:linear-gradient(90deg,#020a0bd4,transparent 68%),linear-gradient(0deg,#020a0bdf,transparent 44%); }
+.reserve-cinema-v2 .film-collection__heading { position:absolute; z-index:2; left:7%; top:12%; }
+.reserve-cinema-v2 .film-collection__heading h2 { font-size:clamp(64px,7vw,106px); margin:18px 0; }
+.reserve-cinema-v2 .film-product__object { position:absolute; z-index:2; width:min(38vw,520px); height:68%; top:20%; left:48%; animation:film-product-arrive .55s ease both; filter:drop-shadow(0 30px 24px #000b); }
+.reserve-cinema-v2 .film-product__object img { object-fit:contain; }
+@keyframes film-product-arrive { from { opacity:0; transform:translateY(25px) scale(.94); } to { opacity:1; transform:translateY(0) scale(1); } }
+.reserve-cinema-v2 .film-product__detail { position:absolute; z-index:3; left:7%; bottom:23%; width:38%; text-shadow:0 3px 14px #000; }
+.reserve-cinema-v2 .film-product__detail span,.reserve-cinema-v2 .film-product__detail small { font:600 10px var(--sans); letter-spacing:.16em; color:#eed293; }
+.reserve-cinema-v2 .film-product__detail h3 { font-size:clamp(50px,6vw,92px); margin:16px 0; }
+.reserve-cinema-v2 .film-product__detail p { font-size:16px; }
+.reserve-cinema-v2 .film-product__detail small { display:block; margin-top:26px; }
+.reserve-cinema-v2 .film-product__shelf { position:absolute; z-index:4; bottom:10%; left:7%; right:7%; display:flex; gap:4px; border-top:1px solid #d9ad655e; }
+.reserve-cinema-v2 .film-product__shelf button { flex:1; min-width:0; min-height:58px; display:flex; align-items:center; gap:10px; padding:8px 11px; border:0; border-bottom:1px solid #d9ad655e; background:#051719be; color:#e8ede7; cursor:pointer; text-align:left; }
+.reserve-cinema-v2 .film-product__shelf button[aria-pressed="true"] { background:#245153d9; border-bottom:2px solid var(--film-gold); }
+.reserve-cinema-v2 .film-product__shelf button span { color:var(--film-gold); font-size:9px; }
+.reserve-cinema-v2 .film-product__shelf button strong { font:clamp(14px,1.45vw,22px) var(--serif); white-space:nowrap; }
+.reserve-cinema-v2 .film-product__note { position:absolute; z-index:3; bottom:3%; left:7%; right:7%; margin:0; max-width:900px; font-size:11px; color:#cbd7d2; }
+.reserve-cinema-v2 .film-product__note a { color:#f4d598; text-decoration:underline; text-underline-offset:4px; white-space:nowrap; }
+.reserve-cinema-v2 .film-product__note svg { display:inline-block; vertical-align:middle; }
+
+.reserve-cinema-v2 .film-home__image img { object-position:center; }
+.reserve-cinema-v2 .film-home__arch { position:absolute; z-index:1; inset:3% 4% -15%; border:clamp(8px,2vw,23px) solid #061718b7; border-bottom:0; border-radius:48% 48% 0 0 / 24% 24% 0 0; box-shadow:inset 0 0 0 1px #d9b26877,inset 0 0 90px #0007; pointer-events:none; }
+.reserve-cinema-v2 .film-home__copy { position:absolute; z-index:2; bottom:15%; left:8%; width:min(80%,760px); }
+.reserve-cinema-v2 .film-home__copy h2 { font-size:clamp(69px,8vw,126px); margin:25px 0; }
+.reserve-cinema-v2 .film-home__copy p { max-width:550px; color:#f0eee4; font-size:16px; }
+.reserve-cinema-v2 .film-home__actions { display:flex; flex-wrap:wrap; gap:22px; align-items:center; margin-top:32px; }
+
+/* Motion enhancement attaches only after hydration. All prose and links stay
+   present in the nonanimated document and in the still view. */
+.reserve-cinema-v2.cinema-ready .film-threshold { height:240svh; }
+.reserve-cinema-v2.cinema-ready .film-encounter { height:380svh; }
+.reserve-cinema-v2.cinema-ready .film-collection { height:185svh; }
+.reserve-cinema-v2.cinema-ready .film-home { height:165svh; }
+.reserve-cinema-v2.cinema-ready .film-stage .film-frame { position:sticky; top:0; height:100svh; min-height:0; }
+.reserve-cinema-v2.cinema-ready .film-threshold__outside { transform:scale(calc(1 + var(--door,0) * .34)) translateX(calc(var(--door,0) * -5%)); opacity:calc(1 - var(--hall,0)); }
+.reserve-cinema-v2.cinema-ready .film-threshold__inside { opacity:var(--hall,0); transform:scale(calc(1.35 - var(--hall,0) * .35)); }
+.reserve-cinema-v2.cinema-ready .film-threshold__door i:first-child { transform:translateX(calc(var(--door,0) * -120%)); }
+.reserve-cinema-v2.cinema-ready .film-threshold__door i:last-child { transform:scaleX(-1) translateX(calc(var(--door,0) * -120%)); }
+.reserve-cinema-v2.cinema-ready .film-threshold__copy { opacity:var(--threshold-copy,1); transform:translateY(calc(var(--door,0) * -45px)); }
+.reserve-cinema-v2.cinema-ready .film-threshold__arrival { opacity:var(--hall,0); transform:translateY(calc((1 - var(--hall,0)) * 40px)); }
+.reserve-cinema-v2.cinema-ready .film-encounter__hall { transform:scale(calc(1.1 + var(--p,0) * .2)) translateX(calc((var(--ritual,0) - var(--craft,0)) * 5%)); }
+.reserve-cinema-v2.cinema-ready .film-encounter__room--craft { opacity:var(--craft,0); transform:scale(calc(1.16 - var(--craft,0) * .16)) translateX(calc((1 - var(--craft,0)) * -9%)); }
+.reserve-cinema-v2.cinema-ready .film-encounter__room--ritual { opacity:var(--ritual,0); transform:scale(calc(1.16 - var(--ritual,0) * .16)) translateX(calc((1 - var(--ritual,0)) * 9%)); }
+.reserve-cinema-v2.cinema-ready .film-encounter__intro { opacity:var(--encounter-intro,1); transform:translateY(calc((1 - var(--encounter-intro,1)) * -30px)); pointer-events:none; }
+.reserve-cinema-v2.cinema-ready .film-encounter__story--craft { opacity:var(--craft,0); transform:translateY(calc((1 - var(--craft,0)) * 55px)); pointer-events:none; }
+.reserve-cinema-v2.cinema-ready .film-encounter__story--ritual { opacity:var(--ritual,0); transform:translateY(calc((1 - var(--ritual,0)) * 55px)); pointer-events:none; }
+.reserve-cinema-v2.cinema-ready .film-encounter__story--craft .film-link { pointer-events:auto; }
+.reserve-cinema-v2.cinema-ready .film-encounter__story--ritual .film-link { pointer-events:auto; }
+.reserve-cinema-v2.cinema-ready .film-collection__environment { transform:scale(calc(1.18 - var(--collection-entry,0) * .18)); }
+.reserve-cinema-v2.cinema-ready .film-home__image { transform:scale(calc(1.18 - var(--home-light,0) * .18)); }
+.reserve-cinema-v2.cinema-ready .film-home__copy { opacity:var(--home-light,0); transform:translateY(calc((1 - var(--home-light,0)) * 40px)); }
+
+/* Still mode is a real readable page, with both people visible in sequence. */
+.reserve-cinema-v2:not(.cinema-ready) .film-threshold .film-frame { min-height:850px; }
+.reserve-cinema-v2:not(.cinema-ready) .film-threshold__arrival { display:none; }
+.reserve-cinema-v2:not(.cinema-ready) .film-encounter .film-frame { min-height:1450px; }
+.reserve-cinema-v2:not(.cinema-ready) .film-encounter__intro { top:70px; bottom:auto; }
+.reserve-cinema-v2:not(.cinema-ready) .film-encounter__room--craft { opacity:.42; clip-path:inset(0 50% 0 0); }
+.reserve-cinema-v2:not(.cinema-ready) .film-encounter__room--ritual { opacity:.42; clip-path:inset(0 0 0 50%); }
+.reserve-cinema-v2:not(.cinema-ready) .film-encounter__story--craft { top:430px; bottom:auto; }
+.reserve-cinema-v2:not(.cinema-ready) .film-encounter__story--ritual { top:930px; bottom:auto; }
+.reserve-cinema-v2:not(.cinema-ready) .film-collection .film-frame { min-height:900px; }
+.reserve-cinema-v2:not(.cinema-ready) .film-home .film-frame { min-height:800px; }
+
+@media(max-width:900px) {
+  .reserve-cinema-v2 .film-navigation { padding-inline:22px; }
+  .reserve-cinema-v2 .film-navigation nav { gap:8px 19px; }
+  .reserve-cinema-v2 .film-threshold__copy { left:6%; max-width:80%; }
+  .reserve-cinema-v2 .film-encounter__story,.reserve-cinema-v2 .film-encounter__intro { left:7%; }
+  .reserve-cinema-v2 .film-product__object { left:43%; width:48vw; }
+  .reserve-cinema-v2 .film-product__shelf button { padding:6px; }
+}
+@media(max-width:650px) {
+  .site-header .wordmark-seal { width:41px; height:41px; }
+  .reserve-cinema-v2 .film-navigation { min-height:67px; padding:6px 12px; gap:8px; }
+  .reserve-cinema-v2 .film-navigation nav { gap:3px 11px; }
+  .reserve-cinema-v2 .film-navigation a { font-size:9px; min-height:30px; }
+  .reserve-cinema-v2 .film-navigation button { padding:5px 8px; min-height:37px; }
+  .reserve-cinema-v2 .film-navigation button span { display:none; }
+  .reserve-cinema-v2 .film-frame::before { background:linear-gradient(0deg,#020809f6 0%,#020809b6 45%,#02080925 100%); }
+  .reserve-cinema-v2 .film-concept { bottom:55px; left:6%; right:6%; font-size:7px; }
+  .reserve-cinema-v2 .film-threshold__outside img { object-position:60% center; }
+  .reserve-cinema-v2 .film-threshold__inside img { object-position:50% center; }
+  .reserve-cinema-v2 .film-threshold__copy { top:auto; bottom:13%; left:7%; right:7%; max-width:none; }
+  .reserve-cinema-v2 .film-threshold h2 { font-size:clamp(56px,14vw,82px); margin:19px 0; }
+  .reserve-cinema-v2 .film-threshold__copy p { font-size:13px; max-width:360px; }
+  .reserve-cinema-v2 .film-threshold__arrival { left:7%; bottom:17%; }
+  .reserve-cinema-v2 .film-threshold__arrival p { font-size:clamp(40px,11vw,68px); }
+  .reserve-cinema-v2 .film-encounter__hall img { object-position:51% center; }
+  .reserve-cinema-v2 .film-encounter__room--craft img { object-position:43% center; }
+  .reserve-cinema-v2 .film-encounter__room--ritual img { object-position:57% center; }
+  .reserve-cinema-v2 .film-encounter__intro,.reserve-cinema-v2 .film-encounter__story { left:7%; right:7%; bottom:12%; max-width:none; }
+  .reserve-cinema-v2 .film-encounter__intro h2 { font-size:clamp(52px,13vw,80px); }
+  .reserve-cinema-v2 .film-encounter__intro p,.reserve-cinema-v2 .film-encounter__story p { font-size:13px; }
+  .reserve-cinema-v2 .film-encounter__story img { width:91px; height:91px; margin-bottom:14px; }
+  .reserve-cinema-v2 .film-encounter__story h3 { font-size:clamp(52px,13vw,78px); margin:12px 0; }
+  .reserve-cinema-v2 .film-index { font-size:8px; }
+  .reserve-cinema-v2 .film-way { padding:88px 16px 95px; }
+  .reserve-cinema-v2 .film-way__header h2 { font-size:clamp(56px,14vw,82px); }
+  .reserve-cinema-v2 .film-way__world { height:80svh; min-height:545px; margin-top:34px; }
+  .reserve-cinema-v2 .film-way__image img { object-position:54% center; }
+  .reserve-cinema-v2 .film-way__world::before { background:linear-gradient(0deg,#010808f5,#0108088d 62%,#01080844); }
+  .reserve-cinema-v2 .film-way__controls { top:4%; left:3%; right:3%; gap:4px; }
+  .reserve-cinema-v2 .film-way__controls button { display:block; min-height:61px; padding:7px 5px; text-align:center; }
+  .reserve-cinema-v2 .film-way__controls small { display:block; font-size:8px; }
+  .reserve-cinema-v2 .film-way__controls strong { display:block; font-size:clamp(15px,4vw,21px); }
+  .reserve-cinema-v2 .film-way__destination { left:8%; right:8%; bottom:9%; width:auto; }
+  .reserve-cinema-v2 .film-way__destination h3 { font-size:clamp(45px,11vw,67px); }
+  .reserve-cinema-v2 .film-way__destination p { font-size:13px; }
+  .reserve-cinema-v2 .film-collection__environment img { object-position:center; }
+  .reserve-cinema-v2 .film-collection__heading { top:7%; left:6%; }
+  .reserve-cinema-v2 .film-collection__heading h2 { font-size:clamp(52px,12vw,74px); }
+  .reserve-cinema-v2 .film-product__object { width:64vw; height:43%; left:18%; top:22%; }
+  .reserve-cinema-v2 .film-product__detail { left:7%; right:7%; bottom:25%; width:auto; }
+  .reserve-cinema-v2 .film-product__detail h3 { font-size:clamp(41px,10vw,58px); margin:8px 0; }
+  .reserve-cinema-v2 .film-product__detail p { font-size:13px; margin:0; }
+  .reserve-cinema-v2 .film-product__detail small { margin-top:6px; font-size:8px; }
+  .reserve-cinema-v2 .film-product__shelf { left:5%; right:5%; bottom:14%; overflow-x:auto; scroll-snap-type:x proximity; }
+  .reserve-cinema-v2 .film-product__shelf button { flex:0 0 125px; min-height:48px; scroll-snap-align:center; }
+  .reserve-cinema-v2 .film-product__shelf button strong { font-size:15px; }
+  .reserve-cinema-v2 .film-product__note { left:7%; right:7%; bottom:max(42px,5%); font-size:9px; line-height:1.4; }
+  .reserve-cinema-v2 .film-collection .film-concept { display:none; }
+  .reserve-cinema-v2 .film-home__image img { object-position:60% center; }
+  .reserve-cinema-v2 .film-home__copy { left:7%; right:7%; bottom:13%; width:auto; }
+  .reserve-cinema-v2 .film-home__copy h2 { font-size:clamp(58px,13vw,85px); }
+  .reserve-cinema-v2 .film-home__copy p { font-size:13px; }
+  .reserve-cinema-v2 .film-home__actions { gap:12px; margin-top:23px; }
+  .reserve-cinema-v2:not(.cinema-ready) .film-encounter .film-frame { min-height:1390px; }
+  .reserve-cinema-v2:not(.cinema-ready) .film-encounter__intro { top:35px; bottom:auto; }
+  .reserve-cinema-v2:not(.cinema-ready) .film-encounter__story--craft { top:390px; bottom:auto; }
+  .reserve-cinema-v2:not(.cinema-ready) .film-encounter__story--ritual { top:870px; bottom:auto; }
+}
+@media(max-width:360px) and (max-height:680px) {
+  .reserve-cinema-v2 .film-encounter__story img { width:68px; height:68px; margin-bottom:7px; }
+  .reserve-cinema-v2 .film-encounter__story h3 { font-size:47px; }
+  .reserve-cinema-v2 .film-product__object { height:39%; top:23%; }
+  .reserve-cinema-v2 .film-product__detail { bottom:27%; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .reserve-cinema-v2 .film-way__image,.reserve-cinema-v2 .film-way__controls button { transition:none; }
+  .reserve-cinema-v2 .film-way__destination,.reserve-cinema-v2 .film-product__object { animation:none; }
+}

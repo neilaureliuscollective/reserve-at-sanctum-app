@@ -275,7 +275,7 @@ export function ChairExperience({
     );
   const choiceStep = step !== "details" && step !== "summary";
   return (
-    <div className="chair-shell">
+    <div className={`chair-shell chair-scene chair-scene--${step}`}>
       <aside className="chair-aside">
         <p className="eyebrow">FIX IT SHOP · KATIE</p>
         <p className="chair-wordmark">
@@ -304,7 +304,7 @@ export function ChairExperience({
               ? "YOUR CHECK-IN"
               : `STEP ${index + 1} OF ${steps.length}`}
           </span>
-          <span>AT YOUR PACE</span>
+          <span>{step === "life" || step === "load" || step === "details" ? "OPTIONAL · AT YOUR PACE" : "AT YOUR PACE"}</span>
         </div>
         <progress
           className="chair-progress"
@@ -468,11 +468,11 @@ export function ChairExperience({
               ) : (
                 <>
                   <Link
-                    href="/book"
+                    href="/my-visit"
                     className="button button-gold"
                     onClick={() => trackChair("booking_selected")}
                   >
-                    Find your next visit <ArrowRight size={18} />
+                    Return to your visit <ArrowRight size={18} />
                   </Link>
                   <Link href="/my-sanctum" className="text-link">
                     My Reserve profile

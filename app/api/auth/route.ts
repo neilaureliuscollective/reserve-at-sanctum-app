@@ -44,7 +44,7 @@ export async function POST(req: Request) {
         password: input.password,
         options: {
           data: { name: input.name },
-          emailRedirectTo: new URL("/auth/callback?next=%2Fsetup", req.url).toString(),
+          emailRedirectTo: new URL("/auth/callback?next=%2Fenter", req.url).toString(),
         },
       });
       if (error)

@@ -1,3 +1,4 @@
+import { safeDestination } from "@/lib/experience/entry";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/auth";
 import { SigninForm } from "@/components/signin-form";
@@ -11,10 +12,7 @@ export default async function Page({
   searchParams: Promise<{ next?: string; error?: string }>;
 }) {
   const p = await searchParams;
-  const next =
-    p.next && /^\/(?!\/)/.test(p.next) && !p.next.includes("\\")
-      ? p.next
-      : "/account";
+  const next = safeDestination(p.next);
   // Deployment-specific links have a different Origin and cookie scope. Send
   // account creation to the stable address expected by the auth API.
   if (

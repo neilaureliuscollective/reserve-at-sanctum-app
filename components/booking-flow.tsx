@@ -144,10 +144,10 @@ export function BookingFlow() {
           notification was sent.
         </p>
         <div className="hero-actions">
-          <Link href="/account" className="button button-gold">
-            View your visits <ArrowUpRight size={18} />
+          <Link href={`/my-visit?visit=${encodeURIComponent(confirmed)}`} className="button button-gold">
+            Prepare your visit <ArrowUpRight size={18} />
           </Link>
-          <Link href="/" className="text-link">
+          <Link href="/home" className="text-link">
             Back to the Reserve
           </Link>
         </div>

@@ -1,281 +1,68 @@
+import { VisitContext } from "@/components/experience/visit-context";
 import Image from "next/image";
-import { LivingEmblem } from "@/components/living-emblem";
 import Link from "next/link";
-import { ArrowUpRight, ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { KatieDirector, KatiePreferencePreview } from "@/components/katie-journey";
+import "./katie-cinema.css";
+
+export const dynamic = "force-dynamic";
+
 export const metadata = {
-  title: "Katie · Fix It Shop",
-  description:
-    "It’s never just a haircut. Katie’s men’s cosmetology at The Reserve in Eunice, Louisiana. Your cut, your headspace, your time.",
+  title: "Fix It Shop · Katie Guidry",
+  description: "Step into Katie Guidry’s private men’s salon experience at The Reserve at Sanctum in Eunice, Louisiana. Explore her approach, prepare The Chair, and find your visit.",
 };
-export default function Page() {
-  return (
-    <main id="main" className="brand-page fix-world craft-world katie-world">
-      <section className="katie-arrival" aria-labelledby="fix-title">
-        <figure className="katie-arrival-image">
-          <Image
-            src="/images/fix-it.webp"
-            alt="Concept photograph of a men’s grooming chair, warm light, and arranged tools"
-            fill
-            sizes="(max-width: 760px) 100vw, 56vw"
-            loading="eager"
-            fetchPriority="high"
-          />
-          <figcaption>VISUAL CONCEPT · NOT THE FINISHED LOCATION</figcaption>
-        </figure>
-        <div className="fix-emblem-stage"><LivingEmblem brand="fix" controls /></div>
-        <div className="katie-arrival-copy">
-          <Link href="/" className="back-link">
-            <ArrowLeft size={16} /> THE RESERVE AT SANCTUM
-          </Link>
-          <p className="eyebrow">FIX IT SHOP · KATIE · MEN’S COSMETOLOGY</p>
-          <h1 id="fix-title">
-            It’s never
-            <br />
-            just a<br />
-            <em>haircut.</em>
-          </h1>
-          <p className="katie-lead">
-            Come sit down.
-            <br />
-            Leave a little more like yourself.
-          </p>
-          <p className="world-body">
-            A cut that feels right. A familiar face. Room to talk—or just take a
-            breath. That’s the kind of care Katie brings to the chair.
-          </p>
-          <div className="world-actions">
-            <Link href="/chair" className="button button-gold">
-              Enter The Chair <ArrowUpRight size={18} />
-            </Link>
-            <Link href="/book" className="text-link">
-              Find your next visit <ArrowUpRight size={17} />
-            </Link>
-          </div>
-          <p className="katie-location">
-            EUNICE, LOUISIANA. REAL PEOPLE. PERSONAL CARE.
-          </p>
-        </div>
-      </section>
-      <nav className="world-index" aria-label="Explore Fix It Shop">
-        <a href="#katies-care">
-          <span>01</span> Katie’s care
-        </a>
-        <a href="#the-chair">
-          <span>02</span> The Chair
-        </a>
-        <a href="#the-craft">
-          <span>03</span> The work
-        </a>
-        <a href="#the-reserve">
-          <span>04</span> One Reserve
-        </a>
-      </nav>
-      <section id="katies-care" className="katie-conversation world-section">
-        <div>
-          <p className="eyebrow">THE QUESTION BEHIND THE CUT</p>
-          <h2>
-            “How you
-            <br />
-            <em>been?”</em>
-          </h2>
-          <span className="katie-fine-rule" />
-        </div>
-        <div className="katie-story">
-          <p className="katie-story-lead">
-            Some days, the answer’s easy.
-            <br />
-            Some days, you need a minute.
-          </p>
-          <p>
-            Work. Family. Bills. Whatever you’re building. Whatever didn’t go to
-            plan. You don’t have to set all of it straight before you sit down.
-          </p>
-          <p>
-            Katie cares about the man wearing the haircut. The way you want to
-            look, the day you’re having, and whether you feel like talking at
-            all.
-          </p>
-          <p>
-            Talk it out. Keep it light. Sit in quiet. There’s room for all
-            three.
-          </p>
-          <p className="katie-signoff">Good hands. No performance required.</p>
-        </div>
-      </section>
-      <section id="the-chair" className="katie-chair-feature world-section">
-        <div className="katie-chair-title">
-          <p className="eyebrow">A LITTLE CONTEXT. A MORE PERSONAL VISIT.</p>
-          <h2>
-            The <em>Chair.</em>
-          </h2>
-          <p>
-            Your cut.
-            <br />
-            Your headspace.
-            <br />
-            Your time.
-          </p>
-        </div>
-        <div className="katie-chair-invitation">
-          <span className="chair-feature-number" aria-hidden="true">
-            01—02 MIN
-          </span>
-          <h3>
-            Get your chair ready
-            <br />
-            before you get here.
-          </h3>
-          <p>
-            Tell Katie what you want from the cut and the time. A few simple
-            choices, with the personal parts entirely up to you.
-          </p>
-          <ul>
-            <li>How you want to look.</li>
-            <li>Conversation, quiet, or a little of both.</li>
-            <li>Only what you want her to remember.</li>
-          </ul>
-          <Link href="/chair" className="button button-gold">
-            Get my chair ready <ArrowUpRight size={18} />
-          </Link>
-          <p className="chair-small">
-            Try it first. Save to your Reserve account when you’re ready.
-          </p>
-        </div>
-      </section>
-      <section id="the-craft" className="craft-chapters world-section">
-        <div className="craft-chapters-heading">
-          <p className="eyebrow">THE WORK · MEN’S COSMETOLOGY</p>
-          <h2>
-            The details matter.
-            <br />
-            <em>So does the man.</em>
-          </h2>
-          <p className="world-body">
-            Your hair has to work beyond the appointment. For your job, your
-            routine, and the way you actually live.
-          </p>
-        </div>
-        <div className="craft-notes">
-          <article>
-            <span>01 / FIND YOUR DIRECTION</span>
-            <h3>Tell her what feels right.</h3>
-            <p>
-              What you like. What you’re ready to change. Bring a photo if it
-              helps. You don’t need to know the name of the cut.
-            </p>
-          </article>
-          <article>
-            <span>02 / CARE IN THE CRAFT</span>
-            <h3>Attention where it counts.</h3>
-            <p>
-              Shape, texture, and a finish that feels your own. Time to talk
-              through the look, with Katie handling the professional details.
-            </p>
-          </article>
-          <article>
-            <span>03 / TAKE IT WITH YOU</span>
-            <h3>Make it work tomorrow.</h3>
-            <p>
-              A direction that fits the effort you want to put in. Looking after
-              yourself should belong in your everyday life.
-            </p>
-          </article>
-        </div>
-      </section>
-      <section
-        className="katie-over-time world-section"
-        aria-labelledby="relationships-title"
-      >
-        <p className="eyebrow">FAMILIARITY, BUILT OVER TIME</p>
-        <h2 id="relationships-title">
-          A familiar chair.
-          <br />
-          <em>Room for what changes.</em>
-        </h2>
-        <p>
-          Your usual cut. A different direction. A big week ahead. With your
-          permission, The Chair keeps the useful details so every visit doesn’t
-          have to start from zero.
-        </p>
-        <div className="katie-story-placeholder">
-          <span>CLIENT STORIES · COMING WITH PERMISSION</span>
-          <p>
-            This space is reserved for real stories from Katie’s clients, in
-            their own words.
-          </p>
-        </div>
-      </section>
-      <section id="the-reserve" className="katie-reserve world-section">
-        <div>
-          <p className="eyebrow">FIX IT SHOP × GENT ASCEND COLLECTIVE</p>
-          <h2>
-            Two different doors.
-            <br />
-            <em>One Reserve.</em>
-          </h2>
-          <p>
-            Katie brings her craft, her attention, and a place to land. Neil
-            brings grooming direction, skin and beard care, routines, and the
-            drive to keep moving forward.
-          </p>
-          <p>
-            Both care about the same thing: the man you’re becoming. Your
-            Reserve account keeps the experiences connected, with you choosing
-            what you share.
-          </p>
-        </div>
-        <div className="katie-reserve-links">
-          <Link href="/gent-ascend">
-            <span>NEIL’S WORLD</span>
-            <strong>
-              Build on the way
-              <br />
-              you take care of yourself.
-            </strong>
-            <span>
-              Explore GENT Ascend <ArrowUpRight size={18} />
-            </span>
-          </Link>
-          <Link href="/sanctum-mirror">
-            <span>THE SANCTUM MIRROR</span>
-            <strong>
-              Your grooming.
-              <br />A clearer direction.
-            </strong>
-            <span>
-              Create your Blueprint <ArrowUpRight size={18} />
-            </span>
-          </Link>
-        </div>
-      </section>
-      <section id="your-visit" className="craft-invitation world-section">
-        <div>
-          <p className="eyebrow">YOUR TIME AT FIX IT SHOP</p>
-          <h2>
-            Come as you are.
-            <br />
-            <em>Walk out better.</em>
-          </h2>
-        </div>
-        <div className="craft-invitation-actions">
-          <Link href="/chair" className="button button-gold">
-            Enter The Chair <ArrowUpRight size={18} />
-          </Link>
-          <Link href="/book" className="text-link">
-            Explore the booking preview <ArrowUpRight size={17} />
-          </Link>
-          <p>
-            The private preview uses illustrative services and prices. Katie’s
-            approved menu will be added before booking opens.
-          </p>
-        </div>
-      </section>
-      <nav className="world-continuation" aria-label="Continue exploring">
-        <span>ANOTHER SIDE OF THE RESERVE</span>
-        <Link href="/gent-ascend" className="text-link">
-          Discover GENT Ascend <ArrowUpRight size={18} />
-        </Link>
-      </nav>
-    </main>
-  );
+
+const chapters = [
+  { number: "01 / THE ARRIVAL", title: <>Your time<br /><em>starts here.</em></>, body: "Settle in. Tell Katie where you want to go with your hair, or let her help find the direction. The visit starts with you.", image: "/images/katie/private-chair.webp", alt: "Illustrative concept of an empty private men’s salon chair" },
+  { number: "02 / THE WORK", title: <>The difference<br /><em>is in the details.</em></>, body: "Shape, texture and a finish made to work beyond the chair. Katie brings professional care to the cut and attention to the man wearing it.", image: "/images/katie/craft-close.webp", alt: "Illustrative close view of hair cutting, with no identifiable client" },
+  { number: "03 / THE RETURN", title: <>Leave ready<br /><em>for what’s next.</em></>, body: "A look that fits your life, and a little more clarity about how to keep it. Come back as yourself; Katie remembers what matters with your permission.", image: "/images/katie/departure.webp", alt: "Illustrative anonymous view of a man leaving a salon chair" },
+];
+
+export default async function Page() {
+  return <main id="main" className="brand-page katie-cinema">
+    <section className="katie-hero" aria-labelledby="katie-title">
+      <Image src="/images/katie/private-chair.webp" alt="" fill priority sizes="100vw" className="katie-hero__image" />
+      <div className="katie-hero__shade" aria-hidden="true" />
+      <div className="katie-hero__content">
+        <Link href="/home" className="katie-back"><ArrowLeft size={15} /> THE RESERVE AT SANCTUM</Link>
+        <div className="katie-hero__identity"><Image src="/images/cinematic/fix-it-seal.webp" alt="Fix It Shop emblem" width={94} height={94} /><span>FIX IT SHOP<br /><small>KATIE GUIDRY · MEN’S SALON</small></span></div>
+        <p className="katie-kicker">A WORLD WITHIN THE RESERVE · EUNICE, LOUISIANA</p>
+        <h1 id="katie-title">It’s Never<br /><em>Just a Haircut.</em></h1>
+        <p className="katie-hero__lead">A visit built around how you want to look, how you want to spend the time, and the life waiting when you leave.</p>
+        <div className="katie-actions"><Link href="/chair" className="button button-gold">Get your chair ready <ArrowUpRight size={17} /></Link><Link href="/book" className="katie-link">Explore visits <ArrowUpRight size={17} /></Link></div>
+        <VisitContext providerId="katie" compact />
+        <a href="#experience" className="provider-explore">Explore Katie’s approach ↓</a>
+      </div>
+      <span className="katie-concept">VISUAL CONCEPT · NOT A PHOTOGRAPH OF THE FINISHED LOCATION</span>
+      <span className="katie-hero__rail" aria-hidden="true">SCROLL TO ENTER / 01</span>
+    </section>
+
+    <KatieDirector />
+
+    <section id="experience" className="katie-film" aria-label="A visit with Katie">
+      <div className="katie-film__frame">
+        {chapters.map((chapter, index) => <article className={"katie-film__chapter katie-film__chapter--" + (index + 1)} key={chapter.number}>
+          <Image src={chapter.image} alt={chapter.alt} fill sizes="100vw" />
+          <div className="katie-film__veil" aria-hidden="true" />
+          <div className="katie-film__copy"><span className="katie-kicker">{chapter.number}</span><h2>{chapter.title}</h2><p>{chapter.body}</p>{index === 1 && <Link href="/chair" className="katie-link">Prepare The Chair <ArrowUpRight size={17} /></Link>}</div>
+          <small className="katie-film__caption">ILLUSTRATIVE PROCESS IMAGERY · NOT KATIE OR HER CLIENTS</small>
+        </article>)}
+        <div className="katie-film__meter" aria-hidden="true"><i /><i /><i /></div>
+      </div>
+    </section>
+
+    <section id="the-chair" className="katie-preference" aria-labelledby="preference-title">
+      <div className="katie-preference__intro"><span className="katie-kicker">04 / THE CHAIR</span><h2 id="preference-title">Your visit.<br /><em>Your terms.</em></h2><p>Some men want to talk. Some want an hour to themselves. Katie makes space for both. The Chair lets you share your preferences before you arrive, and choose what she can remember.</p><Link href="/chair" className="button button-gold">Get my chair ready <ArrowUpRight size={17} /></Link></div>
+      <KatiePreferencePreview />
+    </section>
+
+    <section id="visit" className="katie-visit" aria-labelledby="visit-title">
+      <div className="katie-visit__image"><Image src="/images/fix-it.webp" alt="Illustrative concept of a private men’s salon suite" fill sizes="(max-width: 760px) 100vw, 50vw" /></div>
+      <div className="katie-visit__copy"><span className="katie-kicker">05 / FIND YOUR VISIT</span><h2 id="visit-title">Good work.<br /><em>Good company.</em></h2><p>Katie’s world begins with men’s hair and personal attention. Tell her the direction you have in mind, or arrive ready to find one together.</p><div className="katie-visit__facts"><span>MEN’S HAIR</span><span>PERSONAL CONSULTATION</span><span>A FINISH FOR EVERYDAY LIFE</span></div><Link href="/book" className="button button-gold">Explore booking <ArrowUpRight size={17} /></Link><p className="katie-visit__status">Private preview: the current booking menu and prices are illustrative. Katie’s approved services will appear before booking opens.</p></div>
+    </section>
+
+    <section className="katie-discretion" aria-labelledby="discretion-title"><span className="katie-kicker">THE WAY KATIE WORKS</span><h2 id="discretion-title">The visit belongs<br /><em>to the person in the chair.</em></h2><p>That is why this page shows a concept of the experience instead of a gallery of clients. The imagery illustrates the setting and process; it does not claim to show Katie, her finished space, or her work.</p></section>
+
+    <nav className="katie-outro" aria-label="Continue exploring"><Link href="/home" className="katie-link">Return to the Reserve <ArrowUpRight size={17} /></Link><Link href="/gent-ascend" className="katie-link">Explore Neil’s world <ArrowUpRight size={17} /></Link></nav>
+  </main>;
 }

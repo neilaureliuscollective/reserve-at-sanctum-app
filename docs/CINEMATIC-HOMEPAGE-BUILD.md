@@ -1,9 +1,22 @@
-# Reserve cinematic homepage build — September 26, 2026
+# Reserve cinematic homepage rebuild — September 26, 2026
 
-The post-hero homepage is now five distinct beats: threshold, one Katie/Neil encounter, a viewport-contained path choice, an interactive Legacy Reserve product display, and a return to Eunice. The former repeated people/world/union/beyond/begin panels and their three CSS layers are no longer imported by `app/page.tsx`; the arrival remains in place under the homepage approval rule.
+## Experience and source boundaries
 
-`app/page.tsx` supplies server-rendered scene text and routes. `components/reserve-journey.tsx` owns the chapter links, still preference and choice stage. `components/reserve-product-gallery.tsx` owns a local selection of five preview images. `app/reserve-journey.css` owns the new scene compositions. Scroll writes one bounded transform variable to visible scenes; content, links and selected choices remain usable with JavaScript or motion turned off. The still control persists locally. Three exact supplied brand emblems are used in the host/partner scenes; Legacy Reserve is kept as the product line.
+The public journey is a continuous imagined place, with the entrance, hall, Katie's blue craft room, Neil's green ritual alcove, Legacy Reserve display, and Louisiana exit. The generated hall and product chamber are explicitly marked concept environments. Existing concept frames of the threshold, craft, ritual and Eunice provide other viewpoints. No generated scene claims to photograph the real site or founders.
 
-The product images deliberately keep their source neutral studio backgrounds rather than generating or faking new packaging. The surface becomes a lit product chamber inside the dark environment. Product selection does not call commerce services. Booking remains `/book`; Katie `/fix-it-shop`; Neil `/gent-ascend`; location `/visit`. The current Gent public shop is a preview and does not take orders, so this homepage carries no Buy button.
+The supplied Reserve, Fix It Shop and Gent Ascend artwork remains the master source. `scripts/prepare-cinematic-assets.py` creates a transparent alpha matte from those original pixels; it does not redraw a logo, relabel a product, or recolor packaging. The image generation transparent-seal exploration was used to validate the visual direction, but the site uses cutouts from original artwork for fidelity. The five packaging mockups are isolated against alpha and placed over an empty concept product chamber. Their labels are still the supplied images. Both original and derived files are in the repository.
 
-Verification: `npm run typecheck`, `npm run build`, and browser interaction at 320×568, 360×780, 390×844, and 1440×900. The browser pass checked no horizontal overflow, no runtime page errors, live in-place path changes with CTA visible on the cover phone, product selection and loaded product artwork. The environment is an isolated local preview; it does not verify deployed production, actual Fold hardware, or hosted booking.
+## Storyboard and behavior
+
+1. Arrival: existing first scene and headline with a transparent gold Reserve seal; the first CTA lands at the real `#your-way` destination.
+2. Threshold: a sticky stage opens the foreground stone doors; the outside image moves toward and dissolves into the generated hall. The scene copy yields to the Reserve's two-world premise.
+3. Encounter: the hall remains the spatial anchor. Camera shift and light reveal Katie's blue room, retreat to the hall, then reveal Neil's green room. Partner emblems are small supporting identifiers, never pasted square photos.
+4. Your way: selecting craft, ritual or Reserve swaps the whole room image, light and in-viewport destination copy. The CTA remains visible and keyboard reachable.
+5. Collection: an empty petrol stone chamber receives isolated original package mockups. Selection replaces the object and details. It is a preview, not a shop or live stock claim.
+6. Home: the view opens to Louisiana, with a framed transition to visits and the place.
+
+`app/page.tsx` owns semantic server-rendered narrative and links. `components/reserve-journey.tsx` attaches one passive scroll listener and one animation frame update to visible sticky stages; each stage receives bounded progress values rather than a generic repeated parallax. CSS stages live in `app/reserve-cinema-v2.css`. `components/reserve-product-gallery.tsx` keeps only product choice state client-side. Native scrolling remains in control. The still setting and OS reduced-motion preference show a linear, readable layout with both Katie and Neil's stories instead of hiding chapters.
+
+The implementation uses small transform and opacity changes in staged layers rather than a full-time WebGL scene. CSS `animation-timeline` alone remains uneven across browsers; GSAP could manage the same timelines but would add a dependency without changing this specific four-stage progress model. Research: [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/), [MDN animation-timeline support](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation-timeline), [web.dev animation performance](https://web.dev/articles/animations-and-performance), [web.dev reduced motion](https://web.dev/articles/prefers-reduced-motion).
+
+Booking, auth, staff and database code are outside this homepage build. Public operational status remains visible. No product checkout is inferred from concept packaging.

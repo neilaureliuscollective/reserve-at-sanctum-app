@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "The Reserve",
     description: "The Reserve experience, visits, and private operator command.",
     id: "/",
-    start_url: "/setup",
+    start_url: "/enter",
     scope: "/",
     display: "standalone",
     background_color: "#070909",

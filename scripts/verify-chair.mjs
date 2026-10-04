@@ -98,10 +98,12 @@ try {
         false,
         `${route} overflow at ${width}`,
       );
-      for (const img of await page.locator("main img").all())
-        assert.ok(
-          await img.evaluate((el) => el.complete && el.naturalWidth > 0),
-        );
+      for (const img of await page.locator("main img").all()) {
+        await img.scrollIntoViewIfNeeded();
+        await img.evaluate((el) => el.decode());
+        assert.ok(await img.evaluate((el) => el.complete && el.naturalWidth > 0));
+      }
+      await page.evaluate(() => window.scrollTo(0, 0));
       if ([390, 884, 1440].includes(width))
         await page.screenshot({
           path: `artifacts/chair-${route.slice(1)}-${width}.png`,

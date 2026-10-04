@@ -8,5 +8,5 @@ export const metadata = { title: "My Sanctum" };
 export default async function Page() {
   const actor = await currentUser();
   if (!actor) redirect("/signin?next=/my-sanctum");
-  return <main id="main" className="my-sanctum-page"><MySanctum name={actor.name.split(" ·")[0]} /></main>;
+  return <main id="main" className="my-sanctum-page"><MySanctum userId={actor.id} name={actor.name.split(" ·")[0]} /></main>;
 }
