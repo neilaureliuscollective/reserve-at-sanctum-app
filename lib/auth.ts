@@ -4,6 +4,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { database, isPreview, configured } from "./db";
 import type { Actor } from "./booking";
 import { hasSupabase, supabaseKey, supabaseUrl } from "./supabase-config";
+import { optionalRead } from "./experience/optional-read";
 export { hasSupabase } from "./supabase-config";
 export async function supabase() {
   const jar = await cookies();
@@ -106,6 +107,18 @@ export async function signout() {
 /** Public presentation must survive an unavailable account/database service.
  * Never use this optional identity lookup to authorize a private read or write. */
 export async function publicUser(): Promise<Actor | null> {
-  try { return await currentUser(); }
+  try {
+    return await optionalRead(async () => {
+      if (!configured()) return null;
+      if (!hasSupabase()) return currentUser(); // Preview lookup is read-only.
+      const { data: { user } } = await (await supabase()).auth.getUser();
+      if (!user) return null;
+      // Account creation belongs to explicit/private flows, never a timed
+      // optional presentation read that can finish after the page renders.
+      return (await (await database()).query<Actor>(
+        'SELECT * FROM reserve_users WHERE id=$1', [user.id],
+      ))[0] || null;
+    });
+  }
   catch { return null; }
 }
