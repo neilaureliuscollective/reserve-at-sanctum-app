@@ -51,7 +51,8 @@ import "./gent-ascend.css";
 import "./chair.css";
 import "./living-emblems.css";
 import "./reserve-identity.css";
-import { Header } from "@/components/header";
+import { ExperienceChrome } from "@/components/experience/chrome";
+import "./experience.css";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/supabase-config";
@@ -90,9 +91,7 @@ export default function RootLayout({
       className={`${reserveSans.variable} ${reserveSerif.variable}`}
     >
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <ExperienceChrome footer={<Footer />}>{children}</ExperienceChrome>
         <aside className="preview-ribbon" aria-label="Reserve status">
           {isPreview() || !configured() || !hasSupabase()
             ? "PRIVATE SETUP"

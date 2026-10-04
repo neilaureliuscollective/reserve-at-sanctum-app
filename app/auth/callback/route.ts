@@ -1,3 +1,4 @@
+import { safeDestination } from "@/lib/experience/entry";
 import { NextResponse } from "next/server";
 import { hasSupabase, supabase } from "@/lib/auth";
 
@@ -5,10 +6,7 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const requested = url.searchParams.get("next");
-  const next =
-    requested && /^\/(?!\/)/.test(requested) && !requested.includes("\\")
-      ? requested
-      : "/my-sanctum";
+  const next = safeDestination(requested);
 
   if (code && hasSupabase()) {
     const { error } = await (await supabase()).auth.exchangeCodeForSession(code);

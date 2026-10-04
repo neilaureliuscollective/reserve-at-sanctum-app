@@ -36,7 +36,7 @@ export default async function Page() {
 
   return (
     <main id="main" className="inner-page section workspace-page">
-      <ReserveCommand name={actor.name} />
+      {actor.role === "owner" ? <ReserveCommand name={actor.name} /> : <header className="provider-arrival"><p className="eyebrow">THE RESERVE · EUNICE</p><h1>Your working day.</h1><p>Welcome, {actor.name}. Your schedule and shared Chair summaries are below.</p></header>}
       <section id="schedule">
         <Visits actor={actor} studio preview={isPreview()} />
       </section>
@@ -47,7 +47,7 @@ export default async function Page() {
       )}
       {canReadChairStudio(actor) && <ChairStudio />}
       <div className="setup-actions">
-        <Link className="text-link" href="/setup">
+        <Link className="text-link" href="/setup?help=1">
           Set up the Reserve on another phone
         </Link>
       </div>
