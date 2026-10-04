@@ -92,6 +92,7 @@ export default function RootLayout({
       className={`${reserveSans.variable} ${reserveSerif.variable}`}
     >
       <body>
+        <noscript><section className="reserve-no-script" aria-labelledby="reserve-no-script-title"><p>THE RESERVE · EUNICE</p><h2 id="reserve-no-script-title">Choose your entrance.</h2><nav aria-label="Reserve destinations without JavaScript"><a href="/fix-it-shop">Fix It Shop · Katie Guidry ↗</a><a href="/gent-ascend">Gent Ascend Collective · Neil Stutes ↗</a><a href="/gent-ascend#collection">Legacy Reserve collection preview ↗</a><a href="/book">Booking entrance ↗</a><a href="/signin">Account entrance ↗</a></nav><small>Enable JavaScript to book, sign in, or save your preferences. Concept environments remain previews of Reserve.</small></section></noscript>
         <ExperienceChrome footer={<Footer />}>{children}</ExperienceChrome>
         <aside className="preview-ribbon" aria-label="Reserve status">
           {isPreview() || !configured() || !hasSupabase()

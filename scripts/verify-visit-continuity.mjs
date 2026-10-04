@@ -8,10 +8,10 @@ if(process.env.DATABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || process.e
 const base='http://localhost:3000';
 const out='artifacts/visit-continuity';
 await mkdir(out,{recursive:true});
-const server=spawn(process.execPath,['node_modules/next/dist/bin/next','dev','--hostname','127.0.0.1'],{env:{...process.env,RESERVE_DEV_PREVIEW:'true',APP_ORIGIN:base},stdio:['ignore','pipe','pipe']});
+const server=spawn(process.execPath,['node_modules/next/dist/bin/next','dev','--webpack','--hostname','127.0.0.1'],{env:{...process.env,RESERVE_DEV_PREVIEW:'true',APP_ORIGIN:base},stdio:['ignore','pipe','pipe']});
 let browser, log='';
 server.stdout.on('data',d=>log+=d);server.stderr.on('data',d=>log+=d);
-const proofs=[];
+const proofs=[];proofs.push=(...entries)=>{console.log(...entries);return Array.prototype.push.apply(proofs,entries);};
 async function cli(args) {
   const binary=process.env.AGENT_BROWSER_PATH;
   if(!binary) return;
@@ -47,12 +47,28 @@ try {
       await visit(route);await page.locator('main h1').waitFor();await overflow(route);
       assert.equal(await page.locator('main h1').count(),1);
       if(route==='/' && viewport.width===360){for(const name of ['Enter the Reserve','Book a visit']){const box=await page.getByRole('link',{name: name === 'Book a visit' ? /^Book a visit/ : name,exact:name !== 'Book a visit'}).boundingBox();assert.ok(box&&box.y>=0&&box.y+box.height<=640,name+' above fold');}}
-      if(route==='/sanctum-mirror' && viewport.width===360){const box=await page.getByRole('button',{name:'Begin your Blueprint',exact:true}).boundingBox();assert.ok(box&&box.y+box.height<=640,'Mirror action above fold');}
+      if(route==='/sanctum-mirror' && viewport.width===360){const box=await page.getByRole('button',{name:'Begin your Blueprint',exact:true}).boundingBox();await page.screenshot({path:`${out}/mirror-fold-debug.png`});assert.ok(box&&box.y+box.height<=640,'Mirror action above fold '+JSON.stringify(box));}
       if([360,1440].includes(viewport.width))await page.screenshot({path:`${out}/${route==='/'?'arrival':route.slice(1)}-${viewport.width}.png`});
     }
   }
   proofs.push('320/360/884/1440px arrival/home/worlds/Chair/Mirror: one h1, no horizontal overflow; Enter and Book visible at 360x640');
   await page.setViewportSize({width:360,height:640});
+  await visit('/home');
+  for (const [index,title,action] of [[1,'Find your direction.','Begin your Blueprint ↗'],[2,'Care between visits.','Explore the collection ↗'],[0,'Come sit down.','Get your chair ready ↗']]) {
+    await page.locator('.reserve-rooms__choices label').nth(index).click();
+    await page.getByRole('heading',{name:title,exact:true}).waitFor();
+    await page.waitForTimeout(600);
+    const box=await page.getByRole('link',{name:action,exact:true}).boundingBox();
+    assert.ok(box && box.y>=0 && box.y+box.height<=640,'selected doorway action visible in mobile viewport');
+    assert.equal(await page.locator('.reserve-rooms__stage:visible').count(),1);
+    await page.screenshot({path:`${out}/room-${index}-360.png`});
+  }
+  await page.locator('.reserve-rooms__choices input').first().focus();await page.keyboard.press('ArrowRight');
+  await page.getByRole('heading',{name:'Find your direction.',exact:true}).waitFor();
+  await page.emulateMedia({reducedMotion:'reduce'});
+  assert.equal(await page.locator('.reserve-rooms__stage--ritual .reserve-rooms__art').evaluate(e=>getComputedStyle(e).animationName),'none');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  proofs.push('three distinct doorway scenes: immediate mobile actions, one visible scene, native keyboard selection and reduced-motion fallback');
   await visit('/');await page.getByRole('link',{name:'Enter the Reserve',exact:true}).click();await page.waitForURL('**/home');
   assert.ok((await context.cookies()).some(c=>c.name==='reserve-arrival-v1'&&c.value==='seen'));
   await visit('/');assert.equal(new URL(page.url()).pathname,'/home');
@@ -107,9 +123,9 @@ try {
   await record.getByRole('button',{name:'Cancel visit',exact:true}).click();await record.getByRole('button',{name:'Confirm cancellation',exact:true}).click();await page.getByRole('status').filter({hasText:'cancelled'}).waitFor();
   const final=(await(await context.request.get(base+'/api/appointments?studio=true')).json()).visits.find(a=>a.id===uiAppointment.id);assert.equal(final.status,'cancelled');assert.equal(final.price,uiAppointment.price);assert.equal(final.revision,uiAppointment.revision+2);
   proofs.push('full booking UI -> guest sign-in return -> visit hub; Katie schedule -> reschedule/cancel; client studio and cross-origin denied');
-  const noScript=await browser.newContext({javaScriptEnabled:false,viewport:{width:360,height:640}});const staticPage=await noScript.newPage();await staticPage.goto(base+'/');assert.equal(await staticPage.getByRole('link',{name:'Enter the Reserve',exact:true}).getAttribute('href'),'/home');await noScript.close();
+  const noScript=await browser.newContext({javaScriptEnabled:false,viewport:{width:360,height:640}});const staticPage=await noScript.newPage();await staticPage.goto(base+'/');assert.equal(await staticPage.getByRole('link',{name:'Enter the Reserve',exact:true}).getAttribute('href'),'/home');await staticPage.goto(base+'/home');await staticPage.getByRole('heading',{name:'Choose your entrance.',exact:true}).waitFor();assert.equal(await staticPage.getByRole('link',{name:'Legacy Reserve collection preview ↗',exact:true}).getAttribute('href'),'/gent-ascend#collection');await noScript.close();
   const blocked=await browser.newContext();await blocked.addInitScript(()=>{Object.defineProperty(window,'sessionStorage',{get(){throw new DOMException('blocked','SecurityError');}});});const blockedPage=await blocked.newPage();await blockedPage.goto(base+'/sanctum-mirror');await blockedPage.getByRole('button',{name:'Begin your Blueprint',exact:true}).click();for(const name of ['Sharper beard structure','Five minutes or less','Redness or irritation','Wavy','Full beard'])await blockedPage.getByRole('button',{name,exact:true}).click();await blockedPage.getByRole('button',{name:'Review my Blueprint',exact:true}).click();await blockedPage.getByRole('button',{name:'Keep my Blueprint',exact:true}).click();assert.match(await blockedPage.locator('.error-message[role=alert]').innerText(),/couldn’t keep/);await blocked.close();
-  proofs.push('no-JS arrival link and blocked-storage Mirror fallback');
+  proofs.push('no-JS arrival link, always-visible plain destination fallback for streamed home, and blocked-storage Mirror fallback');
   assert.deepEqual(errors,[]);
   await writeFile(`${out}/verification.json`,JSON.stringify({proofs,errors,physicalDeviceVerified:false,hostedOAuthVerified:false},null,2));
   console.log(proofs.join('\n'));

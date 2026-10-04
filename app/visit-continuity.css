@@ -8,3 +8,5 @@
 
 .visit-world__heading h1:focus{outline:none}
 @media(max-width:760px){.task-world .mirror-intro .mirror-orbit{display:none}}
+/* Keep the first task available below the two-row narrow-phone navigation. */
+@media(max-width:600px){.task-world .mirror-intro h1{font-size:36px;line-height:1.04;margin:12px 0}.task-world .mirror-intro{margin-top:12px}.task-world .mirror-progress{margin-top:12px}.task-world .mirror-intro .mirror-trust{margin:12px 0}.task-world .mirror-intro>p:not(.eyebrow){line-height:1.5}.task-world .mirror-intro .button{min-height:48px}}
