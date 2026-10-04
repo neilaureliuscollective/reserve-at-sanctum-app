@@ -14,7 +14,11 @@ export type Capability =
   | "catalog"
   | "collect"
   | "notes"
-  | "grant";
+  | "grant"
+  | "checkout"
+  | "inventory"
+  | "refund"
+  | "discount";
 export function assignments(actor: Actor): Assignment[] {
   // Compatibility for isolated fixtures only. Verified HTTP actors always load explicit DB assignments.
   if (actor.assignments) return actor.assignments;
@@ -55,7 +59,10 @@ export function permitted(
     if (
       capability === "catalog" ||
       capability === "manage" ||
-      capability === "collect"
+      capability === "collect" ||
+      capability === "inventory" ||
+      capability === "refund" ||
+      capability === "discount"
     )
       return false;
     return (

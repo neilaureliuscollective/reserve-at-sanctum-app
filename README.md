@@ -1,3 +1,5 @@
+Phase 2 commerce plan: [design and research](docs/PHASE-TWO-PLAN.md), [commissioning](docs/PHASE-TWO-RELEASE.md). The commerce branch is stacked on the unmerged Phase 1 foundation.
+
 # Reserve operating foundation
 
 Phase 1 implementation and hosted commissioning: [release guide](docs/PHASE-ONE-RELEASE.md). The repository remains the primary Reserve app; production launch is gated on hosted migration, approved location configuration and operational acceptance.

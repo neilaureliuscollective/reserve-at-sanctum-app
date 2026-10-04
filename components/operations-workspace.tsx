@@ -357,6 +357,14 @@ export function OperationsWorkspace({
                       </form>
                     </>
                   )}
+                  {config?.canManage &&
+                    ["checked_in", "completed"].includes(a.status) && (
+                      <Link
+                        href={`/studio/commerce?location=${locationId}&date=${day}&visit=${a.id}`}
+                      >
+                        Checkout visit
+                      </Link>
+                    )}
                   {a.status === "checked_in" && (
                     <button
                       disabled={busy}
@@ -792,6 +800,11 @@ export function OperationsWorkspace({
       )}
       {tab === "chair" && <ChairStudio />}
       <footer className="ops-footer">
+        {permitted(actor, "checkout", locationId) && (
+          <Link href={`/studio/commerce?location=${locationId}&date=${day}`}>
+            Checkout & retail
+          </Link>
+        )}
         <Link href="/account">Your account</Link>
         <Link href="/">Reserve experience</Link>
         {actor.assignments?.some((a) => a.role === "owner") && (
