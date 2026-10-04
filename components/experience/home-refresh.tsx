@@ -5,6 +5,11 @@ export function HomeRefresh() {
   const router = useRouter();
   useEffect(() => {
     document.querySelector<HTMLElement>('.room-intro h1')?.focus({preventScroll:true});
+    performance.mark('reserve:home-actionable');
+    if (performance.getEntriesByName('reserve:threshold-start').length) {
+      performance.measure('reserve:threshold-to-home', 'reserve:threshold-start', 'reserve:home-actionable');
+      performance.clearMarks('reserve:threshold-start');
+    }
     let last = Date.now();
     const refresh = () => { if (document.visibilityState === 'visible' && Date.now()-last > 30000) { last=Date.now();router.refresh(); } };
     window.addEventListener('focus',refresh);document.addEventListener('visibilitychange',refresh);
