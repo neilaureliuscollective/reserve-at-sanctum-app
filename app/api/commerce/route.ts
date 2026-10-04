@@ -1,3 +1,4 @@
+import { requireLegacyRegister } from "@/domains/shopify/mode";
 import { z } from "zod";
 import { authenticated, rateLimit } from "@/lib/operation-http";
 import { failure, mutationOrigin } from "@/lib/http";
@@ -68,6 +69,7 @@ export async function POST(req: Request) {
       .object({ action: z.string(), input: z.unknown() })
       .strict()
       .parse(await readChairJson(req, 16000));
+    requireLegacyRegister();
     if (body.action === "configure")
       return Response.json(await configureCommerce(db, actor, body.input));
     if (body.action === "order")

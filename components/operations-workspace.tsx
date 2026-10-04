@@ -39,11 +39,13 @@ const money = (n: number) =>
     n / 100,
   );
 export function OperationsWorkspace({
+  legacyCommerce = false,
   actor,
   preview,
 }: {
   actor: Actor;
   preview: boolean;
+  legacyCommerce?: boolean;
 }) {
   const [locations, setLocations] = useState<Location[]>([]),
     [locationId, setLocation] = useState(""),
@@ -374,6 +376,7 @@ export function OperationsWorkspace({
                     </button>
                   )}
                   {config?.canManage &&
+                    legacyCommerce &&
                     a.status !== "cancelled" &&
                     a.status !== "no_show" && (
                       <details>

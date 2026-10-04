@@ -1,3 +1,5 @@
+> Do not commission the standalone register below. Shopify is now the commerce authority; follow SHOPIFY-POS-SETUP.md. This older checklist is retained for historical recovery/reference.
+
 # Phase 2 commissioning
 
 This implementation is stacked on Phase 1 PR #12. Neither public booking nor live payment commissioning is implied by a passing local test.

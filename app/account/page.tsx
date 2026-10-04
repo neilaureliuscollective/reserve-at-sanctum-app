@@ -1,3 +1,4 @@
+import { customerSales } from "@/domains/shopify";
 import Link from "next/link";
 import { database } from "@/lib/db";
 import { ownReceipts } from "@/domains/commerce/orders";
@@ -11,10 +12,27 @@ export default async function Page() {
   const actor = await currentUser();
   if (!actor) redirect("/signin?next=/account");
 
-  const receipts = await ownReceipts(await database(), actor);
+  const db = await database();
+  const [receipts, shopifySales] = await Promise.all([
+    ownReceipts(db, actor),
+    customerSales(db, actor),
+  ]);
   return (
     <main id="main" className="inner-page section workspace-page">
       <Visits actor={actor} preview={isPreview()} />
+      {shopifySales.length > 0 && (
+        <section>
+          <h2>Your Shopify sales</h2>
+          {shopifySales.map((s) => (
+            <p key={s.id}>
+              <Link href={`/receipt/shopify/${s.id}`}>
+                {s.name} ·{" "}
+                {s.financial_status.replaceAll("_", " ").toLowerCase()}
+              </Link>
+            </p>
+          ))}
+        </section>
+      )}
       {receipts.length > 0 && (
         <section>
           <h2>Your receipts</h2>

@@ -1,3 +1,5 @@
+Current commerce direction: **Shopify + POS Pro** owns checkout, products, stock and refunds. Reserve owns booking, providers and the reviewed visit/sale association. [Shopify architecture/build plan](docs/SHOPIFY-POS-PLAN.md) · [Founder setup and commissioning](docs/SHOPIFY-POS-SETUP.md). The prior Stripe register is disabled by default; historical records are preserved.
+
 Phase 2 commerce plan: [design and research](docs/PHASE-TWO-PLAN.md), [commissioning](docs/PHASE-TWO-RELEASE.md). The commerce branch is stacked on the unmerged Phase 1 foundation.
 
 # Reserve operating foundation

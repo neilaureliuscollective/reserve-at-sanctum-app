@@ -1,8 +1,14 @@
+import { legacyRegisterAllowed } from "@/domains/shopify/mode";
 import { database } from "@/lib/db";
 import { verifyStripeEvent } from "@/domains/commerce/stripe";
 import { ingestEvent } from "@/domains/commerce/payments";
 export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
+  if (!legacyRegisterAllowed())
+    return Response.json(
+      { error: "Stripe checkout is disabled. Use Shopify." },
+      { status: 410 },
+    );
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!secret)
     return Response.json(

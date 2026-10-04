@@ -20,6 +20,7 @@ const server = spawn(
     env: {
       ...process.env,
       RESERVE_DEV_PREVIEW: "true",
+      RESERVE_LEGACY_COMMERCE_PREVIEW: "true",
       RESERVE_VERIFY: "true",
       RESERVE_PREVIEW_PATH: `.data/verify-${Date.now()}`,
       APP_ORIGIN: origin,
