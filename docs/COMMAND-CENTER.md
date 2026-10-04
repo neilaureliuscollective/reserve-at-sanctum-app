@@ -1,47 +1,24 @@
 # Reserve Command
 
-Reserve Command is the private operator layer for Neil and Katie. It keeps the
-customer-facing Reserve separate from the working side of the business while
-reusing the same authenticated Next.js application and server-only Postgres
-boundary.
+Reserve Command is the private operator layer for Neil and Katie inside the
+existing authenticated Reserve application. Neil has Reserve-wide business
+visibility; Katie has her provider view and shared work. Clients never receive
+the operator workspace.
 
-## What it adds
+The workspace includes Today, Schedule, Work, Talk and Knowledge. Work supports
+capture, building, review and approval, with separate completion, due dates,
+explicit visibility, revision conflicts and recipient-acknowledged handoffs.
+Visible views refresh every 45 seconds; changes use authenticated server routes.
 
-- Phone-first business pulse: confirmed visits today, the next seven days, next
-  visit, open build items and items waiting for review.
-- Fast operator links into the live Reserve, booking, schedule blocking and The
-  Chair.
-- Shared Build Room for ideas, feedback, decisions and tasks across The Reserve,
-  Fix It Shop and GENT Ascend.
-- Lightweight workflow: Captured -> Building -> Needs review -> Approved.
-- Neil / Katie / Both assignment without exposing private customer data.
-- A 45-second refresh keeps the two operator views current without opening
-  browser SQL access or changing the existing RLS architecture.
-- PWA shortcuts expose Command, Booking and The Chair from supported installed
-  app launchers.
+Aethelios is an optional read-only business coworker with private founder and
+provider conversations and explicitly shared Operations Rooms. It can read
+scoped schedules, work and confirmed business facts, never private Chair notes
+or personal context. No chat or board tap deploys code or changes production.
 
-## Hosted activation
+Apply migrations 004 and 005 through `npm run db:migrate` with the intended
+server-only hosted connection. Until schema activation, the workspace explains
+the missing capability. AI also requires a server-side key, approved model and
+explicit feature enablement.
 
-The visual Command shell and business pulse are safe to deploy before the new
-table exists. Until migration 004 is applied, the Build Room shows an activation
-notice and all existing studio tools continue to work.
-
-Run the normal migration command against the hosted database:
-
-    npm run db:migrate
-
-This applies migrations/004_command_center.sql idempotently. No browser RLS
-policies are added; all Build Room mutations continue through authenticated
-server routes.
-
-## Access
-
-- Owner: full Reserve Command access.
-- Staff: Reserve Command access scoped by existing studio permissions elsewhere.
-- Client: redirected to the existing client-safe studio response and never sees
-  the operator workspace.
-
-Reserve Command is intentionally not a code editor or automatic deployment
-system. Katie can capture and approve direction from her phone; implementation
-still follows the normal source-control and deployment path so a board tap
-cannot accidentally change production.
+See [Phase 1 delivery and release gate](COMMAND-COWORKER-RELEASE.md) for the
+permission model, provider transport, cost controls, verification and rollback.

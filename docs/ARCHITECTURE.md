@@ -6,7 +6,9 @@ Next.js App Router hosts the Reserve website, booking, accounts, and staff book.
 The public worlds use server-rendered pages and optimized local imagery. Only
 the hero, navigation, sign-in, booking, and appointment interactions are client
 components. Three.js loads after the initial content and is isolated from forms.
-Fonts are self-hosted. There is no third-party tracking, payment SDK, or AI chat.
+Fonts are self-hosted. There is no third-party tracking or payment SDK. The private operator workspace
+has an optional server-only, read-only AI coworker; see
+[the Phase 1 release](COMMAND-COWORKER-RELEASE.md) for its boundaries.
 
 Fix It Shop is Katie's men's salon world. GENT Ascend is Neil's men's grooming
 world: consultation, hair/beard/skin priorities, products, rituals, and the

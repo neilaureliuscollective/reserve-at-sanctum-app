@@ -23,10 +23,12 @@ const lane = z.enum(["reserve", "fix-it", "gent"]);
 const assignee = z.enum(["neil", "katie", "both"]);
 const status = z.enum(["captured", "building", "review", "approved"]);
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const actor = await operator();
-    return Response.json(await commandCenter(await database(), actor), {
+    const params = new URL(request.url).searchParams;
+    const offset = z.coerce.number().int().min(0).max(10000).parse(params.get("offset") || 0);
+    return Response.json(await commandCenter(await database(), actor, params.get("date") || undefined, offset), {
       headers: { "Cache-Control": "no-store" },
     });
   } catch (error) {
@@ -45,6 +47,8 @@ export async function POST(request: Request) {
         title: z.string().trim().min(1).max(90),
         detail: z.string().trim().max(600).default(""),
         assignee,
+        visibility: z.enum(["shared", "founder", "provider"]).optional(),
+        due_date: z.iso.date().nullable().optional(),
       })
       .strict()
       .parse(await readChairJson(request));
@@ -64,6 +68,10 @@ export async function PATCH(request: Request) {
     const input = z
       .object({
         id: z.uuid(),
+        revision: z.number().int().positive(),
+        completed: z.boolean().optional(),
+        handoff_to: z.string().min(1).max(100).optional(),
+        acknowledge: z.boolean().optional(),
         status: status.optional(),
         assignee: assignee.optional(),
         title: z.string().trim().min(1).max(90).optional(),
@@ -72,6 +80,7 @@ export async function PATCH(request: Request) {
       .strict()
       .refine(
         (value) =>
+          value.completed !== undefined || value.handoff_to !== undefined || value.acknowledge !== undefined ||
           value.status !== undefined ||
           value.assignee !== undefined ||
           value.title !== undefined ||

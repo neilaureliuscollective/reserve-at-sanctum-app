@@ -145,3 +145,11 @@ Open `/setup` for sign-in status and phone installation instructions. Katie’s
 studio now supports time blocking; verified hosted staff accounts can be assigned
 with `npm run staff:provision`. See [the pilot checklist](docs/BOOKING-PILOT.md)
 for the required hosted configuration and real-device verification.
+
+## Reserve Command and Aethelios
+
+The private `/studio` workspace now includes distinct Neil and Katie dashboards,
+scoped work and handoffs, private and explicit shared conversation rooms, and
+human-confirmed business knowledge. AI sends are disabled by default. See
+[Phase 1 delivery, activation and acceptance](docs/COMMAND-COWORKER-RELEASE.md).
+Run `node scripts/verify-command.mjs` for the isolated synthetic browser journey.
