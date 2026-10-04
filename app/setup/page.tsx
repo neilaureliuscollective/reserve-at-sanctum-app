@@ -1,12 +1,14 @@
+import Image from "next/image";
+import { reserveReleaseLabel } from "@/lib/experience/release";
 import { redirect } from "next/navigation";
 import { entryDestination } from "@/lib/experience/entry";
 import Link from "next/link";
-import { currentUser } from "@/lib/auth";
+import { publicUser } from "@/lib/auth";
 import { isPreview } from "@/lib/db";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Set up your Reserve" };
 export default async function Page({ searchParams }: { searchParams: Promise<{ help?: string }> }) {
-  const actor = await currentUser();
+  const actor = await publicUser();
   if (actor && (await searchParams).help !== "1") redirect(entryDestination(actor));
   const studio =
     actor &&
@@ -22,6 +24,13 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ h
         Open the Reserve’s HTTPS link directly in your phone’s browser. Keep an
         internet connection for visits and client information.
       </p>
+      <section className="reserve-install-release" aria-label="Current Reserve release">
+        <Image src="/brand/reserve-rs-v1/app-icon-rs2-192.png" width={96} height={96} alt="Current Reserve app icon: gold RS on petrol" priority />
+        <h2>{reserveReleaseLabel}</h2>
+        <p>This is the current Reserve icon. If yours still shows the previous emblem, remove the old installed app or shortcut and install from the stable address below.</p>
+        <a className="text-link" href="https://reserve-at-sanctum-app.vercel.app/">Open the live Reserve ↗</a>
+        <p>You can install and explore before signing in.</p>
+      </section>
       <section>
         <h2>1. Sign in to your Reserve</h2>
         {actor ? (

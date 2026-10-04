@@ -1,3 +1,4 @@
+import { reserveRelease } from "./lib/experience/release";
 import type { NextConfig } from "next";
 const config: NextConfig = {
   devIndicators: false,
@@ -12,6 +13,7 @@ const config: NextConfig = {
       {
         source: "/:path*",
         headers: [
+          { key: "X-Reserve-Release", value: reserveRelease },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-Frame-Options", value: "DENY" },

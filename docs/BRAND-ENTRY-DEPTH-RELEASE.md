@@ -91,3 +91,15 @@ and add it again from the updated site. No account reset is required.
 
 Rollback by reverting this release commit or restoring the preceding production
 Vercel deployment. There are no schema migrations or data writes in this change.
+
+## Production refresh: RS release 2
+
+After Neil reported an old Vercel timestamp/icon, inspection confirmed main
+6efd2ca and the stable production aliases all mapped to the RS deployment;
+the live manifest served RS v1 icon URLs. The exact phone/dashboard mismatch
+was not observable from this environment. A fresh main release now uses new
+RS2 icon URLs, emits X-Reserve-Release and data-reserve-release, and displays
+“RS release 2 · October 4, 2026” with the actual app icon on /setup?help=1.
+Install help survives unavailable optional identity, and explicitly permits
+installation/exploration before login. PWA id/start/scope remain unchanged.
+The production verifier checks release header/label and every manifest icon.
