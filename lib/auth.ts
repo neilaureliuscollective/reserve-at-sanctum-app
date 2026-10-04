@@ -28,12 +28,12 @@ export async function supabase() {
 }
 export async function currentUser(): Promise<Actor | null> {
   if (!configured()) return null;
-  const db = await database();
   if (hasSupabase()) {
     const {
       data: { user },
     } = await (await supabase()).auth.getUser();
     if (!user) return null;
+    const db = await database();
     await db.query(
       "INSERT INTO reserve_users(id,name,email) VALUES($1,$2,$3) ON CONFLICT(id) DO NOTHING",
       [
@@ -53,6 +53,7 @@ export async function currentUser(): Promise<Actor | null> {
   if (!isPreview()) return null;
   const token = (await cookies()).get("reserve_preview")?.value;
   if (!token) return null;
+  const db = await database();
   const hash = createHash("sha256").update(token).digest("hex");
   return (
     (

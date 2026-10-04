@@ -1,10 +1,13 @@
+import { redirect } from "next/navigation";
+import { entryDestination } from "@/lib/experience/entry";
 import Link from "next/link";
 import { currentUser } from "@/lib/auth";
 import { isPreview } from "@/lib/db";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Set up your Reserve" };
-export default async function Page() {
+export default async function Page({ searchParams }: { searchParams: Promise<{ help?: string }> }) {
   const actor = await currentUser();
+  if (actor && (await searchParams).help !== "1") redirect(entryDestination(actor));
   const studio =
     actor &&
     (actor.role === "owner" ||

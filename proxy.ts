@@ -28,6 +28,9 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
+    "/home",
+    "/enter",
     "/account/:path*",
     "/chair",
     "/my-sanctum/:path*",
