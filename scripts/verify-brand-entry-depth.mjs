@@ -17,7 +17,7 @@ try {
  await mkdir('artifacts/brand-entry-depth',{recursive:true});
  for(const route of ['/home','/fix-it-shop','/gent-ascend']) {
   authRequests.length=0;
-  await page.goto(base+route);await page.locator('main h1').waitFor();await page.waitForTimeout(700);
+  await page.goto(base+route);await page.locator('main h1:visible').waitFor();await page.waitForTimeout(700);
   await page.evaluate(()=>document.querySelector('.footer')?.scrollIntoView());
   await page.locator('.experience-menu summary').click();await page.waitForTimeout(500);
   await page.keyboard.press('Escape');
@@ -59,9 +59,9 @@ try {
  console.log('PASS actual pressed 3D depth and reduced/still motion');
  const manifest=await(await context.request.get(base+'/manifest.webmanifest')).json();
  assert.equal(manifest.id,'/');assert.equal(manifest.start_url,'/enter');
- assert.equal(await page.locator('body').getAttribute('data-reserve-release'),'rs2-20261004');
+ assert.equal(await page.locator('body').getAttribute('data-reserve-release'),'rs3-startup-20261004');
  const setup=await context.request.get(base+'/setup?help=1');
- assert.equal(setup.headers()['x-reserve-release'],'rs2-20261004');assert.match(await setup.text(),/RS release 2/);
+ assert.equal(setup.headers()['x-reserve-release'],'rs3-startup-20261004');assert.match(await setup.text(),/RS release 3/);
  for(const icon of manifest.icons) {assert.match(icon.src,/reserve-rs-v1/);const response=await context.request.get(base+icon.src);assert.equal(response.status(),200);const bytes=await response.body();const meta=await sharp(bytes).metadata();assert.equal(`${meta.width}x${meta.height}`,icon.sizes);}
  const apple=await page.locator('link[rel="apple-touch-icon"]').getAttribute('href');assert.match(apple,/reserve-rs-v1/);
  assert.equal((await context.request.get(base+'/favicon.ico')).status(),200);

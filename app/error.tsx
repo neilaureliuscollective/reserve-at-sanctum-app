@@ -12,6 +12,7 @@ export default function Error({ reset }: { reset: () => void }) {
       <button className="button button-gold" onClick={reset}>
         Try again
       </button>
+      <p><a href="/home" className="text-link">Reload the home experience ↗</a></p>
     </main>
   );
 }
