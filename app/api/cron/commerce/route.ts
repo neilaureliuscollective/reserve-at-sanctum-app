@@ -1,8 +1,14 @@
+import { legacyRegisterAllowed } from "@/domains/shopify/mode";
 import { timingSafeEqual } from "node:crypto";
 import { database } from "@/lib/db";
 import { processEvents } from "@/domains/commerce/payments";
 export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
+  if (!legacyRegisterAllowed())
+    return Response.json(
+      { error: "Previous register is disabled" },
+      { status: 410 },
+    );
   const secret = process.env.RESERVE_CRON_SECRET;
   const a = Buffer.from(req.headers.get("authorization") || ""),
     b = Buffer.from(`Bearer ${secret}`);

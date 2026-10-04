@@ -1,3 +1,5 @@
+> Superseded commerce authority: see SHOPIFY-POS-PLAN.md. The standalone Stripe/local inventory proposal below is retained as implementation history, not the current live commissioning direction.
+
 # Phase 2 — Money and Legacy Reserve retail
 
 ## Verdict and scope
@@ -27,17 +29,17 @@ Sources researched October 4, 2026:
 
 ## Durable model
 
-| Entity | Purpose and authority |
-|---|---|
-| Commerce settings | Location enablement, approved tax basis points/applicability and approval reference; defaults closed |
-| SKU | Company-owned Legacy Reserve product, approved description/price and taxable flag; no sample production rows |
-| Location stock | Physical on-hand and reserved quantities; constraints prevent negative or oversold balances |
-| Stock movement | Append-only receipt/count, reserve, release, sale and physical return; actor/reason/request key |
-| Order and immutable lines | Service/product snapshots, quantities, discount allocation, tax and tip in cents |
-| Payment | One cash or Stripe attempt per order; stable session/intent mapping and explicit unresolved status |
-| Refund | Requested/pending/succeeded/failed amounts, idempotency and external refund mapping |
-| Return | Explicit sellable units returned, bounded by the original sold quantity |
-| Payment event inbox | Signed event ID/type/object only; no full card or customer payload retention |
+| Entity                    | Purpose and authority                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Commerce settings         | Location enablement, approved tax basis points/applicability and approval reference; defaults closed         |
+| SKU                       | Company-owned Legacy Reserve product, approved description/price and taxable flag; no sample production rows |
+| Location stock            | Physical on-hand and reserved quantities; constraints prevent negative or oversold balances                  |
+| Stock movement            | Append-only receipt/count, reserve, release, sale and physical return; actor/reason/request key              |
+| Order and immutable lines | Service/product snapshots, quantities, discount allocation, tax and tip in cents                             |
+| Payment                   | One cash or Stripe attempt per order; stable session/intent mapping and explicit unresolved status           |
+| Refund                    | Requested/pending/succeeded/failed amounts, idempotency and external refund mapping                          |
+| Return                    | Explicit sellable units returned, bounded by the original sold quantity                                      |
+| Payment event inbox       | Signed event ID/type/object only; no full card or customer payload retention                                 |
 
 An appointment can have only one nonvoid commerce order. A Phase 1 external collection blocks a new charge until reconciled, and a commerce order blocks the old collection bridge. This prevents two checkout pathways from collecting the same service unknowingly.
 

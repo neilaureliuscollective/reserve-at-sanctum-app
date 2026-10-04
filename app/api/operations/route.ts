@@ -1,3 +1,4 @@
+import { requireLegacyRegister } from "@/domains/shopify/mode";
 import { authenticated, rateLimit } from "@/lib/operation-http";
 import { collect, reconciliation } from "@/domains/collections";
 import { failure, mutationOrigin } from "@/lib/http";
@@ -24,7 +25,15 @@ export async function POST(req: Request) {
     mutationOrigin(req);
     const { db, actor } = await authenticated();
     await rateLimit(`collection:${actor.id}`);
-    return Response.json(await collect(db, actor, await readChairJson(req)));
+    const raw = await readChairJson(req);
+    if (
+      raw &&
+      typeof raw === "object" &&
+      "action" in raw &&
+      raw.action === "record"
+    )
+      requireLegacyRegister();
+    return Response.json(await collect(db, actor, raw));
   } catch (e) {
     return failure(e);
   }

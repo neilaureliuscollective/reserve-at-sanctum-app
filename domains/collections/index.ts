@@ -42,7 +42,7 @@ export async function collect(db: Database, actor: Actor, raw: unknown) {
     let id: string;
     if (input.action === "record") {
       const [order] = await tx.query(
-        "SELECT id FROM reserve_orders WHERE appointment_id=$1 AND status<>'void'",
+        "SELECT id FROM reserve_orders WHERE appointment_id=$1 AND status<>'void' UNION ALL SELECT id FROM reserve_shopify_orders WHERE appointment_id=$1",
         [a.id],
       );
       if (order)

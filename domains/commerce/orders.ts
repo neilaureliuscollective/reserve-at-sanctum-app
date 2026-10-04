@@ -153,7 +153,7 @@ export async function createOrder(db: Database, actor: Actor, raw: unknown) {
         throw new BookingError("Customer does not match this visit.");
       customerId = a.customer_id;
       const [external] = await tx.query(
-        "SELECT id FROM reserve_external_collections WHERE appointment_id=$1 AND reversed_by IS NULL",
+        "SELECT id FROM reserve_external_collections WHERE appointment_id=$1 AND reversed_by IS NULL UNION ALL SELECT id FROM reserve_shopify_orders WHERE appointment_id=$1",
         [a.id],
       );
       if (external)

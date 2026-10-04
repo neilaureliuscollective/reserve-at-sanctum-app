@@ -1,6 +1,8 @@
 import { currentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { assignments } from "@/domains/access";
+import { ShopifyWorkspace } from "@/components/shopify-workspace";
+import { legacyRegisterAllowed } from "@/domains/shopify/mode";
 import { CommerceWorkspace } from "@/components/commerce-workspace";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Reserve commerce" };
@@ -13,5 +15,5 @@ export default async function Page() {
     )
   )
     redirect("/studio");
-  return <CommerceWorkspace />;
+  return legacyRegisterAllowed() ? <CommerceWorkspace /> : <ShopifyWorkspace />;
 }
