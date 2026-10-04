@@ -3,6 +3,7 @@ import { currentUser } from "@/lib/auth";
 import { database } from "@/lib/db";
 import { change, BookingError } from "@/lib/booking";
 import { mutationOrigin, failure } from "@/lib/http";
+import { readChairJson } from "@/lib/chair-http";
 export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -15,11 +16,11 @@ export async function PATCH(
     z.uuid().parse(id);
     const input = z
       .object({
-        action: z.enum(["cancel", "reschedule"]),
+        action: z.enum(["cancel", "reschedule","check_in","complete","no_show"]),
         start: z.iso.datetime().optional(),
         revision: z.number().int().positive(),
       })
-      .parse(await req.json());
+      .strict().parse(await readChairJson(req));
     return Response.json({
       appointment: await change(await database(), actor, id, input),
     });

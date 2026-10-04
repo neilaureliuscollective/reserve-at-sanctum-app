@@ -60,7 +60,7 @@ export function SanctumMirror({ preview }: { preview: boolean }) {
   return (
     <div className="mirror-experience">
       <div className="mirror-progress" aria-label={`Step ${Math.min(step + 1, 4)} of 4`}>
-        {["Enter", "Capture", "Profile", "Blueprint"].map((label, index) => (
+        {["Enter", "Reference", "Profile", "Blueprint"].map((label, index) => (
           <span key={label} className={index <= step ? "active" : ""}><i>{index < step ? <Check size={12} /> : index + 1}</i>{label}</span>
         ))}
       </div>
@@ -70,20 +70,20 @@ export function SanctumMirror({ preview }: { preview: boolean }) {
           <div className="mirror-orbit" aria-hidden="true"><ScanFace /><span /><span /></div>
           <p className="eyebrow">THE SANCTUM MIRROR</p>
           <h1>Your grooming,<br /><em>finally understood.</em></h1>
-          <p>Begin with a guided facial capture and a few precise choices. Leave with a personal Grooming Blueprint built to travel with you into every visit.</p>
-          <div className="mirror-trust"><LockKeyhole size={15} /><span>Your capture remains private. Your profile is saved only when you choose.</span></div>
-          <button className="button button-gold" onClick={() => setStep(1)}>Begin your Blueprint <ArrowRight size={18} /></button>
+          <p>Begin with a few precise choices. Leave with a personal Grooming Blueprint built to travel with you into every visit.</p>
+          <div className="mirror-trust"><LockKeyhole size={15} /><span>Your answers shape these suggestions. No camera analysis is performed.</span></div>
+          <button className="button button-gold" onClick={() => setStep(2)}>Begin your Blueprint <ArrowRight size={18} /></button>
         </section>
       )}
 
       {step === 1 && (
         <section className="capture-stage">
-          <div className="mirror-stage-heading"><p className="eyebrow">01 / GUIDED CAPTURE</p><h2>Three angles.<br /><em>One complete view.</em></h2><p>The guided frame prepares a consistent visual reference for your consultation. It does not make a medical diagnosis.</p></div>
+          <div className="mirror-stage-heading"><p className="eyebrow">01 / GUIDED CAPTURE</p><h2>Three angles.<br /><em>One complete view.</em></h2><p>This is a local camera preview only. It does not capture, save or analyze photos.</p></div>
           <div className={`capture-view ${cameraState}`}>
             {cameraState === "live" && <video ref={video} autoPlay muted playsInline />}
             <div className="face-guide" aria-hidden="true"><span className="guide-eye left" /><span className="guide-eye right" /><span className="guide-jaw" /></div>
             <div className="scan-line" />
-            <span className="capture-angle">{cameraState === "complete" ? "CAPTURE COMPLETE" : angles[angle]}</span>
+            <span className="capture-angle">{cameraState === "complete" ? "PREVIEW FINISHED" : angles[angle]}</span>
             {cameraState === "idle" && <button className="capture-start" onClick={startCamera}><Camera size={25} />Activate camera</button>}
             {cameraState === "blocked" && <div className="camera-message"><p>Camera access was unavailable.</p><button className="text-link" onClick={() => setCameraState("complete")}>Continue with your guided profile</button></div>}
             {cameraState === "live" && <button className="capture-button" onClick={captureAngle} aria-label={`Capture ${angles[angle]} angle`}><span /></button>}

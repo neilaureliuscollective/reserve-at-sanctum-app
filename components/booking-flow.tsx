@@ -45,7 +45,7 @@ export function BookingFlow() {
     if (u.searchParams.get("start")) setStep(3);
     const abort = new AbortController();
     Promise.all([
-      fetch("/api/availability", { signal: abort.signal }).then((r) =>
+      fetch(`/api/availability?location=${encodeURIComponent(u.searchParams.get("location")||"")}&provider=${encodeURIComponent(u.searchParams.get("provider")||"")}`, { signal: abort.signal }).then((r) =>
         r.json(),
       ),
       fetch("/api/session", { signal: abort.signal }).then((r) => r.json()),
@@ -92,7 +92,7 @@ export function BookingFlow() {
   const service = services.find((s) => s.id === selected);
   const days = Array.from({ length: 10 }, (_, i) =>
     DateTime.now()
-      .setZone(zone)
+      .setZone(service?.timezone||zone)
       .plus({ days: i + 1 }),
   );
   async function reserve() {
@@ -132,7 +132,7 @@ export function BookingFlow() {
           <br />
           <em>Just for you.</em>
         </h1>
-        <p>{service?.name} with Katie</p>
+        <p>{service?.name} with {service?.provider_name||"your provider"}</p>
         <p className="success-time">
           {DateTime.fromISO(start)
             .setZone(zone)
@@ -207,9 +207,9 @@ export function BookingFlow() {
                           {selected === s.id && <Check size={12} />}
                         </span>
                         <span className="service-description">
-                          <strong>{s.name}</strong>
+                          <strong>{s.name}<small>{s.location_name} · {s.provider_name}{s.brand_name ? ` · ${s.brand_name}` : ""}</small></strong>
                           <span>{s.description}</span>
-                          <small>{s.minutes} minutes · with Katie</small>
+                          <small>{s.minutes} minutes · with {service?.provider_name||"your provider"}</small>
                         </span>
                         <span className="service-price">
                           {money(s.price)}
@@ -316,7 +316,7 @@ export function BookingFlow() {
                     Make it <em>yours.</em>
                   </h2>
                   <div className="review-visit">
-                    <strong>{service?.name} · with Katie</strong>
+                    <strong>{service?.name} · with {service?.provider_name||"your provider"}</strong>
                     <span>
                       {start
                         ? DateTime.fromISO(start)
@@ -338,7 +338,7 @@ export function BookingFlow() {
                         </span>
                       </div>
                       <label className="field-label" htmlFor="visit-note">
-                        Anything you’d like Katie to know?
+                        Anything you’d like your provider to know?
                         <span>Optional · grooming preferences only</span>
                       </label>
                       <textarea
@@ -352,7 +352,7 @@ export function BookingFlow() {
                         placeholder="Your preferred finish, a style you have in mind, or how you wear your hair…"
                       />
                       <p className="muted small">
-                        This note is shared with Katie and authorized studio
+                        This note is shared with {service?.provider_name||"your provider"} and authorized studio
                         staff.
                       </p>
                       <div className="inline-note">
@@ -400,7 +400,7 @@ export function BookingFlow() {
           <h3>
             A place in
             <br />
-            <em>Katie’s chair.</em>
+            <em>Your provider’s chair.</em>
           </h3>
           <div className="summary-divider" />
           <p className="summary-service">

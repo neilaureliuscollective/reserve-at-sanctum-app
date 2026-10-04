@@ -1,3 +1,6 @@
+import {createHash} from "node:crypto";
+import {rateLimit} from "@/lib/operation-http";
+import {readChairJson} from "@/lib/chair-http";
 import { z } from "zod";
 import { hasSupabase, previewLogin, signout, supabase } from "@/lib/auth";
 import { mutationOrigin, failure } from "@/lib/http";
@@ -6,7 +9,7 @@ import { configured } from "@/lib/db";
 export async function POST(req: Request) {
   try {
     mutationOrigin(req);
-    const body = await req.json();
+    const body = await readChairJson(req) as Record<string,unknown>;
     if (body.action === "signout") {
       await signout();
       return Response.json({ ok: true });
@@ -29,6 +32,17 @@ export async function POST(req: Request) {
         "Member sign-in will open when hosted accounts are connected.",
         503,
       );
+    const key=createHash('sha256').update(String(body.email||'').trim().toLowerCase()).digest('hex');
+    await rateLimit(`auth:${key}`,10);
+    if(body.action==='recover'){
+      const email=z.email().parse(body.email);
+      await (await supabase()).auth.resetPasswordForEmail(email,{redirectTo:new URL('/auth/callback?next=/account/password',process.env.APP_ORIGIN).toString()});
+      return Response.json({ok:true});
+    }
+    if(body.action==='password'){
+      const password=z.string().min(12).max(128).parse(body.password);const client=await supabase();const {data}=await client.auth.getUser();if(!data.user)throw new BookingError('Open your recovery link or sign in first.',401);
+      const {error}=await client.auth.updateUser({password});if(error)throw new BookingError('Unable to update your password.');return Response.json({ok:true});
+    }
     const input = z
       .object({
         action: z.enum(["signin", "signup"]),

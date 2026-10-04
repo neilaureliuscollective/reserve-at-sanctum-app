@@ -4,6 +4,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { database, isPreview, configured } from "./db";
 import type { Actor } from "./booking";
 import { hasSupabase, supabaseKey, supabaseUrl } from "./supabase-config";
+import { resolveAccess } from "../domains/access";
 export { hasSupabase } from "./supabase-config";
 export async function supabase() {
   const jar = await cookies();
@@ -33,35 +34,30 @@ export async function currentUser(): Promise<Actor | null> {
     const {
       data: { user },
     } = await (await supabase()).auth.getUser();
-    if (!user) return null;
+    if (!user || !user.email_confirmed_at) return null;
     await db.query(
-      "INSERT INTO reserve_users(id,name,email) VALUES($1,$2,$3) ON CONFLICT(id) DO NOTHING",
+      "INSERT INTO reserve_users(id,name,email,identity_verified) VALUES($1,$2,$3,$4) ON CONFLICT(id) DO UPDATE SET identity_verified=excluded.identity_verified,email=excluded.email",
       [
         user.id,
         user.user_metadata?.name || user.email?.split("@")[0] || "Guest",
         user.email || `${user.id}@private.reserve`,
+        Boolean(user.email_confirmed_at),
       ],
     );
-    return (
-      (
-        await db.query<Actor>("SELECT * FROM reserve_users WHERE id=$1", [
-          user.id,
-        ])
-      )[0] || null
-    );
+    const [actor] = await db.query<Actor>("SELECT * FROM reserve_users WHERE id=$1", [user.id]);
+    return actor ? resolveAccess(db, actor) : null;
   }
   if (!isPreview()) return null;
   const token = (await cookies()).get("reserve_preview")?.value;
   if (!token) return null;
   const hash = createHash("sha256").update(token).digest("hex");
-  return (
-    (
+  const actor = (
       await db.query<Actor>(
         "SELECT u.* FROM reserve_users u JOIN reserve_sessions s ON s.user_id=u.id WHERE s.token_hash=$1 AND s.expires_at>now()",
         [hash],
       )
-    )[0] || null
-  );
+    )[0];
+  return actor ? resolveAccess(db, actor) : null;
 }
 export async function previewLogin(identity: string) {
   if (!isPreview() || hasSupabase())

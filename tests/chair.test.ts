@@ -2,7 +2,7 @@ import { chairSchema } from "../lib/chair-validation";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { PGlite } from "@electric-sql/pglite";
-import { schema, wrapPglite } from "../lib/db";
+import { schema, seed, wrapPglite } from "../lib/db";
 import { emptyChair, consentFiltered, type ChairInput } from "../lib/chair";
 import {
   getChair,
@@ -49,6 +49,7 @@ test("Chair access, persistence, revocation, expiry, conflicts and deletion are 
   await pg.waitReady;
   const db = wrapPglite(pg);
   await schema(db);
+  await seed(db);
   await schema(db);
   const client: Actor = {
     id: "chair-client",
@@ -89,7 +90,7 @@ test("Chair access, persistence, revocation, expiry, conflicts and deletion are 
     assert.equal(await getChair(db, other), null);
     assert.equal((await listChairs(db, katie)).length, 0);
     await assert.rejects(() => listChairs(db, client));
-    await assert.rejects(() => listChairs(db, wrongStaff));
+    assert.equal((await listChairs(db, wrongStaff)).length,0);
     await assert.rejects(() =>
       saveChairNote(db, katie, {
         user_id: client.id,
@@ -108,6 +109,8 @@ test("Chair access, persistence, revocation, expiry, conflicts and deletion are 
     const shared = await saveChair(db, client, input);
     assert.equal(shared?.life, input.life);
     await assert.rejects(() => saveChair(db, client, input), /another tab/);
+    await db.query("INSERT INTO reserve_customers(id,auth_user_id,name,email) VALUES($1,$1,$2,$3)",[client.id,client.name,client.email]);
+    await db.query("INSERT INTO reserve_appointments(id,client_id,customer_id,provider_id,service_id,starts_at,ends_at,busy_until,price,note,request_key,original_start) VALUES('chair-visit',$1,$1,'katie','signature',now()+interval '1 day',now()+interval '1 day 45 minutes',now()+interval '1 day 60 minutes',4500,'','chair',now()+interval '1 day')",[client.id]);
     await saveChairNote(db, katie, {
       user_id: client.id,
       body: "Keep length at the crown",

@@ -1,3 +1,4 @@
+import {assignments} from "@/domains/access";
 import Link from "next/link";
 import { currentUser } from "@/lib/auth";
 import { isPreview } from "@/lib/db";
@@ -5,10 +6,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Set up your Reserve" };
 export default async function Page() {
   const actor = await currentUser();
-  const studio =
-    actor &&
-    (actor.role === "owner" ||
-      (actor.role === "staff" && actor.provider_id === "katie"));
+  const studio=actor&&assignments(actor).length>0;
   return (
     <main id="main" className="inner-page section setup-page">
       <p className="eyebrow">YOUR RESERVE · ON YOUR PHONE</p>

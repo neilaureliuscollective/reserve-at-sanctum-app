@@ -9,7 +9,7 @@ export async function GET(req: Request) {
     const db = await database(),
       u = new URL(req.url);
     if (!u.searchParams.has("service"))
-      return Response.json({ services: await catalog(db) });
+      return Response.json({ services: await catalog(db,u.searchParams.get('location')||undefined,u.searchParams.get('provider')||undefined) });
     return Response.json({
       slots: await availability(
         db,

@@ -165,6 +165,7 @@ export function SigninForm({
       {oauthError && !error && (
         <p className="error-message" role="alert">That sign-in did not finish. Your work is still here—try Google or Apple again.</p>
       )}
+      {hosted && <a className="text-link" href="/recover">Forgot your password?</a>}
       {message && (
         <p className="inline-note" role="status">
           {message}

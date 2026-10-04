@@ -36,9 +36,9 @@ const descriptions: Record<Step, string> = {
   life: "You can say a little. You can skip it. Either is good.",
   load: "Just the broad strokes. You don’t need to get into it.",
   conversation: "Some days call for conversation. Some call for quiet.",
-  goal: "No technical terms needed. Katie handles the details.",
+  goal: "No technical terms needed. Your provider handles the details.",
   details: "Optional. Add what helps, leave the rest for the chair.",
-  summary: "Your words. Your preferences. Something useful for Katie.",
+  summary: "Your words. Your preferences. Something useful for your provider.",
 };
 
 export function ChairExperience({
@@ -50,6 +50,8 @@ export function ChairExperience({
   preview: boolean;
   hosted: boolean;
 }) {
+  const [providers,setProviders]=useState<{id:string;name:string}[]>([]);
+  useEffect(()=>{const abort=new AbortController();fetch("/api/availability",{signal:abort.signal}).then(r=>r.json()).then(d=>setProviders(Array.from(new Map((d.services||[]).map((s:{provider_id:string;provider_name:string})=>[s.provider_id,{id:s.provider_id,name:s.provider_name}])).values()) as {id:string;name:string}[])).catch(()=>{});return()=>abort.abort();},[]);
   const [draft, setDraft] = useState<ChairInput>({ ...emptyChair });
   const [step, setStep] = useState<Step>("intent");
   const [ready, setReady] = useState(!user);
@@ -228,7 +230,7 @@ export function ChairExperience({
       setExisting(true);
       setMessage(
         draft.share_with_katie
-          ? "Saved. Katie can open your check-in in her studio."
+          ? "Saved. Your selected provider can open this with a visit relationship."
           : "Saved privately to your Reserve account.",
       );
       try {
@@ -378,7 +380,7 @@ export function ChairExperience({
               </fieldset>
             ))}
             <label className="chair-field">
-              Anything practical Katie should know?{" "}
+              Anything practical your provider should know?{" "}
               <span>
                 Optional · grooming, work requirements, or an event. Keep
                 personal matters for the conversation.
@@ -400,6 +402,7 @@ export function ChairExperience({
         {step === "summary" && (
           <>
             <ChairSummary value={draft} />
+            <label>Provider<select value={draft.provider_id||"katie"} onChange={e=>change("provider_id",e.target.value)}>{providers.map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
             {!saved && (
               <div className="chair-consent">
                 <p className="chair-small">
@@ -416,8 +419,7 @@ export function ChairExperience({
                     }}
                   />
                   <span>
-                    Share this check-in with Katie and the authorized Reserve
-                    owner.
+                    Share this check-in with your selected provider.
                   </span>
                 </label>
                 {draft.life && draft.share_with_katie && (
@@ -444,8 +446,8 @@ export function ChairExperience({
             {saved && (
               <p className="chair-small">
                 {draft.share_with_katie
-                  ? "Shared with Katie and the authorized Reserve owner."
-                  : "Private to your account. Katie cannot see this check-in."}{" "}
+                  ? "Shared with your selected provider."
+                  : "Private to your account. Your provider cannot see this check-in."}{" "}
                 {draft.life
                   ? "Life context expires 7 days after saving."
                   : "No life context is saved."}
@@ -461,7 +463,7 @@ export function ChairExperience({
                   {busy
                     ? "Saving…"
                     : draft.share_with_katie
-                      ? "Save this for Katie"
+                      ? "Save for your provider"
                       : "Save to my Reserve"}
                   <ArrowRight size={18} />
                 </button>

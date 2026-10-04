@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 const config: NextConfig = {
   devIndicators: false,
+  distDir: process.env.RESERVE_VERIFY === "true" && process.env.NODE_ENV !== "production" ? ".next-verify" : ".next",
   poweredByHeader: false,
   outputFileTracingIncludes: {
     "/api/*": ["./migrations/*.sql"],

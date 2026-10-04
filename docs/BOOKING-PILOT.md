@@ -1,3 +1,7 @@
+# Current operating foundation
+
+The Phase 1 location/provider model supersedes the Katie-only pilot assumptions below. See [release guide](PHASE-ONE-RELEASE.md) for current configuration, permissions and commissioning.
+
 # Katie’s phone pilot — September 22, 2026
 
 ## Focused inspection and plan

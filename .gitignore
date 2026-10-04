@@ -8,3 +8,5 @@ playwright-report/
 artifacts/
 docs/previews/*.png
 *.tsbuildinfo
+
+.next-verify/
