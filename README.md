@@ -1,3 +1,7 @@
+# Reserve operating foundation
+
+Phase 1 implementation and hosted commissioning: [release guide](docs/PHASE-ONE-RELEASE.md). The repository remains the primary Reserve app; production launch is gated on hosted migration, approved location configuration and operational acceptance.
+
 # The Reserve at Sanctum
 
 The approved Reserve identity uses Sanctum Petrol `#163E43`, Deep Petrol

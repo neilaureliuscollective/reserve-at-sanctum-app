@@ -1,6 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { DateTime } from "luxon";
 import type { Actor, Appointment } from "./booking";
+import {assignments,requireAccess} from "../domains/access";
+import { visits } from "./booking";
 import { BookingError, ZONE } from "./booking";
 import type { Queryable, Row } from "./db";
 
@@ -34,7 +36,7 @@ export type CommandPulse = {
 };
 
 export function requireOperator(actor: Actor) {
-  if (actor.role !== "owner" && actor.role !== "staff")
+  if (!assignments(actor).some(a=>a.role=== "owner"))
     throw new BookingError("Reserve Command access is required.", 403);
 }
 
@@ -50,25 +52,11 @@ export async function commandCenter(db: Queryable, actor: Actor) {
   const tomorrow = now.plus({ days: 1 }).startOf("day").toUTC().toISO()!;
   const sevenDays = now.plus({ days: 7 }).endOf("day").toUTC().toISO()!;
 
-  const [todayRows, weekRows, nextRows] = await Promise.all([
-    db.query<{ count: string }>(
-      "SELECT count(*)::text AS count FROM reserve_appointments WHERE status='confirmed' AND starts_at >= $1 AND starts_at < $2",
-      [todayStart, tomorrow],
-    ),
-    db.query<{ count: string }>(
-      "SELECT count(*)::text AS count FROM reserve_appointments WHERE status='confirmed' AND starts_at >= $1 AND starts_at <= $2",
-      [now.toUTC().toISO(), sevenDays],
-    ),
-    db.query<Appointment & { service_name?: string; client_name?: string }>(
-      `SELECT a.*,s.name AS service_name,u.name AS client_name
-       FROM reserve_appointments a
-       JOIN reserve_services s ON s.id=a.service_id
-       JOIN reserve_users u ON u.id=a.client_id
-       WHERE a.status='confirmed' AND a.starts_at >= $1
-       ORDER BY a.starts_at ASC LIMIT 1`,
-      [now.toUTC().toISO()],
-    ),
-  ]);
+  const scoped=await visits(db,actor,true);
+  const active=scoped.filter(a=>a.status==='confirmed'||a.status==='checked_in');
+  const todayRows=[{count:String(active.filter(a=>new Date(a.starts_at)>=new Date(todayStart)&&new Date(a.starts_at)<new Date(tomorrow)).length)}];
+  const weekRows=[{count:String(active.filter(a=>new Date(a.starts_at)>=new Date()&&new Date(a.starts_at)<=new Date(sevenDays)).length)}];
+  const nextRows=active.filter(a=>new Date(a.starts_at)>=new Date()).sort((a,b)=>+new Date(a.starts_at)-+new Date(b.starts_at)).slice(0,1);
 
   let items: WorkspaceItem[] = [];
   let workspaceReady = true;
@@ -78,6 +66,7 @@ export async function commandCenter(db: Queryable, actor: Actor) {
        FROM reserve_workspace_items w
        JOIN reserve_users creator ON creator.id=w.created_by
        JOIN reserve_users updater ON updater.id=w.updated_by
+       WHERE w.location_id IN (SELECT id FROM reserve_locations WHERE organization_id='reserve')
        ORDER BY
          CASE w.status WHEN 'review' THEN 0 WHEN 'building' THEN 1 WHEN 'captured' THEN 2 ELSE 3 END,
          w.updated_at DESC

@@ -1,3 +1,7 @@
+# Current permission model
+
+Phase 1 supersedes the legacy Katie/owner permissions below. Sharing now targets `provider_id`, requires a visit relationship and grants no blanket owner/manager access. See [Phase 1 release guide](PHASE-ONE-RELEASE.md).
+
 # The Chair — implementation plan and decisions
 
 Scope: extend the canonical Next.js 16.3.5 App Router application. Preserve Neil's

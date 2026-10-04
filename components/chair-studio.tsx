@@ -61,7 +61,7 @@ export function ChairStudio() {
       ) : chairs.length === 0 ? (
         <p className="chair-empty">
           No shared check-ins yet. Clients appear here only after choosing to
-          share with Katie.
+          share with their assigned provider.
         </p>
       ) : (
         <div className="chair-studio-list">
@@ -170,6 +170,7 @@ function ChairNote({
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               user_id: chair.user_id,
+          provider_id: chair.provider_id,
               body,
               revision: chair.note_revision,
             }),
@@ -187,7 +188,7 @@ function ChairNote({
       <label className="chair-field">
         Private service note
         <span>
-          Katie and authorized owner only. This is separate from the client’s
+          Assigned provider only. This is separate from the client’s
           check-in.
         </span>
         <textarea

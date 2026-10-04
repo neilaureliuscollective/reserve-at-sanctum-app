@@ -15,6 +15,7 @@ export const chairSchema = z
     load: optionalChoice(chairChoices.load),
     share_with_katie: z.boolean(),
     save_life: z.boolean(),
+    provider_id: z.string().regex(/^[a-zA-Z0-9:_-]{1,100}$/).default("katie"),
     revision: z.number().int().min(0),
   })
   .strict();

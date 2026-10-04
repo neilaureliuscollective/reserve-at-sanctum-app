@@ -6,6 +6,7 @@ export const chairChoices = {
     "Getting ready for something.",
     "Keep what works.",
     "Katie, take the wheel.",
+    "You take the wheel.",
   ],
   life: [
     "Yeah. I’m good.",
@@ -39,6 +40,7 @@ export const chairChoices = {
     "Something different.",
     "Easy to maintain.",
     "Katie, take the wheel.",
+    "You take the wheel.",
   ],
   maintenance: [
     "Wash and go",
@@ -59,6 +61,7 @@ export type ChairInput = {
   detail: string;
   life: "" | (typeof chairChoices.life)[number];
   load: "" | (typeof chairChoices.load)[number];
+  provider_id?: string;
   share_with_katie: boolean;
   save_life: boolean;
   revision: number;
@@ -83,6 +86,7 @@ export const emptyChair: ChairInput = {
   detail: "",
   life: "",
   load: "",
+  provider_id: "katie",
   share_with_katie: false,
   save_life: false,
   revision: 0,

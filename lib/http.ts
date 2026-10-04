@@ -12,6 +12,7 @@ export function mutationOrigin(req: Request) {
     throw new BookingError("Request is too large.", 413);
 }
 export function failure(e: unknown) {
+  if((e as {code?:string})?.code==="23505")return Response.json({error:"A matching record already exists. Check the URL slug or refresh before retrying."},{status:409});
   if (e instanceof BookingError)
     return Response.json({ error: e.message }, { status: e.status });
   if (e instanceof ZodError)

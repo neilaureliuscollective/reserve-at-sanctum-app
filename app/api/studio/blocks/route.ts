@@ -11,10 +11,10 @@ async function actor() {
   if (!user) throw new BookingError("Sign in to your studio.", 401);
   return user;
 }
-export async function GET() {
+export async function GET(req:Request) {
   try {
     return Response.json({
-      blocks: await listBlocks(await database(), await actor()),
+      blocks: await listBlocks(await database(), await actor(),new URL(req.url).searchParams.get('provider')||undefined,new URL(req.url).searchParams.get('location')||undefined),
     });
   } catch (e) {
     return failure(e);
@@ -29,6 +29,8 @@ export async function POST(req: Request) {
         date: z.string().max(10),
         start: z.string().max(5),
         end: z.string().max(5),
+        providerId: z.string().max(100).optional(),
+        locationId: z.string().max(100).optional(),
       })
       .strict()
       .parse(await readChairJson(req));
