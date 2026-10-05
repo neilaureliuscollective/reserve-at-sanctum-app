@@ -1,11 +1,11 @@
 /* Katie's own voice inside the existing Reserve visual system. */
 .katie-world {
-  background: #090b0d;
-  --gold: #c4912f;
-  --gold-light: #ead4a5;
+  background: var(--reserve-obsidian);
+  --gold: var(--reserve-gold);
+  --gold-light: var(--reserve-gold-light);
 }
 .katie-world .eyebrow {
-  color: #d5b575;
+  color: var(--reserve-text-secondary);
   font-size: 0.875rem;
   letter-spacing: 0.13em;
 }
@@ -31,8 +31,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, #090b0d, transparent 65%),
-    linear-gradient(0deg, #090b0d, transparent 45%);
+    linear-gradient(90deg, var(--reserve-obsidian), transparent 65%),
+    linear-gradient(0deg, var(--reserve-obsidian), transparent 45%);
 }
 .katie-arrival-image figcaption {
   position: absolute;
@@ -40,7 +40,7 @@
   bottom: 32px;
   right: 6%;
   font-size: 0.75rem;
-  color: #c8c3ba;
+  color: var(--reserve-text-muted);
   max-width: 270px;
   text-align: right;
   letter-spacing: 0.1em;
@@ -58,19 +58,19 @@
   letter-spacing: -0.025em;
 }
 .katie-arrival h1 em {
-  color: #d7b674;
+  color: var(--reserve-text-secondary);
 }
 .katie-lead {
   font: 400 clamp(1.75rem, 2.4vw, 2.4rem)/1.25 var(--serif);
   margin: 28px 0 20px;
 }
 .katie-world .world-body {
-  color: #c5c4c0;
+  color: var(--reserve-text-muted);
   max-width: 420px;
 }
 .katie-location {
   font-size: 0.75rem;
-  color: #c7bfae;
+  color: var(--reserve-text-muted);
   letter-spacing: 0.12em;
   margin-top: 42px;
 }
@@ -90,11 +90,11 @@
   margin-top: 32px;
 }
 .katie-conversation h2 em {
-  color: #d4b578;
+  color: var(--reserve-text-secondary);
 }
 .katie-fine-rule {
   display: block;
-  background: #c4912f;
+  background: var(--reserve-gold);
   width: 75px;
   height: 1px;
   margin-top: 40px;
@@ -105,21 +105,21 @@
 .katie-story > p {
   font-size: 1rem;
   line-height: 1.9;
-  color: #c7c5bf;
+  color: var(--reserve-text-muted);
   margin-bottom: 24px;
 }
 .katie-story .katie-story-lead {
   font: 400 2rem/1.3 var(--serif);
-  color: #f3ecdf;
+  color: var(--reserve-text-primary);
 }
 .katie-story .katie-signoff {
-  color: #dab975;
+  color: var(--reserve-text-secondary);
 }
 .katie-chair-feature {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12%;
-  border-block: 1px solid #c4912f55;
+  border-block: 1px solid color-mix(in srgb, var(--reserve-gold) 33.33%, transparent);
   background:
     radial-gradient(ellipse at 5% 20%, #352b1b, transparent 65%), #121313;
 }
@@ -128,17 +128,17 @@
   margin: 24px 0;
 }
 .katie-chair-title h2 em {
-  color: #e3c38a;
+  color: var(--reserve-text-secondary);
 }
 .katie-chair-title > p:last-child {
   font: 400 2.4rem/1.4 var(--serif);
-  color: #c9c4b9;
+  color: var(--reserve-text-muted);
 }
 .chair-feature-number {
   display: block;
   font-size: 0.875rem;
   letter-spacing: 0.18em;
-  color: #d4b577;
+  color: var(--reserve-text-secondary);
   margin-bottom: 26px;
 }
 .katie-chair-invitation h3 {
@@ -147,7 +147,7 @@
   margin-bottom: 25px;
 }
 .katie-chair-invitation p {
-  color: #c6c3bb;
+  color: var(--reserve-text-muted);
   font-size: 1rem;
   margin-top: 22px;
 }
@@ -162,15 +162,15 @@
 }
 .katie-chair-invitation li::before {
   content: "—";
-  color: #c4912f;
+  color: var(--reserve-text-secondary);
   margin-right: 16px;
 }
 .katie-world .craft-notes article > span {
   font-size: 0.8rem;
-  color: #d3b272;
+  color: var(--reserve-text-secondary);
 }
 .katie-world .craft-notes p {
-  color: #c6c3bc;
+  color: var(--reserve-text-muted);
 }
 .katie-over-time {
   background: #141719;
@@ -181,21 +181,21 @@
 }
 .katie-over-time > p:last-of-type {
   max-width: 600px;
-  color: #c4c2bc;
+  color: var(--reserve-text-muted);
 }
 .katie-story-placeholder {
   margin-top: 45px;
-  border-left: 1px solid #c4912f;
+  border-left: 1px solid var(--reserve-gold);
   padding-left: 24px;
   max-width: 600px;
 }
 .katie-story-placeholder span {
   font-size: 0.8rem;
-  color: #d6ba86;
+  color: var(--reserve-text-secondary);
   letter-spacing: 0.1em;
 }
 .katie-story-placeholder p {
-  color: #aaa9a4;
+  color: var(--reserve-text-muted);
   font-size: 0.875rem;
   margin-top: 8px;
 }
@@ -208,7 +208,7 @@
   margin: 26px 0;
 }
 .katie-reserve p:not(.eyebrow) {
-  color: #c7c4bd;
+  color: var(--reserve-text-muted);
   margin-bottom: 22px;
 }
 .katie-reserve-links {
@@ -216,7 +216,7 @@
   gap: 28px;
 }
 .katie-reserve-links a {
-  border-block-start: 1px solid #c4912f66;
+  border-block-start: 1px solid color-mix(in srgb, var(--reserve-gold) 40.00%, transparent);
   padding: 24px 0;
   display: flex;
   flex-direction: column;
@@ -224,7 +224,7 @@
 }
 .katie-reserve-links a span {
   font-size: 0.875rem;
-  color: #dbc08a;
+  color: var(--reserve-text-secondary);
   display: flex;
   gap: 10px;
   align-items: center;
@@ -233,17 +233,17 @@
   font: 400 2rem/1.15 var(--serif);
 }
 .katie-reserve-links a:hover strong {
-  color: #e7c991;
+  color: var(--reserve-text-secondary);
 }
 .katie-world .craft-invitation {
   background: linear-gradient(105deg, #231f17, #0e1011);
 }
 .katie-world .craft-invitation-actions p {
   font-size: 0.875rem;
-  color: #c7c2b8;
+  color: var(--reserve-text-muted);
 }
 .chair-page {
-  background: #090b0d;
+  background: var(--reserve-obsidian);
   padding: 125px 6% 80px;
   min-height: 100svh;
 }
@@ -253,13 +253,13 @@
   gap: 10px;
   margin-bottom: 30px;
   font-size: 0.875rem;
-  color: #d6bc89;
+  color: var(--reserve-text-secondary);
   min-height: 44px;
 }
 .chair-shell {
   display: grid;
   grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1.35fr);
-  border: 1px solid #c8a46444;
+  border: 1px solid color-mix(in srgb, var(--reserve-gold) 26.67%, transparent);
   max-width: 1300px;
   margin: auto;
 }
@@ -270,34 +270,34 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border-right: 1px solid #c8a46433;
+  border-right: 1px solid color-mix(in srgb, var(--reserve-gold) 20.00%, transparent);
 }
 .chair-aside .eyebrow {
   font-size: 0.8rem;
-  color: #d0b27b;
+  color: var(--reserve-text-secondary);
 }
 .chair-wordmark {
   font: 400 clamp(4rem, 7vw, 7rem)/0.9 var(--serif);
   margin-top: 60px;
 }
 .chair-wordmark em {
-  color: #dbb875;
+  color: var(--reserve-text-secondary);
 }
 .chair-aside-rule {
   height: 1px;
   width: 56px;
-  background: #c4912f;
+  background: var(--reserve-gold);
   margin: 40px 0;
 }
 .chair-aside > p:not(.eyebrow):not(.chair-wordmark) {
   font: 400 1.7rem/1.5 var(--serif);
-  color: #cec8bb;
+  color: var(--reserve-text-muted);
 }
 .chair-aside-footer {
   display: block;
   margin-top: auto;
   padding-top: 70px;
-  color: #bdb6a8;
+  color: var(--reserve-text-muted);
   font-size: 0.75rem;
   letter-spacing: 0.1em;
 }
@@ -316,7 +316,7 @@
   gap: 12px;
   font-size: 0.75rem;
   letter-spacing: 0.12em;
-  color: #c8b386;
+  color: var(--reserve-text-secondary);
 }
 .chair-progress {
   display: block;
@@ -345,7 +345,7 @@
   outline: none;
 }
 .chair-heading p {
-  color: #babbb6;
+  color: var(--reserve-text-muted);
   font-size: 1rem;
   margin: 20px 0 28px;
 }
@@ -373,8 +373,8 @@
 }
 .chair-choice.selected {
   border-color: #c9a35e;
-  background: #c4912f14;
-  color: #f1dfbd;
+  background: color-mix(in srgb, var(--reserve-gold) 7.84%, transparent);
+  color: var(--reserve-text-secondary);
 }
 .chair-choice:hover {
   border-color: #b29460;
@@ -386,7 +386,7 @@
   height: 1px;
 }
 .chair-choice:has(input:focus-visible) {
-  outline: 2px solid #ead4a5;
+  outline: 2px solid var(--reserve-gold-light);
   outline-offset: 3px;
 }
 .chair-choice-mark {
@@ -398,7 +398,7 @@
   flex-shrink: 0;
   border: 1px solid #b09b704d;
   border-radius: 50%;
-  color: #dcbb7a;
+  color: var(--reserve-text-secondary);
 }
 .chair-choice.selected .chair-choice-mark {
   border-color: #c9a35e;
@@ -453,12 +453,12 @@
   font-size: 0.875rem;
 }
 .chair-pills input:checked + span {
-  background: #c4912f18;
+  background: color-mix(in srgb, var(--reserve-gold) 9.41%, transparent);
   border-color: #d2ae68;
-  color: #e6c98f;
+  color: var(--reserve-text-secondary);
 }
 .chair-pills input:focus-visible + span {
-  outline: 2px solid #ead4a5;
+  outline: 2px solid var(--reserve-gold-light);
   outline-offset: 3px;
 }
 .chair-field {
@@ -470,13 +470,13 @@
 }
 .chair-field span {
   font-size: 0.875rem;
-  color: #b9b9b2;
+  color: var(--reserve-text-muted);
 }
 .chair-field textarea,
 .chair-field input {
   border: 1px solid #ffffff35;
   background: #080a0c;
-  color: #f2eee5;
+  color: var(--reserve-text-primary);
   padding: 14px;
   width: 100%;
   min-width: 0;
@@ -488,7 +488,7 @@
 }
 .chair-small {
   font-size: 0.875rem;
-  color: #bcbcb5;
+  color: var(--reserve-text-muted);
   line-height: 1.8;
   margin-top: 20px;
 }
@@ -498,7 +498,7 @@
 }
 .chair-summary {
   margin: 0;
-  border-top: 1px solid #c8a46450;
+  border-top: 1px solid color-mix(in srgb, var(--reserve-gold) 31.37%, transparent);
 }
 .chair-summary > div {
   display: grid;
@@ -508,7 +508,7 @@
   padding: 15px 0;
 }
 .chair-summary dt {
-  color: #c7af7e;
+  color: var(--reserve-text-secondary);
   font-size: 0.875rem;
 }
 .chair-summary dd {
@@ -533,7 +533,7 @@
   flex-shrink: 0;
   width: 22px;
   height: 22px;
-  accent-color: #c4912f;
+  accent-color: var(--reserve-gold);
   margin-top: 4px;
 }
 .chair-actions {
@@ -560,20 +560,20 @@
   font-size: 0.875rem;
 }
 .chair-delete .text-link {
-  color: #d4bfa8;
+  color: var(--reserve-text-secondary);
   font-size: 0.875rem;
 }
 .chair-message {
-  border-left: 2px solid #c8a464;
+  border-left: 2px solid var(--reserve-gold);
   padding: 12px 16px;
-  background: #c8a46412;
+  background: color-mix(in srgb, var(--reserve-gold) 7.06%, transparent);
   margin-top: 24px;
 }
 .chair-privacy {
   border-top: 1px solid #ffffff20;
   margin-top: 36px;
   padding-top: 16px;
-  color: #bbbcb5;
+  color: var(--reserve-text-muted);
   font-size: 0.875rem;
 }
 .chair-privacy summary {
@@ -587,7 +587,7 @@
 .chair-privacy a {
   text-decoration: underline;
   text-underline-offset: 3px;
-  color: #e3c58a;
+  color: var(--reserve-text-secondary);
 }
 .chair-loading {
   min-height: 50svh;
@@ -602,7 +602,7 @@
   gap: 28px;
   padding: 32px;
   margin: 24px 0;
-  border: 1px solid #c8a46450;
+  border: 1px solid color-mix(in srgb, var(--reserve-gold) 31.37%, transparent);
   background: #15140f;
 }
 .chair-profile-link h2 {
@@ -611,11 +611,11 @@
 }
 .chair-profile-link p:not(.eyebrow) {
   max-width: 550px;
-  color: #c2c1b7;
+  color: var(--reserve-text-muted);
 }
 .chair-studio {
   margin-top: 65px;
-  border-top: 1px solid #c8a46455;
+  border-top: 1px solid color-mix(in srgb, var(--reserve-gold) 33.33%, transparent);
   padding-top: 45px;
 }
 .chair-studio > header {
@@ -636,7 +636,7 @@
 }
 .chair-client {
   padding: 25px;
-  border: 1px solid #c8a46440;
+  border: 1px solid color-mix(in srgb, var(--reserve-gold) 25.10%, transparent);
   background: #0d1012;
 }
 .chair-client-top {
@@ -662,7 +662,7 @@
 }
 .chair-empty {
   padding: 30px 0;
-  color: #c6c2b9;
+  color: var(--reserve-text-muted);
 }
 @media (prefers-reduced-motion: no-preference) {
   .chair-options,
@@ -708,8 +708,8 @@
   }
   .katie-arrival-image::after {
     background:
-      linear-gradient(90deg, #090b0dcc, transparent),
-      linear-gradient(0deg, #090b0d, transparent 80%);
+      linear-gradient(90deg, color-mix(in srgb, var(--reserve-obsidian) 80.00%, transparent), transparent),
+      linear-gradient(0deg, var(--reserve-obsidian), transparent 80%);
   }
   .katie-arrival-image figcaption {
     top: 140px;
@@ -777,7 +777,7 @@
   .chair-aside {
     padding: 22px;
     border-right: 0;
-    border-bottom: 1px solid #c8a46433;
+    border-bottom: 1px solid color-mix(in srgb, var(--reserve-gold) 20.00%, transparent);
     flex-direction: row;
     justify-content: space-between;
     align-items: center;

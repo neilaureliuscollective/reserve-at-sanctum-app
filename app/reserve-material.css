@@ -1,0 +1,141 @@
+/* Materials and interaction contracts shared by every Reserve room. */
+body { background: var(--reserve-obsidian); }
+:is(h1,h2,h3,h4) { color: var(--reserve-text-primary); text-wrap: balance; }
+/* Emphasis uses type, rather than gold, unless explicitly an identity moment. */
+:is(h1,h2,h3,h4) em { color: inherit; }
+:is(.experience-header,.site-header,.studio-masthead) {
+  background: var(--reserve-surface-glass);
+  border-color: var(--reserve-border);
+  box-shadow: var(--reserve-highlight);
+}
+:is(.experience-menu nav,.nav-links.is-open,.studio-nav) {
+  background: var(--reserve-surface-glass);
+  border-color: var(--reserve-border);
+  box-shadow: var(--reserve-shadow),var(--reserve-highlight);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+:is(.experience-brand,.wordmark,.studio-wordmark) { color: var(--reserve-text-primary); }
+:is(.eyebrow,.experience-kicker,.studio-work-entry small,.studio-wordmark small) { color: var(--reserve-text-muted); }
+:is(.wordmark svg,.pillar-grid article>svg,.dashboard-icon,.studio-orbit,.studio-work-entry>svg) { color: var(--reserve-gold-light); filter: none; }
+:is(.nav-links a.active,.studio-nav a[aria-current="page"]) {
+  color: var(--reserve-text-primary);
+  background: color-mix(in srgb,var(--reserve-petrol) 65%,transparent);
+  box-shadow: inset 0 -2px var(--reserve-gold);
+}
+.studio-nav a { min-height: 48px; min-width: 44px; border-radius: 6px; }
+:is(.reserve-room,.reserve-account-entrance,.studio-shell) {
+  background: radial-gradient(ellipse at 85% 0%,color-mix(in srgb,var(--reserve-petrol) 55%,transparent),transparent 58%),var(--reserve-obsidian);
+}
+:is(.signin-panel,.booking-summary,.stat-grid>div,.sanctum-dashboard-grid article,.studio-work-dialog) {
+  background: var(--reserve-material);
+  border-color: var(--reserve-border);
+  box-shadow: var(--reserve-highlight),var(--reserve-shadow);
+}
+:is(.service-option,.appointment,.visit-card) { background: var(--reserve-material); border-color: var(--reserve-border); }
+:is(.service-option.selected,.time-grid button.selected,.date-button.selected,.chair-choice.selected) {
+  background: var(--reserve-material-petrol);
+  border-color: var(--reserve-gold-light);
+  color: var(--reserve-text-primary);
+  box-shadow: var(--reserve-highlight),inset 3px 0 var(--reserve-gold);
+}
+:is(.reserve-rooms__choices input:checked+span,.studio-filters button[aria-pressed="true"],.studio-content-tabs button[aria-pressed="true"]) {
+  background: var(--reserve-material-petrol);
+  color: var(--reserve-text-primary);
+  border-color: var(--reserve-gold-light);
+}
+:is(.button,.social-auth-button,.preview-blueprint-button) {
+  --control-edge: var(--reserve-petrol-deep);
+  min-height: 48px;
+  border-color: var(--reserve-border-control);
+  background: var(--reserve-material-petrol);
+  color: var(--reserve-text-primary);
+  box-shadow: var(--reserve-highlight),0 3px 0 var(--control-edge),0 8px 18px #0005;
+  transform: none;
+  transition: background 160ms,border-color 160ms,transform 130ms,box-shadow 130ms;
+}
+/* Premium actions use a static directional metal finish, never an animated shine. */
+.button.button-gold, .header-book {
+  background: var(--reserve-metal);
+  color: var(--reserve-obsidian);
+  border-color: var(--reserve-gold-light);
+  box-shadow: inset 0 1px #fff5,0 3px 0 var(--reserve-gold-dark),0 8px 18px #0005;
+}
+.button.button-outline { background: var(--reserve-material); border-color: var(--reserve-border-control); }
+.button.button-ghost { background: transparent; border-color: transparent; box-shadow: none; }
+.button.button-danger { background: var(--reserve-danger-surface); color: var(--reserve-danger); border-color: var(--reserve-danger); }
+@media(hover:hover) and (pointer:fine) {
+  :is(.button,.social-auth-button,.preview-blueprint-button):hover:not(:disabled):not([aria-disabled="true"]) {
+    border-color: var(--reserve-gold-light); transform: translateY(-1px);
+  }
+  .button.button-gold:hover:not(:disabled),.header-book:hover { background: var(--reserve-metal); filter: brightness(1.05); }
+  .button.button-outline:hover { background: var(--reserve-surface-raised); }
+}
+:is(.button,.social-auth-button,.preview-blueprint-button):active:not(:disabled):not([aria-disabled="true"]) {
+  transform: translateY(2px); box-shadow: inset 0 2px 5px #0005,0 1px 0 var(--control-edge);
+}
+:is(.button,.social-auth-button,.preview-blueprint-button):is(:disabled,[aria-disabled="true"],[aria-busy="true"]) {
+  opacity: .55; transform: none; filter: none; box-shadow: none;
+}
+[aria-busy="true"] { cursor: progress; }
+:is(button,a,input,select,textarea,summary):focus-visible { outline: 2px solid var(--reserve-gold-light); outline-offset: 4px; }
+:is(input,select,textarea) { accent-color: var(--reserve-gold-light); }
+:is(.form-field,.block-fields,.studio-shell) :is(input:not([type="checkbox"]):not([type="radio"]),select,textarea) {
+  background: var(--reserve-petrol-deep); color: var(--reserve-text-primary);
+  border-color: var(--reserve-border-control);
+}
+:is(input,textarea)::placeholder { color: var(--reserve-text-muted); opacity: 1; }
+:is(.error-message,.studio-error) {
+  color: var(--reserve-danger); background: var(--reserve-danger-surface); border-color: var(--reserve-danger);
+}
+.studio-error button { color: var(--reserve-text-primary); text-decoration: underline; }
+:is(.success-icon,.signed-in>svg) { color: var(--reserve-success); border-color: var(--reserve-success); }
+:is(.status,.studio-status-row strong,.studio-notice,.chair-summary dt,.review-visit strong) { color: var(--reserve-text-secondary); }
+.status.cancelled { color: var(--reserve-text-muted); }
+:is(.loading-text,.sanctum-loading,.threshold-progress,.studio-muted) { color: var(--reserve-text-muted); }
+:is(.studio-work-dialog,.studio-aethelios-dialog) { background: var(--reserve-surface-raised); border-color: var(--reserve-border-premium); }
+dialog::backdrop { background: #090b0bcb; backdrop-filter: blur(6px); }
+/* Explicitly limited identity typography. Solid fallback is always present. */
+:is(.reserve-metal-text,.wordmark strong,.studio-monogram,.arrival h1 em,.threshold-content h1 em) {
+  color: var(--reserve-gold-light);
+}
+@supports ((background-clip:text) or (-webkit-background-clip:text)) {
+  :is(.reserve-metal-text,.wordmark strong,.studio-monogram,.arrival h1 em,.threshold-content h1 em) {
+    background-image: var(--reserve-metal);
+    background-clip: text; -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+  }
+}
+.chair-page { --gold: var(--reserve-gold); --gold-light: var(--reserve-gold-light); }
+.chair-delete .text-link { color: var(--reserve-danger); }
+.preview-ribbon { background: var(--reserve-obsidian); color: var(--reserve-text-muted); padding-bottom: max(5px,env(safe-area-inset-bottom)); }
+@media(max-width:650px) {
+  :is(input:not([type="checkbox"]):not([type="radio"]),textarea,select) { font-size: 16px; }
+  :is(.icon-button,.menu-toggle,.text-link,.muted-button) { min-height:44px; min-width:44px; }
+  .studio-masthead { padding-top: max(1.5rem,env(safe-area-inset-top)); }
+  .studio-shell { padding-bottom: calc(6rem + env(safe-area-inset-bottom)); }
+  .studio-work-dialog { padding: 1.25rem; max-height: calc(100dvh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+}
+@media(prefers-reduced-transparency:reduce) {
+  :is(.experience-menu nav,.nav-links.is-open,.studio-nav,.experience-header,.site-header) { background:var(--reserve-petrol-deep); backdrop-filter:none; -webkit-backdrop-filter:none; }
+}
+@media(prefers-contrast:more) {
+  :root { --reserve-text-muted:var(--reserve-stone); --reserve-border:var(--reserve-border-control); }
+  :is(.reserve-metal-text,.wordmark strong,.studio-monogram,.arrival h1 em,.threshold-content h1 em) { background-image:none; -webkit-text-fill-color:var(--reserve-gold-light); }
+}
+@media(forced-colors:active) {
+  :is(.reserve-metal-text,.wordmark strong,.studio-monogram,.arrival h1 em,.threshold-content h1 em) { background-image:none; -webkit-text-fill-color:CanvasText; color:CanvasText; }
+  :is(.button,.social-auth-button,.preview-blueprint-button) { border:1px solid ButtonText; color:ButtonText; box-shadow:none; }
+  :is(a,button,input,select,textarea,summary):focus-visible { outline-color:Highlight; }
+}
+@media(prefers-reduced-motion:reduce) {
+  :is(.button,.social-auth-button,.preview-blueprint-button):is(:hover,:active) { transform:none; }
+}
+/* The Chair uses petrol selection; brass is the confirmation edge. */
+.task-world .choice-group button[aria-pressed="true"] {
+  background:var(--reserve-material-petrol);
+  color:var(--reserve-text-primary);
+  border-color:var(--reserve-gold-light);
+  box-shadow:inset 3px 0 var(--reserve-gold),var(--reserve-highlight);
+}

@@ -56,6 +56,7 @@ import { ExperienceChrome } from "@/components/experience/chrome";
 import "./experience.css";
 import "./visit-continuity.css";
 import "./reserve-controls.css";
+import "./reserve-material.css";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/supabase-config";
@@ -82,7 +83,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#070909",
+  themeColor: "#090B0B",
 };
 export default function RootLayout({
   children,
