@@ -7,7 +7,7 @@
 .living-emblem__face { position:absolute; inset:3%; display:block; overflow:hidden; border-radius:50%; background:#05090a; box-shadow:0 24px 65px #000b,0 0 0 1px #c9975555; }
 .living-emblem__face img { object-fit:cover; }
 .living-emblem__glint { pointer-events:none; position:absolute; inset:3%; border-radius:50%; background:linear-gradient(110deg,transparent 43%,#fff8df28 49%,transparent 54%); opacity:.38; mix-blend-mode:screen; animation:emblem-glint 16s ease-in-out infinite; }
-.living-emblem__control { position:absolute; z-index:3; bottom:-34px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:7px; padding:8px 11px; border:1px solid #d1a96366; background:#0a1112cc; color:#ead8b1; font-size:9px; letter-spacing:.13em; white-space:nowrap; cursor:pointer; }
+.living-emblem__control { position:absolute; z-index:3; bottom:-34px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:7px; padding:8px 11px; border:1px solid #d1a96366; background:#0a1112cc; color: var(--reserve-text-secondary); font-size:9px; letter-spacing:.13em; white-space:nowrap; cursor:pointer; }
 .living-emblem__control:focus-visible { outline:2px solid #f7d795; outline-offset:3px; }
 .living-emblem[data-paused="true"] .living-emblem__orbit::before,.living-emblem[data-paused="true"] .living-emblem__glint { animation-play-state:paused; }
 .living-emblem[data-paused="true"] .living-emblem__stage { transform:none; }

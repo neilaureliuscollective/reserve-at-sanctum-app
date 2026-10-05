@@ -1,2 +1,2 @@
-export const reserveRelease = "rs3-startup-20261004";
-export const reserveReleaseLabel = "RS release 3 · October 4, 2026";
+export const reserveRelease = "petrol-metal-20261005";
+export const reserveReleaseLabel = "Petrol & metal refinement · October 5, 2026";

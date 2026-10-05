@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/enter",
     scope: "/",
     display: "standalone",
-    background_color: "#070909",
-    theme_color: "#163E43",
+    background_color: "#090B0B",
+    theme_color: "#12373A",
     icons: [
       { src: "/brand/reserve-rs-v1/app-icon-rs2-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
       { src: "/brand/reserve-rs-v1/app-icon-rs2-512.png", sizes: "512x512", type: "image/png", purpose: "any" },

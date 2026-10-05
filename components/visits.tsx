@@ -341,7 +341,7 @@ export function Visits({
                           Keep my visit
                         </button>
                         <button
-                          className="button button-gold"
+                          className="button button-danger"
                           disabled={busy}
                           onClick={() => update(a, "cancel")}
                         >

@@ -1,12 +1,12 @@
-.reserve-cinema-v2 { --film-gold:#dfb761; --film-ink:#060b0c; background:var(--film-ink); color:#f3eee5; }
+.reserve-cinema-v2 { --film-gold:#dfb761; --film-ink:#060b0c; background:var(--film-ink); color: var(--reserve-text-primary); }
 .reserve-cinema-v2 :is(h2,h3) { font-family:var(--serif); font-weight:400; letter-spacing:-.048em; line-height:.91; }
 .reserve-cinema-v2 :is(h2,h3) em { color:var(--film-gold); font-weight:400; }
 .reserve-cinema-v2 p { line-height:1.55; }
 .reserve-cinema-v2 .film-index { color:var(--film-gold); font:600 10px/1.4 var(--sans); letter-spacing:.21em; }
-.reserve-cinema-v2 .film-link { display:inline-flex; width:max-content; max-width:100%; align-items:center; gap:20px; min-height:45px; border-bottom:1px solid var(--film-gold); color:#f3d59a; font-size:13px; font-weight:600; text-decoration:none; }
+.reserve-cinema-v2 .film-link { display:inline-flex; width:max-content; max-width:100%; align-items:center; gap:20px; min-height:45px; border-bottom:1px solid var(--film-gold); color: var(--reserve-text-secondary); font-size:13px; font-weight:600; text-decoration:none; }
 .reserve-cinema-v2 .film-link:hover { color:white; }
 .reserve-cinema-v2 :is(a,button):focus-visible { outline:2px solid #ffdc8c; outline-offset:4px; }
-.reserve-cinema-v2 .film-concept { position:absolute; z-index:8; bottom:51px; right:5%; color:#e7dbc5; font:500 9px/1.4 var(--sans); letter-spacing:.14em; text-shadow:0 2px 12px #000; }
+.reserve-cinema-v2 .film-concept { position:absolute; z-index:8; bottom:51px; right:5%; color: var(--reserve-text-primary); font:500 9px/1.4 var(--sans); letter-spacing:.14em; text-shadow:0 2px 12px #000; }
 
 /* The approved seal is a real alpha cutout. Its edge, not a square photograph,
    catches the light. The header uses the same source at a compact size. */
@@ -21,7 +21,7 @@
 
 .reserve-cinema-v2 .film-navigation { position:relative; z-index:9; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:9px 6vw; min-height:66px; border-block:1px solid #c9a66055; background:linear-gradient(100deg,#071718,#153f40,#071718); }
 .reserve-cinema-v2 .film-navigation nav { display:flex; flex-wrap:wrap; gap:clamp(14px,3vw,48px); }
-.reserve-cinema-v2 .film-navigation a { display:inline-grid; align-items:center; min-height:40px; color:#edf0e9; font:600 11px var(--sans); letter-spacing:.09em; }
+.reserve-cinema-v2 .film-navigation a { display:inline-grid; align-items:center; min-height:40px; color: var(--reserve-text-primary); font:600 11px var(--sans); letter-spacing:.09em; }
 .reserve-cinema-v2 .film-navigation a:hover { color:var(--film-gold); }
 .reserve-cinema-v2 .film-navigation button { display:flex; gap:8px; align-items:center; min-height:40px; padding:7px 12px; border:1px solid #d7b67277; background:#092324; color:var(--film-gold); font:600 10px var(--sans); letter-spacing:.12em; cursor:pointer; white-space:nowrap; }
 
@@ -40,7 +40,7 @@
 .reserve-cinema-v2 .film-threshold__door i:last-child { transform:scaleX(-1); }
 .reserve-cinema-v2 .film-threshold__copy { position:absolute; z-index:3; left:8%; top:36%; max-width:790px; }
 .reserve-cinema-v2 .film-threshold h2 { font-size:clamp(72px,8.5vw,142px); margin:32px 0; }
-.reserve-cinema-v2 .film-threshold__copy p { max-width:470px; font-size:clamp(15px,1.25vw,18px); color:#e0e6e2; }
+.reserve-cinema-v2 .film-threshold__copy p { max-width:470px; font-size:clamp(15px,1.25vw,18px); color: var(--reserve-text-primary); }
 .reserve-cinema-v2 .film-threshold__copy .film-link { margin-top:20px; }
 .reserve-cinema-v2 .film-threshold__arrival { position:absolute; z-index:4; bottom:17%; left:8%; opacity:0; }
 .reserve-cinema-v2 .film-threshold__arrival span { color:var(--film-gold); font-size:11px; letter-spacing:.2em; }
@@ -61,7 +61,7 @@
 .reserve-cinema-v2 .film-encounter__story { max-width:670px; padding-right:15px; }
 .reserve-cinema-v2 .film-encounter__story img { display:block; width:112px; height:112px; object-fit:contain; margin:0 0 25px; filter:drop-shadow(0 12px 24px #000b); }
 .reserve-cinema-v2 .film-encounter__story h3 { font-size:clamp(66px,7.3vw,116px); margin:22px 0; }
-.reserve-cinema-v2 .film-encounter__story p { max-width:490px; color:#e3eae4; font-size:16px; }
+.reserve-cinema-v2 .film-encounter__story p { max-width:490px; color: var(--reserve-text-primary); font-size:16px; }
 .reserve-cinema-v2 .film-encounter__story .film-link { margin-top:11px; }
 .reserve-cinema-v2 .film-encounter__story--craft { background:radial-gradient(ellipse at 10% 90%,#08182b8f,transparent 70%); }
 .reserve-cinema-v2 .film-encounter__story--ritual { background:radial-gradient(ellipse at 10% 90%,#0b24188f,transparent 70%); }
@@ -70,7 +70,7 @@
 .reserve-cinema-v2 .film-way { padding:115px 5vw 125px; background:radial-gradient(ellipse at 50% 10%,#17454a,#071415 65%); scroll-margin-top:70px; }
 .reserve-cinema-v2 .film-way__header { max-width:1100px; margin:auto; }
 .reserve-cinema-v2 .film-way__header h2 { font-size:clamp(67px,8vw,124px); margin:30px 0 18px; }
-.reserve-cinema-v2 .film-way__header p { color:#d4e0d8; font-size:16px; }
+.reserve-cinema-v2 .film-way__header p { color: var(--reserve-text-muted); font-size:16px; }
 .reserve-cinema-v2 .film-way__world { position:relative; isolation:isolate; overflow:hidden; height:min(820px,92svh); min-height:560px; max-width:1500px; margin:52px auto 0; border:1px solid #d4aa6359; box-shadow:0 45px 110px #000b,inset 0 0 0 10px #0a202055; }
 .reserve-cinema-v2 .film-way__world::before { content:""; position:absolute; z-index:-1; inset:0; background:linear-gradient(0deg,#020808ed,transparent 75%),linear-gradient(90deg,#02080899,transparent 90%); }
 .reserve-cinema-v2 .film-way__image { position:absolute; z-index:-2; inset:-5%; opacity:0; transform:scale(1.13) translateX(3%); transition:opacity .7s ease,transform 1.2s cubic-bezier(.2,.7,.2,1); }
@@ -78,7 +78,7 @@
 .reserve-cinema-v2 .film-way__image img { object-fit:cover; }
 .reserve-cinema-v2 .film-way__aperture { position:absolute; inset:4%; border:1px solid #d9b66f66; border-radius:45% 45% 0 0 / 20% 20% 0 0; pointer-events:none; box-shadow:inset 0 0 80px #0007; }
 .reserve-cinema-v2 .film-way__controls { position:absolute; z-index:3; display:flex; gap:8px; top:5%; left:7%; right:7%; }
-.reserve-cinema-v2 .film-way__controls button { flex:1; min-height:76px; display:flex; align-items:center; gap:14px; text-align:left; padding:10px 20px; border:1px solid #e1bd795e; background:#061718de; color:#f8f0e2; cursor:pointer; transition:background .4s,border-color .4s,transform .4s; }
+.reserve-cinema-v2 .film-way__controls button { flex:1; min-height:76px; display:flex; align-items:center; gap:14px; text-align:left; padding:10px 20px; border:1px solid #e1bd795e; background:#061718de; color: var(--reserve-text-primary); cursor:pointer; transition:background .4s,border-color .4s,transform .4s; }
 .reserve-cinema-v2 .film-way__controls button[aria-pressed="true"] { background:#1b4a4ac9; border-color:#e8bd6b; transform:translateY(5px); }
 .reserve-cinema-v2 .film-way__controls small { color:var(--film-gold); letter-spacing:.16em; }
 .reserve-cinema-v2 .film-way__controls strong { font:clamp(20px,2vw,28px) var(--serif); }
@@ -99,24 +99,24 @@
 .reserve-cinema-v2 .film-product__object img { object-fit:contain; }
 @keyframes film-product-arrive { from { opacity:0; transform:translateY(25px) scale(.94); } to { opacity:1; transform:translateY(0) scale(1); } }
 .reserve-cinema-v2 .film-product__detail { position:absolute; z-index:3; left:7%; bottom:23%; width:38%; text-shadow:0 3px 14px #000; }
-.reserve-cinema-v2 .film-product__detail span,.reserve-cinema-v2 .film-product__detail small { font:600 10px var(--sans); letter-spacing:.16em; color:#eed293; }
+.reserve-cinema-v2 .film-product__detail span,.reserve-cinema-v2 .film-product__detail small { font:600 10px var(--sans); letter-spacing:.16em; color: var(--reserve-text-secondary); }
 .reserve-cinema-v2 .film-product__detail h3 { font-size:clamp(50px,6vw,92px); margin:16px 0; }
 .reserve-cinema-v2 .film-product__detail p { font-size:16px; }
 .reserve-cinema-v2 .film-product__detail small { display:block; margin-top:26px; }
 .reserve-cinema-v2 .film-product__shelf { position:absolute; z-index:4; bottom:10%; left:7%; right:7%; display:flex; gap:4px; border-top:1px solid #d9ad655e; }
-.reserve-cinema-v2 .film-product__shelf button { flex:1; min-width:0; min-height:58px; display:flex; align-items:center; gap:10px; padding:8px 11px; border:0; border-bottom:1px solid #d9ad655e; background:#051719be; color:#e8ede7; cursor:pointer; text-align:left; }
+.reserve-cinema-v2 .film-product__shelf button { flex:1; min-width:0; min-height:58px; display:flex; align-items:center; gap:10px; padding:8px 11px; border:0; border-bottom:1px solid #d9ad655e; background:#051719be; color: var(--reserve-text-primary); cursor:pointer; text-align:left; }
 .reserve-cinema-v2 .film-product__shelf button[aria-pressed="true"] { background:#245153d9; border-bottom:2px solid var(--film-gold); }
 .reserve-cinema-v2 .film-product__shelf button span { color:var(--film-gold); font-size:9px; }
 .reserve-cinema-v2 .film-product__shelf button strong { font:clamp(14px,1.45vw,22px) var(--serif); white-space:nowrap; }
-.reserve-cinema-v2 .film-product__note { position:absolute; z-index:3; bottom:3%; left:7%; right:7%; margin:0; max-width:900px; font-size:11px; color:#cbd7d2; }
-.reserve-cinema-v2 .film-product__note a { color:#f4d598; text-decoration:underline; text-underline-offset:4px; white-space:nowrap; }
+.reserve-cinema-v2 .film-product__note { position:absolute; z-index:3; bottom:3%; left:7%; right:7%; margin:0; max-width:900px; font-size:11px; color: var(--reserve-text-muted); }
+.reserve-cinema-v2 .film-product__note a { color: var(--reserve-text-secondary); text-decoration:underline; text-underline-offset:4px; white-space:nowrap; }
 .reserve-cinema-v2 .film-product__note svg { display:inline-block; vertical-align:middle; }
 
 .reserve-cinema-v2 .film-home__image img { object-position:center; }
 .reserve-cinema-v2 .film-home__arch { position:absolute; z-index:1; inset:3% 4% -15%; border:clamp(8px,2vw,23px) solid #061718b7; border-bottom:0; border-radius:48% 48% 0 0 / 24% 24% 0 0; box-shadow:inset 0 0 0 1px #d9b26877,inset 0 0 90px #0007; pointer-events:none; }
 .reserve-cinema-v2 .film-home__copy { position:absolute; z-index:2; bottom:15%; left:8%; width:min(80%,760px); }
 .reserve-cinema-v2 .film-home__copy h2 { font-size:clamp(69px,8vw,126px); margin:25px 0; }
-.reserve-cinema-v2 .film-home__copy p { max-width:550px; color:#f0eee4; font-size:16px; }
+.reserve-cinema-v2 .film-home__copy p { max-width:550px; color: var(--reserve-text-primary); font-size:16px; }
 .reserve-cinema-v2 .film-home__actions { display:flex; flex-wrap:wrap; gap:22px; align-items:center; margin-top:32px; }
 
 /* Motion enhancement attaches only after hydration. All prose and links stay
