@@ -1,3 +1,4 @@
+import { hasCapability, requireCapability } from "./studio-permissions";
 import { DateTime } from "luxon";
 import { randomUUID } from "node:crypto";
 import type { Database, Queryable, Row } from "./db";
@@ -6,7 +7,8 @@ export type Actor = Row & {
   id: string;
   name: string;
   email: string;
-  role: "client" | "staff" | "owner";
+  role: "client" | "staff" | "operator" | "owner";
+  capability_overrides?: import("./studio-permissions").CapabilityOverride[];
   provider_id: string | null;
 };
 export type Service = Row & {
@@ -141,7 +143,8 @@ export async function availability(
 export function canAccess(actor: Actor, a: Appointment) {
   return (
     actor.role === "owner" ||
-    (actor.role === "staff" && actor.provider_id === a.provider_id) ||
+    (hasCapability(actor, "appointments.manage") &&
+      actor.provider_id === a.provider_id) ||
     actor.id === a.client_id
   );
 }
@@ -300,9 +303,14 @@ export async function change(
     return conflict(e);
   }
 }
-export async function visits(db: Queryable, actor: Actor, studio = false) {
-  if (studio && actor.role === "client")
-    throw new BookingError("Studio access is required.", 403);
+export async function visits(
+  db: Queryable,
+  actor: Actor,
+  studio = false,
+  page = 0,
+  date = "",
+) {
+  if (studio) requireCapability(actor, "appointments.read");
   const where = studio
     ? actor.role === "owner"
       ? "TRUE"
@@ -312,8 +320,17 @@ export async function visits(db: Queryable, actor: Actor, studio = false) {
     studio && actor.role === "owner"
       ? []
       : [studio ? actor.provider_id : actor.id];
+  let dayFilter = "";
+  if (studio && date) {
+    const day = DateTime.fromISO(date, { zone: ZONE }).startOf("day");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !day.isValid)
+      throw new BookingError("Choose a valid schedule day.");
+    dayFilter = ` AND a.starts_at >= $${values.length + 1} AND a.starts_at < $${values.length + 2}`;
+    values.push(day.toUTC().toISO()!, day.plus({ days: 1 }).toUTC().toISO()!);
+  }
+  const offsetParam = values.length + 1;
   return db.query<Appointment>(
-    `SELECT a.*,s.name AS service_name,u.name AS client_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id JOIN reserve_users u ON u.id=a.client_id WHERE ${where} ORDER BY a.starts_at DESC LIMIT 100`,
-    values,
+    `SELECT a.*,s.name AS service_name,u.name AS client_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id JOIN reserve_users u ON u.id=a.client_id WHERE ${where}${dayFilter} ORDER BY a.starts_at DESC,a.id LIMIT ${studio ? 101 : 100} OFFSET $${offsetParam}`,
+    [...values, studio ? page * 100 : 0],
   );
 }

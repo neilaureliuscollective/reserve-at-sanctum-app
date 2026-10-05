@@ -23,12 +23,24 @@ const lane = z.enum(["reserve", "fix-it", "gent"]);
 const assignee = z.enum(["neil", "katie", "both"]);
 const status = z.enum(["captured", "building", "review", "approved"]);
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const actor = await operator();
-    return Response.json(await commandCenter(await database(), actor), {
-      headers: { "Cache-Control": "no-store" },
-    });
+    return Response.json(
+      await commandCenter(
+        await database(),
+        actor,
+        z.coerce
+          .number()
+          .int()
+          .min(0)
+          .max(10000)
+          .parse(new URL(request.url).searchParams.get("page") ?? 0),
+      ),
+      {
+        headers: { "Cache-Control": "no-store" },
+      },
+    );
   } catch (error) {
     return failure(error);
   }
@@ -45,6 +57,8 @@ export async function POST(request: Request) {
         title: z.string().trim().min(1).max(90),
         detail: z.string().trim().max(600).default(""),
         assignee,
+        assignee_user_id: z.string().min(1).max(100).nullable().optional(),
+        visibility: z.enum(["shared", "owner"]).optional(),
       })
       .strict()
       .parse(await readChairJson(request));
@@ -64,8 +78,12 @@ export async function PATCH(request: Request) {
     const input = z
       .object({
         id: z.uuid(),
+        revision: z.number().int().positive(),
+        action: z.enum(["complete", "archive", "request_changes"]).optional(),
+        feedback: z.string().trim().max(600).optional(),
+        assignee_user_id: z.string().min(1).max(100).optional(),
         status: status.optional(),
-        assignee: assignee.optional(),
+
         title: z.string().trim().min(1).max(90).optional(),
         detail: z.string().trim().max(600).optional(),
       })
@@ -73,16 +91,20 @@ export async function PATCH(request: Request) {
       .refine(
         (value) =>
           value.status !== undefined ||
-          value.assignee !== undefined ||
+          value.action !== undefined ||
+          value.assignee_user_id !== undefined ||
           value.title !== undefined ||
           value.detail !== undefined,
         "Choose something to update.",
       )
       .parse(await readChairJson(request));
     const { id, ...changes } = input;
-    return Response.json({
-      item: await updateWorkspaceItem(await database(), actor, id, changes),
-    });
+    return Response.json(
+      {
+        item: await updateWorkspaceItem(await database(), actor, id, changes),
+      },
+      { headers: { "Cache-Control": "no-store" } },
+    );
   } catch (error) {
     return failure(error);
   }

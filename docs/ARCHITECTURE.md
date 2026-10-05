@@ -120,3 +120,7 @@ Katie’s `/chair` uses the same Reserve user and Supabase session as Neil’s M
 It does not read, overwrite, or infer from the Mirror profile. Saving and staff
 sharing are explicit; clients can revoke sharing or delete Chair data independently.
 See [The Chair](THE-CHAIR.md) for consent, migration, retention, and test details.
+
+## Reserve Studio foundation
+
+Phase 1 evolves `/studio` into a shared shell with role-aware homes and Schedule, Build Room, Clients, and Operations. See [the release and database order](RESERVE-STUDIO-PHASE-1.md). `operator` is a separate server-assigned role; provider scope and capability defaults/overrides are enforced by domains and private APIs. `reserve_user_capabilities` and `reserve_workspace_events` add bounded overrides and durable work activity. Shared-work approval is owner-only and tied to revisions, with no external action executor. Browser grants are revoked by the hosted migrator. The factual Today brief is not AI; Aethelios remains a later integration.

@@ -13,7 +13,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ h
   const studio =
     actor &&
     (actor.role === "owner" ||
-      (actor.role === "staff" && actor.provider_id === "katie"));
+      (["staff", "operator"].includes(actor.role) && actor.provider_id === "katie"));
   return (
     <main id="main" className="inner-page section setup-page">
       <p className="eyebrow">YOUR RESERVE · ON YOUR PHONE</p>
@@ -28,7 +28,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ h
         <Image src="/brand/reserve-rs-v1/app-icon-rs2-192.png" width={96} height={96} alt="Current Reserve app icon: gold RS on petrol" priority />
         <h2>{reserveReleaseLabel}</h2>
         <p>This is the current Reserve icon. If yours still shows the previous emblem, remove the old installed app or shortcut and install from the stable address below.</p>
-        <a className="text-link" href="https://reserve-at-sanctum-app.vercel.app/">Open the live Reserve ↗</a>
+        <a className="text-link" href="https://www.reserveatsanctum.app/">Open the live Reserve ↗</a>
         <p>You can install and explore before signing in.</p>
       </section>
       <section>

@@ -13,6 +13,8 @@ export function Visits({
   studio?: boolean;
   preview?: boolean;
 }) {
+  const [page, setPage] = useState(0),
+    [hasMore, setHasMore] = useState(false);
   const [rows, setRows] = useState<Appointment[]>([]),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(""),
@@ -22,20 +24,30 @@ export function Visits({
     [slots, setSlots] = useState<{ start: string; label: string }[]>([]),
     [selected, setSelected] = useState(""),
     [busy, setBusy] = useState(false),
-    [view, setView] = useState<"visits" | "calendar">(studio && actor.role === "staff" ? "calendar" : "visits"),
-    [filter, setFilter] = useState(studio && actor.role === "staff" ? DateTime.now().setZone("America/Chicago").toISODate()! : ""),
+    [view, setView] = useState<"visits" | "calendar">(
+      studio && actor.role !== "owner" ? "calendar" : "visits",
+    ),
+    [filter, setFilter] = useState(
+      studio && actor.role !== "owner"
+        ? DateTime.now().setZone("America/Chicago").toISODate()!
+        : "",
+    ),
     [message, setMessage] = useState("");
   async function load() {
-    const r = await fetch(`/api/appointments${studio ? "?studio=true" : ""}`);
+    const r = await fetch(
+      `/api/appointments${studio ? `?studio=true&page=${page}&date=${encodeURIComponent(filter)}` : ""}`,
+      { cache: "no-store" },
+    );
     const d = await r.json();
     if (!r.ok) throw new Error(d.error);
     setRows(d.visits);
+    setHasMore(Boolean(d.hasMore));
   }
   useEffect(() => {
     load()
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [page, filter]);
   useEffect(() => {
     if (!editing || !date) return;
     const c = new AbortController();
@@ -110,9 +122,13 @@ export function Visits({
       <div className="workspace-heading">
         <div>
           <p className="eyebrow">
-            {studio ? "FIX IT SHOP · STUDIO" : "YOUR RESERVE EXPERIENCE"}
+            {studio
+              ? actor.role === "owner"
+                ? "THE RESERVE · SCHEDULE"
+                : "YOUR PROVIDER SCHEDULE"
+              : "YOUR RESERVE EXPERIENCE"}
           </p>
-          <h1>{studio ? "A considered day." : "Your next chapter."}</h1>
+          <h1>{studio ? "The appointment book." : "Your next chapter."}</h1>
           <p>
             {studio
               ? `Welcome, ${actor.name.split(" ·")[0]}. Time and attention, well placed.`
@@ -130,6 +146,7 @@ export function Visits({
             onClick={() => {
               setView("visits");
               setFilter("");
+              setPage(0);
             }}
           >
             <List size={17} />
@@ -144,7 +161,12 @@ export function Visits({
           </button>
         </div>
         <div className="workspace-links">
-          {studio && (actor.role === "owner" || actor.provider_id === "katie") && <a className="text-link" href="#chair-studio">Chair check-ins <ArrowUpRight size={16} /></a>}
+          {studio &&
+            (actor.role === "owner" || actor.provider_id === "katie") && (
+              <a className="text-link" href="/studio/schedule#chair-studio">
+                Chair check-ins <ArrowUpRight size={16} />
+              </a>
+            )}
           {!studio && (
             <Link prefetch={false} className="text-link" href="/my-sanctum">
               My Sanctum <ArrowUpRight size={16} />
@@ -164,7 +186,10 @@ export function Visits({
       {preview && (
         <div className="preview-workspace">
           <span>Development environment · synthetic records only</span>
-          <Link prefetch={false} href={`/signin?next=${studio ? "/studio" : "/account"}`}>
+          <Link
+            prefetch={false}
+            href={`/signin?next=${studio ? "/studio" : "/account"}`}
+          >
             Switch preview identity <ArrowUpRight size={14} />
           </Link>
         </div>
@@ -187,7 +212,11 @@ export function Visits({
           </div>
           <div>
             <p>{studio ? "Provider" : "Your studio"}</p>
-            <strong className="stat-date">Katie · Fix It Shop</strong>
+            <strong className="stat-date">
+              {studio && actor.role === "owner"
+                ? "The Reserve"
+                : "Katie · Fix It Shop"}
+            </strong>
           </div>
         </div>
       )}
@@ -198,7 +227,10 @@ export function Visits({
             <input
               type="date"
               value={filter}
-              onChange={(e) => setFilter(e.target.value)}
+              onChange={(e) => {
+                setFilter(e.target.value);
+                setPage(0);
+              }}
             />
           </label>
           <button
@@ -266,7 +298,15 @@ export function Visits({
                     <small>{dt.toFormat("ccc")}</small>
                   </div>
                   <div className="appointment-content">
-                    {!studio && <Link prefetch={false} href={`/my-visit?visit=${encodeURIComponent(a.id)}`} className="text-link">Open your visit & preparation ↗</Link>}
+                    {!studio && (
+                      <Link
+                        prefetch={false}
+                        href={`/my-visit?visit=${encodeURIComponent(a.id)}`}
+                        className="text-link"
+                      >
+                        Open your visit & preparation ↗
+                      </Link>
+                    )}
                     <div className="appointment-top">
                       <h3>{a.service_name}</h3>
                       <span className={`status ${a.status}`}>{a.status}</span>
@@ -410,6 +450,25 @@ export function Visits({
           </div>
         )}
       </div>
+      {studio && (
+        <div className="studio-pagination">
+          <button
+            className="text-link"
+            disabled={page === 0}
+            onClick={() => setPage(page - 1)}
+          >
+            Previous visits
+          </button>
+          <span>Page {page + 1}</span>
+          <button
+            className="text-link"
+            disabled={!hasMore}
+            onClick={() => setPage(page + 1)}
+          >
+            Next visits
+          </button>
+        </div>
+      )}
     </div>
   );
 }

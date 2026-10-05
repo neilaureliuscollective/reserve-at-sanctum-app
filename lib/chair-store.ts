@@ -1,3 +1,4 @@
+import { hasCapability } from "./studio-permissions";
 import { chairSchema } from "./chair-validation";
 import type { Database } from "./db";
 import { BookingError, type Actor } from "./booking";
@@ -6,7 +7,7 @@ import { z } from "zod";
 
 export const canReadChairStudio = (actor: Actor) =>
   actor.role === "owner" ||
-  (actor.role === "staff" && actor.provider_id === "katie");
+  (hasCapability(actor, "chair.read") && actor.provider_id === "katie");
 const selection = `p.*, COALESCE(c.life,'') AS life, COALESCE(c.load,'') AS load, c.expires_at AS life_expires_at`;
 const contextJoin = `LEFT JOIN reserve_chair_context c ON c.user_id=p.user_id AND c.expires_at>now() AND p.share_with_katie=true`;
 async function purgeExpired(db: Database) {
@@ -86,7 +87,7 @@ const noteSchema = z
   })
   .strict();
 export async function saveChairNote(db: Database, actor: Actor, raw: unknown) {
-  if (!canReadChairStudio(actor))
+  if (!canReadChairStudio(actor) || !hasCapability(actor, "chair.notes.write"))
     throw new BookingError("Katie’s studio access is required.", 403);
   const input = noteSchema.parse(raw);
   await db.transaction(async (tx) => {

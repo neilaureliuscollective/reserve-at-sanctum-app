@@ -11,11 +11,11 @@ async function main() {
   if (
     !z.uuid().safeParse(id).success ||
     !z.email().safeParse(email).success ||
-    !["staff", "owner"].includes(role) ||
+    !["staff", "operator", "owner"].includes(role) ||
     confirmation !== "--confirm-verified-account"
   )
     throw Error(
-      "Usage: npm run staff:provision -- <verified-user-uuid> <verified-email> <staff|owner> --confirm-verified-account",
+      "Usage: npm run staff:provision -- <verified-user-uuid> <verified-email> <staff|operator|owner> --confirm-verified-account",
     );
   const db = await database();
   await db.transaction(async (tx) => {
@@ -45,13 +45,13 @@ async function main() {
       throw Error(
         "This account already has a different privileged assignment. Review it manually.",
       );
-    if (role === "staff")
+    if (role === "staff" || role === "operator")
       await tx.query(
         "INSERT INTO reserve_providers(id,name,enabled) VALUES('katie','Katie',false) ON CONFLICT(id) DO NOTHING",
       );
     await tx.query(
       "UPDATE reserve_users SET role=$1,provider_id=$2 WHERE id=$3",
-      [role, role === "staff" ? "katie" : null, id],
+      [role, role !== "owner" ? "katie" : null, id],
     );
   });
   console.log(
