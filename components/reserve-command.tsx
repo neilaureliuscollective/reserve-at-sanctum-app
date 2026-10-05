@@ -242,7 +242,7 @@ export function ReserveCommand({
           </label>
           <label>
             Context
-            <textarea name="detail" maxLength={600} rows={4} />
+            <textarea name="detail" maxLength={6000} rows={4} />
           </label>
           <div className="studio-controls">
             <button className="button button-gold" disabled={busy}>
@@ -384,7 +384,7 @@ export function ReserveCommand({
                   name="detail"
                   rows={6}
                   defaultValue={selected.detail}
-                  maxLength={600}
+                  maxLength={6000}
                   readOnly={!data?.canEdit}
                 />
               </label>

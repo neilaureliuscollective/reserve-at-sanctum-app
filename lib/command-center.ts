@@ -9,7 +9,8 @@ import {
 } from "./studio-permissions";
 export type WorkspaceStatus = "captured" | "building" | "review" | "approved";
 export type WorkspaceLane = "reserve" | "fix-it" | "gent";
-export type WorkspaceKind = "idea" | "feedback" | "decision" | "task";
+export type WorkspaceKind =
+  "idea" | "feedback" | "decision" | "task" | "content";
 export type WorkspaceAssignee = "neil" | "katie" | "both";
 export type WorkspaceItem = Row & {
   id: string;
@@ -57,11 +58,20 @@ function canEdit(actor: Actor, item: WorkspaceItem) {
   )
     throw new BookingError("That work is outside your Studio access.", 403);
 }
-export async function commandCenter(db: Queryable, actor: Actor, page = 0) {
+export async function commandCenter(
+  db: Queryable,
+  actor: Actor,
+  page = 0,
+  kind?: WorkspaceKind,
+) {
   requireOperator(actor);
   requireCapability(actor, "workspace.read");
-  const where = workspaceWhere(actor),
-    n = where.params.length;
+  const where = workspaceWhere(actor);
+  if (kind) {
+    where.params.push(kind);
+    where.sql += ` AND w.kind=$${where.params.length}`;
+  }
+  const n = where.params.length;
   const [items, counts, people] = await Promise.all([
     db.query<WorkspaceItem>(
       `SELECT w.*,creator.name AS creator_name,updater.name AS updater_name FROM reserve_workspace_items w JOIN reserve_users creator ON creator.id=w.created_by JOIN reserve_users updater ON updater.id=w.updated_by WHERE ${where.sql} AND w.archived_at IS NULL ORDER BY CASE w.status WHEN 'review' THEN 0 WHEN 'building' THEN 1 WHEN 'captured' THEN 2 ELSE 3 END,w.updated_at DESC,w.id LIMIT 31 OFFSET $${n + 1}`,
@@ -361,4 +371,16 @@ export async function clientHistory(
     company ? [id, page * 30] : [id, actor.provider_id, page * 30],
   );
   return { client, visits: rows.slice(0, 30), hasMore: rows.length > 30 };
+}
+
+export async function workspaceItem(db: Queryable, actor: Actor, id: string) {
+  requireOperator(actor);
+  const where = workspaceWhere(actor);
+  const [item] = await db.query<WorkspaceItem>(
+    `SELECT w.* FROM reserve_workspace_items w WHERE ${where.sql} AND w.id=$${where.params.length + 1} AND w.archived_at IS NULL`,
+    [...where.params, id],
+  );
+  if (!item)
+    throw new BookingError("That work is unavailable in your Studio.", 404);
+  return item;
 }

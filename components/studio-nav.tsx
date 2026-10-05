@@ -7,10 +7,12 @@ import {
   Hammer,
   UsersRound,
   Settings2,
+  PenLine,
 } from "lucide-react";
 const rooms = [
-  ["/studio", "Today", Compass],
+  ["/studio", "Command", Compass],
   ["/studio/schedule", "Schedule", CalendarDays],
+  ["/studio/content", "Content", PenLine],
   ["/studio/build", "Build Room", Hammer],
   ["/studio/clients", "Clients", UsersRound],
   ["/studio/operations", "Operations", Settings2],

@@ -141,7 +141,7 @@ See `docs/VISION.md` for the implemented cinematic direction and
 
 ## The Reserve Studio
 
-The private operating environment now has Reserve Command for Neil and Katie’s Studio for her explicitly assigned operator account. Schedule, shared work, client service history and readiness live inside the same shell. See [Phase 1 scope, permissions and deployment order](docs/RESERVE-STUDIO-PHASE-1.md). The factual brief uses existing records; AI and commerce are not connected by this phase.
+The private operating environment now has Reserve Command for Neil and Katie’s Studio for her explicitly assigned operator account. Schedule, shared work, client service history and readiness live inside the same shell. See [Phase 1 scope, permissions and deployment order](docs/RESERVE-STUDIO-PHASE-1.md). The factual brief uses existing records. [Phase 2](docs/RESERVE-STUDIO-PHASE-2.md) adds the focused Command home, Content Studio and permission-scoped Aethelios drafting; commerce remains a later phase.
 
 ## Katie’s phone pilot
 

@@ -101,6 +101,7 @@ try {
       await page.setViewportSize({ width, height: 960 });
       for (const route of [
         "/studio",
+        "/studio/content",
         "/studio/build",
         "/studio/schedule",
         "/studio/clients",
@@ -137,6 +138,26 @@ try {
     ).status(),
     404,
   );
+  await visit("/studio/content");
+  const draftTitle = "Content persistence " + Date.now();
+  await page.getByLabel("Draft title").fill(draftTitle);
+  await page.getByLabel("Your copy").fill("Premium working draft. ".repeat(60));
+  await page.getByRole("button", {name:"Save draft",exact:true}).click();
+  await page.getByText("Draft saved.", {exact:true}).waitFor();
+  await page.reload();
+  await page.getByRole("button").filter({hasText:draftTitle}).click();
+  assert.equal(await page.getByLabel("Your copy").inputValue(), "Premium working draft. ".repeat(60).trim());
+  await page.getByRole("button", {name:"Shape with Aethelios",exact:true}).click();
+  await page.getByRole("dialog").waitFor();
+  await page.getByText("Connection pending.", {exact:false}).waitFor();
+  await page.getByRole("button",{name:"Close Aethelios"}).click();
+  await page.getByRole("button",{name:"Send to Neil",exact:true}).click();
+  await page.getByText("Saved and sent to Neil for review.", {exact:true}).waitFor();
+  await visit("/studio");
+  await page.getByRole("tab",{name:"Work",exact:true}).click();
+  await page.getByRole("tabpanel").getByText(draftTitle).waitFor();
+  await page.getByRole("tab",{name:"Work",exact:true}).press("ArrowRight");
+  assert.equal(await page.getByRole("tab",{name:"Activity",exact:true}).getAttribute("aria-selected"),"true");
   await visit("/studio/build?capture=1");
   const title = "Phone approval " + Date.now();
   await page.getByLabel("What needs to happen?").fill(title);

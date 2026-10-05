@@ -6,7 +6,7 @@ Next.js App Router hosts the Reserve website, booking, accounts, and staff book.
 The public worlds use server-rendered pages and optimized local imagery. Only
 the hero, navigation, sign-in, booking, and appointment interactions are client
 components. Three.js loads after the initial content and is isolated from forms.
-Fonts are self-hosted. There is no third-party tracking, payment SDK, or AI chat.
+Fonts are self-hosted. There is no third-party tracking or payment SDK. Private Studio has bounded Aethelios drafting as described in the Phase 2 section below.
 
 Fix It Shop is Katie's men's salon world. GENT Ascend is Neil's men's grooming
 world: consultation, hair/beard/skin priorities, products, rituals, and the
@@ -124,3 +124,7 @@ See [The Chair](THE-CHAIR.md) for consent, migration, retention, and test detail
 ## Reserve Studio foundation
 
 Phase 1 evolves `/studio` into a shared shell with role-aware homes and Schedule, Build Room, Clients, and Operations. See [the release and database order](RESERVE-STUDIO-PHASE-1.md). `operator` is a separate server-assigned role; provider scope and capability defaults/overrides are enforced by domains and private APIs. `reserve_user_capabilities` and `reserve_workspace_events` add bounded overrides and durable work activity. Shared-work approval is owner-only and tied to revisions, with no external action executor. Browser grants are revoked by the hosted migrator. The factual Today brief is not AI; Aethelios remains a later integration.
+
+## Studio Content and Aethelios
+
+See [Phase 2 release and boundaries](RESERVE-STUDIO-PHASE-2.md). Content reuses workspace revision/approval domains with a dedicated `content` kind and 6,000-character detail bound. Aethelios receives only an explicitly supplied prompt/draft and exposes no tools or business-record retrieval. Server authorization/origin/body limits precede the provider call. The private `reserve_ai_usage` table enforces an atomic six-request-per-minute counter across instances; no prompt or conversation is stored. Server-only key/model configuration is documented in `.env.example`.

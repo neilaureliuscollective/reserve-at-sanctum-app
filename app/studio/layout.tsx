@@ -4,6 +4,7 @@ import { AccountEntrance } from "@/components/experience/account-entrance";
 import { currentUser } from "@/lib/auth";
 import { hasCapability } from "@/lib/studio-permissions";
 import { StudioNav } from "@/components/studio-nav";
+import { StudioAssistant } from "@/components/studio-assistant";
 import "./studio.css";
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -29,42 +30,44 @@ export default async function StudioLayout({
       </main>
     );
   return (
-    <div className="studio-shell">
-      <header className="studio-masthead">
-        <Link href="/studio" className="studio-wordmark">
-          <span className="studio-monogram">
-            <Image
-              src="/brand/reserve-rs-v1/rs-gold.svg"
-              alt=""
-              width={32}
-              height={32}
-            />
-          </span>
-          <span>
-            THE RESERVE<small>STUDIO · EUNICE</small>
-          </span>
-        </Link>
-        <div className="studio-identity">
-          <span>{actor.name.split(" ·")[0]}</span>
-          <small>
-            {actor.role === "owner"
-              ? "Founder · Owner"
-              : actor.role === "operator"
-                ? "Fix It Shop · Operator"
-                : "Team · Staff"}
-          </small>
-        </div>
-      </header>
-      <StudioNav owner={actor.role === "owner"} />
-      <main id="main" className="studio-canvas">
-        {children}
-      </main>
-      <footer className="studio-foot">
-        <span>THE RESERVE AT SANCTUM</span>
-        <Link href="/setup?help=1">Phone setup</Link>
-        <Link href="/home?explore=1">View Reserve</Link>
-        <Link href="/account">Account</Link>
-      </footer>
-    </div>
+    <StudioAssistant connected={Boolean(process.env.OPENAI_API_KEY)}>
+      <div className="studio-shell">
+        <header className="studio-masthead">
+          <Link href="/studio" className="studio-wordmark">
+            <span className="studio-monogram">
+              <Image
+                src="/brand/reserve-rs-v1/rs-gold.svg"
+                alt=""
+                width={32}
+                height={32}
+              />
+            </span>
+            <span>
+              THE RESERVE<small>STUDIO · EUNICE</small>
+            </span>
+          </Link>
+          <div className="studio-identity">
+            <span>{actor.name.split(" ·")[0]}</span>
+            <small>
+              {actor.role === "owner"
+                ? "Founder · Owner"
+                : actor.role === "operator"
+                  ? "Fix It Shop · Operator"
+                  : "Team · Staff"}
+            </small>
+          </div>
+        </header>
+        <StudioNav owner={actor.role === "owner"} />
+        <main id="main" className="studio-canvas">
+          {children}
+        </main>
+        <footer className="studio-foot">
+          <span>THE RESERVE AT SANCTUM</span>
+          <Link href="/setup?help=1">Phone setup</Link>
+          <Link href="/home?explore=1">View Reserve</Link>
+          <Link href="/account">Account</Link>
+        </footer>
+      </div>
+    </StudioAssistant>
   );
 }
