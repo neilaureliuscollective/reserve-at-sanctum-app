@@ -16,11 +16,13 @@ export default async function Page({
   const next = safeDestination(p.next);
   // Deployment-specific links have a different Origin and cookie scope. Send
   // account creation to the stable address expected by the auth API.
+  const canonicalOrigin = process.env.APP_ORIGIN;
   if (
-    process.env.NODE_ENV === "production" &&
-    (await headers()).get("host") !== "reserve-at-sanctum-app.vercel.app"
+    process.env.VERCEL_ENV === "production" &&
+    canonicalOrigin &&
+    (await headers()).get("host") !== new URL(canonicalOrigin).host
   ) {
-    const url = new URL("https://reserve-at-sanctum-app.vercel.app/signin");
+    const url = new URL("/signin", canonicalOrigin);
     url.searchParams.set("next", next);
     if (p.error === "oauth") url.searchParams.set("error", "oauth");
     redirect(url.toString());
