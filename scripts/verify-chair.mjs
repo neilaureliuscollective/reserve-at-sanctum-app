@@ -270,7 +270,7 @@ try {
     null,
   );
   await login("preview-katie");
-  await visit("/studio");
+  await visit("/studio/schedule");
   await page
     .getByRole("button", { name: "Start Chair", exact: true })
     .first()

@@ -8,13 +8,25 @@ export async function GET(req: Request) {
   try {
     const actor = await currentUser();
     if (!actor) throw new BookingError("Sign in to view your visits.", 401);
-    return Response.json({
-      visits: await visits(
-        await database(),
-        actor,
-        new URL(req.url).searchParams.get("studio") === "true",
-      ),
-    });
+    const params = new URL(req.url).searchParams;
+    const studio = params.get("studio") === "true";
+    const page = z.coerce
+      .number()
+      .int()
+      .min(0)
+      .max(10000)
+      .parse(params.get("page") ?? 0);
+    const rows = await visits(
+      await database(),
+      actor,
+      studio,
+      page,
+      params.get("date") ?? "",
+    );
+    return Response.json(
+      { visits: rows.slice(0, 100), hasMore: studio && rows.length > 100 },
+      { headers: { "Cache-Control": "no-store" } },
+    );
   } catch (e) {
     return failure(e);
   }

@@ -69,7 +69,7 @@ try {
     403,
   );
   await login("preview-katie");
-  await visit("/setup");
+  await visit("/setup?help=1");
   await page
     .getByText("Your studio access is ready.", { exact: false })
     .waitFor();
@@ -89,7 +89,7 @@ try {
         data: { id: block.id },
       });
   }
-  await visit("/studio");
+  await visit("/studio/schedule");
   const section = page.locator(".studio-blocks");
   await section
     .getByRole("button", { name: "Block time", exact: true })
@@ -133,7 +133,7 @@ try {
   });
   assert.equal(denied.status(), 403);
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await visit("/setup");
+  await visit("/setup?help=1");
   for (const width of [320, 390, 540, 768, 884, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     assert.ok(

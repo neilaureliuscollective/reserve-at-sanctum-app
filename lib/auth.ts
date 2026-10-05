@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { cache } from "react";
 import { createServerClient } from "@supabase/ssr";
 import { createHash, randomBytes } from "node:crypto";
 import { database, isPreview, configured } from "./db";
@@ -8,63 +9,62 @@ import { optionalRead } from "./experience/optional-read";
 export { hasSupabase } from "./supabase-config";
 export async function supabase() {
   const jar = await cookies();
-  return createServerClient(
-    supabaseUrl!,
-    supabaseKey!,
-    {
-      cookies: {
-        getAll: () => jar.getAll(),
-        setAll: (items) => {
-          try {
-            items.forEach(({ name, value, options }) =>
-              jar.set(name, value, options),
-            );
-          } catch {
-            /* Server components cannot refresh cookies; mutations may. */
-          }
-        },
+  return createServerClient(supabaseUrl!, supabaseKey!, {
+    cookies: {
+      getAll: () => jar.getAll(),
+      setAll: (items) => {
+        try {
+          items.forEach(({ name, value, options }) =>
+            jar.set(name, value, options),
+          );
+        } catch {
+          /* Server components cannot refresh cookies; mutations may. */
+        }
       },
     },
-  );
+  });
 }
-export async function currentUser(): Promise<Actor | null> {
-  if (!configured()) return null;
-  if (hasSupabase()) {
-    const {
-      data: { user },
-    } = await (await supabase()).auth.getUser();
-    if (!user) return null;
+export const currentUser = cache(
+  async function currentUser(): Promise<Actor | null> {
+    if (!configured()) return null;
+    if (hasSupabase()) {
+      const {
+        data: { user },
+      } = await (await supabase()).auth.getUser();
+      if (!user) return null;
+      const db = await database();
+      await db.query(
+        "INSERT INTO reserve_users(id,name,email) VALUES($1,$2,$3) ON CONFLICT(id) DO NOTHING",
+        [
+          user.id,
+          user.user_metadata?.name || user.email?.split("@")[0] || "Guest",
+          user.email || `${user.id}@private.reserve`,
+        ],
+      );
+      return (
+        (
+          await db.query<Actor>(
+            "SELECT u.*, COALESCE((SELECT jsonb_agg(jsonb_build_object('capability',c.capability,'decision',c.decision,'scope',c.scope)) FROM reserve_user_capabilities c WHERE c.user_id=u.id),'[]'::jsonb) AS capability_overrides FROM reserve_users u WHERE u.id=$1",
+            [user.id],
+          )
+        )[0] || null
+      );
+    }
+    if (!isPreview()) return null;
+    const token = (await cookies()).get("reserve_preview")?.value;
+    if (!token) return null;
     const db = await database();
-    await db.query(
-      "INSERT INTO reserve_users(id,name,email) VALUES($1,$2,$3) ON CONFLICT(id) DO NOTHING",
-      [
-        user.id,
-        user.user_metadata?.name || user.email?.split("@")[0] || "Guest",
-        user.email || `${user.id}@private.reserve`,
-      ],
-    );
+    const hash = createHash("sha256").update(token).digest("hex");
     return (
       (
-        await db.query<Actor>("SELECT * FROM reserve_users WHERE id=$1", [
-          user.id,
-        ])
+        await db.query<Actor>(
+          "SELECT u.*, COALESCE((SELECT jsonb_agg(jsonb_build_object('capability',c.capability,'decision',c.decision,'scope',c.scope)) FROM reserve_user_capabilities c WHERE c.user_id=u.id),'[]'::jsonb) AS capability_overrides FROM reserve_users u JOIN reserve_sessions s ON s.user_id=u.id WHERE s.token_hash=$1 AND s.expires_at>now()",
+          [hash],
+        )
       )[0] || null
     );
-  }
-  if (!isPreview()) return null;
-  const token = (await cookies()).get("reserve_preview")?.value;
-  if (!token) return null;
-  const db = await database();
-  const hash = createHash("sha256").update(token).digest("hex");
-  return (
-    (
-      await db.query<Actor>(
-        "SELECT u.* FROM reserve_users u JOIN reserve_sessions s ON s.user_id=u.id WHERE s.token_hash=$1 AND s.expires_at>now()",
-        [hash],
-      )
-    )[0] || null
-  );
-}
+  },
+);
 export async function previewLogin(identity: string) {
   if (!isPreview() || hasSupabase())
     throw new Error("Preview access is unavailable.");
@@ -111,14 +111,24 @@ export async function publicUser(): Promise<Actor | null> {
     return await optionalRead(async () => {
       if (!configured()) return null;
       if (!hasSupabase()) return currentUser(); // Preview lookup is read-only.
-      const { data: { user } } = await (await supabase()).auth.getUser();
+      const {
+        data: { user },
+      } = await (await supabase()).auth.getUser();
       if (!user) return null;
       // Account creation belongs to explicit/private flows, never a timed
       // optional presentation read that can finish after the page renders.
-      return (await (await database()).query<Actor>(
-        'SELECT * FROM reserve_users WHERE id=$1', [user.id],
-      ))[0] || null;
+      return (
+        (
+          await (
+            await database()
+          ).query<Actor>(
+            "SELECT u.*, COALESCE((SELECT jsonb_agg(jsonb_build_object('capability',c.capability,'decision',c.decision,'scope',c.scope)) FROM reserve_user_capabilities c WHERE c.user_id=u.id),'[]'::jsonb) AS capability_overrides FROM reserve_users u WHERE u.id=$1",
+            [user.id],
+          )
+        )[0] || null
+      );
     });
+  } catch {
+    return null;
   }
-  catch { return null; }
 }
