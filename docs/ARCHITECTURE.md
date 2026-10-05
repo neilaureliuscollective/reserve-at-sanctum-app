@@ -128,3 +128,7 @@ Phase 1 evolves `/studio` into a shared shell with role-aware homes and Schedule
 ## Studio Content and Aethelios
 
 See [Phase 2 release and boundaries](RESERVE-STUDIO-PHASE-2.md). Content reuses workspace revision/approval domains with a dedicated `content` kind and 6,000-character detail bound. Aethelios receives only an explicitly supplied prompt/draft and exposes no tools or business-record retrieval. Server authorization/origin/body limits precede the provider call. The private `reserve_ai_usage` table enforces an atomic six-request-per-minute counter across instances; no prompt or conversation is stored. Server-only key/model configuration is documented in `.env.example`.
+
+## Operating readiness
+
+[Phase 3](RESERVE-STUDIO-PHASE-3.md) adds immutable provider/service proposals, target revision checks, owner approval/application and recorded approval attribution. `reserve_operation_proposals` remains private under RLS with browser grants revoked. Configuration and booking share provider-then-service locking. Existing appointment snapshots/occupancy are preserved; completion is a separate revision-bound, team-authorized audit event and never payment confirmation. Follow-up handoff copies only a verified visit reference into an explicitly saved internal task.

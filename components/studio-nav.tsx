@@ -33,9 +33,7 @@ export function StudioNav({ owner }: { owner: boolean }) {
           }
         >
           <Icon size={19} />
-          <span>
-            {label === "Operations" && !owner ? "Availability" : label}
-          </span>
+          <span>{label}</span>
         </Link>
       ))}
     </nav>

@@ -51,11 +51,17 @@ export function ReserveCommand({
   owner,
   initialCapture = false,
   initialReview = false,
+  initialTask = false,
+  initialTitle = "",
+  initialDetail = "",
 }: {
   name: string;
   owner: boolean;
   initialCapture?: boolean;
   initialReview?: boolean;
+  initialTask?: boolean;
+  initialTitle?: string;
+  initialDetail?: string;
 }) {
   const [data, setData] = useState<Payload | null>(null),
     [page, setPage] = useState(0),
@@ -198,7 +204,7 @@ export function ReserveCommand({
           <div className="studio-form-grid">
             <label>
               Kind
-              <select name="kind">
+              <select name="kind" defaultValue={initialTask ? "task" : "idea"}>
                 <option value="idea">Idea</option>
                 <option value="task">Task</option>
                 <option value="decision">Decision</option>
@@ -238,11 +244,21 @@ export function ReserveCommand({
           </div>
           <label>
             What needs to happen?
-            <input name="title" required maxLength={90} />
+            <input
+              name="title"
+              required
+              maxLength={90}
+              defaultValue={initialTitle}
+            />
           </label>
           <label>
             Context
-            <textarea name="detail" maxLength={6000} rows={4} />
+            <textarea
+              name="detail"
+              maxLength={6000}
+              rows={4}
+              defaultValue={initialDetail}
+            />
           </label>
           <div className="studio-controls">
             <button className="button button-gold" disabled={busy}>

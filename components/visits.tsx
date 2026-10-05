@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import { ArrowUpRight, CalendarDays, Check, LogOut, List } from "lucide-react";
+import { hasCapability } from "@/lib/studio-permissions";
 import type { Actor, Appointment } from "@/lib/booking";
 export function Visits({
   actor,
@@ -65,7 +66,10 @@ export function Visits({
       });
     return () => c.abort();
   }, [editing, date]);
-  async function update(a: Appointment, action: "cancel" | "reschedule") {
+  async function update(
+    a: Appointment,
+    action: "cancel" | "reschedule" | "complete",
+  ) {
     setBusy(true);
     setError("");
     setMessage("");
@@ -85,9 +89,11 @@ export function Visits({
       setCancelId("");
       await load();
       setMessage(
-        action === "cancel"
-          ? "Your visit has been cancelled."
-          : "Your visit has been rescheduled.",
+        action === "complete"
+          ? "Visit marked complete. No payment has been recorded."
+          : action === "cancel"
+            ? "Your visit has been cancelled."
+            : "Your visit has been rescheduled.",
       );
     } catch (e) {
       setError((e as Error).message);
@@ -356,6 +362,29 @@ export function Visits({
                         </button>
                       </>
                     )}
+                    {studio &&
+                      hasCapability(actor, "appointments.manage") &&
+                      a.status === "confirmed" &&
+                      new Date(a.ends_at).getTime() <= Date.now() && (
+                        <button
+                          className="text-link"
+                          disabled={busy}
+                          onClick={() => update(a, "complete")}
+                        >
+                          Mark complete
+                        </button>
+                      )}
+                    {studio &&
+                      hasCapability(actor, "workspace.create") &&
+                      hasCapability(actor, "appointments.manage") &&
+                      a.status === "completed" && (
+                        <Link
+                          className="text-link"
+                          href={`/studio/build?capture=1&followup=${encodeURIComponent(a.id)}`}
+                        >
+                          Create follow-up task ↗
+                        </Link>
+                      )}
                     {a.status !== "confirmed" && !studio && (
                       <Link
                         className="text-link"

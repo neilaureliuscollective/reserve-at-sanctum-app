@@ -107,6 +107,20 @@ export function StudioCommandHome({
         >
           {view === 0 ? (
             <>
+              {data.operationReviews > 0 ? (
+                <Link
+                  className="studio-action-row"
+                  href="/studio/operations?view=review"
+                >
+                  <div>
+                    <strong>
+                      {data.operationReviews} operating changes for review
+                    </strong>
+                    <span>Service menu and working hours.</span>
+                  </div>
+                  <span>↗</span>
+                </Link>
+              ) : null}
               {!data.ready ? (
                 <Link className="studio-action-row" href="/studio/operations">
                   <div>

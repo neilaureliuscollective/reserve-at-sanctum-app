@@ -50,8 +50,18 @@ export async function catalog(db: Queryable) {
     "SELECT s.* FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id WHERE s.enabled AND p.enabled ORDER BY s.minutes",
   );
 }
-async function service(db: Queryable, id: string) {
-  const s = (await catalog(db)).find((x) => x.id === id);
+async function service(db: Queryable, id: string, lock = false) {
+  if (lock) {
+    // Configuration and booking acquire provider, then service locks in this order.
+    await db.query(
+      "SELECT p.id FROM reserve_providers p JOIN reserve_services s ON s.provider_id=p.id WHERE s.id=$1 FOR SHARE OF p",
+      [id],
+    );
+  }
+  const [s] = await db.query<Service>(
+    `SELECT s.* FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id WHERE s.id=$1 AND s.enabled AND p.enabled ${lock ? "FOR SHARE OF s" : ""}`,
+    [id],
+  );
   if (!s) throw new BookingError("This service is not available.");
   return s;
 }
@@ -191,7 +201,7 @@ export async function book(
           );
         return prior;
       }
-      const s = await service(tx, input.serviceId),
+      const s = await service(tx, input.serviceId, true),
         start = await validateTime(tx, s, input.start),
         id = randomUUID();
       const [a] = await tx.query<Appointment>(
@@ -227,7 +237,11 @@ export async function change(
   db: Database,
   actor: Actor,
   id: string,
-  input: { action: "cancel" | "reschedule"; start?: string; revision: number },
+  input: {
+    action: "cancel" | "reschedule" | "complete";
+    start?: string;
+    revision: number;
+  },
 ) {
   try {
     return await db.transaction(async (tx) => {
@@ -244,6 +258,33 @@ export async function change(
           "This visit changed. Refresh before making another change.",
           409,
         );
+      if (input.action === "complete") {
+        requireCapability(actor, "appointments.manage");
+        if (actor.role !== "owner" && actor.provider_id !== a.provider_id)
+          throw new BookingError(
+            "This visit is outside your provider schedule.",
+            403,
+          );
+        if (new Date(a.ends_at).getTime() > Date.now())
+          throw new BookingError(
+            "Mark a visit complete after its scheduled end.",
+            409,
+          );
+        await tx.query(
+          "UPDATE reserve_appointments SET status='completed',revision=revision+1 WHERE id=$1",
+          [id],
+        );
+        await tx.query(
+          "INSERT INTO reserve_audit(actor_id,appointment_id,action) VALUES($1,$2,'completed')",
+          [actor.id, id],
+        );
+        return (
+          await tx.query<Appointment>(
+            "SELECT * FROM reserve_appointments WHERE id=$1",
+            [id],
+          )
+        )[0];
+      }
       if (new Date(a.starts_at).getTime() < Date.now())
         throw new BookingError("Past visits cannot be changed.");
       let start: DateTime | undefined;
@@ -256,7 +297,7 @@ export async function change(
           (new Date(a.busy_until).getTime() - new Date(a.ends_at).getTime()) /
           60000;
         const s = {
-          ...(await service(tx, a.service_id)),
+          ...(await service(tx, a.service_id, true)),
           minutes: originalMinutes,
           buffer,
         };

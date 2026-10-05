@@ -316,11 +316,16 @@ export async function studioOverview(db: Queryable, actor: Actor) {
         "SELECT count(*)::text AS operators FROM reserve_users WHERE role='operator' AND provider_id='katie'",
       )
     : [{ operators: "0" }];
+  const [operationCount] = await db.query<{ count: string }>(
+    `SELECT count(*)::text AS count FROM reserve_operation_proposals WHERE state='review' ${company ? "" : "AND provider_id=$1"}`,
+    params,
+  );
   const ready =
     Number(setup[0]?.providers) > 0 && Number(setup[0]?.services) > 0;
   return {
     ready,
     setup: setup[0],
+    operationReviews: Number(operationCount?.count || 0),
     operatorReady: company ? Number(team.operators) > 0 : null,
     today: Number(today[0]?.count ?? 0),
     nextVisit: next[0] ?? null,

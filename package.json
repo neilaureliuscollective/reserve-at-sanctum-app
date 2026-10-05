@@ -18,7 +18,9 @@
     "staff:provision": "node --env-file-if-exists=.env.local --import tsx scripts/provision-staff.ts",
     "verify:pilot": "node scripts/verify-pilot.mjs",
     "verify:studio": "node scripts/verify-studio.mjs",
-    "verify:studio-ai": "node scripts/verify-studio-ai.mjs"
+    "verify:studio-ai": "node scripts/verify-studio-ai.mjs",
+    "verify:operations": "node scripts/verify-operations.mjs",
+    "verify:completion": "node scripts/verify-completion.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.8",
