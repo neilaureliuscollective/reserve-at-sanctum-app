@@ -1,3 +1,4 @@
+import { hasCapability } from "./studio-permissions";
 import { randomUUID } from "node:crypto";
 import { DateTime } from "luxon";
 import { Actor, BookingError, units, ZONE } from "./booking";
@@ -10,7 +11,7 @@ export type StudioBlock = Row & {
 export function requireKatie(actor: Actor) {
   if (
     actor.role !== "owner" &&
-    !(actor.role === "staff" && actor.provider_id === "katie")
+    !(hasCapability(actor, "blocks.manage") && actor.provider_id === "katie")
   )
     throw new BookingError("Katie’s studio access is required.", 403);
 }

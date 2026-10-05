@@ -44,7 +44,7 @@ export async function schema(db: Queryable) {
 export async function seed(db: Queryable) {
   await db.query(`INSERT INTO reserve_users(id,name,email,role,provider_id) VALUES
  ('preview-neil','Neil · owner preview','neil@preview.invalid','owner',NULL),
- ('preview-katie','Katie · studio preview','katie@preview.invalid','staff','katie'),
+ ('preview-katie','Katie · studio preview','katie@preview.invalid','operator','katie'),
  ('preview-client','Jordan · client preview','jordan@preview.invalid','client',NULL),
  ('preview-other','Morgan · client preview','morgan@preview.invalid','client',NULL) ON CONFLICT DO NOTHING`);
   await db.query(

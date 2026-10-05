@@ -15,7 +15,7 @@ export async function PATCH(
     z.uuid().parse(id);
     const input = z
       .object({
-        action: z.enum(["cancel", "reschedule"]),
+        action: z.enum(["cancel", "reschedule", "complete"]),
         start: z.iso.datetime().optional(),
         revision: z.number().int().positive(),
       })

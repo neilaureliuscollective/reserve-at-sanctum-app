@@ -139,6 +139,10 @@ contact information, or health outcomes have been added.
 See `docs/VISION.md` for the implemented cinematic direction and
 `docs/ASSETS.md` for imagery provenance.
 
+## The Reserve Studio
+
+The private operating environment now has Reserve Command for Neil and Katie’s Studio for her explicitly assigned operator account. Schedule, shared work, client service history and readiness live inside the same shell. See [Phase 1 scope, permissions and deployment order](docs/RESERVE-STUDIO-PHASE-1.md). The factual brief uses existing records. [Phase 2](docs/RESERVE-STUDIO-PHASE-2.md) adds the focused Command home, Content Studio and permission-scoped Aethelios drafting; [Phase 3](docs/RESERVE-STUDIO-PHASE-3.md) adds approved service/hours setup and visit completion/follow-up; commerce remains a later phase.
+
 ## Katie’s phone pilot
 
 Open `/setup` for sign-in status and phone installation instructions. Katie’s
