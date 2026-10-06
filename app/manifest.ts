@@ -33,6 +33,20 @@ export default function manifest(): MetadataRoute.Manifest {
         icons: [{ src: brand.appIcon192, sizes: "192x192", type: "image/png" }],
       },
       {
+        name: "My Reserve",
+        short_name: "My Reserve",
+        description: "Open your Legacy Reserve relationship.",
+        url: "/my-reserve",
+        icons: [{ src: brand.appIcon192, sizes: "192x192", type: "image/png" }],
+      },
+      {
+        name: "Shop",
+        short_name: "Shop",
+        description: "Open the Legacy Reserve shop.",
+        url: "/shop",
+        icons: [{ src: brand.appIcon192, sizes: "192x192", type: "image/png" }],
+      },
+      {
         name: "The Chair",
         short_name: "Chair",
         description: "Open the Chair experience.",

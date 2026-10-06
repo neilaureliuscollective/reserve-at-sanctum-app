@@ -18,6 +18,8 @@ export async function GET() {
         region: location.region,
         timezone: location.timezone,
         enabled: location.enabled,
+        booking_enabled: location.booking_enabled,
+        address: location.address,
         status: location.status,
         label: `Legacy Reserve — ${location.short_name}`,
       })),

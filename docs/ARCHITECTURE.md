@@ -36,6 +36,13 @@ synthetic seeding occurs when `DATABASE_URL` is set.
 | reserve_locations | Physical houses (Eunice operating; others planned). Presentation + provider scope |
 | reserve_membership_plans | Membership architecture only. Plans are inactive until offered |
 | reserve_memberships | Account-bound membership rows. No billing or entitlement enforcement yet |
+| reserve_provider_locations | Providers may belong to one or more houses |
+| square_customer_mappings | Legacy user ↔ Square customer ID |
+| square_location_mappings | Legacy location ↔ Square location ID |
+| square_provider_mappings | Legacy provider ↔ Square team member ID |
+| square_catalog_mappings | Service/product/plan ↔ Square catalog object |
+| square_subscription_mappings | Membership enrollment ↔ Square subscription |
+| square_webhook_events | Durable Square event IDs for idempotent receipt |
 
 Hosted authentication verifies Supabase users on the server with `getUser()`.
 `proxy.ts` refreshes cookies before protected pages render. Customer roles default
@@ -131,6 +138,19 @@ Phase 1 evolves `/studio` into a shared shell with role-aware homes and Schedule
 ## Studio Content and Aethelios
 
 See [Phase 2 release and boundaries](RESERVE-STUDIO-PHASE-2.md). Content reuses workspace revision/approval domains with a dedicated `content` kind and 6,000-character detail bound. Aethelios receives only an explicitly supplied prompt/draft and exposes no tools or business-record retrieval. Server authorization/origin/body limits precede the provider call. The private `reserve_ai_usage` table enforces an atomic six-request-per-minute counter across instances; no prompt or conversation is stored. Server-only key/model configuration is documented in `.env.example`.
+
+## Square transactional seam
+
+Square is the chosen transactional architecture. Credentials stay server-only
+(`SQUARE_ACCESS_TOKEN` is never `NEXT_PUBLIC`). The application builds and
+serves without Square configuration: catalog, bookings, orders, payments,
+subscriptions, and webhooks remain disabled and return empty or internal
+states. Internal booking, The Chair, Studio, and membership architecture stay
+authoritative until mappings and credentials are provisioned.
+
+Webhook receipt lives at `/api/webhooks/square`. Signatures are HMAC-SHA-256
+over `notification URL + raw body`. Duplicate `event_id` values are ignored
+after the first durable insert. Full Square payloads are not stored.
 
 ## Operating readiness
 

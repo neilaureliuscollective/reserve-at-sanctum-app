@@ -10,6 +10,8 @@ export type ReserveLocation = {
   region: string;
   timezone: string;
   enabled: boolean;
+  booking_enabled: boolean;
+  address: string;
   status: LocationStatus;
   poster: string;
   crest: string;
@@ -25,6 +27,8 @@ export const locations: readonly ReserveLocation[] = [
     region: "Louisiana",
     timezone: "America/Chicago",
     enabled: true,
+    booking_enabled: true,
+    address: "",
     status: "operating",
     poster: "/images/cinematic/reserve-hall.webp",
     crest: "/brand/legacy-reserve/mark-gold.webp",
@@ -37,6 +41,8 @@ export const locations: readonly ReserveLocation[] = [
     region: "Louisiana",
     timezone: "America/Chicago",
     enabled: false,
+    booking_enabled: false,
+    address: "",
     status: "planned",
     poster: "/images/cinematic/reserve-hall.webp",
     crest: "/brand/legacy-reserve/mark-gold.webp",
@@ -49,6 +55,8 @@ export const locations: readonly ReserveLocation[] = [
     region: "Texas",
     timezone: "America/Chicago",
     enabled: false,
+    booking_enabled: false,
+    address: "",
     status: "planned",
     poster: "/images/cinematic/reserve-hall.webp",
     crest: "/brand/legacy-reserve/mark-gold.webp",
@@ -61,6 +69,8 @@ export const locations: readonly ReserveLocation[] = [
     region: "Texas",
     timezone: "America/Chicago",
     enabled: false,
+    booking_enabled: false,
+    address: "",
     status: "planned",
     poster: "/images/cinematic/reserve-hall.webp",
     crest: "/brand/legacy-reserve/mark-gold.webp",
@@ -87,23 +97,33 @@ export function locationDisplayName(id: string | null | undefined) {
   return `Legacy Reserve — ${location.short_name}`;
 }
 
+function withPresentation(rows: ReserveLocation[]) {
+  return rows.map((row) => {
+    const fallback = getLocation(row.id);
+    return {
+      ...fallback,
+      ...row,
+      poster: fallback.poster,
+      crest: fallback.crest,
+    };
+  });
+}
+
 export async function listLocations(db: Queryable) {
   try {
     const rows = await db.query<ReserveLocation>(
-      "SELECT id,name,short_name,city,region,timezone,enabled,status FROM reserve_locations ORDER BY CASE status WHEN 'operating' THEN 0 WHEN 'coming' THEN 1 ELSE 2 END, short_name",
+      "SELECT id,name,short_name,city,region,timezone,enabled,booking_enabled,address,status FROM reserve_locations ORDER BY CASE status WHEN 'operating' THEN 0 WHEN 'coming' THEN 1 ELSE 2 END, short_name",
     );
-    if (rows.length)
-      return rows.map((row) => {
-        const fallback = getLocation(row.id);
-        return {
-          ...fallback,
-          ...row,
-          poster: fallback.poster,
-          crest: fallback.crest,
-        };
-      });
+    if (rows.length) return withPresentation(rows);
   } catch {
-    /* Preview databases without the additive migration still render the catalog. */
+    try {
+      const rows = await db.query<ReserveLocation>(
+        "SELECT id,name,short_name,city,region,timezone,enabled,status FROM reserve_locations ORDER BY CASE status WHEN 'operating' THEN 0 WHEN 'coming' THEN 1 ELSE 2 END, short_name",
+      );
+      if (rows.length) return withPresentation(rows);
+    } catch {
+      /* Preview databases without the additive migration still render the catalog. */
+    }
   }
   return [...locations];
 }

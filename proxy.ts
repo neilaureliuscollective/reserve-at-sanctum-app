@@ -8,7 +8,7 @@ export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
   // Let public pages stream before account services respond. Protected routes
   // retain cookie refresh and authoritative getUser() verification.
-  const publicPaths = ['/', '/home', '/enter', '/setup', '/fix-it-shop', '/book', '/chair', '/sanctum-mirror', '/mirror', '/profile'];
+  const publicPaths = ['/', '/home', '/enter', '/setup', '/fix-it-shop', '/book', '/shop', '/chair', '/sanctum-mirror', '/mirror', '/profile'];
   if (publicPaths.includes(request.nextUrl.pathname)) {
     response.headers.set('Cache-Control', 'private, no-store');
     return response;
@@ -38,6 +38,9 @@ export const config = {
   matcher: [
     "/",
     "/home",
+    "/shop",
+    "/shop/:path*",
+    "/my-reserve",
     "/my-visit",
     "/sanctum-mirror",
     "/mirror",

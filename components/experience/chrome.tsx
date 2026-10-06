@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { brand } from '@/lib/brand';
 import { locationDisplayName, primaryLocation } from '@/lib/experience/locations';
+import { customerAccount, customerDestinations, customerPrimary, destinationActive } from '@/lib/experience/customer-os';
 import { MotionMode } from './motion-mode';
 
 export function ExperienceChrome({children, footer}: {children: React.ReactNode; footer: React.ReactNode}) {
@@ -11,6 +12,7 @@ export function ExperienceChrome({children, footer}: {children: React.ReactNode;
   const arrival = path === '/';
   const work = path.startsWith('/studio');
   if (work) return <>{children}</>;
+  const immersive = ['/home','/book','/shop','/my-reserve','/my-visit','/chair','/sanctum-mirror','/mirror'].includes(path);
   return <>
     {arrival && <MotionMode />}
     {!arrival && <>
@@ -21,9 +23,14 @@ export function ExperienceChrome({children, footer}: {children: React.ReactNode;
           <span>{brand.wordmark}<small>{locationDisplayName(primaryLocation.id).toUpperCase()}</small></span>
         </Link>
         <nav aria-label="Legacy Reserve navigation">
-          <Link href="/home">Home</Link>
-          <Link href="/book">Book</Link>
-          <Link prefetch={false} href="/my-visit">My visits</Link>
+          {customerPrimary.map((item) => (
+            <Link key={item.href} href={item.href} aria-current={destinationActive(path, item.href) ? 'page' : undefined}>{item.label}</Link>
+          ))}
+        </nav>
+        <nav className="experience-extended" aria-label="Chair and account">
+          {customerAccount.map((item) => (
+            <Link key={item.href} href={item.href} prefetch={item.href === '/account' ? false : undefined} aria-current={destinationActive(path, item.href) ? 'page' : undefined}>{item.label}</Link>
+          ))}
         </nav>
         <details className="experience-menu" onKeyDown={(event) => {
           if (event.key === "Escape") {
@@ -36,11 +43,12 @@ export function ExperienceChrome({children, footer}: {children: React.ReactNode;
           <summary>Menu</summary>
           <nav aria-label="More destinations">
             <MotionMode />
+            {customerDestinations.map((item) => (
+              <Link key={`menu-${item.href}`} href={item.href} prefetch={item.href === '/account' || item.href === '/my-reserve' ? false : undefined}>{item.label}</Link>
+            ))}
             <Link href="/fix-it-shop">Fix It Shop</Link>
             <Link href="/gent-ascend">Gent Ascend Collective</Link>
             <Link prefetch={false} href="/my-visit">Your visit</Link>
-            <Link prefetch={false} href="/account">Manage appointments</Link>
-            <Link href="/chair">The Chair</Link>
             <Link prefetch={false} href="/profile">Your profile</Link>
             <Link href="/setup?help=1">Install help</Link>
             <Link prefetch={false} href="/signin">Account sign-in</Link>
@@ -50,6 +58,6 @@ export function ExperienceChrome({children, footer}: {children: React.ReactNode;
       </header>
     </>}
     {children}
-    {!arrival && !work && path !== '/home' && path !== '/book' && path !== '/my-visit' && path !== '/chair' && path !== '/sanctum-mirror' && path !== '/mirror' && footer}
+    {!arrival && !work && !immersive && footer}
   </>;
 }

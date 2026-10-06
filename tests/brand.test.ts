@@ -16,10 +16,13 @@ test("public identity is Legacy Reserve", () => {
   assert.equal(primaryLocation.status, "operating");
 });
 
-test("commerce remains a hook, not a rebuilt shop", () => {
+test("commerce remains a Square hook, not live inventory", () => {
   const status = commerceStatus();
+  assert.equal(status.source, "square");
   assert.equal(status.checkout, false);
-  assert.equal(status.products.length, productConcepts.length);
+  assert.equal(status.connected, false);
+  assert.equal(status.products.length, 0);
+  assert.equal(status.concepts.length, productConcepts.length);
   assert.ok(productConcepts.every((item) => item.alt.includes("Legacy Reserve")));
 });
 

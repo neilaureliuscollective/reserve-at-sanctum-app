@@ -25,8 +25,11 @@ export function Footer() {
           <Link href="/gent-ascend">
             GENT Ascend Collective <ArrowUpRight size={16} />
           </Link>
-          <Link prefetch={false} href="/account">
-            Your visits <ArrowUpRight size={16} />
+          <Link href="/shop">
+            Shop <ArrowUpRight size={16} />
+          </Link>
+          <Link prefetch={false} href="/my-reserve">
+            My Reserve <ArrowUpRight size={16} />
           </Link>
           <Link prefetch={false} href="/studio">
             Studio access <ArrowUpRight size={16} />

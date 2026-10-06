@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 
-import { productConcepts as products } from "@/lib/commerce";
+import { productConcepts as products } from "@/lib/product-concepts";
 
 export function ReserveProductGallery() {
   const [active, setActive] = useState(0);

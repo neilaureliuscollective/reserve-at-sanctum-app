@@ -55,6 +55,9 @@ replace or modify any independent digital-infrastructure application.
   and auth-cookie refresh proxy, prepared for a hosted environment.
 - Web-app manifest and home-screen icons. The app requires a connection for
   booking and account operations; it does not cache private records offline.
+- Customer operating system around Home, Book, Shop, My Reserve, The Chair,
+  and Account. Shop and orders consume a server-only Square adapter that stays
+  disabled until credentials are present. Existing internal booking remains live.
 
 ## Run the isolated local preview
 

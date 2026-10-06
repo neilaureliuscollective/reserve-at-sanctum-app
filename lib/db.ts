@@ -50,6 +50,9 @@ export async function seed(db: Queryable) {
   await db.query(
     `INSERT INTO reserve_providers(id,name,enabled,location_id) VALUES('katie','Katie',true,'eunice') ON CONFLICT DO NOTHING`,
   );
+  await db.query(
+    `INSERT INTO reserve_provider_locations(provider_id,location_id) VALUES('katie','eunice') ON CONFLICT DO NOTHING`,
+  );
   await db.query(`INSERT INTO reserve_services(id,provider_id,name,description,minutes,buffer,price,enabled) VALUES
  ('signature','katie','Signature grooming','A considered cut, finish, and time to find your style.',45,15,4500,true),
  ('refresh','katie','The refresh','A focused maintenance visit to keep your look in order.',30,15,3000,true),

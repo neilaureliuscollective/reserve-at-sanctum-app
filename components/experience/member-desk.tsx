@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { locations, primaryLocation } from "@/lib/experience/locations";
 import type { Membership, MembershipPlan } from "@/lib/membership";
-import { productConcepts } from "@/lib/commerce";
+import { productConcepts } from "@/lib/product-concepts";
 
 export function MemberDesk({
   personal,
@@ -34,7 +34,7 @@ export function MemberDesk({
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <Link href="/account" className="text-link">{personal ? "Open your account ↗" : "Create your account ↗"}</Link>
+          <Link href="/my-reserve" className="text-link">{personal ? "Open My Reserve ↗" : "Create your account ↗"}</Link>
         </article>
         <article className="member-card">
           <p className="experience-kicker">THE CHAIR</p>
@@ -52,7 +52,7 @@ export function MemberDesk({
           <p className="experience-kicker">PRODUCTS</p>
           <h3>{productConcepts[0]?.name}</h3>
           <p>Legacy Reserve products belong to the same house — grooming now, member pricing and replenishment as they open.</p>
-          <Link href="/gent-ascend#collection" className="text-link">Explore the collection ↗</Link>
+          <Link href="/shop" className="text-link">Open the Shop ↗</Link>
         </article>
       </div>
       <aside className="member-locations" aria-labelledby="member-locations-title">

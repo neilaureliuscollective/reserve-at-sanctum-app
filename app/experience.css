@@ -73,3 +73,24 @@ html[data-reserve-still=true] .reserve-rooms *{animation:none!important;transiti
   .member-card{min-height:0;padding:22px 18px}
   .member-card h3{font-size:28px}
 }
+.experience-extended{display:flex;gap:24px;font-size:12px}
+.experience-header a[aria-current=page]{color:var(--reserve-gold-light)}
+.booking-channel{margin:0 0 18px;color:var(--reserve-text-muted);letter-spacing:.08em}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-top:22px;max-width:1100px}
+.shop-concept{display:flex;flex-direction:column;gap:8px;min-height:44px;padding:14px 0}
+.shop-concept img{width:100%;height:auto;object-fit:contain}
+.shop-concept span{font-size:9px;letter-spacing:.16em;color:var(--reserve-text-secondary)}
+.shop-concept strong{font-family:var(--reserve-serif);font-size:28px;font-weight:400}
+.shop-concept small{font-size:12px;color:var(--reserve-text-muted);line-height:1.5}
+.shop-concepts{margin-top:42px}
+.shop-live{margin:16px 0 0;padding-left:18px;color:var(--reserve-text-muted)}
+.my-reserve .visit-steps ul{margin:0 0 16px;padding-left:18px;color:var(--reserve-text-muted)}
+.my-reserve .visit-steps li{font-size:14px;line-height:1.6}
+@media(max-width:900px){
+  .experience-extended{display:none}
+}
+@media(max-width:600px){
+  .experience-header>nav{gap:10px;font-size:10px}
+  .shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .shop-concept strong{font-size:22px}
+}

@@ -1,70 +1,42 @@
 import { brand } from "./brand";
+import { productConcepts } from "./product-concepts";
+import { listSquareCatalog } from "./square/catalog";
+import { squarePublicStatus } from "./square/config";
+import { fulfillmentIntents } from "./square/types";
 
-export type ProductConcept = {
-  id: string;
-  name: string;
-  description: string;
-  family: string;
-  src: string;
-  alt: string;
-  memberExclusive: boolean;
-};
-
-export const productConcepts: readonly ProductConcept[] = [
-  {
-    id: "vitalis",
-    name: "Vitalis",
-    description: "Hair & beard oil · Obsidian Vale",
-    family: "GROOMING",
-    src: "/images/cinematic/vitalis-cutout.webp",
-    alt: "Legacy Reserve Vitalis Hair and Beard Oil concept package",
-    memberExclusive: false,
-  },
-  {
-    id: "obsidian-wash",
-    name: "Obsidian Wash",
-    description: "Body wash · Cedar Smoke",
-    family: "GROOMING",
-    src: "/images/cinematic/obsidian-wash-cutout.webp",
-    alt: "Legacy Reserve Obsidian Wash concept package",
-    memberExclusive: false,
-  },
-  {
-    id: "obsidian-creme",
-    name: "Obsidian Crème",
-    description: "Face moisturizer · Midnight Orchid",
-    family: "GROOMING",
-    src: "/images/cinematic/obsidian-creme-cutout.webp",
-    alt: "Legacy Reserve Obsidian Crème concept package",
-    memberExclusive: false,
-  },
-  {
-    id: "hydros",
-    name: "HYDROS",
-    description: "Hydration + electrolytes · Citrus Reserve",
-    family: "BEYOND THE VISIT",
-    src: "/images/cinematic/hydros-cutout.webp",
-    alt: "Legacy Reserve HYDROS concept package",
-    memberExclusive: false,
-  },
-  {
-    id: "ascend",
-    name: "ASCEND",
-    description: "Pre-workout · Georgia Peach Rings",
-    family: "BEYOND THE VISIT",
-    src: "/images/cinematic/ascend-cutout.webp",
-    alt: "Legacy Reserve ASCEND concept package",
-    memberExclusive: true,
-  },
-];
+export { getProductConcept, productConcepts, type ProductConcept } from "./product-concepts";
 
 export function commerceStatus() {
+  const square = squarePublicStatus();
   return {
     brand: brand.name,
-    connected: Boolean(process.env.SHOPIFY_STORE_DOMAIN && process.env.SHOPIFY_STOREFRONT_TOKEN),
+    source: "square" as const,
+    connected: square.enabled,
     checkout: false,
     publicPricing: false,
     memberPricing: false,
-    products: productConcepts,
+    liveCatalog: false,
+    fulfillments: fulfillmentIntents,
+    products: [] as const,
+    concepts: productConcepts,
+    square,
   };
+}
+
+export async function liveShopCatalog() {
+  const status = commerceStatus();
+  if (!status.connected) {
+    return { ...status, items: [] as Array<{ id: string; name: string }> };
+  }
+  const result = await listSquareCatalog();
+  if (!result.enabled || !result.ok) {
+    return { ...status, items: [] as Array<{ id: string; name: string }> };
+  }
+  const items = (result.data.objects ?? [])
+    .filter((object) => object.type === "ITEM" && !object.isDeleted)
+    .map((object) => ({
+      id: object.id,
+      name: object.itemData?.name || "Untitled item",
+    }));
+  return { ...status, liveCatalog: items.length > 0, items };
 }

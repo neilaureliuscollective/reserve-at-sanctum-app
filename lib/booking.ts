@@ -51,7 +51,10 @@ export async function catalog(db: Queryable, locationId?: string | null) {
     if (locationId) {
       return await db.query<Service>(
         `SELECT s.*, p.location_id FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id
-         WHERE s.enabled AND p.enabled AND (p.location_id=$1 OR p.location_id IS NULL) ORDER BY s.minutes`,
+         WHERE s.enabled AND p.enabled AND (
+           p.location_id=$1 OR p.location_id IS NULL
+           OR EXISTS (SELECT 1 FROM reserve_provider_locations pl WHERE pl.provider_id=p.id AND pl.location_id=$1)
+         ) ORDER BY s.minutes`,
         [locationId],
       );
     }
