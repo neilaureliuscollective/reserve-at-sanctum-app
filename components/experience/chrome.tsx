@@ -17,7 +17,7 @@ export function ExperienceChrome({children, footer}: {children: React.ReactNode;
       <a className="skip" href="#main">Skip to content</a>
       <header className="experience-header">
         <Link prefetch={false} href="/enter" className="experience-brand">
-          <Image src={brand.mark} alt="" width={42} height={42} />
+          <Image src={brand.mark} alt="" width={48} height={48} />
           <span>{brand.wordmark}<small>{locationDisplayName(primaryLocation.id).toUpperCase()}</small></span>
         </Link>
         <nav aria-label="Legacy Reserve navigation">

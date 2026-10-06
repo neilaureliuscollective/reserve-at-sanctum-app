@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { brand, locationLabel } from "../lib/brand";
 import { commerceStatus, productConcepts } from "../lib/commerce";
 import { locationDisplayName, primaryLocation } from "../lib/experience/locations";
@@ -21,6 +21,25 @@ test("commerce remains a hook, not a rebuilt shop", () => {
   assert.equal(status.checkout, false);
   assert.equal(status.products.length, productConcepts.length);
   assert.ok(productConcepts.every((item) => item.alt.includes("Legacy Reserve")));
+});
+
+test("official seal drives installable and in-app marks", () => {
+  assert.match(brand.mark, /legacy-reserve/);
+  assert.match(brand.ceremonial, /official-seal/);
+  assert.match(brand.appIcon192, /app-icon-192/);
+  for (const file of [
+    "public/brand/legacy-reserve/official-seal.png",
+    "public/brand/legacy-reserve/official-seal.webp",
+    "public/brand/legacy-reserve/app-icon-180.png",
+    "public/brand/legacy-reserve/app-icon-192.png",
+    "public/brand/legacy-reserve/app-icon-512.png",
+    "public/brand/legacy-reserve/app-icon-maskable-512.png",
+    "app/icon.png",
+    "app/apple-icon.png",
+    "public/favicon.ico",
+  ]) {
+    assert.equal(existsSync(new URL(`../${file}`, import.meta.url)), true, file);
+  }
 });
 
 test("customer metadata and manifest no longer use Reserve at Sanctum", () => {

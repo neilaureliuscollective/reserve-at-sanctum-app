@@ -70,8 +70,10 @@ export const metadata: Metadata = {
   description: brand.description,
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: brand.favicon32, sizes: "32x32", type: "image/png" },
+      { url: brand.favicon48, sizes: "48x48", type: "image/png" },
       { url: brand.appIcon192, sizes: "192x192", type: "image/png" },
+      { url: brand.appIcon512, sizes: "512x512", type: "image/png" },
     ],
     apple: [{ url: brand.appIcon180, sizes: "180x180", type: "image/png" }],
   },

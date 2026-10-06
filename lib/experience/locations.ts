@@ -27,7 +27,7 @@ export const locations: readonly ReserveLocation[] = [
     enabled: true,
     status: "operating",
     poster: "/images/cinematic/reserve-hall.webp",
-    crest: "/brand/legacy-reserve/mark-gold.png",
+    crest: "/brand/legacy-reserve/mark-gold.webp",
   },
   {
     id: "lafayette",
@@ -39,7 +39,7 @@ export const locations: readonly ReserveLocation[] = [
     enabled: false,
     status: "planned",
     poster: "/images/cinematic/reserve-hall.webp",
-    crest: "/brand/legacy-reserve/mark-gold.png",
+    crest: "/brand/legacy-reserve/mark-gold.webp",
   },
   {
     id: "austin",
@@ -51,7 +51,7 @@ export const locations: readonly ReserveLocation[] = [
     enabled: false,
     status: "planned",
     poster: "/images/cinematic/reserve-hall.webp",
-    crest: "/brand/legacy-reserve/mark-gold.png",
+    crest: "/brand/legacy-reserve/mark-gold.webp",
   },
   {
     id: "dallas",
@@ -63,7 +63,7 @@ export const locations: readonly ReserveLocation[] = [
     enabled: false,
     status: "planned",
     poster: "/images/cinematic/reserve-hall.webp",
-    crest: "/brand/legacy-reserve/mark-gold.png",
+    crest: "/brand/legacy-reserve/mark-gold.webp",
   },
 ] as const;
 

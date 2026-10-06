@@ -30,7 +30,7 @@ export default async function Page({
   return (
     <main id="main" className="inner-page section signin-page">
       <div>
-        <Image src="/brand/legacy-reserve/mark-gold.png" width={80} height={80} alt="Legacy Reserve mark" priority />
+        <Image src="/brand/legacy-reserve/official-seal.webp" width={96} height={96} alt="Legacy Reserve official seal" priority />
         <p className="eyebrow">YOUR PLACE AT LEGACY RESERVE</p>
         <h1>
           Welcome <em>back.</em>

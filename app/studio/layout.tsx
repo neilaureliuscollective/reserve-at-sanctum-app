@@ -36,7 +36,7 @@ export default async function StudioLayout({
           <Link href="/studio" className="studio-wordmark">
             <span className="studio-monogram">
               <Image
-                src="/brand/legacy-reserve/mark-gold.png"
+                src="/brand/legacy-reserve/mark-gold.webp"
                 alt=""
                 width={32}
                 height={32}
