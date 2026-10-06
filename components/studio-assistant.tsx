@@ -91,7 +91,7 @@ export function StudioAssistant({
       </button>
       <dialog ref={dialog} className="assistant-room" onCancel={close}>
         <header className="studio-dialog-head">
-          <span>AETHELIOS · THE RESERVE</span>
+          <span>AETHELIOS · LEGACY RESERVE</span>
           <button onClick={close} aria-label="Close Aethelios">
             ✕
           </button>

@@ -54,4 +54,9 @@ test("customer metadata and manifest no longer use Reserve at Sanctum", () => {
     assert.doesNotMatch(source, /THE RESERVE AT SANCTUM/);
     assert.match(source, /Legacy Reserve|brand\./);
   }
+  assert.match(layout, /brand\.themeColor|themeColor: brand/);
+  assert.match(manifest, /brand\.appIcon192/);
+  assert.match(manifest, /brand\.appIconMaskable/);
+  assert.equal(brand.themeColor, "#0B1610");
+  assert.doesNotMatch(brand.themeColor, /#12373A|#0[Bb]1[Ff]2/i);
 });
