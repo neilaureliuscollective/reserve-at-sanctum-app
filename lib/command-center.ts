@@ -335,6 +335,10 @@ export async function studioOverview(db: Queryable, actor: Actor) {
       ? "Your Studio is ready. Approved services and availability are needed before the service operation opens."
       : `${today[0]?.count ?? 0} confirmed visits today. ${work.pulse.needsReview} work items awaiting review.`,
     financeConnected: false,
+    location: {
+      id: "eunice",
+      label: "Legacy Reserve — Eunice",
+    },
   };
 }
 export async function studioClients(db: Queryable, actor: Actor, page = 0) {

@@ -33,6 +33,9 @@ synthetic seeding occurs when `DATABASE_URL` is set.
 | reserve_chair_context | Separately consented life context with seven-day expiry |
 | reserve_chair_notes | Provider-scoped staff grooming notes, never in client responses |
 | reserve_chair_funnel | Anonymous daily action counts without answers or identifiers |
+| reserve_locations | Physical houses (Eunice operating; others planned). Presentation + provider scope |
+| reserve_membership_plans | Membership architecture only. Plans are inactive until offered |
+| reserve_memberships | Account-bound membership rows. No billing or entitlement enforcement yet |
 
 Hosted authentication verifies Supabase users on the server with `getUser()`.
 `proxy.ts` refreshes cookies before protected pages render. Customer roles default

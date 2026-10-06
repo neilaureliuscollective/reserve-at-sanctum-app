@@ -23,7 +23,7 @@ export function Arrival() {
       <div className="arrival-location" aria-hidden="true">THE ARRIVAL <span>01</span></div>
       <div className="arrival-content">
         <p className="eyebrow">
-          <span className="line" /> A MEN’S SANCTUARY · EUNICE, LOUISIANA
+          <span className="line" /> A MEN’S INSTITUTION · LEGACY RESERVE — EUNICE
         </p>
         <h1 id="arrival-title">
           Small-town roots.

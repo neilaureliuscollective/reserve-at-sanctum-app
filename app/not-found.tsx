@@ -6,9 +6,9 @@ export default function NotFound() {
       <h1>
         Let’s find <em>your way.</em>
       </h1>
-      <p>This page is not part of the Reserve.</p>
+      <p>This page is not part of Legacy Reserve.</p>
       <Link className="button button-gold" href="/">
-        Return to the Reserve
+        Return to Legacy Reserve
       </Link>
     </main>
   );

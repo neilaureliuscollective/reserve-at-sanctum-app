@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, MapPin } from "lucide-react";
-export const metadata = { title: "Visit the Reserve" };
+export const metadata = { title: "Visit Legacy Reserve" };
 export default function Page() {
   return (
     <main id="main" className="inner-page">
@@ -14,8 +14,8 @@ export default function Page() {
             <em>Ready for more.</em>
           </h1>
           <p>
-            The Reserve at Sanctum brings Fix It Shop and GENT Ascend Collective
-            together around grooming, wellbeing, and community.
+            Legacy Reserve — Eunice brings Fix It Shop and GENT Ascend Collective
+            together around appearance, grooming, membership, and community.
           </p>
           <div className="location-line">
             <MapPin size={20} /> Eunice, Louisiana

@@ -25,11 +25,11 @@ const directions = {
     secondary: { href: "/fix-it-shop", label: "Meet Katie’s craft" },
   },
   place: {
-    name: "The Reserve", prompt: "Find my place", eyebrow: "03 / EUNICE, LOUISIANA",
+    name: "Legacy Reserve", prompt: "Find my place", eyebrow: "03 / LEGACY RESERVE — EUNICE",
     heading: "There is room for you here.",
     detail: "Two independent worlds are giving their shared belief a home in Eunice.",
     image: "/images/reserve-threshold.webp",
-    primary: { href: "/visit", label: "Discover the Reserve" },
+    primary: { href: "/visit", label: "Discover the house" },
     secondary: { href: "#the-people", label: "Meet the people" },
   },
 } as const;
@@ -56,7 +56,7 @@ export function ReserveCompass() {
   return (
     <section id="compass" className="reserve-compass reserve-portal" data-scene data-signal={choice ?? "rest"} aria-labelledby="compass-title">
       <div className="story-meta"><span>02 / YOUR WAY IN</span><span>THREE PATHS · ONE SHARED RESERVE</span></div>
-      <div className="portal-heading"><p className="eyebrow">THE RESERVE THRESHOLD</p><h2 id="compass-title">Choose a door.<br /><em>See where it leads.</em></h2><p>The place comes to life around the direction you choose.</p></div>
+      <div className="portal-heading"><p className="eyebrow">LEGACY RESERVE THRESHOLD</p><h2 id="compass-title">Choose a door.<br /><em>See where it leads.</em></h2><p>The place comes to life around the direction you choose.</p></div>
 
       <div className="portal-choices" role="group" aria-label="Choose your way into the Reserve">
         {keys.map((key, index) => (
@@ -86,7 +86,7 @@ export function ReserveCompass() {
               <div className="portal-stage__actions"><Link href={selected.primary.href} className="button button-gold">{selected.primary.label} <ArrowUpRight size={17} /></Link><Link href={selected.secondary.href} className="text-link">{selected.secondary.label} <ArrowUpRight size={16} /></Link></div>
             </div>
           ) : (
-            <div className="portal-stage__reveal"><span className="portal-stage__eyebrow">THE RESERVE · EUNICE, LOUISIANA · CONCEPT IMAGERY</span><h3>There is more<br />through the door.</h3><p>Choose what brings you here. The scene will change with you.</p></div>
+            <div className="portal-stage__reveal"><span className="portal-stage__eyebrow">LEGACY RESERVE — EUNICE · CONCEPT IMAGERY</span><h3>There is more<br />through the door.</h3><p>Choose what brings you here. The scene will change with you.</p></div>
           )}
         </div>
         <span className="portal-stage__progress" aria-hidden="true"><span /></span>

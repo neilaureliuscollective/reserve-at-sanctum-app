@@ -69,7 +69,7 @@ export function SocialAuthButtons({
       </button>
       {preview && (
         <button className="preview-blueprint-button" disabled={Boolean(busy)} onClick={previewAccess}>
-          {busy === "preview" ? "Saving preview…" : "Open My Sanctum preview"}
+          {busy === "preview" ? "Saving preview…" : "Open your profile preview"}
         </button>
       )}
       {error && <p className="auth-inline-error" role="alert">{error}</p>}

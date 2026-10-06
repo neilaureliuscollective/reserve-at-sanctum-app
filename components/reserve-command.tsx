@@ -36,7 +36,7 @@ type Payload = {
   pulse: { openBuild: number; needsReview: number };
 };
 const laneNames: Record<string, string> = {
-  reserve: "The Reserve",
+  reserve: "Legacy Reserve",
   "fix-it": "Fix It Shop",
   gent: "Gent Ascend",
 };

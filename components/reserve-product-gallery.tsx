@@ -5,13 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 
-const products = [
-  { name: "Vitalis", description: "Hair & beard oil · Obsidian Vale", src: "/images/cinematic/vitalis-cutout.webp", alt: "Legacy Reserve Vitalis Hair and Beard Oil concept package", family: "GROOMING" },
-  { name: "Obsidian Wash", description: "Body wash · Cedar Smoke", src: "/images/cinematic/obsidian-wash-cutout.webp", alt: "Legacy Reserve Obsidian Wash concept package", family: "GROOMING" },
-  { name: "Obsidian Crème", description: "Face moisturizer · Midnight Orchid", src: "/images/cinematic/obsidian-creme-cutout.webp", alt: "Legacy Reserve Obsidian Crème concept package", family: "GROOMING" },
-  { name: "HYDROS", description: "Hydration + electrolytes · Citrus Reserve", src: "/images/cinematic/hydros-cutout.webp", alt: "Legacy Reserve HYDROS concept package", family: "BEYOND THE VISIT" },
-  { name: "ASCEND", description: "Pre-workout · Georgia Peach Rings", src: "/images/cinematic/ascend-cutout.webp", alt: "Legacy Reserve ASCEND concept package", family: "BEYOND THE VISIT" },
-] as const;
+import { productConcepts as products } from "@/lib/commerce";
 
 export function ReserveProductGallery() {
   const [active, setActive] = useState(0);

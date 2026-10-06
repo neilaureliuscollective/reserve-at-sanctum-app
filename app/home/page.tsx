@@ -1,13 +1,15 @@
 import { ReserveRooms } from '@/components/experience/reserve-rooms';
+import { MemberDesk } from '@/components/experience/member-desk';
 import { HomeRefresh } from '@/components/experience/home-refresh';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { publicUser } from '@/lib/auth';
-import { database } from '@/lib/db';
-import { eunice } from '@/lib/experience/locations';
+import { configured, database } from '@/lib/db';
+import { locationDisplayName, primaryLocation } from '@/lib/experience/locations';
 import { DateTime } from 'luxon';
 import { optionalRead } from '@/lib/experience/optional-read';
+import { membershipDesk } from '@/lib/membership';
 export const dynamic = 'force-dynamic';
 export default async function Home({searchParams}: {searchParams: Promise<{explore?: string}>}) {
   const actor = await publicUser();
@@ -15,9 +17,17 @@ export default async function Home({searchParams}: {searchParams: Promise<{explo
   if (actor && actor.role !== 'client' && !exploring) redirect('/studio');
   let visit: { starts_at: string | Date; service_name: string; provider_name: string } | undefined;
   let failed = false;
+  let desk = { membership: null, plans: [], offered: false } as Awaited<ReturnType<typeof membershipDesk>>;
+  if (configured()) {
+    try {
+      const db = await database();
+      desk = await membershipDesk(db, actor?.role === 'client' ? actor : null);
+    } catch { /* Membership is additive; the house still opens without it. */ }
+  }
   if (actor?.role === 'client' && !exploring) {
     try { [visit] = await optionalRead(async () => (await database()).query<{ starts_at: string | Date; service_name: string; provider_name: string }>(`SELECT a.starts_at,s.name AS service_name,p.name AS provider_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id JOIN reserve_providers p ON p.id=a.provider_id WHERE a.client_id=$1 AND a.status='confirmed' AND a.starts_at>now() ORDER BY a.starts_at ASC LIMIT 1`, [actor.id])); } catch { failed = true; }
   }
   const personal = actor?.role === 'client' && !exploring;
-  return <main id="main" className="reserve-room"><HomeRefresh /><div className="room-backdrop" aria-hidden="true"><Image src={eunice.poster} alt="" fill sizes="100vw" priority /></div><section className="room-intro"><p className="experience-kicker">THE RESERVE · {eunice.name.toUpperCase()}</p><h1 tabIndex={-1}>{personal ? `Welcome back, ${actor.name.split(' ')[0]}.` : 'Welcome to the Reserve.'}</h1><p className="room-line">{personal ? 'Your next visit. Your own pace.' : 'Come in. Find your people. Leave sharper.'}</p>{personal ? <div className="visit-ledger"><span className="experience-kicker">YOUR NEXT VISIT</span>{failed ? <><p>Unable to refresh your visits.</p><Link href="/home" className="text-link">Try again</Link></> : visit ? <><h2>{visit.service_name}</h2><p>{DateTime.fromJSDate(new Date(visit.starts_at)).setZone(eunice.timezone).toFormat('cccc, LLLL d · h:mm a')} · {visit.provider_name}</p><div className="room-actions"><Link prefetch={false} href="/my-visit" className="button button-gold">Open your visit</Link><Link prefetch={false} href="/account" className="text-link">Manage your visit ↗</Link></div></> : <><p>No upcoming visit is booked.</p><Link href="/book" className="button button-gold">Book a visit</Link></>}</div> : <Link href="/book" className="button button-gold">Book a visit ↗</Link>}<small className="room-concept">CONCEPT ENVIRONMENT · NOT THE FINISHED EUNICE LOCATION</small></section><ReserveRooms /><div className="room-secondary"><Link prefetch={false} href="/my-visit">Your visit & ongoing care ↗</Link><Link prefetch={false} href="/my-sanctum">Your grooming Blueprint ↗</Link><Link href="/visit">About Eunice ↗</Link><Link href="/explore">Explore the Reserve ↗</Link></div></main>;
+  const house = locationDisplayName(primaryLocation.id);
+  return <main id="main" className="reserve-room"><HomeRefresh /><div className="room-backdrop" aria-hidden="true"><Image src={primaryLocation.poster} alt="" fill sizes="100vw" priority /></div><section className="room-intro"><p className="experience-kicker">{house.toUpperCase()}</p><h1 tabIndex={-1}>{personal ? `Welcome back, ${actor.name.split(' ')[0]}.` : 'Welcome to Legacy Reserve.'}</h1><p className="room-line">{personal ? 'Your next visit. Your membership. Your own pace.' : 'Appearance, grooming, membership, and the care between visits.'}</p>{personal ? <div className="visit-ledger"><span className="experience-kicker">YOUR NEXT VISIT</span>{failed ? <><p>Unable to refresh your visits.</p><Link href="/home" className="text-link">Try again</Link></> : visit ? <><h2>{visit.service_name}</h2><p>{DateTime.fromJSDate(new Date(visit.starts_at)).setZone(primaryLocation.timezone).toFormat('cccc, LLLL d · h:mm a')} · {visit.provider_name}</p><div className="room-actions"><Link prefetch={false} href="/my-visit" className="button button-gold">Open your visit</Link><Link prefetch={false} href="/account" className="text-link">Manage your visit ↗</Link></div></> : <><p>No upcoming visit is booked.</p><Link href="/book" className="button button-gold">Book a visit</Link></>}</div> : <Link href="/book" className="button button-gold">Book a visit ↗</Link>}<small className="room-concept">CONCEPT ENVIRONMENT · NOT THE FINISHED {primaryLocation.short_name.toUpperCase()} LOCATION</small></section><MemberDesk personal={personal} membership={desk.membership} plans={desk.plans} /><ReserveRooms /><div className="room-secondary"><Link prefetch={false} href="/my-visit">Your visit & ongoing care ↗</Link><Link prefetch={false} href="/profile">Your profile ↗</Link><Link href="/visit">About {primaryLocation.short_name} ↗</Link><Link href="/explore">Explore Legacy Reserve ↗</Link></div></main>;
 }

@@ -48,7 +48,7 @@ export async function seed(db: Queryable) {
  ('preview-client','Jordan · client preview','jordan@preview.invalid','client',NULL),
  ('preview-other','Morgan · client preview','morgan@preview.invalid','client',NULL) ON CONFLICT DO NOTHING`);
   await db.query(
-    `INSERT INTO reserve_providers(id,name,enabled) VALUES('katie','Katie',true) ON CONFLICT DO NOTHING`,
+    `INSERT INTO reserve_providers(id,name,enabled,location_id) VALUES('katie','Katie',true,'eunice') ON CONFLICT DO NOTHING`,
   );
   await db.query(`INSERT INTO reserve_services(id,provider_id,name,description,minutes,buffer,price,enabled) VALUES
  ('signature','katie','Signature grooming','A considered cut, finish, and time to find your style.',45,15,4500,true),

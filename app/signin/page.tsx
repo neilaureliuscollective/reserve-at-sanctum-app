@@ -6,7 +6,7 @@ import { SigninForm } from "@/components/signin-form";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Your Reserve account" };
+export const metadata = { title: "Your Legacy Reserve account" };
 export default async function Page({
   searchParams,
 }: {
@@ -30,8 +30,8 @@ export default async function Page({
   return (
     <main id="main" className="inner-page section signin-page">
       <div>
-        <Image src="/brand/reserve-rs-v1/rs-gold.svg" width={80} height={80} alt="The Reserve RS signature" priority />
-        <p className="eyebrow">YOUR PLACE AT THE RESERVE</p>
+        <Image src="/brand/legacy-reserve/mark-gold.svg" width={80} height={80} alt="Legacy Reserve mark" priority />
+        <p className="eyebrow">YOUR PLACE AT LEGACY RESERVE</p>
         <h1>
           Welcome <em>back.</em>
         </h1>

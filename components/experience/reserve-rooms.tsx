@@ -7,16 +7,16 @@ import { useRef } from 'react';
 const rooms = [
   { id: 'chair', label: 'Katie', identity: 'FIX IT SHOP · KATIE GUIDRY', title: 'Come sit down.', copy: 'Your cut. Your pace. A little room to be yourself.', image: '/images/katie/private-chair.webp', action: 'Get your chair ready', href: '/chair', explore: '/fix-it-shop', exploreLabel: 'Inside Fix It Shop' },
   { id: 'ritual', label: 'Neil', identity: 'GENT ASCEND COLLECTIVE · NEIL STUTES', title: 'Find your direction.', copy: 'Start with your grooming priorities. Shape a routine you can keep.', image: '/images/neil/mirror-desk.webp', action: 'Begin your Blueprint', href: '/sanctum-mirror', explore: '/gent-ascend', exploreLabel: 'Inside Neil’s world' },
-  { id: 'collection', label: 'Legacy Reserve', identity: 'LEGACY RESERVE · COLLECTION PREVIEW', title: 'Care between visits.', copy: 'Explore the product and packaging direction taking shape inside Reserve.', image: '/images/neil/ritual-plinth.webp', action: 'Explore the collection', href: '/gent-ascend#collection', explore: '/book', exploreLabel: 'Make time for a visit' },
+  { id: 'collection', label: 'Products', identity: 'LEGACY RESERVE · COLLECTION PREVIEW', title: 'Care between visits.', copy: 'Explore the product and packaging direction taking shape inside the house.', image: '/images/neil/ritual-plinth.webp', action: 'Explore the collection', href: '/gent-ascend#collection', explore: '/book', exploreLabel: 'Make time for a visit' },
 ] as const;
 
 /** Native choices preserve semantics; the root layout supplies no-script destinations. */
 export function ReserveRooms() {
   const root = useRef<HTMLElement>(null);
   return <section ref={root} className="reserve-rooms" aria-labelledby="reserve-rooms-title">
-    <div className="reserve-rooms__heading"><p className="experience-kicker">WITHIN THE RESERVE</p><h2 id="reserve-rooms-title">Where would you like to begin?</h2></div>
+    <div className="reserve-rooms__heading"><p className="experience-kicker">WITHIN THE HOUSE</p><h2 id="reserve-rooms-title">Where would you like to begin?</h2></div>
     <fieldset className="reserve-rooms__choices" onChange={() => root.current?.scrollIntoView({block: 'start', behavior: 'instant'})}>
-      <legend className="sr-only">Choose a Reserve environment</legend>
+      <legend className="sr-only">Choose a Legacy Reserve environment</legend>
       {rooms.map((room, index) => <label key={room.id}><input type="radio" name="reserve-room" value={room.id} defaultChecked={index === 0} /><span><small>0{index + 1}</small>{room.label}</span></label>)}
     </fieldset>
     <div className="reserve-rooms__stages">

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { publicUser } from "@/lib/auth";
 import { isPreview } from "@/lib/db";
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Set up your Reserve" };
+export const metadata = { title: "Set up Legacy Reserve" };
 export default async function Page({ searchParams }: { searchParams: Promise<{ help?: string }> }) {
   const actor = await publicUser();
   if (actor && (await searchParams).help !== "1") redirect(entryDestination(actor));
@@ -16,23 +16,23 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ h
       (["staff", "operator"].includes(actor.role) && actor.provider_id === "katie"));
   return (
     <main id="main" className="inner-page section setup-page">
-      <p className="eyebrow">YOUR RESERVE · ON YOUR PHONE</p>
+      <p className="eyebrow">LEGACY RESERVE · ON YOUR PHONE</p>
       <h1>
         A place on your <em>home screen.</em>
       </h1>
       <p>
-        Open the Reserve’s HTTPS link directly in your phone’s browser. Keep an
+        Open the Legacy Reserve HTTPS link directly in your phone’s browser. Keep an
         internet connection for visits and client information.
       </p>
-      <section className="reserve-install-release" aria-label="Current Reserve release">
-        <Image src="/brand/reserve-rs-v1/app-icon-rs2-192.png" width={96} height={96} alt="Current Reserve app icon: gold RS on petrol" priority />
+      <section className="reserve-install-release" aria-label="Current Legacy Reserve release">
+        <Image src="/brand/legacy-reserve/app-icon-192.png" width={96} height={96} alt="Current Legacy Reserve app icon: gold LR on heritage green" priority />
         <h2>{reserveReleaseLabel}</h2>
-        <p>This is the current Reserve icon. If yours still shows the previous emblem, remove the old installed app or shortcut and install from the stable address below.</p>
-        <a className="text-link" href="https://www.reserveatsanctum.app/">Open the live Reserve ↗</a>
+        <p>This is the current Legacy Reserve icon. If yours still shows the previous emblem, remove the old installed app or shortcut and install from the stable address below.</p>
+        <a className="text-link" href="https://www.reserveatsanctum.app/">Open the live house ↗</a>
         <p>You can install and explore before signing in.</p>
       </section>
       <section>
-        <h2>1. Sign in to your Reserve</h2>
+        <h2>1. Sign in to Legacy Reserve</h2>
         {actor ? (
           <>
             <p>
@@ -51,7 +51,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ h
           </>
         ) : (
           <Link prefetch={false} className="button button-gold" href="/signin?next=/setup">
-            Sign in to the Reserve
+            Sign in to Legacy Reserve
           </Link>
         )}
         {isPreview() && (

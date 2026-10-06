@@ -1,15 +1,22 @@
-# The Reserve at Sanctum
+# Legacy Reserve
 
 Official repository: neilaureliuscollective/reserve-at-sanctum-app.
 Read README.md and docs/ARCHITECTURE.md before changing architecture.
 Next.js 16: consult installed node_modules/next/dist/docs for relevant APIs.
+The public master brand is Legacy Reserve. Reserve at Sanctum is retired from
+customer-facing identity. Physical houses use Legacy Reserve — Eunice (first
+operating location), with Lafayette, Austin, and Dallas planned. Do not hard-code
+the product around a single city.
 Preserve Neil + Katie / Fix It Shop × GENT Ascend Collective. No Recovery Room.
-GENT Ascend uses obsidian, deep green and #C4912F gold. It is a men's grooming
-sanctum, not the separate digital-infrastructure company.
+Legacy Reserve uses heritage green, obsidian and dimensional #C4912F gold.
+GENT Ascend remains its own deep-green world. It is a men's grooming house,
+not the separate digital-infrastructure company.
 Katie is a men's salon professional; no barber language or imagery.
 Never enable developer identities or embedded development storage in production.
 Appointments and permission checks are server-authoritative. Test simultaneous booking and ownership whenever modifying the core.
 Keep generated concept images labeled. Never invent live services, prices, results or contact details.
+Do not rename reserve_* tables, env vars, or production domains without an
+explicit data-safe migration. Public copy matters more than internal identifiers.
 
 ## Reserve homepage cinematic standard (Neil, 2026-09-23)
 
@@ -26,8 +33,8 @@ selection must visibly transform its scene and show the resulting path within th
 current mobile viewport; it cannot depend on hover or a result below the fold.
 Different sections need bespoke, art-directed visual assets rather than repeated crops
 of one triptych. Make mobile and Fold cover states first-class. Preserve the existing
-hero until separately approved, the Reserve petrol/obsidian/gold palette, Katie's
-blue/gold identity, Neil's green/gold identity, and all booking/auth business logic.
+hero until separately approved, the Legacy Reserve heritage-green/obsidian/gold palette,
+Katie's blue/gold identity, Neil's green/gold identity, and all booking/auth business logic.
 Verify the actual interaction and scroll experience on narrow mobile before claiming
 the cinematic work is complete; a passing build alone does not meet this standard.
 

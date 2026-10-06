@@ -152,7 +152,7 @@ export function ChairExperience({
     heading.current?.focus({ preventScroll: true });
   }, [step, ready]);
   useEffect(() => {
-    document.title = `${step === "summary" ? "Your Chair" : `${index + 1} of ${steps.length} · The Chair`} · The Reserve`;
+    document.title = `${step === "summary" ? "Your Chair" : `${index + 1} of ${steps.length} · The Chair`} · Legacy Reserve`;
   }, [step, ready, index, steps.length]);
   function go(next: Step) {
     setError("");

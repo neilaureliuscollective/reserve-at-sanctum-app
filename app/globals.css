@@ -1,12 +1,14 @@
-/* Reserve owns mineral petrol. Partner brand worlds retain their own identity. */
+/* Legacy Reserve owns heritage green. Partner brand worlds retain their own identity. */
 :root {
-  --reserve-petrol: #12373A;
-  --reserve-petrol-deep: #081719;
-  --reserve-petrol-muted: #163E43;
-  --reserve-obsidian: #090B0B;
-  --reserve-surface: #101A1B;
-  --reserve-surface-raised: #192729;
-  --reserve-surface-glass: rgba(8,23,25,.94);
+  --reserve-petrol: #14291E;
+  --reserve-petrol-deep: #08140E;
+  --reserve-petrol-muted: #1C3628;
+  --reserve-heritage: #14291E;
+  --reserve-heritage-deep: #08140E;
+  --reserve-obsidian: #070908;
+  --reserve-surface: #101814;
+  --reserve-surface-raised: #18241C;
+  --reserve-surface-glass: rgba(8,20,14,.94);
   --reserve-gold: #C4912F;
   --reserve-gold-light: #D9B568;
   --reserve-gold-dark: #8F6D32;

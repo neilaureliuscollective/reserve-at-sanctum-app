@@ -1,42 +1,43 @@
+import { brand } from "@/lib/brand";
 import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "The Reserve at Sanctum",
-    short_name: "The Reserve",
-    description: "The Reserve experience, visits, and private operator command.",
+    name: brand.name,
+    short_name: brand.shortName,
+    description: brand.description,
     id: "/",
     start_url: "/enter",
     scope: "/",
     display: "standalone",
-    background_color: "#090B0B",
-    theme_color: "#12373A",
+    background_color: brand.backgroundColor,
+    theme_color: brand.themeColor,
     icons: [
-      { src: "/brand/reserve-rs-v1/app-icon-rs2-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "/brand/reserve-rs-v1/app-icon-rs2-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
-      { src: "/brand/reserve-rs-v1/app-icon-rs2-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      { src: brand.appIcon192, sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: brand.appIcon512, sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: brand.appIconMaskable, sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
     shortcuts: [
       {
-        name: "Reserve Command",
+        name: "Legacy Command",
         short_name: "Command",
-        description: "Open the private Reserve operator workspace.",
+        description: "Open the private Legacy Reserve operator workspace.",
         url: "/studio",
-        icons: [{ src: "/brand/reserve-rs-v1/app-icon-rs2-192.png", sizes: "192x192", type: "image/png" }],
+        icons: [{ src: brand.appIcon192, sizes: "192x192", type: "image/png" }],
       },
       {
         name: "Book a Visit",
         short_name: "Book",
-        description: "Open Reserve booking.",
+        description: "Open Legacy Reserve booking.",
         url: "/book",
-        icons: [{ src: "/brand/reserve-rs-v1/app-icon-rs2-192.png", sizes: "192x192", type: "image/png" }],
+        icons: [{ src: brand.appIcon192, sizes: "192x192", type: "image/png" }],
       },
       {
         name: "The Chair",
         short_name: "Chair",
         description: "Open the Chair experience.",
         url: "/chair",
-        icons: [{ src: "/brand/reserve-rs-v1/app-icon-rs2-192.png", sizes: "192x192", type: "image/png" }],
+        icons: [{ src: brand.appIcon192, sizes: "192x192", type: "image/png" }],
       },
     ],
   };

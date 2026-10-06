@@ -396,7 +396,7 @@ export function BookingFlow() {
           )}
         </div>
         <aside className="booking-summary">
-          <p className="eyebrow">YOUR TIME AT THE RESERVE</p>
+          <p className="eyebrow">YOUR TIME AT LEGACY RESERVE</p>
           <h3>
             A place in
             <br />
@@ -431,7 +431,7 @@ export function BookingFlow() {
           </div>
           <span className="small muted">No charge in the private preview.</span>
           <p className="summary-signature">
-            FIX IT SHOP <span>×</span> THE RESERVE
+            FIX IT SHOP <span>×</span> LEGACY RESERVE
           </p>
         </aside>
       </div>

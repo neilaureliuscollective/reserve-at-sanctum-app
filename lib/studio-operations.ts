@@ -28,6 +28,14 @@ export const operationInput = z
         open_hour: z.number().int().min(0).max(23),
         close_hour: z.number().int().min(1).max(24),
         weekdays: z.array(z.number().int().min(1).max(7)).min(1).max(7),
+        location_id: z
+          .string()
+          .trim()
+          .min(1)
+          .max(80)
+          .regex(/^[a-z0-9-]+$/)
+          .nullable()
+          .optional(),
       })
       .strict(),
     z
@@ -63,6 +71,7 @@ export type Provider = Row & {
   close_hour: number;
   weekdays: number[];
   revision: number;
+  location_id?: string | null;
 };
 export type ManagedService = Row & {
   id: string;
@@ -298,7 +307,7 @@ export async function applyOperation(
         }
         if (target)
           await tx.query(
-            "UPDATE reserve_providers SET name=$2,enabled=$3,open_hour=$4,close_hour=$5,weekdays=$6,revision=revision+1 WHERE id=$1",
+            "UPDATE reserve_providers SET name=$2,enabled=$3,open_hour=$4,close_hour=$5,weekdays=$6,location_id=COALESCE($7,location_id),revision=revision+1 WHERE id=$1",
             [
               p.provider_id,
               p.name,
@@ -306,11 +315,12 @@ export async function applyOperation(
               p.open_hour,
               p.close_hour,
               p.weekdays,
+              p.location_id ?? null,
             ],
           );
         else
           await tx.query(
-            `INSERT INTO reserve_providers(id,name,enabled,open_hour,close_hour,weekdays,revision) VALUES($1,$2,$3,$4,$5,$6,1) `,
+            `INSERT INTO reserve_providers(id,name,enabled,open_hour,close_hour,weekdays,revision,location_id) VALUES($1,$2,$3,$4,$5,$6,1,$7) `,
             [
               p.provider_id,
               p.name,
@@ -318,6 +328,7 @@ export async function applyOperation(
               p.open_hour,
               p.close_hour,
               p.weekdays,
+              p.location_id ?? "eunice",
             ],
           );
       } else {

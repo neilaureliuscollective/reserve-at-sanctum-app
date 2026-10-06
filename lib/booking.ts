@@ -19,6 +19,7 @@ export type Service = Row & {
   minutes: number;
   buffer: number;
   price: number;
+  location_id?: string | null;
 };
 export type Appointment = Row & {
   id: string;
@@ -45,9 +46,17 @@ export class BookingError extends Error {
   }
 }
 const iso = (x: Date | string) => new Date(x).toISOString();
-export async function catalog(db: Queryable) {
+export async function catalog(db: Queryable, locationId?: string | null) {
+  if (locationId) {
+    return db.query<Service>(
+      `SELECT s.*, p.location_id FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id
+       WHERE s.enabled AND p.enabled AND (p.location_id=$1 OR p.location_id IS NULL) ORDER BY s.minutes`,
+      [locationId],
+    );
+  }
   return db.query<Service>(
-    "SELECT s.* FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id WHERE s.enabled AND p.enabled ORDER BY s.minutes",
+    `SELECT s.*, p.location_id FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id
+     WHERE s.enabled AND p.enabled ORDER BY s.minutes`,
   );
 }
 async function service(db: Queryable, id: string, lock = false) {

@@ -9,7 +9,7 @@ import type { GroomingProfile } from "@/lib/grooming";
 export async function GET() {
   try {
     const actor = await currentUser();
-    if (!actor) throw new BookingError("Sign in to open My Sanctum.", 401);
+    if (!actor) throw new BookingError("Sign in to open your profile.", 401);
     const rows = await (await database()).query<GroomingProfile>(
       "SELECT * FROM reserve_grooming_profiles WHERE user_id=$1",
       [actor.id],

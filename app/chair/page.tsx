@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "The Chair",
   description:
-    "Your cut. Your headspace. Your time. A personal check-in for Katie’s men’s cosmetology at The Reserve.",
+    "Your cut. Your headspace. Your time. A personal check-in for Katie’s men’s cosmetology at Legacy Reserve.",
 };
 export default async function Page() {
   const actor = await currentUser();

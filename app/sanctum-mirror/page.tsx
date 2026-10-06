@@ -6,7 +6,7 @@ import { SanctumMirror } from "@/components/sanctum-mirror";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
-  title: "The Sanctum Mirror",
+  title: "The Mirror",
   description: "Create your private GENT Ascend Grooming Blueprint before your visit.",
 };
 

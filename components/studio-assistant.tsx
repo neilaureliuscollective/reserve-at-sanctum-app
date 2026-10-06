@@ -113,7 +113,7 @@ export function StudioAssistant({
             onChange={(e) => setPrompt(e.target.value)}
             maxLength={2000}
             rows={3}
-            placeholder="Draft an introduction for The Reserve…"
+            placeholder="Draft an introduction for Legacy Reserve…"
           />
           {request.current.draft ? (
             <small>The current draft will be included with this request.</small>

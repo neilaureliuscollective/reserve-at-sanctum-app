@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { Menu, X, ArrowUpRight, UserRound } from "lucide-react";
+import { brand } from "@/lib/brand";
 export function Header() {
   const menuButton = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false),
@@ -24,11 +25,10 @@ export function Header() {
           href="/"
           onClick={() => setOpen(false)}
         >
-          <Image className="wordmark-seal" src="/brand/reserve-rs-v1/rs-gold.svg" width={58} height={58} alt="" sizes="58px" />
+          <Image className="wordmark-seal" src={brand.mark} width={58} height={58} alt="" sizes="58px" />
           <span>
-            <small>THE</small>
+            <small>LEGACY</small>
             <strong>RESERVE</strong>
-            <small>AT SANCTUM</small>
           </span>
         </Link>
         <nav
@@ -58,13 +58,13 @@ export function Header() {
           <Link href="/visit" onClick={() => setOpen(false)}>
             Visit us
           </Link>
-          <Link prefetch={false} href="/my-sanctum" className="mobile-account" onClick={() => setOpen(false)}>My Sanctum</Link>
+          <Link prefetch={false} href="/profile" className="mobile-account" onClick={() => setOpen(false)}>Your profile</Link>
         </nav>
         <div className="header-actions">
           <Link prefetch={false}
-            href="/my-sanctum"
+            href="/profile"
             className="account-link"
-            aria-label="Open My Sanctum"
+            aria-label="Open your profile"
           >
             <UserRound size={19} />
           </Link>

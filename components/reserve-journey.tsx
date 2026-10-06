@@ -9,7 +9,7 @@ type Path = "craft" | "ritual" | "reserve";
 const paths = {
   craft: { label: "Katie’s craft", overline: "THE BLUE ROOM", heading: "A visit built around you.", text: "Meet Katie and the care behind the cut.", image: "/images/reserve-craft.webp", href: "/fix-it-shop", action: "Enter Fix It Shop" },
   ritual: { label: "Neil’s ritual", overline: "THE GREEN ROOM", heading: "Care that carries forward.", text: "Grooming direction, considered products and the wider Gent Ascend world.", image: "/images/reserve-ritual.webp", href: "/gent-ascend", action: "Enter Gent Ascend" },
-  reserve: { label: "The Reserve", overline: "THE SHARED PLACE", heading: "Come see what is taking shape.", text: "Two independent worlds meet in Eunice, Louisiana.", image: "/images/cinematic/reserve-hall.webp", href: "/visit", action: "Discover the Reserve" },
+  reserve: { label: "Legacy Reserve", overline: "THE SHARED HOUSE", heading: "Come see what is taking shape.", text: "Two independent worlds meet at Legacy Reserve — Eunice.", image: "/images/cinematic/reserve-hall.webp", href: "/visit", action: "Discover the house" },
 } as const;
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const ramp = (value: number, start: number, end: number) => clamp((value - start) / (end - start));

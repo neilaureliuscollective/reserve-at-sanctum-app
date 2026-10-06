@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Fix It Shop · Katie Guidry",
-  description: "Step into Katie Guidry’s private men’s salon experience at The Reserve at Sanctum in Eunice, Louisiana. Explore her approach, prepare The Chair, and find your visit.",
+  description: "Step into Katie Guidry’s private men’s salon experience at Legacy Reserve — Eunice. Explore her approach, prepare The Chair, and find your visit.",
 };
 
 const chapters = [
@@ -24,9 +24,9 @@ export default async function Page() {
       <Image src="/images/katie/private-chair.webp" alt="" fill priority sizes="100vw" className="katie-hero__image" />
       <div className="katie-hero__shade" aria-hidden="true" />
       <div className="katie-hero__content">
-        <Link href="/home" className="katie-back"><ArrowLeft size={15} /> THE RESERVE AT SANCTUM</Link>
+        <Link href="/home" className="katie-back"><ArrowLeft size={15} /> LEGACY RESERVE</Link>
         <div className="katie-hero__identity"><Image src="/images/cinematic/fix-it-seal.webp" alt="Fix It Shop emblem" width={94} height={94} /><span>FIX IT SHOP<br /><small>KATIE GUIDRY · MEN’S SALON</small></span></div>
-        <p className="katie-kicker">A WORLD WITHIN THE RESERVE · EUNICE, LOUISIANA</p>
+        <p className="katie-kicker">A WORLD WITHIN LEGACY RESERVE — EUNICE</p>
         <h1 id="katie-title">It’s Never<br /><em>Just a Haircut.</em></h1>
         <p className="katie-hero__lead">A visit built around how you want to look, how you want to spend the time, and the life waiting when you leave.</p>
         <div className="katie-actions"><Link href="/chair" className="button button-gold">Get your chair ready <ArrowUpRight size={17} /></Link><Link href="/book" className="katie-link">Explore visits <ArrowUpRight size={17} /></Link></div>

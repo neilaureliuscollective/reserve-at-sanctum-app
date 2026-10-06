@@ -8,7 +8,7 @@ import { StudioAssistant } from "@/components/studio-assistant";
 import "./studio.css";
 export const dynamic = "force-dynamic";
 export const metadata = {
-  title: "The Reserve Studio",
+  title: "Legacy Reserve Studio",
   robots: { index: false, follow: false },
 };
 export default async function StudioLayout({
@@ -36,14 +36,14 @@ export default async function StudioLayout({
           <Link href="/studio" className="studio-wordmark">
             <span className="studio-monogram">
               <Image
-                src="/brand/reserve-rs-v1/rs-gold.svg"
+                src="/brand/legacy-reserve/mark-gold.svg"
                 alt=""
                 width={32}
                 height={32}
               />
             </span>
             <span>
-              THE RESERVE<small>STUDIO · EUNICE</small>
+              LEGACY RESERVE<small>STUDIO · EUNICE</small>
             </span>
           </Link>
           <div className="studio-identity">
@@ -62,9 +62,9 @@ export default async function StudioLayout({
           {children}
         </main>
         <footer className="studio-foot">
-          <span>THE RESERVE AT SANCTUM</span>
+          <span>LEGACY RESERVE</span>
           <Link href="/setup?help=1">Phone setup</Link>
-          <Link href="/home?explore=1">View Reserve</Link>
+          <Link href="/home?explore=1">View the house</Link>
           <Link href="/account">Account</Link>
         </footer>
       </div>

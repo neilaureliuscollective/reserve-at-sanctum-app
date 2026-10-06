@@ -41,7 +41,7 @@ export function MySanctum({ name, userId }: { name: string; userId: string }) {
       if (!response.ok) throw new Error(data.error);
       setProfile(data.profile);setPending(null);
       try {sessionStorage.removeItem(GROOMING_DRAFT_KEY);} catch {}
-      setMessage("Your Grooming Blueprint is saved to your current Reserve account.");
+      setMessage("Your Grooming Blueprint is saved to your current Legacy Reserve account.");
     } catch (caught) {setError((caught as Error).message);}
     finally {setSaving(false);}
   }
@@ -56,7 +56,7 @@ export function MySanctum({ name, userId }: { name: string; userId: string }) {
   return (
     <div className="my-sanctum-shell">
       <header className="sanctum-command">
-        <div><p className="eyebrow">MY SANCTUM</p><h1>Welcome, <em>{name}.</em></h1><p>Your grooming direction, visits, and rituals—kept together.</p></div>
+        <div><p className="eyebrow">YOUR PROFILE</p><h1>Welcome, <em>{name}.</em></h1><p>Your grooming direction, visits, and rituals—kept together.</p></div>
         <Link href="/book" className="button button-gold">Book a visit <ArrowUpRight size={17} /></Link>
       </header>
       {pending && <section className="blueprint-handoff" aria-labelledby="handoff-heading"><p className="eyebrow">REVIEW BEFORE SAVING</p><h2 id="handoff-heading">Keep this direction, {name}?</h2><p>{pending.blueprint.direction}</p><p>This saves to the account signed in now. It is preliminary direction from your choices; your existing Blueprint changes only when you confirm.</p><div className="hero-actions"><button className="button button-gold" disabled={saving} onClick={savePending}>{saving ? "Saving…" : "Confirm & save my Blueprint"}</button><button className="text-link" disabled={saving} onClick={discardPending}>Discard this draft</button></div></section>}
@@ -64,7 +64,7 @@ export function MySanctum({ name, userId }: { name: string; userId: string }) {
       {message && <p className="sanctum-success"><Check size={17} />{message}</p>}
       {error && <p className="error-message" role="alert">{error}</p>}
       {!profile && !error ? (
-        <section className="empty-blueprint"><ScanFace size={42} /><p className="eyebrow">YOUR PROFILE IS READY TO BEGIN</p><h2>Meet yourself<br /><em>in the Mirror.</em></h2><p>Complete the guided experience to create your first personal grooming direction.</p><Link href="/sanctum-mirror" className="button button-gold">Begin the Sanctum Mirror <ArrowUpRight size={17} /></Link></section>
+        <section className="empty-blueprint"><ScanFace size={42} /><p className="eyebrow">YOUR PROFILE IS READY TO BEGIN</p><h2>Meet yourself<br /><em>in the Mirror.</em></h2><p>Complete the guided experience to create your first personal grooming direction.</p><Link href="/mirror" className="button button-gold">Begin the Mirror <ArrowUpRight size={17} /></Link></section>
       ) : profile ? (
         <>
           <section className="profile-hero-card">
@@ -73,7 +73,7 @@ export function MySanctum({ name, userId }: { name: string; userId: string }) {
           </section>
           <section className="sanctum-dashboard-grid">
             <article><span className="dashboard-icon"><Sparkles /></span><p className="eyebrow">YOUR RITUAL</p><h3>Daily foundation</h3><ol>{profile.blueprint.ritual.map((item) => <li key={item}>{item}</li>)}</ol></article>
-            <article><span className="dashboard-icon"><CalendarDays /></span><p className="eyebrow">THE RESERVE</p><h3>Your next visit</h3><p>Bring your saved Blueprint into the conversation and refine the direction in person.</p><Link prefetch={false} href="/my-visit" className="text-link">Open your visit & ongoing care <ArrowUpRight size={16} /></Link></article>
+            <article><span className="dashboard-icon"><CalendarDays /></span><p className="eyebrow">LEGACY RESERVE</p><h3>Your next visit</h3><p>Bring your saved Blueprint into the conversation and refine the direction in person.</p><Link prefetch={false} href="/my-visit" className="text-link">Open your visit & ongoing care <ArrowUpRight size={16} /></Link></article>
             <article><span className="dashboard-icon"><Clock3 /></span><p className="eyebrow">YOUR DAILY TIME</p><h3>{profile.maintenance}</h3><p>The daily effort you chose for your grooming routine. Refine it with your grooming professional.</p></article>
           </section>
         </>

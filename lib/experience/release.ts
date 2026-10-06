@@ -1,2 +1,2 @@
-export const reserveRelease = "petrol-metal-20261005";
-export const reserveReleaseLabel = "Petrol & metal refinement · October 5, 2026";
+export const reserveRelease = "legacy-reserve-20261006";
+export const reserveReleaseLabel = "Legacy Reserve identity · October 6, 2026";

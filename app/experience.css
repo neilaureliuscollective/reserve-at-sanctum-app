@@ -54,3 +54,22 @@ html[data-reserve-still=true] .reserve-rooms *{animation:none!important;transiti
 .reserve-no-script{padding:32px 6vw;background:var(--reserve-petrol-deep);max-width:900px;margin:24px auto 70px;color:#edf0e9}.reserve-no-script>p{font-size:10px;letter-spacing:.16em;color: var(--reserve-text-secondary)}.reserve-no-script h2{font-family:var(--reserve-serif);font-size:36px;font-weight:400}.reserve-no-script nav{display:grid;gap:8px}.reserve-no-script a{display:flex;align-items:center;min-height:48px;color: var(--reserve-text-secondary);font-size:14px}.reserve-no-script small{display:block;font-size:12px;line-height:1.7;margin-top:18px;color:#cddad3}
 /* Programmatic arrival focus announces the heading without a decorative box. */
 .reserve-room .room-intro h1:focus{outline:none}
+.member-desk{margin-top:52px;max-width:1280px}
+.member-desk__heading h2{font-family:var(--reserve-serif);font-size:clamp(30px,4vw,46px);font-weight:400;line-height:1.08;margin:12px 0 28px;max-width:720px}
+.member-desk__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.member-card{padding:26px 24px 22px;min-height:220px;background:color-mix(in srgb, var(--reserve-heritage-deep) 72%, transparent);border:1px solid color-mix(in srgb, var(--reserve-gold) 28%, transparent);box-shadow:var(--reserve-shadow),var(--reserve-highlight)}
+.member-card h3{font-size:32px;margin:14px 0 12px}
+.member-card p,.member-card li{font-size:14px;color:var(--reserve-text-muted);line-height:1.65}
+.member-card ul{margin:0 0 18px;padding-left:18px}
+.member-card .text-link{min-height:44px;display:inline-flex;align-items:center}
+.member-locations{margin-top:28px;padding:22px 0;border-top:1px solid color-mix(in srgb, var(--reserve-gold) 24%, transparent)}
+.member-locations ol{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 28px}
+.member-locations li{display:flex;flex-direction:column;gap:4px;min-height:44px}
+.member-locations strong{font-family:var(--reserve-serif);font-size:22px;font-weight:400}
+.member-locations span{font-size:12px;color:var(--reserve-text-muted)}
+@media(max-width:760px){
+  .member-desk{margin-top:36px}
+  .member-desk__grid,.member-locations ol{grid-template-columns:1fr}
+  .member-card{min-height:0;padding:22px 18px}
+  .member-card h3{font-size:28px}
+}

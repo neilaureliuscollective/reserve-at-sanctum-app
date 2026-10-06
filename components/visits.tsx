@@ -116,7 +116,7 @@ export function Visits({
       <div className="workspace-heading">
         <div>
           <p className="eyebrow">
-            {studio ? "FIX IT SHOP · STUDIO" : "YOUR RESERVE EXPERIENCE"}
+            {studio ? "FIX IT SHOP · STUDIO" : "YOUR LEGACY RESERVE"}
           </p>
           <h1>{studio ? "A considered day." : "Your next chapter."}</h1>
           <p>
@@ -152,8 +152,8 @@ export function Visits({
         <div className="workspace-links">
           {studio && (actor.role === "owner" || actor.provider_id === "katie") && <a className="text-link" href="#chair-studio">Chair check-ins <ArrowUpRight size={16} /></a>}
           {!studio && (
-            <Link prefetch={false} className="text-link" href="/my-sanctum">
-              My Sanctum <ArrowUpRight size={16} />
+            <Link prefetch={false} className="text-link" href="/profile">
+              Your profile <ArrowUpRight size={16} />
             </Link>
           )}
           {!studio && actor.role !== "client" && (
