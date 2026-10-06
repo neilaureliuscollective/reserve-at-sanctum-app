@@ -25,7 +25,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ h
         internet connection for visits and client information.
       </p>
       <section className="reserve-install-release" aria-label="Current Legacy Reserve release">
-        <Image src="/brand/legacy-reserve/app-icon-192.png" width={96} height={96} alt="Official Legacy Reserve app icon: gold LR seal" priority />
+        <Image src="/brand/legacy-reserve/official-seal.webp" width={112} height={112} alt="Official Legacy Reserve seal" priority />
         <h2>{reserveReleaseLabel}</h2>
         <p>This is the official Legacy Reserve seal. If your phone still shows the previous RS or letter-only icon, remove the old installed app or shortcut and install again from the address below.</p>
         <a className="text-link" href="https://www.reserveatsanctum.app/">Open the live house ↗</a>
