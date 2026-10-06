@@ -2,9 +2,9 @@
   <defs>
     <radialGradient id="lr-halo" cx="50%" cy="42%" r="48%">
       <stop offset="0%" stop-color="#C4912F" stop-opacity=".22"/>
-      <stop offset="70%" stop-color="#0B1610" stop-opacity=".0"/>
+      <stop offset="70%" stop-color="#0B1610" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="lr-metal" x1="18%" y1="8%" x2="84%" y2="92%">
+    <linearGradient id="lr-metal" x1="16%" y1="6%" x2="86%" y2="94%">
       <stop offset="0%" stop-color="#E8D08A"/>
       <stop offset="28%" stop-color="#C4912F"/>
       <stop offset="52%" stop-color="#F0D9A0"/>
@@ -14,8 +14,8 @@
   </defs>
   <circle cx="500" cy="500" r="470" fill="#070908" stroke="url(#lr-metal)" stroke-width="8"/>
   <circle cx="500" cy="500" r="430" fill="url(#lr-halo)" stroke="#C4912F" stroke-opacity=".28" stroke-width="1"/>
-  <g fill="url(#lr-metal)" transform="translate(70 80) scale(0.86)">
-    <path fill-rule="evenodd" d="M148 168H292V698H498V776H148V698Q196 694 196 666V208Q196 180 148 176Z"/>
-    <path fill-rule="evenodd" d="M534 168H762C888 168 946 226 946 316C946 322 945.8 327.5 945.3 333Q920 335 897.5 343Q870 353 850 370C854 356 856 340 856 322C856 248 822 208 748 208H662V430H746C776 430 798 425 816 416Q806 442 806 470Q806 518 834 550Q860 580 918 606L922 608L940 638L892 690L770 458H662V698Q662 726 710 730V776H534V730Q580 726 580 698V218Q580 190 534 186Z"/>
+  <g fill="url(#lr-metal)" fill-rule="evenodd" transform="translate(70 90) scale(0.86)">
+    <path d="M118 168h168v538H508v86H118z"/>
+    <path d="M546 168h168v664H546zm0 0h292c92 0 154 62 154 148s-62 148-154 148H714L920 832H736L546 464zM714 248h110c40 0 68 26 68 68s-28 68-68 68H714z"/>
   </g>
 </svg>

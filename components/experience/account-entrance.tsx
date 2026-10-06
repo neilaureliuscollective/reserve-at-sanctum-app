@@ -5,7 +5,7 @@ import { safeDestination } from '@/lib/experience/entry';
 /** Render no private data and never redirect merely because a session expires. */
 export function AccountEntrance({ next }: { next: string }) {
   return <main id="main" className="reserve-account-entrance">
-    <Image src="/brand/legacy-reserve/mark-gold.svg" alt="Legacy Reserve mark" width={80} height={80} priority />
+    <Image src="/brand/legacy-reserve/mark-gold.png" alt="Legacy Reserve mark" width={80} height={80} priority />
     <p className="experience-kicker">YOUR PLACE AT LEGACY RESERVE</p>
     <h1>Your house.<br /><em>When you’re ready.</em></h1>
     <p>Sign in to see your private visits and saved preferences. You can keep exploring without an account.</p>
