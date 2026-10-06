@@ -30,7 +30,7 @@ export default async function MyReserve() {
     }
     try {
       [visit] = await optionalRead(async () =>
-        (await database()).query(
+        (await database()).query<{ starts_at: string | Date; service_name: string; provider_name: string }>(
           `SELECT a.starts_at,s.name AS service_name,p.name AS provider_name
            FROM reserve_appointments a
            JOIN reserve_services s ON s.id=a.service_id

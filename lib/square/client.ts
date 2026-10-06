@@ -67,11 +67,11 @@ export async function squareFetch<T>(
     };
   }
 
-  let payload: { errors?: SquareErrorBody[] } & T = {} as T;
+  let payload = {} as T & { errors?: SquareErrorBody[] };
   try {
-    payload = (await response.json()) as typeof payload;
+    payload = (await response.json()) as T & { errors?: SquareErrorBody[] };
   } catch {
-    payload = {} as T;
+    payload = {} as T & { errors?: SquareErrorBody[] };
   }
 
   if (!response.ok) {
