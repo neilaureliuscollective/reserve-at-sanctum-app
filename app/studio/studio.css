@@ -1329,3 +1329,27 @@ body:has(.studio-shell) .preview-ribbon {
     padding: 0.75rem 0.7rem;
   }
 }
+.membership-office { max-width: 1050px; margin: auto; }
+.membership-office h1 { font-size: clamp(36px,5vw,64px); }
+.membership-office > section,.membership-office > details { margin: 28px 0; }
+.membership-office-form { display: grid; gap: 18px; max-width: 760px; margin-top: 24px; }
+.membership-office-form label { display: grid; gap: 8px; font-size: 14px; }
+.membership-office-form input:not([type=checkbox]),.membership-office-form select { width: 100%; min-width: 0; min-height: 48px; border: 1px solid var(--reserve-border-control); border-radius: 6px; padding: 12px; background: var(--reserve-surface); color: var(--reserve-text-primary); font: inherit; }
+.membership-office-form fieldset { border: 1px solid var(--reserve-border); border-radius: 8px; padding: 20px; display: grid; gap: 16px; min-width: 0; }
+.membership-office-form .membership-check { grid-template-columns: 22px 1fr; align-items: start; }
+.membership-check input { margin-top: 3px; width: 18px; height: 18px; }
+.membership-date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.membership-plan summary { cursor: pointer; font-size: 26px; min-height: 48px; }
+.membership-plan summary span { display: block; margin-top: 6px; color: var(--reserve-text-muted); font-size: 13px; }
+.membership-record { display: flex; gap: 24px; justify-content: space-between; padding: 24px 0; border-top: 1px solid var(--reserve-border); overflow-wrap: anywhere; }
+.membership-record h3 { margin: 0; font-size: 24px; }
+.membership-record-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.membership-office-message { position: sticky; bottom: 20px; background: var(--reserve-surface); padding: 12px; z-index: 3; }
+.membership-office-message:empty { display: none; }
+.membership-audit { padding: 0; list-style: none; }
+.membership-audit li { padding: 16px 0; border-bottom: 1px solid var(--reserve-border); }
+.membership-audit span { display: block; color: var(--reserve-text-muted); font-size: 13px; }
+@media(max-width:650px) { .membership-record { flex-direction: column; gap: 12px; } .membership-date-row { grid-template-columns: 1fr; } .membership-office-form fieldset { padding: 16px; } }
+.studio-panel.membership-plan { padding: 22px; border: 1px solid var(--reserve-border); border-radius: 10px; background: var(--reserve-surface); }
+.membership-office > .studio-panel { padding: clamp(18px,3vw,30px); border: 1px solid var(--reserve-border); border-radius: 12px; background: var(--reserve-surface); }
+@media(max-width:700px) { .studio-nav { overflow-x: auto; justify-content: flex-start; } .studio-nav a { flex: 1 0 64px; min-width: 64px; font-size: 10px; } }

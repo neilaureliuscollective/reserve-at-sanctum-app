@@ -159,3 +159,7 @@ after the first durable insert. Full Square payloads are not stored.
 ## Legacy Reserve member environment
 
 See [Phase One implementation and release order](MEMBER-FOUNDATION-PHASE-ONE.md). Member navigation is Home, Book, Membership and My Reserve, with Collection and The Chair in secondary navigation. New appointments record validated house context; provider occupancy remains global across houses. Preferred house is account-owned and independent of booking/membership eligibility. Membership is still unbilled and unenforced.
+
+## Membership operations
+
+[Phase Two](MEMBERSHIP-OPERATIONS-PHASE-TWO.md) reuses plans/memberships and adds private account-owned requests and recorded events. Owner-only grants are explicitly complimentary, finite and snapshot the plan terms. User-row locking prevents competing current grants; revisions protect edits and lifecycle changes. Read-time availability accounts for status, dates, captured house and booking eligibility. Product discounts, credits and service redemption cannot be published as available. Profile/Chair access continues under its existing authorization rather than becoming exclusive through a descriptive membership benefit.

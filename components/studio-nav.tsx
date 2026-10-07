@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import {
   CalendarDays,
   Compass,
@@ -15,27 +16,38 @@ const rooms = [
   ["/studio/content", "Content", PenLine],
   ["/studio/build", "Build Room", Hammer],
   ["/studio/clients", "Clients", UsersRound],
+  ["/studio/memberships", "Membership", UsersRound],
   ["/studio/operations", "Operations", Settings2],
 ] as const;
 export function StudioNav({ owner }: { owner: boolean }) {
   const path = usePathname();
+  const nav = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const node = nav.current,
+      active = node?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (node && active)
+      node.scrollLeft =
+        active.offsetLeft - (node.clientWidth - active.offsetWidth) / 2;
+  }, [path]);
   return (
-    <nav className="studio-nav" aria-label="Studio rooms">
-      {rooms.map(([href, label, Icon]) => (
-        <Link
-          key={href}
-          href={href}
-          prefetch={false}
-          aria-current={
-            (href === "/studio" ? path === href : path.startsWith(href))
-              ? "page"
-              : undefined
-          }
-        >
-          <Icon size={19} />
-          <span>{label}</span>
-        </Link>
-      ))}
+    <nav ref={nav} className="studio-nav" aria-label="Studio rooms">
+      {rooms
+        .filter(([href]) => href !== "/studio/memberships" || owner)
+        .map(([href, label, Icon]) => (
+          <Link
+            key={href}
+            href={href}
+            prefetch={false}
+            aria-current={
+              (href === "/studio" ? path === href : path.startsWith(href))
+                ? "page"
+                : undefined
+            }
+          >
+            <Icon size={19} />
+            <span>{label}</span>
+          </Link>
+        ))}
     </nav>
   );
 }
