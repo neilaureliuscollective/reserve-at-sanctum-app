@@ -13,6 +13,7 @@ import type { Database } from "./db";
 import { listLocations } from "./experience/locations";
 import { membershipDesk, membershipState } from "./membership";
 import { membershipPrivileges } from "./membership-operations";
+import { readCollection } from "./collection";
 import { productConcepts } from "./product-concepts";
 import { readRoutine, requireMember } from "./personal-reserve";
 import {
@@ -224,12 +225,10 @@ export async function memberConcierge(
         text: slots.length
           ? `These times are currently available on ${i.date} in ${location.timezone}. Choose a time to review and confirm in booking. Availability can change; no appointment has been made.`
           : "No times are available for that date. Choose another date or service.",
-        links: slots
-          .slice(0, 24)
-          .map((s) => ({
-            label: s.label,
-            href: `/book?${new URLSearchParams({ location: location.id, service: service.id, date: i.date!, start: s.start })}`,
-          })),
+        links: slots.slice(0, 24).map((s) => ({
+          label: s.label,
+          href: `/book?${new URLSearchParams({ location: location.id, service: service.id, date: i.date!, start: s.start })}`,
+        })),
         booking: {
           locations: locations.map((l) => ({
             id: l.id,
@@ -257,7 +256,29 @@ export async function memberConcierge(
       mode: "verified",
     };
   }
-  if (intent === "collection")
+  if (intent === "collection") {
+    const collection = await readCollection(fetcher);
+    if (collection.state === "ready")
+      return {
+        text: collection.items.length
+          ? `The published Collection includes ${collection.items
+              .slice(0, 3)
+              .map((item) => item.name)
+              .join(
+                ", ",
+              )}. ${collection.checkout ? "Review actual options and availability before preparing a one-time Shopify checkout." : "Product purchasing is not open yet."} Member discounts and membership billing are not active.`
+          : collection.message,
+        links: collection.items
+          .slice(0, 3)
+          .map((item) => ({ label: item.name, href: item.href })),
+        mode: "verified",
+      };
+    if (collection.state === "unavailable")
+      return {
+        text: collection.message,
+        links: [{ label: "Refresh the Collection", href: "/shop" }],
+        mode: "verified",
+      };
     return {
       text: `The collection currently presents product concepts, including ${productConcepts
         .slice(0, 3)
@@ -268,6 +289,7 @@ export async function memberConcierge(
       links: [{ label: "Explore the collection", href: "/shop" }],
       mode: "verified",
     };
+  }
   if (intent === "routine") {
     const saved = await readRoutine(db, actor);
     const priority =

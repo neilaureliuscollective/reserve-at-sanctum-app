@@ -1,3 +1,4 @@
+import { shopifyReadiness } from "@/lib/shopify/config";
 import { brand } from "@/lib/brand";
 import { reserveRelease } from "@/lib/experience/release";
 import type { Metadata, Viewport } from "next";
@@ -60,6 +61,7 @@ import "./reserve-controls.css";
 import "./reserve-material.css";
 import "./member-environment.css";
 import "./personal-reserve.css";
+import "./collection-commerce.css";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/supabase-config";
@@ -146,7 +148,10 @@ export default function RootLayout({
           {isPreview() || !configured() || !hasSupabase()
             ? "PRIVATE SETUP"
             : "PRIVATE PILOT"}{" "}
-          <span>·</span> Appointments and payments are not yet live
+          <span>·</span>{" "}
+          {shopifyReadiness().checkoutEnabled
+            ? "Appointments remain in pilot · Purchases require Shopify checkout"
+            : "Appointments and payments are not yet live"}
         </aside>
       </body>
     </html>

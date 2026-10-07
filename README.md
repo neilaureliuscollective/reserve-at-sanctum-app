@@ -159,3 +159,7 @@ for the required hosted configuration and real-device verification.
 ## Membership operations — October 7, 2026
 
 [Phase Two](docs/MEMBERSHIP-OPERATIONS-PHASE-TWO.md) adds member access requests and owner-only `/studio/memberships` plan publication, complimentary grants, lifecycle and recorded history. Existing plans remain unpublished until the founder configures them. Run `CHROMIUM_PATH=<browser> node scripts/verify-membership-operations.mjs` locally; paid membership billing and redemption remain disabled.
+
+## Ecosystem Collection commerce readiness — October 7, 2026
+
+[The next commerce workstream](docs/phase-two-collection-commerce.md) adds an explicitly selected Shopify Storefront bridge for an approved product collection and private one-time checkout preparation. It is stacked on the Personal Reserve/concierge draft. Checkout, recurring billing and member discounts are not activated by this build. `npm run verify:collection-commerce` exercises an isolated synthetic transport with no external Shopify calls or charges.
