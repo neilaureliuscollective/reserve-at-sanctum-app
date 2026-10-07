@@ -1,4 +1,43 @@
 /* Member tasks remain readable and tactile, independent of cinematic marketing. */
+body:has(.member-environment) .preview-ribbon {
+  position: static;
+}
+.membership-privileges {
+  list-style: none;
+  padding: 0 !important;
+}
+.membership-privileges li {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--reserve-border);
+}
+.membership-privileges li strong {
+  display: block;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.membership-privileges li span {
+  display: block;
+  color: var(--reserve-text-muted);
+  font-size: 13px;
+}
+.membership-privileges li a {
+  flex: none;
+}
+.membership-offer {
+  padding: 24px 0;
+  border-top: 1px solid var(--reserve-border);
+}
+.membership-offer h3 {
+  font-size: 30px;
+  margin: 0;
+}
+.membership-request .button {
+  margin-top: 14px;
+}
 .member-environment {
   max-width: 1200px;
   margin: 0 auto;

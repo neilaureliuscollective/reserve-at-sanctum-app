@@ -155,3 +155,7 @@ for the required hosted configuration and real-device verification.
 ## Member foundation — October 7, 2026
 
 [Phase One](docs/MEMBER-FOUNDATION-PHASE-ONE.md) establishes focused Home, dedicated Membership and My Reserve, canonical Profile, honest read failures and server-enforced location context. Run `CHROMIUM_PATH=<browser> node scripts/verify-member-foundation.mjs` for the isolated member journey. Membership billing and live commerce remain disabled.
+
+## Membership operations — October 7, 2026
+
+[Phase Two](docs/MEMBERSHIP-OPERATIONS-PHASE-TWO.md) adds member access requests and owner-only `/studio/memberships` plan publication, complimentary grants, lifecycle and recorded history. Existing plans remain unpublished until the founder configures them. Run `CHROMIUM_PATH=<browser> node scripts/verify-membership-operations.mjs` locally; paid membership billing and redemption remain disabled.

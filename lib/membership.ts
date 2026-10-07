@@ -14,6 +14,8 @@ export type MembershipBenefitKind =
 export type MembershipBenefit = {
   kind: MembershipBenefitKind;
   label: string;
+  availability?: "available" | "planned";
+  destination?: "none" | "profile" | "chair" | "book" | "collection";
 };
 
 export type MembershipPlan = Row & {
@@ -24,6 +26,7 @@ export type MembershipPlan = Row & {
   benefit_model: MembershipBenefit[];
   active: boolean;
   sort_order: number;
+  revision: number;
 };
 
 export type Membership = Row & {
@@ -36,6 +39,17 @@ export type Membership = Row & {
   ends_at: string | Date | null;
   plan_name?: string;
   location_name?: string;
+  location_enabled?: boolean;
+  location_booking_enabled?: boolean;
+  location_timezone?: string;
+  revision: number;
+  access_basis: "legacy" | "complimentary";
+  plan_snapshot: {
+    name: string;
+    tagline: string;
+    privileges: MembershipBenefit[];
+    revision: number;
+  } | null;
 };
 
 function asBenefits(value: unknown): string[] {
@@ -76,7 +90,13 @@ function asBenefitModel(
             "location_eligibility",
           ].includes(kind)
         )
-          return [{ kind: kind as MembershipBenefitKind, label }];
+          return [
+            {
+              ...item,
+              kind: kind as MembershipBenefitKind,
+              label,
+            } as MembershipBenefit,
+          ];
       }
       return [];
     });
@@ -87,7 +107,7 @@ function asBenefitModel(
 
 export async function listMembershipPlans(db: Queryable) {
   const rows = await db.query<MembershipPlan>(
-    "SELECT id,name,tagline,benefits,benefit_model,active,sort_order FROM reserve_membership_plans ORDER BY sort_order",
+    "SELECT id,name,tagline,benefits,benefit_model,active,sort_order,revision FROM reserve_membership_plans ORDER BY sort_order",
   );
   return rows.map((row) => {
     const benefits = asBenefits(row.benefits);
@@ -100,9 +120,9 @@ export async function listMembershipPlans(db: Queryable) {
 }
 export async function readMembership(db: Queryable, actor: Actor) {
   const [row] = await db.query<Membership>(
-    `SELECT m.*,p.name AS plan_name,l.short_name AS location_name FROM reserve_memberships m
+    `SELECT m.*,COALESCE(m.plan_snapshot->>'name',p.name) AS plan_name,l.short_name AS location_name,l.enabled AS location_enabled,l.booking_enabled AS location_booking_enabled,l.timezone AS location_timezone FROM reserve_memberships m
      JOIN reserve_membership_plans p ON p.id=m.plan_id LEFT JOIN reserve_locations l ON l.id=m.location_id
-     WHERE m.user_id=$1 ORDER BY CASE m.status WHEN 'active' THEN 0 WHEN 'pending' THEN 1 WHEN 'paused' THEN 2 ELSE 3 END,m.created_at DESC LIMIT 1`,
+     WHERE m.user_id=$1 ORDER BY CASE WHEN m.status='active' AND (m.ends_at IS NULL OR m.ends_at>now()) AND (m.starts_at IS NULL OR m.starts_at<=now()) THEN 0 WHEN m.status IN ('active','pending','paused') AND (m.ends_at IS NULL OR m.ends_at>now()) THEN 1 ELSE 2 END,m.created_at DESC LIMIT 1`,
     [actor.id],
   );
   return row ?? null;

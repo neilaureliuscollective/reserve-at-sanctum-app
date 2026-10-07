@@ -132,6 +132,9 @@ test("membership effective dates and explicit status remain truthful", () => {
     status: "active" as const,
     starts_at: null,
     ends_at: null,
+    revision: 1,
+    access_basis: "legacy" as const,
+    plan_snapshot: null,
   };
   const now = new Date("2026-10-07");
   assert.equal(membershipState(null, now), "none");
