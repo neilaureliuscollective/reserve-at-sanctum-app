@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { brand } from '@/lib/brand';
-import { locationDisplayName, primaryLocation } from '@/lib/experience/locations';
+
 import { customerAccount, customerDestinations, customerPrimary, destinationActive } from '@/lib/experience/customer-os';
 import { MotionMode } from './motion-mode';
 
@@ -12,15 +12,15 @@ export function ExperienceChrome({children, footer}: {children: React.ReactNode;
   const arrival = path === '/';
   const work = path.startsWith('/studio');
   if (work) return <>{children}</>;
-  const immersive = ['/home','/book','/shop','/my-reserve','/my-visit','/chair','/sanctum-mirror','/mirror'].includes(path);
+  const immersive = ['/home','/membership','/book','/shop','/my-reserve','/my-visit','/chair','/profile','/sanctum-mirror','/mirror'].includes(path);
   return <>
     {arrival && <MotionMode />}
     {!arrival && <>
       <a className="skip" href="#main">Skip to content</a>
       <header className="experience-header">
-        <Link prefetch={false} href="/enter" className="experience-brand">
+        <Link prefetch={false} href="/home" className="experience-brand">
           <Image src={brand.mark} alt="" width={48} height={48} />
-          <span>{brand.wordmark}<small>{locationDisplayName(primaryLocation.id).toUpperCase()}</small></span>
+          <span>{brand.wordmark}<small>YOUR STANDARD. YOUR RESERVE.</small></span>
         </Link>
         <nav aria-label="Legacy Reserve navigation">
           {customerPrimary.map((item) => (

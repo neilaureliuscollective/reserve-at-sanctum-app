@@ -11,15 +11,29 @@ CREATE TABLE IF NOT EXISTS reserve_locations (
   presentation jsonb NOT NULL DEFAULT '{}'
 );
 
-INSERT INTO reserve_locations(id,name,short_name,city,region,timezone,enabled,status) VALUES
- ('eunice','Eunice, Louisiana','Eunice','Eunice','Louisiana','America/Chicago',true,'operating'),
- ('lafayette','Lafayette, Louisiana','Lafayette','Lafayette','Louisiana','America/Chicago',false,'planned'),
- ('austin','Austin, Texas','Austin','Austin','Texas','America/Chicago',false,'planned'),
- ('dallas','Dallas, Texas','Dallas','Dallas','Texas','America/Chicago',false,'planned')
+-- Reconcile the earlier organization/location deployment without changing its state.
+CREATE TABLE IF NOT EXISTS reserve_organizations (
+ id text PRIMARY KEY, name text NOT NULL, created_at timestamptz NOT NULL DEFAULT now()
+);
+INSERT INTO reserve_organizations(id,name) VALUES('legacy-reserve','Legacy Reserve') ON CONFLICT DO NOTHING;
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS organization_id text REFERENCES reserve_organizations(id);
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS slug text;
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS state text NOT NULL DEFAULT 'setup';
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS published boolean NOT NULL DEFAULT false;
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS short_name text NOT NULL DEFAULT '';
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS city text NOT NULL DEFAULT '';
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS region text NOT NULL DEFAULT '';
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS enabled boolean NOT NULL DEFAULT false;
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'planned';
+ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS presentation jsonb NOT NULL DEFAULT '{}';
+UPDATE reserve_locations SET short_name='Eunice',city='Eunice',region='Louisiana' WHERE id='eunice' AND short_name='';
+INSERT INTO reserve_locations(id,organization_id,slug,name,short_name,city,region,timezone,enabled,status) VALUES
+ ('eunice','legacy-reserve','eunice','Legacy Reserve — Eunice','Eunice','Eunice','Louisiana','America/Chicago',false,'planned')
 ON CONFLICT (id) DO NOTHING;
+ALTER TABLE reserve_organizations ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reserve_providers ADD COLUMN IF NOT EXISTS location_id text REFERENCES reserve_locations(id);
-UPDATE reserve_providers SET location_id='eunice' WHERE location_id IS NULL;
+-- Preserve unknown provider assignments until operations reviews them.
 
 CREATE TABLE IF NOT EXISTS reserve_membership_plans (
   id text PRIMARY KEY,

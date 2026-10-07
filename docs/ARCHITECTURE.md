@@ -155,3 +155,7 @@ after the first durable insert. Full Square payloads are not stored.
 ## Operating readiness
 
 [Phase 3](RESERVE-STUDIO-PHASE-3.md) adds immutable provider/service proposals, target revision checks, owner approval/application and recorded approval attribution. `reserve_operation_proposals` remains private under RLS with browser grants revoked. Configuration and booking share provider-then-service locking. Existing appointment snapshots/occupancy are preserved; completion is a separate revision-bound, team-authorized audit event and never payment confirmation. Follow-up handoff copies only a verified visit reference into an explicitly saved internal task.
+
+## Legacy Reserve member environment
+
+See [Phase One implementation and release order](MEMBER-FOUNDATION-PHASE-ONE.md). Member navigation is Home, Book, Membership and My Reserve, with Collection and The Chair in secondary navigation. New appointments record validated house context; provider occupancy remains global across houses. Preferred house is account-owned and independent of booking/membership eligibility. Membership is still unbilled and unenforced.

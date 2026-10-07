@@ -1,7 +1,7 @@
 -- Additive Square mapping and location/provider expansion. Existing rows stay intact.
 ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS address text NOT NULL DEFAULT '';
 ALTER TABLE reserve_locations ADD COLUMN IF NOT EXISTS booking_enabled boolean NOT NULL DEFAULT false;
-UPDATE reserve_locations SET booking_enabled = true WHERE id = 'eunice' AND booking_enabled = false;
+-- Location booking is explicitly enabled by operations, never by migration.
 
 ALTER TABLE reserve_membership_plans ADD COLUMN IF NOT EXISTS benefit_model jsonb NOT NULL DEFAULT '[]';
 UPDATE reserve_membership_plans SET benefit_model = '[

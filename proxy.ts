@@ -41,6 +41,7 @@ export const config = {
     "/shop",
     "/shop/:path*",
     "/my-reserve",
+    "/membership",
     "/my-visit",
     "/sanctum-mirror",
     "/mirror",

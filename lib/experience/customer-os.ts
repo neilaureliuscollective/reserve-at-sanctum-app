@@ -1,8 +1,9 @@
 export const customerDestinations = [
   { href: "/home", label: "Home" },
   { href: "/book", label: "Book" },
-  { href: "/shop", label: "Shop" },
+  { href: "/membership", label: "Membership" },
   { href: "/my-reserve", label: "My Reserve" },
+  { href: "/shop", label: "Collection" },
   { href: "/chair", label: "The Chair" },
   { href: "/account", label: "Account" },
 ] as const;
