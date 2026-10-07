@@ -8,7 +8,7 @@ export async function GET() {
   try {
     const rows = configured()
       ? await listLocations(await database())
-      : [...locations];
+      : locations.map(location=>({...location,enabled:false,booking_enabled:false,status:"planned"}));
     return Response.json({
       locations: rows.map((location) => ({
         id: location.id,

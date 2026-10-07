@@ -5,7 +5,7 @@ import { productConcepts } from "@/lib/product-concepts";
 import { locationDisplayName, primaryLocation } from "@/lib/experience/locations";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Shop" };
+export const metadata = { title: "Collection" };
 
 export default async function Shop() {
   const catalog = await liveShopCatalog();
@@ -19,11 +19,11 @@ export default async function Shop() {
         <p className="experience-kicker">{house.toUpperCase()} · SHOP</p>
         <h1 tabIndex={-1}>What a man takes home.</h1>
         <p className="room-line">
-          Products, replenishment, and member pricing will live here when Square Catalog is connected.
+          The Legacy Reserve collection is taking shape. Product access and member pricing will appear when purchasing opens.
           Nothing on this page is live inventory.
         </p>
         <div className="visit-ledger shop-ledger">
-          <span className="experience-kicker">{catalog.connected ? "SQUARE CATALOG" : "SQUARE NOT CONNECTED"}</span>
+          <span className="experience-kicker">{catalog.connected ? "COLLECTION PREVIEW" : "IN PREPARATION"}</span>
           {catalog.connected && catalog.liveCatalog ? (
             <ul className="shop-live">
               {catalog.items.map((item) => (
@@ -35,8 +35,8 @@ export default async function Shop() {
               <h2>The house collection is being prepared.</h2>
               <p>
                 {catalog.connected
-                  ? "Square is configured, but no sellable catalog objects are available yet."
-                  : "Square credentials have not been added. Checkout, inventory, and orders stay disabled."}
+                  ? "Purchasing is not open yet."
+                  : "These are product concepts. Checkout, stock availability, and order history are not available yet."}
               </p>
             </>
           )}

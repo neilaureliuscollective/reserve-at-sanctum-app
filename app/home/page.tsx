@@ -1,33 +1,142 @@
-import { ReserveRooms } from '@/components/experience/reserve-rooms';
-import { MemberDesk } from '@/components/experience/member-desk';
-import { HomeRefresh } from '@/components/experience/home-refresh';
-import Image from 'next/image';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { publicUser } from '@/lib/auth';
-import { configured, database } from '@/lib/db';
-import { locationDisplayName, primaryLocation } from '@/lib/experience/locations';
-import { DateTime } from 'luxon';
-import { optionalRead } from '@/lib/experience/optional-read';
-import { membershipDesk } from '@/lib/membership';
-export const dynamic = 'force-dynamic';
-export default async function Home({searchParams}: {searchParams: Promise<{explore?: string}>}) {
-  const actor = await publicUser();
-  const exploring = (await searchParams).explore === '1';
-  if (actor && actor.role !== 'client' && !exploring) redirect('/studio');
-  let visit: { starts_at: string | Date; service_name: string; provider_name: string } | undefined;
-  let failed = false;
-  let desk = { membership: null, plans: [], offered: false } as Awaited<ReturnType<typeof membershipDesk>>;
-  if (configured()) {
-    try {
-      const db = await database();
-      desk = await membershipDesk(db, actor?.role === 'client' ? actor : null);
-    } catch { /* Membership is additive; the house still opens without it. */ }
-  }
-  if (actor?.role === 'client' && !exploring) {
-    try { [visit] = await optionalRead(async () => (await database()).query<{ starts_at: string | Date; service_name: string; provider_name: string }>(`SELECT a.starts_at,s.name AS service_name,p.name AS provider_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id JOIN reserve_providers p ON p.id=a.provider_id WHERE a.client_id=$1 AND a.status='confirmed' AND a.starts_at>now() ORDER BY a.starts_at ASC LIMIT 1`, [actor.id])); } catch { failed = true; }
-  }
-  const personal = actor?.role === 'client' && !exploring;
-  const house = locationDisplayName(primaryLocation.id);
-  return <main id="main" className="reserve-room"><HomeRefresh /><div className="room-backdrop" aria-hidden="true"><Image src={primaryLocation.poster} alt="" fill sizes="100vw" priority /></div><section className="room-intro"><p className="experience-kicker">{house.toUpperCase()}</p><h1 tabIndex={-1}>{personal ? `Welcome back, ${actor.name.split(' ')[0]}.` : 'Welcome to Legacy Reserve.'}</h1><p className="room-line">{personal ? 'Your next visit. Your membership. Your own pace.' : 'Appearance, grooming, membership, and the care between visits.'}</p>{personal ? <div className="visit-ledger"><span className="experience-kicker">YOUR NEXT VISIT</span>{failed ? <><p>Unable to refresh your visits.</p><Link href="/home" className="text-link">Try again</Link></> : visit ? <><h2>{visit.service_name}</h2><p>{DateTime.fromJSDate(new Date(visit.starts_at)).setZone(primaryLocation.timezone).toFormat('cccc, LLLL d · h:mm a')} · {visit.provider_name}</p><div className="room-actions"><Link prefetch={false} href="/my-visit" className="button button-gold">Open your visit</Link><Link prefetch={false} href="/account" className="text-link">Manage your visit ↗</Link></div></> : <><p>No upcoming visit is booked.</p><Link href="/book" className="button button-gold">Book a visit</Link></>}</div> : <Link href="/book" className="button button-gold">Book a visit ↗</Link>}<small className="room-concept">CONCEPT ENVIRONMENT · NOT THE FINISHED {primaryLocation.short_name.toUpperCase()} LOCATION</small></section><MemberDesk personal={personal} membership={desk.membership} plans={desk.plans} /><ReserveRooms /><div className="room-secondary"><Link prefetch={false} href="/my-reserve">My Reserve ↗</Link><Link href="/shop">Shop ↗</Link><Link prefetch={false} href="/my-visit">Your visit ↗</Link><Link prefetch={false} href="/profile">Your profile ↗</Link><Link href="/visit">About {primaryLocation.short_name} ↗</Link></div></main>;
+import Link from "next/link";
+import { DateTime } from "luxon";
+import { redirect } from "next/navigation";
+import { currentUser } from "@/lib/auth";
+import { readMemberSummary } from "@/lib/experience/member";
+import { MemberShell } from "@/components/experience/member-shell";
+import { MemberDesk } from "@/components/experience/member-desk";
+import { HomeRefresh } from "@/components/experience/home-refresh";
+import { rebookPath } from "@/lib/experience/visits";
+export const dynamic = "force-dynamic";
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ explore?: string }>;
+}) {
+  const actor = await currentUser();
+  const exploring = (await searchParams).explore === "1";
+  if (actor && actor.role !== "client" && !exploring) redirect("/studio");
+  const client = actor?.role === "client" && !exploring ? actor : null;
+  const data = await readMemberSummary(client);
+  const house = data.houses.data?.house;
+  const next = data.visits.data?.next,
+    previous = data.visits.data?.previous;
+  const label = house
+    ? `Legacy Reserve — ${house.short_name}`
+    : "Legacy Reserve";
+  const bookPath = house
+    ? `/book?location=${encodeURIComponent(house.id)}`
+    : "/book";
+  return (
+    <MemberShell
+      kicker={label}
+      title={
+        client
+          ? `Welcome back, ${client.name.split(" ")[0]}.`
+          : "A standard to return to."
+      }
+      intro={
+        client
+          ? "Your time. Your direction. Your Reserve."
+          : "Book your visit, prepare The Chair, and keep your personal preferences together."
+      }
+    >
+      <HomeRefresh />
+      <section className="member-focus" aria-labelledby="member-next-title">
+        <p className="experience-kicker">
+          {next ? "YOUR NEXT VISIT" : "YOUR NEXT STEP"}
+        </p>
+        <h2 id="member-next-title">
+          {data.visits.state === "unavailable"
+            ? "Your visits could not refresh."
+            : next
+              ? next.service_name
+              : previous?.rebook_available
+                ? "Return to your usual."
+                : "Make time for yourself."}
+        </h2>
+        {next ? (
+          <>
+            <p className="member-visit-date">
+              {DateTime.fromJSDate(new Date(next.starts_at))
+                .setZone(next.location_timezone || "America/Chicago")
+                .toFormat("cccc, LLLL d · h:mm a")}
+            </p>
+            <p>
+              {next.provider_name} ·{" "}
+              {next.location_name
+                ? `Legacy Reserve — ${next.location_name}`
+                : "Location not recorded"}
+            </p>
+            <div className="member-actions">
+              <Link
+                prefetch={false}
+                href={`/my-visit?visit=${next.id}`}
+                className="button button-gold"
+              >
+                Prepare your visit ↗
+              </Link>
+              <Link href="/account" className="text-link">
+                Manage appointments ↗
+              </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <p>
+              {data.visits.state === "unavailable"
+                ? "Try again before making another appointment."
+                : house?.booking_enabled
+                  ? "Choose a service and a time. Your preferences can come first."
+                  : "Appointments are being prepared. You can save your preferences while the house gets ready."}
+            </p>
+            <div className="member-actions">
+              <Link
+                href={
+                  data.visits.state === "unavailable"
+                    ? "/home"
+                    : previous?.rebook_available
+                      ? rebookPath(previous)
+                      : bookPath
+                }
+                className="button button-gold"
+              >
+                {data.visits.state === "unavailable"
+                  ? "Try again"
+                  : previous?.rebook_available
+                    ? "Book this service again"
+                    : "Explore appointments"}{" "}
+                ↗
+              </Link>
+              <Link
+                href={client ? "/my-reserve" : "/signin?next=/home"}
+                className="text-link"
+              >
+                {client ? "Your preferences" : "Sign in to your Reserve"} ↗
+              </Link>
+            </div>
+          </>
+        )}
+      </section>
+      <MemberDesk desk={data.membership} />
+      <section className="member-line">
+        <div>
+          <p className="experience-kicker">BETWEEN VISITS</p>
+          <h2>Your own direction.</h2>
+          <p>
+            Keep your appearance priorities and visit preferences ready for the
+            next time you come in.
+          </p>
+        </div>
+        <Link href="/profile" className="text-link">
+          Open your profile ↗
+        </Link>
+      </section>
+      <footer className="member-foot">
+        <Link href="/shop">Explore the collection ↗</Link>
+        <Link href="/visit">Location information ↗</Link>
+        <Link href="/explore">Services & people ↗</Link>
+      </footer>
+    </MemberShell>
+  );
 }

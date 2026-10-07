@@ -12,7 +12,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import type { Service, Actor } from "@/lib/booking";
-const zone = "America/Chicago";
+
 const money = (c: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -21,6 +21,9 @@ const money = (c: number) =>
   }).format(c / 100);
 type Slot = { start: string; label: string };
 export function BookingFlow() {
+  const [zone,setZone]=useState("America/Chicago");
+  const [house,setHouse]=useState("eunice");
+  const [houseName,setHouseName]=useState("Eunice");
   const [services, setServices] = useState<Service[]>([]),
     [selected, setSelected] = useState(""),
     [date, setDate] = useState(""),
@@ -38,6 +41,8 @@ export function BookingFlow() {
   useEffect(() => {
     requestKey.current = crypto.randomUUID();
     const u = new URL(location.href);
+    const locationId=u.searchParams.get("location") || "eunice";
+    setHouse(locationId);
     const today = DateTime.now().setZone(zone).plus({ days: 1 });
     setDate(u.searchParams.get("date") || today.toISODate()!);
     setSelected(u.searchParams.get("service") || "");
@@ -45,12 +50,16 @@ export function BookingFlow() {
     if (u.searchParams.get("start")) setStep(3);
     const abort = new AbortController();
     Promise.all([
-      fetch("/api/availability", { signal: abort.signal }).then((r) =>
+      fetch(`/api/availability?location=${encodeURIComponent(locationId)}`, { signal: abort.signal }).then((r) =>
         r.json(),
       ),
       fetch("/api/session", { signal: abort.signal }).then((r) => r.json()),
+      fetch("/api/locations", { signal: abort.signal }).then((r) => r.json()),
     ])
-      .then(([c, s]) => {
+      .then(([c, s, l]) => {
+        const locationRow=l.locations?.find((row:{id:string})=>row.id===locationId);
+        setHouseName(locationRow?.short_name || "Location unavailable");
+        if(locationRow?.timezone) setZone(locationRow.timezone);
         setServices(c.services || []);
         setActor(s.user);
         if (c.error) setError(c.error);
@@ -72,7 +81,7 @@ export function BookingFlow() {
     setLoadingSlots(true);
     setError("");
     fetch(
-      `/api/availability?service=${encodeURIComponent(selected)}&date=${date}`,
+      `/api/availability?service=${encodeURIComponent(selected)}&date=${date}&location=${encodeURIComponent(house)}`,
       { signal: controller.signal },
     )
       .then((r) => r.json())
@@ -88,7 +97,7 @@ export function BookingFlow() {
         if (!controller.signal.aborted) setLoadingSlots(false);
       });
     return () => controller.abort();
-  }, [selected, date]);
+  }, [selected, date, house]);
   const service = services.find((s) => s.id === selected);
   const days = Array.from({ length: 10 }, (_, i) =>
     DateTime.now()
@@ -104,6 +113,7 @@ export function BookingFlow() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          locationId: house,
           serviceId: selected,
           start,
           note,
@@ -119,7 +129,7 @@ export function BookingFlow() {
       setBusy(false);
     }
   }
-  const returnPath = `/book?service=${selected}&date=${date}&start=${encodeURIComponent(start)}`;
+  const returnPath = `/book?location=${encodeURIComponent(house)}&service=${selected}&date=${date}&start=${encodeURIComponent(start)}`;
   if (confirmed)
     return (
       <section className="booking-success">
@@ -132,7 +142,7 @@ export function BookingFlow() {
           <br />
           <em>Just for you.</em>
         </h1>
-        <p>{service?.name} with Katie</p>
+        <p>{service?.name} with {service?.provider_name}</p>
         <p className="success-time">
           {DateTime.fromISO(start)
             .setZone(zone)
@@ -159,7 +169,7 @@ export function BookingFlow() {
   return (
     <>
       <div className="booking-heading">
-        <p className="eyebrow">FIX IT SHOP · WITH KATIE</p>
+        <p className="eyebrow">LEGACY RESERVE — {houseName.toUpperCase()}</p>
         <h1>
           Make time <em>for yourself.</em>
         </h1>
@@ -209,7 +219,7 @@ export function BookingFlow() {
                         <span className="service-description">
                           <strong>{s.name}</strong>
                           <span>{s.description}</span>
-                          <small>{s.minutes} minutes · with Katie</small>
+                          <small>{s.minutes} minutes · {s.provider_name}</small>
                         </span>
                         <span className="service-price">
                           {money(s.price)}
@@ -316,7 +326,7 @@ export function BookingFlow() {
                     Make it <em>yours.</em>
                   </h2>
                   <div className="review-visit">
-                    <strong>{service?.name} · with Katie</strong>
+                    <strong>{service?.name} · {service?.provider_name}</strong>
                     <span>
                       {start
                         ? DateTime.fromISO(start)
@@ -338,7 +348,7 @@ export function BookingFlow() {
                         </span>
                       </div>
                       <label className="field-label" htmlFor="visit-note">
-                        Anything you’d like Katie to know?
+                        Anything you’d like your provider to know?
                         <span>Optional · grooming preferences only</span>
                       </label>
                       <textarea
@@ -352,7 +362,7 @@ export function BookingFlow() {
                         placeholder="Your preferred finish, a style you have in mind, or how you wear your hair…"
                       />
                       <p className="muted small">
-                        This note is shared with Katie and authorized studio
+                        This note is shared with your provider and authorized studio
                         staff.
                       </p>
                       <div className="inline-note">
@@ -400,7 +410,7 @@ export function BookingFlow() {
           <h3>
             A place in
             <br />
-            <em>Katie’s chair.</em>
+            <em>{houseName}.</em>
           </h3>
           <div className="summary-divider" />
           <p className="summary-service">
@@ -431,7 +441,7 @@ export function BookingFlow() {
           </div>
           <span className="small muted">No charge in the private preview.</span>
           <p className="summary-signature">
-            FIX IT SHOP <span>×</span> LEGACY RESERVE
+            LEGACY RESERVE · {houseName.toUpperCase()}
           </p>
         </aside>
       </div>

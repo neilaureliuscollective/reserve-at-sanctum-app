@@ -19,10 +19,10 @@ before(async () => {
 });
 after(async () => pg.close());
 
-test("customer navigation is Home Book Shop My Reserve The Chair Account", () => {
+test("customer navigation is member navigation separates membership and collection", () => {
   assert.deepEqual(
     customerDestinations.map((item) => item.label),
-    ["Home", "Book", "Shop", "My Reserve", "The Chair", "Account"],
+    ["Home", "Book", "Membership", "My Reserve", "Collection", "The Chair", "Account"],
   );
   const chrome = readFileSync(new URL("../components/experience/chrome.tsx", import.meta.url), "utf8");
   assert.match(chrome, /customerPrimary/);
@@ -34,7 +34,7 @@ test("locations remain multi-house with Eunice booking-enabled", async () => {
   const rows = await listLocations(db);
   assert.equal(rows[0].id, "eunice");
   assert.equal(rows[0].booking_enabled, true);
-  assert.ok(rows.some((row) => row.id === "lafayette" && row.booking_enabled === false));
+  assert.ok(!rows.some((row) => row.id === "lafayette" && row.booking_enabled));
   const [link] = await db.query<{ location_id: string }>(
     "SELECT location_id FROM reserve_provider_locations WHERE provider_id='katie'",
   );

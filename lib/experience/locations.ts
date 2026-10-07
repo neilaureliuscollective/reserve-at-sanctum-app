@@ -110,20 +110,22 @@ function withPresentation(rows: ReserveLocation[]) {
 }
 
 export async function listLocations(db: Queryable) {
-  try {
-    const rows = await db.query<ReserveLocation>(
-      "SELECT id,name,short_name,city,region,timezone,enabled,booking_enabled,address,status FROM reserve_locations ORDER BY CASE status WHEN 'operating' THEN 0 WHEN 'coming' THEN 1 ELSE 2 END, short_name",
-    );
-    if (rows.length) return withPresentation(rows);
-  } catch {
-    try {
-      const rows = await db.query<ReserveLocation>(
-        "SELECT id,name,short_name,city,region,timezone,enabled,status FROM reserve_locations ORDER BY CASE status WHEN 'operating' THEN 0 WHEN 'coming' THEN 1 ELSE 2 END, short_name",
-      );
-      if (rows.length) return withPresentation(rows);
-    } catch {
-      /* Preview databases without the additive migration still render the catalog. */
-    }
-  }
-  return [...locations];
+  const rows = await db.query<ReserveLocation>(
+    "SELECT id,name,short_name,city,region,timezone,enabled,booking_enabled,COALESCE(address,'') AS address,status FROM reserve_locations ORDER BY enabled DESC,short_name",
+  );
+  return withPresentation(rows);
+}
+
+export async function bookingLocation(
+  db: Queryable,
+  id = primaryLocation.id,
+  lock = false,
+) {
+  const [location] = await db.query<ReserveLocation>(
+    `SELECT id,name,short_name,city,region,timezone,enabled,booking_enabled,COALESCE(address,'') AS address,status FROM reserve_locations WHERE id=$1 ${lock ? "FOR SHARE" : ""}`,
+    [id],
+  );
+  if (!location || !location.enabled || !location.booking_enabled)
+    throw new Error("This location is not accepting appointments.");
+  return withPresentation([location])[0];
 }

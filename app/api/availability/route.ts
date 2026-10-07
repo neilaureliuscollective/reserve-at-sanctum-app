@@ -10,13 +10,15 @@ export async function GET(req: Request) {
       u = new URL(req.url);
     if (!u.searchParams.has("service"))
       return Response.json({
-        services: await catalog(db, u.searchParams.get("location")),
+        services: await catalog(db, u.searchParams.get("location") ?? undefined),
       });
     return Response.json({
       slots: await availability(
         db,
         u.searchParams.get("service")!,
         u.searchParams.get("date") || "",
+        undefined,
+        u.searchParams.get("location") ?? undefined,
       ),
     });
   } catch (e) {

@@ -42,6 +42,7 @@ export async function schema(db: Queryable) {
   }
 }
 export async function seed(db: Queryable) {
+  await db.query("UPDATE reserve_locations SET enabled=true,booking_enabled=true,status='operating' WHERE id='eunice'");
   await db.query(`INSERT INTO reserve_users(id,name,email,role,provider_id) VALUES
  ('preview-neil','Neil · owner preview','neil@preview.invalid','owner',NULL),
  ('preview-katie','Katie · studio preview','katie@preview.invalid','operator','katie'),

@@ -39,6 +39,7 @@ export async function POST(req: Request) {
       throw new BookingError("Sign in before reserving a visit.", 401);
     const input = z
       .object({
+        locationId: z.string().min(1).max(80).optional(),
         serviceId: z.string().max(80),
         start: z.iso.datetime(),
         note: z.string().max(600).default(""),

@@ -19,7 +19,7 @@ before(async()=>{
     ['future',client.id,'2026-10-06T15:00:00Z','confirmed'],
     ['cancelled',client.id,'2026-10-07T15:00:00Z','cancelled'],
     ['foreign',other.id,'2026-10-04T15:15:00Z','confirmed'],
-  ]) await db.query(`INSERT INTO reserve_appointments(id,client_id,provider_id,service_id,starts_at,ends_at,busy_until,price,request_key,original_start,status,note) VALUES($1,$2,'katie','signature',$3,$3::timestamptz+interval '45 minutes',$3::timestamptz+interval '1 hour',4500,$1,$3,$4,'PRIVATE NOTE MUST NOT LEAK')`,[id,owner,start,status]);
+  ]) await db.query(`INSERT INTO reserve_appointments(id,client_id,provider_id,service_id,starts_at,ends_at,busy_until,price,request_key,original_start,status,location_id,note) VALUES($1,$2,'katie','signature',$3,$3::timestamptz+interval '45 minutes',$3::timestamptz+interval '1 hour',4500,$1,$3,$4,'eunice','PRIVATE NOTE MUST NOT LEAK')`,[id,owner,start,status]);
 });
 after(async()=>{await pg.close();});
 test('continuity uses nearest upcoming and latest elapsed owned records without notes',async()=>{
@@ -42,7 +42,7 @@ test('elapsed is distinct from completion; cancellation wins over future time',a
 });
 test('rebooking preselects only a currently enabled provider and service',async()=>{
   const active=(await readVisitContinuity(db,client,'future',now)).selected!;
-  assert.equal(rebookPath(active),'/book?service=signature');
+  assert.equal(rebookPath(active),'/book?service=signature&location=eunice');
   await db.query("UPDATE reserve_services SET enabled=false WHERE id='signature'");
   const disabled=(await readVisitContinuity(db,client,'future',now)).selected!;
   assert.equal(rebookPath(disabled),'/book');

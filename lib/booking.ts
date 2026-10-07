@@ -2,6 +2,7 @@ import { hasCapability, requireCapability } from "./studio-permissions";
 import { DateTime } from "luxon";
 import { randomUUID } from "node:crypto";
 import type { Database, Queryable, Row } from "./db";
+import { bookingLocation, primaryLocation } from "./experience/locations";
 export const ZONE = "America/Chicago";
 export type Actor = Row & {
   id: string;
@@ -20,6 +21,8 @@ export type Service = Row & {
   buffer: number;
   price: number;
   location_id?: string | null;
+  provider_name?: string;
+  timezone?: string;
 };
 export type Appointment = Row & {
   id: string;
@@ -36,6 +39,7 @@ export type Appointment = Row & {
   note: string;
   service_name?: string;
   client_name?: string;
+  location_id?: string | null;
 };
 export class BookingError extends Error {
   constructor(
@@ -46,27 +50,51 @@ export class BookingError extends Error {
   }
 }
 const iso = (x: Date | string) => new Date(x).toISOString();
-export async function catalog(db: Queryable, locationId?: string | null) {
+export async function catalog(db: Queryable, locationId = primaryLocation.id) {
+  let location;
   try {
-    if (locationId) {
-      return await db.query<Service>(
-        `SELECT s.*, p.location_id FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id
-         WHERE s.enabled AND p.enabled AND (
-           p.location_id=$1 OR p.location_id IS NULL
-           OR EXISTS (SELECT 1 FROM reserve_provider_locations pl WHERE pl.provider_id=p.id AND pl.location_id=$1)
-         ) ORDER BY s.minutes`,
-        [locationId],
-      );
-    }
-    return await db.query<Service>(
-      `SELECT s.*, p.location_id FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id
-       WHERE s.enabled AND p.enabled ORDER BY s.minutes`,
-    );
-  } catch {
-    return db.query<Service>(
-      "SELECT s.* FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id WHERE s.enabled AND p.enabled ORDER BY s.minutes",
-    );
+    location = await bookingLocation(db, locationId);
+  } catch (e) {
+    if (
+      e instanceof Error &&
+      e.message === "This location is not accepting appointments."
+    )
+      return [];
+    throw e;
   }
+  return db.query<Service>(
+    `SELECT s.*,p.name AS provider_name,$1::text AS location_id,$2::text AS timezone
+     FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id
+     WHERE s.enabled AND p.enabled AND EXISTS
+     (SELECT 1 FROM reserve_provider_locations pl WHERE pl.provider_id=p.id AND pl.location_id=$1)
+     ORDER BY p.name,s.minutes`,
+    [location.id, location.timezone],
+  );
+}
+async function serviceLocation(
+  db: Queryable,
+  s: Service,
+  locationId: string,
+  lock = false,
+) {
+  let location;
+  try {
+    location = await bookingLocation(db, locationId, lock);
+  } catch (e) {
+    if (
+      e instanceof Error &&
+      e.message === "This location is not accepting appointments."
+    )
+      throw new BookingError(e.message);
+    throw e;
+  }
+  const assignments = await db.query(
+    `SELECT provider_id FROM reserve_provider_locations WHERE provider_id=$1 AND location_id=$2 ${lock ? "FOR SHARE" : ""}`,
+    [s.provider_id, location.id],
+  );
+  if (!assignments.length)
+    throw new BookingError("This service is not offered at this location.");
+  return { ...s, location_id: location.id, timezone: location.timezone };
 }
 async function service(db: Queryable, id: string, lock = false) {
   if (lock) {
@@ -103,7 +131,9 @@ async function validateTime(
   now = DateTime.now(),
   hours?: ProviderHours,
 ) {
-  const start = DateTime.fromISO(startISO, { zone: ZONE }).setZone(ZONE);
+  const start = DateTime.fromISO(startISO, {
+    zone: s.timezone || ZONE,
+  }).setZone(s.timezone || ZONE);
   if (
     !start.isValid ||
     start.second !== 0 ||
@@ -138,9 +168,10 @@ export async function availability(
   serviceId: string,
   date: string,
   now = DateTime.now(),
+  locationId = primaryLocation.id,
 ) {
-  const s = await service(db, serviceId),
-    day = DateTime.fromISO(date, { zone: ZONE });
+  const s = await serviceLocation(db, await service(db, serviceId), locationId),
+    day = DateTime.fromISO(date, { zone: s.timezone || ZONE });
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !day.isValid)
     throw new BookingError("Choose a valid date.");
   const occupied = await db.query<{ starts_at: Date | string }>(
@@ -199,7 +230,13 @@ function conflict(e: unknown): never {
 export async function book(
   db: Database,
   actor: Actor,
-  input: { serviceId: string; start: string; note: string; requestKey: string },
+  input: {
+    serviceId: string;
+    start: string;
+    note: string;
+    requestKey: string;
+    locationId?: string;
+  },
 ) {
   try {
     return await db.transaction(async (tx) => {
@@ -211,7 +248,9 @@ export async function book(
         if (
           prior.service_id !== input.serviceId ||
           iso(prior.original_start) !== iso(input.start) ||
-          prior.note !== input.note
+          prior.note !== input.note ||
+          (prior.location_id ?? primaryLocation.id) !==
+            (input.locationId ?? primaryLocation.id)
         )
           throw new BookingError(
             "This request was already used for another booking.",
@@ -219,11 +258,16 @@ export async function book(
           );
         return prior;
       }
-      const s = await service(tx, input.serviceId, true),
+      const s = await serviceLocation(
+          tx,
+          await service(tx, input.serviceId, true),
+          input.locationId ?? primaryLocation.id,
+          true,
+        ),
         start = await validateTime(tx, s, input.start),
         id = randomUUID();
       const [a] = await tx.query<Appointment>(
-        `INSERT INTO reserve_appointments(id,client_id,provider_id,service_id,starts_at,ends_at,busy_until,price,note,request_key,original_start) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$5) RETURNING *`,
+        `INSERT INTO reserve_appointments(id,client_id,provider_id,service_id,starts_at,ends_at,busy_until,price,note,request_key,original_start,location_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$5,$11) RETURNING *`,
         [
           id,
           actor.id,
@@ -238,6 +282,7 @@ export async function book(
           s.price,
           input.note,
           input.requestKey,
+          s.location_id,
         ],
       );
       await occupy(tx, a, start, s.minutes + s.buffer);
@@ -315,7 +360,12 @@ export async function change(
           (new Date(a.busy_until).getTime() - new Date(a.ends_at).getTime()) /
           60000;
         const s = {
-          ...(await service(tx, a.service_id, true)),
+          ...(await serviceLocation(
+            tx,
+            await service(tx, a.service_id, true),
+            a.location_id ?? primaryLocation.id,
+            true,
+          )),
           minutes: originalMinutes,
           buffer,
         };

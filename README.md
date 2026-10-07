@@ -151,3 +151,7 @@ Open `/setup` for sign-in status and phone installation instructions. Katie’s
 studio now supports time blocking; verified hosted staff accounts can be assigned
 with `npm run staff:provision`. See [the pilot checklist](docs/BOOKING-PILOT.md)
 for the required hosted configuration and real-device verification.
+
+## Member foundation — October 7, 2026
+
+[Phase One](docs/MEMBER-FOUNDATION-PHASE-ONE.md) establishes focused Home, dedicated Membership and My Reserve, canonical Profile, honest read failures and server-enforced location context. Run `CHROMIUM_PATH=<browser> node scripts/verify-member-foundation.mjs` for the isolated member journey. Membership billing and live commerce remain disabled.
