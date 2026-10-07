@@ -5,10 +5,10 @@ export const brand = {
   shortName: "Legacy Reserve",
   wordmark: "LEGACY RESERVE",
   appleTitle: "Legacy Reserve",
-  tagline: "A standard a man can return to.",
+  tagline: "A standard to return to.",
   description:
-    "A premium men's institution for appearance, grooming, membership, products, and the care between visits.",
-  titleDefault: "Legacy Reserve — A standard a man can return to.",
+    "A premium lifestyle ecosystem for presence, performance, wellbeing, membership, and the care between visits.",
+  titleDefault: "Legacy Reserve — A standard to return to.",
   titleTemplate: "%s · Legacy Reserve",
   enterCta: "Enter the Reserve",
   mark: "/brand/legacy-reserve/mark-gold.webp",
@@ -26,5 +26,5 @@ export const brand = {
 } as const;
 
 export function locationLabel(city: string) {
-  return `Legacy Reserve — ${city}`;
+  return `Legacy Reserve Sanctum — ${city}`;
 }

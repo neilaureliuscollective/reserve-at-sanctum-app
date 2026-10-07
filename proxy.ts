@@ -38,6 +38,9 @@ export const config = {
   matcher: [
     "/",
     "/home",
+    "/pathways",
+    "/aethelios",
+    "/visit",
     "/shop",
     "/shop/:path*",
     "/my-reserve",

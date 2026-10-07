@@ -22,9 +22,23 @@ after(async () => pg.close());
 test("customer navigation is member navigation separates membership and collection", () => {
   assert.deepEqual(
     customerDestinations.map((item) => item.label),
-    ["Home", "Book", "Membership", "My Reserve", "Collection", "The Chair", "Account"],
+    [
+      "Reserve",
+      "Pathways",
+      "Sanctum",
+      "Collection",
+      "Aethelios",
+      "Membership",
+      "My Reserve",
+      "Book",
+      "The Chair",
+      "Account",
+    ],
   );
-  const chrome = readFileSync(new URL("../components/experience/chrome.tsx", import.meta.url), "utf8");
+  const chrome = readFileSync(
+    new URL("../components/experience/chrome.tsx", import.meta.url),
+    "utf8",
+  );
   assert.match(chrome, /customerPrimary/);
   assert.match(chrome, /\/shop/);
   assert.match(chrome, /\/my-reserve/);
@@ -45,7 +59,11 @@ test("membership plans stay inactive and carry a flexible benefit model", async 
   const plans = await listMembershipPlans(db);
   assert.ok(plans.every((plan) => plan.active === false));
   assert.ok(plans.every((plan) => plan.benefit_model.length > 0));
-  assert.ok(plans.some((plan) => plan.benefit_model.some((benefit) => benefit.kind === "product_discount")));
+  assert.ok(
+    plans.some((plan) =>
+      plan.benefit_model.some((benefit) => benefit.kind === "product_discount"),
+    ),
+  );
   assert.doesNotMatch(JSON.stringify(plans), /\$\d/);
 });
 

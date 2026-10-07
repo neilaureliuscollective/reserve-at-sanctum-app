@@ -8,7 +8,12 @@ export async function GET() {
   try {
     const rows = configured()
       ? await listLocations(await database())
-      : locations.map(location=>({...location,enabled:false,booking_enabled:false,status:"planned"}));
+      : locations.map((location) => ({
+          ...location,
+          enabled: false,
+          booking_enabled: false,
+          status: "planned",
+        }));
     return Response.json({
       locations: rows.map((location) => ({
         id: location.id,
@@ -21,7 +26,7 @@ export async function GET() {
         booking_enabled: location.booking_enabled,
         address: location.address,
         status: location.status,
-        label: `Legacy Reserve — ${location.short_name}`,
+        label: `Legacy Reserve Sanctum — ${location.short_name}`,
       })),
     });
   } catch (error) {

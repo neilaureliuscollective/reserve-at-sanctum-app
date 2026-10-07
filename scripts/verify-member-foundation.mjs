@@ -89,8 +89,9 @@ try {
   });
   await page.goto(base + "/home");
   await page.getByRole("heading", { name: "Welcome back, Jordan." }).waitFor();
+  await page.locator(".experience-menu summary").click();
   await page
-    .getByRole("navigation", { name: "Legacy Reserve navigation" })
+    .getByRole("navigation", { name: "More destinations" })
     .getByRole("link", { name: "Membership", exact: true })
     .click();
   await page.getByRole("heading", { name: "Belong with purpose." }).waitFor();
@@ -158,7 +159,7 @@ try {
     .waitFor();
   assert.match(
     await page.locator("main").innerText(),
-    /Katie · Legacy Reserve — Eunice/,
+    /Katie · Legacy Reserve Sanctum — Eunice/,
   );
   await page.goto(base + "/home");
   await page.getByRole("heading", { name: "Signature grooming" }).waitFor();

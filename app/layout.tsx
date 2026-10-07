@@ -59,11 +59,14 @@ import "./visit-continuity.css";
 import "./reserve-controls.css";
 import "./reserve-material.css";
 import "./member-environment.css";
+import "./personal-reserve.css";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/supabase-config";
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.APP_ORIGIN || "https://www.reserveatsanctum.app"),
+  metadataBase: new URL(
+    process.env.APP_ORIGIN || "https://www.reserveatsanctum.app",
+  ),
   title: {
     default: brand.titleDefault,
     template: brand.titleTemplate,
@@ -81,7 +84,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: brand.name,
     description: brand.description,
-    images: [{ url: brand.openGraph, width: 1200, height: 630, alt: brand.name }],
+    images: [
+      { url: brand.openGraph, width: 1200, height: 630, alt: brand.name },
+    ],
   },
   robots: { index: false, follow: false },
   appleWebApp: {
@@ -107,12 +112,41 @@ export default function RootLayout({
       className={`${reserveSans.variable} ${reserveSerif.variable}`}
     >
       <body data-reserve-release={reserveRelease}>
-        <noscript><section className="reserve-no-script" aria-labelledby="reserve-no-script-title"><p>LEGACY RESERVE — EUNICE</p><h2 id="reserve-no-script-title">Choose your entrance.</h2><nav aria-label="Legacy Reserve destinations without JavaScript"><a href="/home">Home ↗</a><a href="/book">Book ↗</a><a href="/membership">Membership ↗</a><a href="/shop">Collection ↗</a><a href="/my-reserve">My Reserve ↗</a><a href="/chair">The Chair ↗</a><a href="/signin">Account entrance ↗</a><a href="/fix-it-shop">Fix It Shop · Katie Guidry ↗</a><a href="/gent-ascend">Gent Ascend Collective · Neil Stutes ↗</a><a href="/gent-ascend#collection">Legacy Reserve collection preview ↗</a></nav><small>Enable JavaScript to book, sign in, or save your preferences. Concept environments remain previews of Legacy Reserve.</small></section></noscript>
+        <noscript>
+          <section
+            className="reserve-no-script"
+            aria-labelledby="reserve-no-script-title"
+          >
+            <p>LEGACY RESERVE</p>
+            <h2 id="reserve-no-script-title">Choose your entrance.</h2>
+            <nav aria-label="Legacy Reserve destinations without JavaScript">
+              <a href="/home">Reserve ↗</a>
+              <a href="/pathways">Pathways ↗</a>
+              <a href="/visit">Sanctum ↗</a>
+              <a href="/book">Book ↗</a>
+              <a href="/membership">Membership ↗</a>
+              <a href="/shop">Collection ↗</a>
+              <a href="/my-reserve">My Reserve ↗</a>
+              <a href="/chair">The Chair ↗</a>
+              <a href="/signin">Account entrance ↗</a>
+              <a href="/fix-it-shop">Fix It Shop · Katie Guidry ↗</a>
+              <a href="/gent-ascend">Gent Ascend Collective · Neil Stutes ↗</a>
+              <a href="/gent-ascend#collection">
+                Legacy Reserve collection preview ↗
+              </a>
+            </nav>
+            <small>
+              Enable JavaScript to book, sign in, or save your preferences.
+              Concept environments remain previews of Legacy Reserve.
+            </small>
+          </section>
+        </noscript>
         <ExperienceChrome footer={<Footer />}>{children}</ExperienceChrome>
         <aside className="preview-ribbon" aria-label="Legacy Reserve status">
           {isPreview() || !configured() || !hasSupabase()
             ? "PRIVATE SETUP"
-            : "PRIVATE PILOT"} <span>·</span> Appointments and payments are not yet live
+            : "PRIVATE PILOT"}{" "}
+          <span>·</span> Appointments and payments are not yet live
         </aside>
       </body>
     </html>

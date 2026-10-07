@@ -26,10 +26,10 @@ export const locations: readonly ReserveLocation[] = [
     city: "Eunice",
     region: "Louisiana",
     timezone: "America/Chicago",
-    enabled: true,
-    booking_enabled: true,
+    enabled: false,
+    booking_enabled: false,
     address: "",
-    status: "operating",
+    status: "planned",
     poster: "/images/cinematic/reserve-hall.webp",
     crest: "/brand/legacy-reserve/mark-gold.webp",
   },
@@ -94,7 +94,7 @@ export function getLocation(id: string | null | undefined) {
 
 export function locationDisplayName(id: string | null | undefined) {
   const location = getLocation(id);
-  return `Legacy Reserve — ${location.short_name}`;
+  return `Legacy Reserve Sanctum — ${location.short_name}`;
 }
 
 function withPresentation(rows: ReserveLocation[]) {

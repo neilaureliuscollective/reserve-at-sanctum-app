@@ -1,0 +1,10 @@
+export type Priority = 'presence' | 'performance' | 'wellness';
+export type RoutineDraft = { priority: Priority; title: string; steps: string[] };
+export const version: string;
+export const capabilities: readonly string[];
+export const pathways: readonly { id: Priority; label: string; title: string; description: string }[];
+export function routineTemplate(priority: Priority): RoutineDraft;
+export function classifyIntent(message: string): 'wellness' | 'membership' | 'appointments' | 'collection' | 'routine' | 'general';
+export function safeContext(value: { priority?: unknown; routine?: { title: string; steps: string[] } | null }): { tenant: string; priority: Priority | null; routine: { title: string; steps: string[] } | null };
+export const educationalTopics: Readonly<{ hormones: string; peptides: string }>;
+export function memberInstructions(): string;
