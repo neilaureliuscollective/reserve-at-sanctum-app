@@ -46,24 +46,24 @@ export function Worlds() {
             </span>
           </div>
         </Link>
-        <Link href="/gent-ascend" className="world-card gent" data-reveal>
+        <Link href="/founder/legacy-reserve" className="world-card gent" data-reveal>
           <Image src="/images/reserve-ritual.webp" alt="Concept of a personal grooming ritual" fill sizes="(max-width: 700px) 100vw, 50vw" />
           <div className="world-overlay" />
-          <div className="world-emblem world-emblem--gent"><LivingEmblem brand="gent" ambient={false} /></div>
+          <div className="world-emblem world-emblem--gent"><LivingEmblem brand="reserve" ambient={false} /></div>
           <div className="world-top">
             <span>02 / THE COLLECTIVE</span>
             <span>Official emblem</span>
           </div>
           <div className="world-copy">
-            <span className="eyebrow">GROOMING. RITUAL. ASCENSION.</span>
-            <h3>GENT Ascend</h3>
+            <span className="eyebrow">PRESENCE. PERFORMANCE. LEGACY.</span>
+            <h3>The Founder</h3>
             <p>
-              A living grooming profile and personal direction.
+              The purpose behind Legacy Reserve.
               <br />
-              Built before you arrive.
+              Built for the life you lead.
             </p>
             <span className="world-enter">
-              Enter GENT Ascend <ArrowUpRight size={22} />
+              Explore Neil’s vision <ArrowUpRight size={22} />
             </span>
           </div>
         </Link>

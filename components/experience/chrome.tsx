@@ -46,6 +46,7 @@ export function ExperienceChrome({ children, footer, status }: {
         <summary aria-label="Account and settings"><UserRound size={18} /><span>Account</span></summary>
         <nav aria-label="Account and destinations">
           <p className="digital-label">YOUR RESERVE</p>
+          <Link href="/founder">Meet the Founder <ArrowUpRight size={14}/></Link>
           <Link href="/discover">View public homepage <ArrowUpRight size={14}/></Link>
           <Link prefetch={false} href="/enter">Your dashboard <ArrowUpRight size={14}/></Link>
           <Link href="/pathways">Pathways & routines</Link>

@@ -7,10 +7,9 @@ The public master brand is Legacy Reserve. Reserve at Sanctum is retired from
 customer-facing identity. Physical houses use Legacy Reserve — Eunice (first
 operating location), with Lafayette, Austin, and Dallas planned. Do not hard-code
 the product around a single city.
-Preserve Neil + Katie / Fix It Shop × GENT Ascend Collective. No Recovery Room.
+Preserve Katie / Fix It Shop. Neil is founder of Legacy Reserve and Aethelios Technologies. No Recovery Room.
 Legacy Reserve uses heritage green, obsidian and dimensional #C4912F gold.
-GENT Ascend remains its own deep-green world. It is a men's grooming house,
-not the separate digital-infrastructure company.
+Neil’s founder worlds use green/gold for Legacy Reserve and imperial teal-blue/gold for Aethelios Technologies. The latter is a public company vision, not a new AI backend. Legacy /gent-ascend and /aurelius links redirect to /founder/legacy-reserve.
 Katie is a men's salon professional; no barber language or imagery.
 Never enable developer identities or embedded development storage in production.
 Appointments and permission checks are server-authoritative. Test simultaneous booking and ownership whenever modifying the core.
@@ -21,8 +20,7 @@ explicit data-safe migration. Public copy matters more than internal identifiers
 ## Digital ecosystem direction (Neil, 2026-10-08)
 
 Legacy Reserve is a DIGITAL company and personal ecosystem. Sanctum is its
-optional physical destination; Fix It Shop and GENT Ascend retain independent
-worlds within it. The public introduction must lead with useful digital Presence,
+optional physical destination; Fix It Shop retains its independent world. Neil’s founder presence uses the Legacy Reserve and Aethelios Technologies worlds. The public introduction must lead with useful digital Presence,
 Performance, Vitalis and Aethelios experiences from anywhere. Do not use the
 physical house or a Louisiana location as the master product narrative.
 The October 8 transformation explicitly supersedes preservation of the old

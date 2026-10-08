@@ -6,7 +6,7 @@ import { useRef } from 'react';
 
 const rooms = [
   { id: 'chair', label: 'Katie', identity: 'FIX IT SHOP · KATIE GUIDRY', title: 'Come sit down.', copy: 'Your cut. Your pace. A little room to be yourself.', image: '/images/katie/private-chair.webp', action: 'Get your chair ready', href: '/chair', explore: '/fix-it-shop', exploreLabel: 'Inside Fix It Shop' },
-  { id: 'ritual', label: 'Neil', identity: 'GENT ASCEND COLLECTIVE · NEIL STUTES', title: 'Find your direction.', copy: 'Start with your grooming priorities. Shape a routine you can keep.', image: '/images/neil/mirror-desk.webp', action: 'Begin your Blueprint', href: '/sanctum-mirror', explore: '/gent-ascend', exploreLabel: 'Inside Neil’s world' },
+  { id: 'ritual', label: 'Neil', identity: 'LEGACY RESERVE · FOUNDER NEIL STUTES', title: 'Find your direction.', copy: 'Explore the purpose behind Presence, Performance, Vitalis and the wider ecosystem.', image: '/images/neil/mirror-desk.webp', action: 'Meet the founder', href: '/founder/legacy-reserve', explore: '/founder', exploreLabel: 'Inside Neil’s world' },
   { id: 'collection', label: 'Products', identity: 'LEGACY RESERVE · SHOP', title: 'Care between visits.', copy: 'Explore the product and packaging direction taking shape inside the house.', image: '/images/neil/ritual-plinth.webp', action: 'Open the Shop', href: '/shop', explore: '/book', exploreLabel: 'Make time for a visit' },
 ] as const;
 

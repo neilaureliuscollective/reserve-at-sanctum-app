@@ -10,10 +10,7 @@ the hero, navigation, sign-in, booking, and appointment interactions are client
 components. Three.js loads after the initial content and is isolated from forms.
 Fonts are self-hosted. There is no third-party tracking or payment SDK. Private Studio has bounded Aethelios drafting as described in the Phase 2 section below.
 
-Fix It Shop is Katie's men's salon world. GENT Ascend is Neil's men's grooming
-world: consultation, hair/beard/skin priorities, products, rituals, and the
-Sanctum Mirror. The separate digital-infrastructure company is not part of this
-application.
+Fix It Shop is Katie’s men’s salon world. Neil’s public presence is now the founder gateway `/founder` and two distinct founder worlds: `/founder/legacy-reserve` and `/founder/aethelios-technologies`. Legacy `/gent-ascend` and `/aurelius` entrances permanently redirect to his Legacy Reserve founder world. The technology world describes the company vision and connects to the existing Reserve concierge; it introduces no independent technology backend. See [Founder worlds](FOUNDER-WORLDS-PHASE-1.md).
 
 ## Data and authority
 

@@ -27,9 +27,11 @@ export function destinationActive(path: string, href: string) {
 
 /** Nested journeys keep their parent world selected in the command dock. */
 export function commandWorld(path: string): typeof customerPrimary[number]["label"] {
+  if (path.startsWith("/founder/aethelios-technologies")) return "Aethelios";
+  if (path.startsWith("/founder")) return "Reserve";
   if (path === "/concierge" || path === "/aethelios" || path.startsWith("/discover/aethelios")) return "Aethelios";
   if (path === "/vitalis" || path.startsWith("/vitalis/")) return "Vitalis";
   if (path === "/shop" || path.startsWith("/shop/")) return "Collection";
-  if (["/visit", "/book", "/chair", "/my-visit", "/fix-it-shop", "/gent-ascend", "/explore", "/sanctum-mirror", "/mirror"].some(root => path === root || path.startsWith(`${root}/`))) return "Sanctum";
+  if (["/visit", "/book", "/chair", "/my-visit", "/fix-it-shop", "/explore", "/sanctum-mirror", "/mirror"].some(root => path === root || path.startsWith(`${root}/`))) return "Sanctum";
   return "Reserve";
 }
