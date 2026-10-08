@@ -55,7 +55,7 @@ export const config = {
   matcher: [
     "/",
     "/home",
-    "/vitalis",
+    "/vitalis/:path*",
     "/pathways",
     "/aethelios",
     "/visit",

@@ -10,6 +10,11 @@ export const metadata = {
 export default function Page() {
   return (
     <main id="main" className="vitalis-environment vitalis-membership">
+      <p>
+        <Link href="/vitalis/journey" className="button button-outline">
+          Try the free wellness pilot ↗
+        </Link>
+      </p>
       <section className="vitalis-horizon">
         <p className="experience-kicker">
           LEGACY RESERVE VITALIS · MEMBERSHIP VISION

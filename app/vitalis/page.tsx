@@ -84,6 +84,18 @@ export default async function Page() {
           </div>
         </div>
       </section>
+      <section className="vitalis-horizon">
+        <p className="experience-kicker">FREE WELLNESS PILOT · AVAILABLE NOW</p>
+        <h2>A rhythm worth returning to.</h2>
+        <p>
+          Choose a private everyday direction, keep a manageable weekly target
+          and mark your progress. General wellness education with your existing
+          account; medical services remain planned.
+        </p>
+        <Link href="/vitalis/journey" className="button button-gold">
+          Start your wellness rhythm ↗
+        </Link>
+      </section>
       <section className="vitalis-pillars" aria-labelledby="pillars-title">
         <div className="vitalis-section-title">
           <p className="experience-kicker">A CONNECTED VISION</p>
@@ -147,6 +159,8 @@ export default async function Page() {
             <span>AVAILABLE NOW</span>
             <p>
               Explore the vision.
+              <br />
+              Try your wellness rhythm.
               <br />
               Register your interest.
               <br />

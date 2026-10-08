@@ -20,6 +20,19 @@ export default async function MyReserve() {
     >
       <section className="member-line">
         <div>
+          <p className="experience-kicker">VITALIS · FREE WELLNESS PILOT</p>
+          <h2>Your everyday rhythm.</h2>
+          <p>
+            A personal direction, a practical weekly target and private
+            completion history. No medical or paid enrollment.
+          </p>
+        </div>
+        <Link href="/vitalis/journey" className="text-link">
+          Open your wellness rhythm ↗
+        </Link>
+      </section>
+      <section className="member-line">
+        <div>
           <p className="experience-kicker">PERSONAL DIRECTION</p>
           <h2>Your everyday foundation.</h2>
           <p>
