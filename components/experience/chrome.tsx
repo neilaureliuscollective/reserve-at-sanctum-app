@@ -25,6 +25,7 @@ export function ExperienceChrome({
   const immersive = [
     "/home",
     "/vitalis",
+    "/vitalis/membership",
     "/pathways",
     "/aethelios",
     "/visit",
