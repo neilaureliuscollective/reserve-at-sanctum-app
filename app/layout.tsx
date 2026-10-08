@@ -63,6 +63,7 @@ import "./member-environment.css";
 import "./personal-reserve.css";
 import "./collection-commerce.css";
 import "./digital-reserve.css";
+import "./command-shell.css";
 import { StatusRibbon } from "@/components/experience/status-ribbon";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";
@@ -103,6 +104,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: brand.themeColor,
+  viewportFit: "cover",
 };
 export default function RootLayout({
   children,
@@ -146,8 +148,7 @@ export default function RootLayout({
             </small>
           </section>
         </noscript>
-        <ExperienceChrome footer={<Footer />}>{children}</ExperienceChrome>
-        <StatusRibbon setup={isPreview() || !configured() || !hasSupabase()} checkout={shopifyReadiness().checkoutEnabled} />
+        <ExperienceChrome footer={<Footer />} status={<StatusRibbon setup={isPreview() || !configured() || !hasSupabase()} checkout={shopifyReadiness().checkoutEnabled} />}>{children}</ExperienceChrome>
       </body>
     </html>
   );

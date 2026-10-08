@@ -1,0 +1,134 @@
+/* A stable app frame; each world owns its scene, never its navigation. */
+.reserve-app-shell{--command-clearance:112px;min-height:100svh;padding-bottom:calc(var(--command-clearance) + env(safe-area-inset-bottom));background:#070e0b}
+.command-masthead.experience-header{height:76px;padding:10px max(22px,env(safe-area-inset-left));gap:20px;background:linear-gradient(100deg,#09150f,#080e0b);border-bottom:1px solid #c4912f24;flex-wrap:nowrap}
+.command-masthead .experience-brand{font-size:11px;letter-spacing:.14em;flex-shrink:0}
+.command-masthead .experience-brand img{width:42px;height:42px}
+.command-masthead .experience-brand small{font-size:7px;color:#9aa99f;letter-spacing:.18em}
+.command-current{display:flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.1em;color:#b8c6be;margin-left:auto}
+.command-current i{width:5px;height:5px;background:#d1ad61;border-radius:50%;box-shadow:0 0 12px #c4912f88}
+.command-account{margin-left:10px}
+.command-account summary{gap:9px;justify-content:center;width:100px;min-height:44px;border:1px solid #c4912f38;border-radius:30px;background:#ffffff04;list-style:none;font-size:11px}
+.command-account summary::-webkit-details-marker{display:none}
+.command-account[open] summary{border-color:#c4912f;box-shadow:inset 0 0 15px #c4912f15}
+.command-account nav{top:56px;width:min(300px,calc(100vw - 32px));max-height:calc(100dvh - 188px);overflow:auto;border-radius:20px;background:#0c1a13f5;backdrop-filter:blur(25px);padding:20px;z-index:70}
+.command-account nav a{justify-content:space-between;min-height:44px;border-bottom:1px solid #ffffff09;font-size:12px}
+.command-account .experience-motion{margin:14px 0;min-height:44px}
+.preview-ribbon{position:relative;inset:auto;width:auto;padding:14px 0;font-size:10px;line-height:1.7;text-align:left;border-top:1px solid #c4912f30;border-bottom:0;background:transparent;z-index:auto;white-space:normal}
+.command-dock{position:fixed;isolation:isolate;z-index:60;bottom:calc(18px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(620px,calc(100% - 32px));display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:7px 8px;border:1px solid #c4912f55;border-radius:26px;background:linear-gradient(145deg,#193426e8,#07100beb 60%,#132519ee);box-shadow:inset 0 1px 0 #ffffff18,0 20px 70px #000b,0 0 45px #c4912f08;backdrop-filter:blur(28px) saturate(135%)}
+.command-dock a{position:relative;min-height:65px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;color:#a8b7ad;font-size:10px;letter-spacing:.02em;border-radius:18px;transition:color .2s,background .2s}
+.command-dock a[aria-current=page]{color:#ebd098;background:linear-gradient(180deg,#c4912f16,#c4912f05)}
+.command-dock a[aria-current=page]:after{content:'';position:absolute;bottom:0;width:16px;height:2px;background:#c4912f;border-radius:3px;box-shadow:0 0 10px #c4912f80}
+.command-dock a:hover{color:#f2deb8;background:#c4912f12}
+.command-dock a:focus-visible{outline:2px solid #e8c879;outline-offset:2px}
+.command-icon{height:26px;display:grid;place-items:center}
+.command-concierge .command-icon{width:48px;height:48px;margin-top:-24px;margin-bottom:1px;border-radius:50%;color:#f3d58c;border:1px solid #ceab60;background:radial-gradient(circle at 33% 25%,#507460,#183d29 45%,#05140e 78%);box-shadow:inset 0 1px 8px #f6dfa34d,inset 0 -7px 10px #0008,0 3px 12px #000a,0 0 20px #c4912f20}
+.command-concierge[aria-current=page] .command-icon{box-shadow:inset 0 1px 8px #f6dfa355,0 0 24px #c4912f55}
+.reserve-app-shell[data-keyboard=true] .command-dock{display:none}
+.reserve-app-shell[data-keyboard=true]{--command-clearance:24px}
+.command-content .member-environment{max-width:1250px;padding-top:38px;padding-bottom:32px}
+.command-content .member-opening{align-items:center;margin-bottom:30px}
+.command-content .member-opening h1{font-size:clamp(38px,5vw,66px);line-height:1.04}
+.command-content .member-opening>img{width:72px;height:72px;opacity:.8}
+.command-content .member-world-rail{gap:15px}
+.command-content .member-world-rail>a{border:1px solid #c4912f25;border-radius:18px;background:linear-gradient(135deg,#18382944,#06110b);padding:22px}
+.command-content .member-concierge-line,.command-content .member-line{padding-top:28px;padding-bottom:28px}
+.command-content .member-focus{border-radius:24px;overflow:hidden}
+.command-content .reserve-concierge{padding-bottom:30px}
+.command-content .concierge-compose{position:sticky;bottom:calc(112px + env(safe-area-inset-bottom));background:#0d2015f5;backdrop-filter:blur(20px);border:1px solid #c4912f44;border-radius:20px;padding:20px;box-shadow:0 -12px 40px #0004;z-index:10}
+.reserve-app-shell[data-keyboard=true] .concierge-compose{bottom:8px}
+.sanctum-hub{max-width:1320px;padding:32px 5vw 40px;margin:auto}
+.sanctum-portal{position:relative;display:grid;grid-template-columns:1fr 1fr;min-height:410px;border:1px solid #c4912f30;border-radius:28px;overflow:hidden;background:radial-gradient(ellipse at 10% 60%,#25493670,transparent 70%),#09140d}
+.sanctum-portal-copy{padding:45px 38px;z-index:2;align-self:center}
+.sanctum-portal h1{font-family:var(--reserve-serif);font-weight:400;line-height:.94;font-size:clamp(60px,7vw,98px);margin:18px 0 20px}
+.sanctum-portal h1 em{color:#d9bc7c;font-weight:400}
+.sanctum-portal-copy>p:not(.digital-label){color:#b7c6bc;max-width:340px;font-size:13px;line-height:1.8;margin-bottom:25px}
+.sanctum-portal figure{position:relative;margin:0;min-height:300px;overflow:hidden}
+.sanctum-portal figure img{object-fit:cover;object-position:center;filter:brightness(.7)}
+.sanctum-portal figure:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#09140d,transparent 30%),linear-gradient(0deg,#09140d99,transparent 50%)}
+.sanctum-portal figcaption{position:absolute;z-index:1;bottom:18px;right:22px;font-size:9px;color:#d1c6a9;letter-spacing:.08em}
+.sanctum-destination{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:22px 6px;border-bottom:1px solid #c4912f28}
+.sanctum-destination>div{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12px}
+.sanctum-destination svg{color:#cda959}
+.sanctum-status{font-size:10px;background:#c4912f12;border:1px solid #c4912f30;border-radius:30px;padding:7px 12px;color:#d8bc81}
+.sanctum-destination label{font-size:11px;display:flex;align-items:center;gap:12px}
+.sanctum-destination select{background:#0f2117;padding:10px;color:#efeadf;border:1px solid #c4912f40;border-radius:10px;min-height:44px}
+.sanctum-section-heading{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:24px}
+.sanctum-section-heading h2,.sanctum-services h2{font-family:var(--reserve-serif);font-size:clamp(32px,4vw,48px);font-weight:400;line-height:1.05;margin:12px 0 0}
+.sanctum-section-heading>p{max-width:290px;font-size:12px;line-height:1.8;color:#a7b7ac}
+.sanctum-professionals,.sanctum-independent{padding-top:42px;scroll-margin-top:28px}
+.sanctum-professional-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
+.sanctum-professional-grid button{display:flex;align-items:center;text-align:left;gap:16px;padding:22px;background:linear-gradient(140deg,#1b3627,#0a1710);color:#e5e8df;border:1px solid #c4912f30;border-radius:20px;cursor:pointer}
+.sanctum-professional-grid button[aria-pressed=true]{border-color:#c4912f;background:linear-gradient(140deg,#2d4d36,#102218);box-shadow:inset 0 1px 0 #edd29c33,0 9px 26px #0005}
+.sanctum-professional-grid button>svg{margin-left:auto;color:#d3b56e}
+.sanctum-monogram{display:grid;place-items:center;width:52px;height:52px;flex-shrink:0;border:1px solid #c4912f55;border-radius:50%;font-family:var(--reserve-serif);font-size:23px;color:#e7cd93}
+.sanctum-professional-grid strong{font-size:15px;font-weight:500}
+.sanctum-professional-grid small{display:block;margin-top:7px;color:#b3beb3;font-size:11px}
+.sanctum-empty{border:1px solid #c4912f28;border-radius:22px;background:linear-gradient(120deg,#142a1c,#07100b);padding:28px;max-width:800px}
+.sanctum-empty>svg{color:#d6b46d}
+.sanctum-empty h3{font-family:var(--reserve-serif);font-weight:400;font-size:30px;margin:15px 0}
+.sanctum-empty p{color:#b4c1b7;font-size:12px;line-height:1.8;max-width:560px}
+.sanctum-services{padding:34px 0 0;scroll-margin-top:24px}
+.sanctum-timezone{display:flex;gap:8px;align-items:center;font-size:11px;color:#abb9b0;margin:18px 0}
+.sanctum-services>div{border:1px solid #c4912f30;border-radius:20px;overflow:hidden}
+.sanctum-services>div>a{display:flex;gap:20px;align-items:center;padding:22px;border-bottom:1px solid #c4912f20;background:#10201666}
+.sanctum-services>div>a:last-child{border-bottom:0}
+.sanctum-services>div>a:hover{background:#203c2780}
+.sanctum-services strong{font-size:14px;font-weight:500;display:block}
+.sanctum-services small{font-size:11px;line-height:1.7;display:block;color:#aebbaf;margin-top:6px;max-width:580px}
+.sanctum-services>div>a>span:nth-child(2){margin-left:auto;white-space:nowrap;font-size:11px;color:#b6c0b3}
+.sanctum-services b{display:block;color:#e4ca91;font-size:15px;margin-top:5px;font-weight:500}
+.sanctum-services>div>a>svg{color:#d0af64;flex-shrink:0}
+.sanctum-world-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.sanctum-world-grid>a{position:relative;isolation:isolate;overflow:hidden;display:block;padding:32px;min-height:300px;border-radius:24px;border:1px solid #c4912f50;background:radial-gradient(ellipse at 80% 20%,#22618470,transparent 75%),#091625}
+.sanctum-world-grid>a.sanctum-gent{background:radial-gradient(ellipse at 80% 20%,#30674370,transparent 75%),#0c1d13}
+.sanctum-world-grid h3{font-family:var(--reserve-serif);font-size:46px;font-weight:400;line-height:1;margin:24px 0 20px}
+.sanctum-world-grid p{font-size:12px;line-height:1.8;color:#b7c5c4;max-width:260px}
+.sanctum-world-grid .text-link{display:flex;align-items:center;gap:10px;margin-top:26px;font-size:11px;color:#e5c987}
+.sanctum-world-emblem{position:absolute;z-index:-1;right:-12px;top:28px;font-family:var(--reserve-serif);font-size:240px;color:#d7bc7330;line-height:1;text-shadow:2px 1px #e9d29b22}
+.sanctum-visit-tools{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px}
+.sanctum-visit-tools>a{position:relative;font-size:16px;padding:22px;border-bottom:1px solid #c4912f35}
+.sanctum-visit-tools span{display:block;font-size:11px;color:#a5b5ab;margin-top:8px}
+.sanctum-visit-tools svg{position:absolute;right:15px;top:24px;color:#d4b674}
+@media(max-width:700px){
+ .command-masthead.experience-header{height:64px;padding:8px 16px;gap:10px}
+ .command-masthead .experience-brand{font-size:9px;gap:9px;letter-spacing:.08em}
+ .command-masthead .experience-brand img{width:34px;height:34px}
+ .command-masthead .experience-brand small{font-size:6px}
+ .command-current{display:none}
+ .command-account{margin-left:auto}
+ .command-account summary{width:44px;height:44px}
+ .command-account summary>span{display:none}
+ .command-account nav{top:52px}
+ .command-dock{width:calc(100% - 20px);bottom:calc(10px + env(safe-area-inset-bottom));padding:6px 4px;border-radius:23px}
+ .command-dock a{font-size:9px;min-height:62px;gap:4px}
+ .command-concierge .command-icon{width:44px;height:44px;margin-top:-21px}
+ .command-content .member-environment{padding-top:26px}
+ .command-content .member-opening>img{display:none}
+ .command-content .member-world-rail{gap:10px}
+ .command-content .member-world-rail>a{padding:20px}
+ .command-content .concierge-compose{bottom:104px;padding:16px}
+ .sanctum-hub{padding:18px 16px 26px}
+ .sanctum-portal{grid-template-columns:1fr;border-radius:22px;min-height:440px}
+ .sanctum-portal-copy{padding:27px 24px;align-self:start}
+ .sanctum-portal h1{font-size:68px;margin:16px 0}
+ .sanctum-portal-copy>p:not(.digital-label){font-size:12px;max-width:240px}
+ .sanctum-portal figure{position:absolute;inset:0;min-height:0;z-index:0}
+ .sanctum-portal figure img{object-position:70% center;filter:brightness(.45)}
+ .sanctum-portal figure:after{background:linear-gradient(90deg,#07150de8,#09140d33),linear-gradient(0deg,#09140d99,transparent)}
+ .sanctum-portal figcaption{font-size:8px;right:16px;bottom:14px}
+ .sanctum-destination{padding:20px 0;gap:12px}
+ .sanctum-destination>div{font-size:11px;gap:8px}
+ .sanctum-section-heading{display:block}
+ .sanctum-section-heading>p{margin:12px 0 0}
+ .sanctum-professionals,.sanctum-independent{padding-top:30px}
+ .sanctum-empty{padding:22px}
+ .sanctum-world-grid{grid-template-columns:1fr;gap:16px}
+ .sanctum-world-grid>a{padding:26px;min-height:290px}
+ .sanctum-visit-tools{gap:8px}
+ .sanctum-visit-tools>a{padding:18px 8px;font-size:14px}
+ .sanctum-visit-tools svg{width:14px;right:4px;top:18px}
+ .sanctum-services>div>a{padding:18px;gap:12px}
+ .sanctum-services strong{font-size:12px}
+ .sanctum-services small{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){.command-dock a{transition:none}}
