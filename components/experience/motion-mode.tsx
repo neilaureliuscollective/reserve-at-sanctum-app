@@ -22,7 +22,15 @@ export function MotionMode() {
     };
     apply();
     media.addEventListener('change', apply);
-    return () => media.removeEventListener('change', apply);
+    // The hero shares this preference; keep the account control synchronized.
+    const observer = new MutationObserver(() => {
+      if (media.matches) return;
+      const next = document.documentElement.dataset.reserveStill === 'true';
+      preference.current = next;
+      setStill(next);
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-reserve-still'] });
+    return () => { media.removeEventListener('change', apply); observer.disconnect(); };
   }, []);
 
   function toggle() {
