@@ -25,7 +25,7 @@ const directions = {
     secondary: { href: "/fix-it-shop", label: "Meet Katie’s craft" },
   },
   place: {
-    name: "Legacy Reserve", prompt: "Find my place", eyebrow: "03 / LEGACY RESERVE — EUNICE",
+    name: "Legacy Reserve", prompt: "Find my place", eyebrow: "03 / LEGACY RESERVE SANCTUM — EUNICE",
     heading: "There is room for you here.",
     detail: "Two independent worlds are giving their shared belief a home in Eunice.",
     image: "/images/reserve-threshold.webp",
@@ -86,7 +86,7 @@ export function ReserveCompass() {
               <div className="portal-stage__actions"><Link href={selected.primary.href} className="button button-gold">{selected.primary.label} <ArrowUpRight size={17} /></Link><Link href={selected.secondary.href} className="text-link">{selected.secondary.label} <ArrowUpRight size={16} /></Link></div>
             </div>
           ) : (
-            <div className="portal-stage__reveal"><span className="portal-stage__eyebrow">LEGACY RESERVE — EUNICE · CONCEPT IMAGERY</span><h3>There is more<br />through the door.</h3><p>Choose what brings you here. The scene will change with you.</p></div>
+            <div className="portal-stage__reveal"><span className="portal-stage__eyebrow">LEGACY RESERVE SANCTUM — EUNICE · CONCEPT IMAGERY</span><h3>There is more<br />through the door.</h3><p>Choose what brings you here. The scene will change with you.</p></div>
           )}
         </div>
         <span className="portal-stage__progress" aria-hidden="true"><span /></span>

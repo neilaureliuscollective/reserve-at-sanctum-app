@@ -16,8 +16,21 @@ export default async function MyReserve() {
     <MemberShell
       kicker="LEGACY RESERVE · MY RESERVE"
       title={`Your Reserve, ${actor.name.split(" ")[0]}.`}
-      intro="Your preferences, your history, and the details that make the next visit yours."
+      intro="Your personal direction, preferences and the history that makes this Reserve yours."
     >
+      <section className="member-line">
+        <div>
+          <p className="experience-kicker">PERSONAL DIRECTION</p>
+          <h2>Your everyday foundation.</h2>
+          <p>
+            Keep a simple routine for presence, performance or wellbeing. Your
+            visit preferences remain separate.
+          </p>
+        </div>
+        <Link href="/pathways" className="text-link">
+          Your routine & pathways ↗
+        </Link>
+      </section>
       <section className="member-line">
         <div>
           <p className="experience-kicker">APPEARANCE</p>
@@ -65,7 +78,7 @@ export default async function MyReserve() {
           <p className="experience-kicker">YOUR HOUSE</p>
           <h2>
             {data.houses.data?.house
-              ? `Legacy Reserve — ${data.houses.data.house.short_name}`
+              ? `Legacy Reserve Sanctum — ${data.houses.data.house.short_name}`
               : "Location information unavailable."}
           </h2>
           <p>
@@ -76,7 +89,7 @@ export default async function MyReserve() {
             <LocationPreference
               locations={data.houses.data.locations.map((l) => ({
                 id: l.id,
-                label: `Legacy Reserve — ${l.short_name}`,
+                label: `Legacy Reserve Sanctum — ${l.short_name}`,
               }))}
               selected={data.houses.data.house?.id || ""}
             />

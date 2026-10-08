@@ -6,7 +6,7 @@ import "./gent-cinema.css";
 
 export const metadata = {
   title: "GENT Ascend Collective · Legacy Reserve",
-  description: "Enter Neil's grooming world at Legacy Reserve — Eunice: considered consultation, The Mirror, and the Legacy Reserve collection preview.",
+  description: "Enter Neil's grooming world at Legacy Reserve Sanctum — Eunice: considered consultation, The Mirror, and the Legacy Reserve collection preview.",
 };
 
 const scenes = [

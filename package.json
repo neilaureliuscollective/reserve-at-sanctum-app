@@ -20,9 +20,11 @@
     "verify:studio": "node scripts/verify-studio.mjs",
     "verify:studio-ai": "node scripts/verify-studio-ai.mjs",
     "verify:operations": "node scripts/verify-operations.mjs",
-    "verify:completion": "node scripts/verify-completion.mjs"
+    "verify:completion": "node scripts/verify-completion.mjs",
+    "verify:personal-reserve": "node scripts/verify-personal-reserve.mjs"
   },
   "dependencies": {
+    "@aethelios/concierge-core": "file:vendor/aethelios-concierge-core",
     "@electric-sql/pglite": "^0.5.8",
     "@fontsource/cormorant-garamond": "^5.3.0",
     "@fontsource/manrope": "^5.3.0",

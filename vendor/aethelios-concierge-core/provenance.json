@@ -1,0 +1,11 @@
+{
+  "repository": "neilaureliuscollective/aethelios",
+  "commit": "7405ebf87625291b25cece7365c2cf44db9843c1",
+  "path": "packages/concierge-core",
+  "files": {
+    "package.json": "1ac6b741cb5bc44b5a8f3e20f9e68df8049f6c398602761eb739ef326e322770",
+    "index.mjs": "5542564fb682732b169214f3a1fb733d8e48891fb362e9350dbf8b0b57a88cd7",
+    "index.d.ts": "aae249816066c9e086aadcdd684471f99383dc2e8fa865fcd9906e3b538af26e",
+    "README.md": "78867d20fbcd483b4889343d588d48a5e09db93f6d8d37c22685aa33d74e0a05"
+  }
+}

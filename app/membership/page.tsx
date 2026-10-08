@@ -66,7 +66,7 @@ export default async function MembershipPage() {
           {desk.state === "unavailable"
             ? "Your records have not changed. Please try again."
             : member
-              ? `Your membership is ${state}${member.location_name ? ` at Legacy Reserve — ${member.location_name}` : ""}.`
+              ? `Your membership is ${state}${member.location_name ? ` at Legacy Reserve Sanctum — ${member.location_name}` : ""}.`
               : desk.data?.offered
                 ? "Explore the published complimentary plans below and request access for the house to review."
                 : "There is no paid membership offer to join yet. Your account already gives you a place to keep visits and preferences together."}

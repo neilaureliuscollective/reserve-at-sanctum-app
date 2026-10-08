@@ -169,7 +169,7 @@ export function BookingFlow() {
   return (
     <>
       <div className="booking-heading">
-        <p className="eyebrow">LEGACY RESERVE — {houseName.toUpperCase()}</p>
+        <p className="eyebrow">LEGACY RESERVE SANCTUM — {houseName.toUpperCase()}</p>
         <h1>
           Make time <em>for yourself.</em>
         </h1>

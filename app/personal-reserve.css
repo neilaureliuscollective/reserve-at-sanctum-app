@@ -1,0 +1,422 @@
+/* Phase One uses the established heritage tokens and existing member shell. */
+.reserve-direction {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 42px;
+  border-top: 1px solid var(--reserve-border);
+  border-bottom: 1px solid var(--reserve-border);
+  padding: 38px 0;
+  margin-bottom: 44px;
+}
+.reserve-direction h2,
+.reserve-routine h2,
+.reserve-education h2 {
+  font-family: var(--reserve-serif);
+  font-weight: 400;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.08;
+  margin: 14px 0;
+}
+.reserve-direction h3 {
+  font-family: var(--reserve-serif);
+  font-size: 32px;
+  font-weight: 400;
+  margin: 14px 0;
+}
+.reserve-direction p,
+.reserve-direction li,
+.reserve-routine p,
+.reserve-education p,
+.reserve-pathway p {
+  color: var(--reserve-text-muted);
+  line-height: 1.75;
+}
+.reserve-direction ol {
+  padding-left: 22px;
+}
+.reserve-direction li {
+  padding: 4px 0;
+}
+.reserve-direction aside {
+  border-left: 1px solid var(--reserve-border);
+  padding-left: 32px;
+  align-self: center;
+}
+.reserve-pathways {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0 0 48px;
+}
+.reserve-pathway {
+  padding: 28px 0;
+  border-top: 1px solid var(--reserve-border);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.reserve-pathway h2 {
+  font-family: var(--reserve-serif);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 8px 0;
+}
+.reserve-pathway .text-link {
+  margin-top: auto;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.reserve-routine {
+  padding: 32px 0;
+  border-top: 1px solid var(--reserve-border);
+}
+.reserve-routine form,
+.concierge-booking {
+  max-width: 740px;
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+}
+.reserve-routine label,
+.concierge-booking label,
+.concierge-compose label {
+  display: grid;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--reserve-text-secondary);
+}
+.reserve-routine input,
+.reserve-routine textarea,
+.reserve-routine select,
+.concierge-booking input,
+.concierge-booking select,
+.concierge-compose textarea {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid var(--reserve-border);
+  border-radius: 2px;
+  background: var(--reserve-obsidian);
+  color: var(--reserve-text-primary);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 14px;
+  min-height: 48px;
+}
+.reserve-routine textarea,
+.concierge-compose textarea {
+  resize: vertical;
+}
+.reserve-field-note,
+.reserve-notice {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--reserve-text-muted);
+  margin: 0;
+}
+.reserve-notice {
+  min-height: 24px;
+}
+.reserve-routine .text-link {
+  justify-self: start;
+  min-height: 44px;
+  background: none;
+  border: 0;
+  text-align: left;
+}
+.reserve-education {
+  padding: 40px 0;
+  border-top: 1px solid var(--reserve-border);
+  scroll-margin-top: 24px;
+}
+.reserve-education details {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--reserve-border);
+}
+.reserve-education summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--reserve-text-secondary);
+}
+.reserve-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+  margin-top: 20px;
+  font-size: 12px;
+}
+.reserve-source-links a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.sanctum-intro img {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+}
+.sanctum-intro small {
+  display: block;
+  color: var(--reserve-text-muted);
+  font-size: 11px;
+  margin: 10px 0 30px;
+}
+.concierge-launch {
+  font-size: 11px;
+  color: var(--reserve-gold-light);
+  white-space: nowrap;
+}
+.experience-header > nav[aria-label="Legacy Reserve navigation"] {
+  gap: clamp(12px, 2vw, 28px);
+}
+body:has(.reserve-concierge) .preview-ribbon {
+  position: static;
+}
+.reserve-concierge {
+  max-width: 960px;
+  min-height: 85dvh;
+  margin: 0 auto;
+  padding: 48px clamp(20px, 4vw, 48px) 64px;
+  background: radial-gradient(ellipse at 50% 0%, #14291e99, transparent 65%);
+}
+.concierge-opening {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+.concierge-opening h1 {
+  font-family: var(--reserve-serif);
+  font-size: clamp(36px, 6vw, 58px);
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 18px 0;
+}
+.concierge-opening p {
+  line-height: 1.75;
+  color: var(--reserve-text-secondary);
+}
+.concierge-opening small {
+  display: block;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--reserve-text-muted);
+}
+.concierge-orb {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 22px;
+  background: radial-gradient(
+    circle at 38% 32%,
+    #d1ba77 0%,
+    #495c39 22%,
+    #152a1e 54%,
+    #070908 80%
+  );
+  border: 1px solid var(--reserve-border);
+  box-shadow: 0 0 40px #9b844323;
+}
+.concierge-suggestions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 32px 0;
+}
+.concierge-suggestions button {
+  background: transparent;
+  border: 1px solid var(--reserve-border);
+  padding: 16px;
+  color: var(--reserve-text-secondary);
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 52px;
+}
+.concierge-thread article {
+  padding: 24px 0;
+  border-top: 1px solid var(--reserve-border);
+  overflow-wrap: anywhere;
+}
+.concierge-question {
+  margin-left: 12%;
+  padding: 18px;
+  background: #14291e77;
+  color: var(--reserve-text-primary);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+.concierge-question span,
+.concierge-answer > span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--reserve-text-muted);
+  margin-bottom: 10px;
+}
+.concierge-answer {
+  padding: 14px 0;
+  line-height: 1.85;
+  color: var(--reserve-text-secondary);
+  white-space: pre-wrap;
+}
+.concierge-answer p {
+  margin: 10px 0;
+}
+.concierge-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+.concierge-links a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--reserve-gold-light);
+}
+.concierge-booking {
+  border-top: 1px solid var(--reserve-border);
+  padding: 24px 0;
+  margin-bottom: 24px;
+}
+.concierge-booking h2 {
+  font-family: var(--reserve-serif);
+  font-size: 30px;
+  font-weight: 400;
+}
+.concierge-compose {
+  border-top: 1px solid var(--reserve-border);
+  padding-top: 24px;
+}
+.concierge-compose > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 16px;
+}
+.concierge-compose small {
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--reserve-text-muted);
+  max-width: 460px;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+#routine {
+  scroll-margin-top: 24px;
+}
+@media (max-width: 1000px) {
+  .experience-header {
+    flex-wrap: wrap;
+    gap: 8px 18px;
+  }
+  .experience-header > nav[aria-label="Legacy Reserve navigation"] {
+    display: flex;
+    order: 4;
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px solid var(--reserve-border);
+    padding-top: 4px;
+  }
+  .experience-brand {
+    margin-right: auto;
+  }
+  .experience-header .experience-menu {
+    margin-left: 0;
+  }
+  .experience-header .concierge-launch {
+    display: flex;
+  }
+  .reserve-pathways {
+    gap: 20px;
+  }
+}
+@media (max-width: 700px) {
+  .reserve-direction {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 28px 0;
+  }
+  .reserve-direction aside {
+    border-left: 0;
+    border-top: 1px solid var(--reserve-border);
+    padding: 24px 0 0;
+  }
+  .reserve-pathways {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .reserve-pathway {
+    padding: 24px 0;
+  }
+  .reserve-pathway h2 {
+    font-size: 30px;
+  }
+  .reserve-routine .member-actions {
+    align-items: stretch;
+  }
+  .reserve-routine .member-actions .button {
+    width: 100%;
+  }
+  .concierge-suggestions {
+    grid-template-columns: 1fr;
+  }
+  .concierge-compose > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .concierge-compose .button {
+    align-self: flex-end;
+  }
+  .concierge-question {
+    margin-left: 5%;
+  }
+  .experience-brand small {
+    display: none;
+  }
+  .experience-brand {
+    font-size: 10px;
+    letter-spacing: 0.09em;
+    gap: 8px;
+  }
+  .experience-brand img {
+    width: 36px;
+    height: 36px;
+  }
+  .experience-header {
+    padding: 12px 20px 6px;
+    gap: 6px 12px;
+  }
+  .experience-header > nav[aria-label="Legacy Reserve navigation"] {
+    font-size: 11px;
+    gap: 10px;
+  }
+  .concierge-launch {
+    font-size: 10px;
+  }
+  .experience-menu {
+    font-size: 11px;
+  }
+  .reserve-concierge {
+    padding-top: 32px;
+  }
+  .reserve-education {
+    padding: 28px 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reserve-concierge * {
+    scroll-behavior: auto;
+  }
+}

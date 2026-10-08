@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { database } from "@/lib/db";
+import { memberRead } from "@/lib/experience/member";
+import { readRoutine } from "@/lib/personal-reserve";
 import { DateTime } from "luxon";
 import { redirect } from "next/navigation";
 import { currentUser } from "@/lib/auth";
@@ -17,19 +20,24 @@ export default async function Home({
   const exploring = (await searchParams).explore === "1";
   if (actor && actor.role !== "client" && !exploring) redirect("/studio");
   const client = actor?.role === "client" && !exploring ? actor : null;
-  const data = await readMemberSummary(client);
+  const [data, routineState] = await Promise.all([
+    readMemberSummary(client),
+    client
+      ? memberRead(async () => readRoutine(await database(), client))
+      : Promise.resolve(null),
+  ]);
+  const routine =
+    routineState?.data && !routineState.data.cleared ? routineState.data : null;
   const house = data.houses.data?.house;
   const next = data.visits.data?.next,
     previous = data.visits.data?.previous;
-  const label = house
-    ? `Legacy Reserve — ${house.short_name}`
-    : "Legacy Reserve";
+
   const bookPath = house
     ? `/book?location=${encodeURIComponent(house.id)}`
     : "/book";
   return (
     <MemberShell
-      kicker={label}
+      kicker="YOUR PERSONAL RESERVE"
       title={
         client
           ? `Welcome back, ${client.name.split(" ")[0]}.`
@@ -38,13 +46,57 @@ export default async function Home({
       intro={
         client
           ? "Your time. Your direction. Your Reserve."
-          : "Book your visit, prepare The Chair, and keep your personal preferences together."
+          : "Presence, performance and wellbeing. Your personal direction, wherever you are."
       }
     >
       <HomeRefresh />
+      <section className="reserve-direction" aria-labelledby="direction-title">
+        <div>
+          <p className="experience-kicker">
+            {routine
+              ? `YOUR PRIORITY · ${routine.priority.toUpperCase()}`
+              : "YOUR NEXT CHAPTER"}
+          </p>
+          <h2 id="direction-title">
+            {routine?.title ?? "A standard that travels with you."}
+          </h2>
+          {routine ? (
+            <ol>
+              {routine.steps.map((step, index) => (
+                <li key={index}>{step}</li>
+              ))}
+            </ol>
+          ) : (
+            <p>
+              {routineState?.state === "unavailable"
+                ? "Your saved routine could not refresh. Try again before making changes."
+                : "Choose one priority. Create a simple routine for your presence, performance or wellbeing, and keep it close."}
+            </p>
+          )}
+          <div className="member-actions">
+            <Link href="/pathways" className="button button-gold">
+              {routine ? "Refine your routine" : "Find your direction"} ↗
+            </Link>
+            <Link href="/my-reserve" className="text-link">
+              Your preferences ↗
+            </Link>
+          </div>
+        </div>
+        <aside>
+          <p className="experience-kicker">AETHELIOS</p>
+          <h3>A considered next step.</h3>
+          <p>
+            Your concierge connects your personal direction with verified
+            membership and Sanctum tools.
+          </p>
+          <Link href="/aethelios" className="text-link">
+            Talk with Aethelios ↗
+          </Link>
+        </aside>
+      </section>
       <section className="member-focus" aria-labelledby="member-next-title">
         <p className="experience-kicker">
-          {next ? "YOUR NEXT VISIT" : "YOUR NEXT STEP"}
+          {next ? "YOUR NEXT VISIT" : "SANCTUM"}
         </p>
         <h2 id="member-next-title">
           {data.visits.state === "unavailable"
@@ -53,7 +105,7 @@ export default async function Home({
               ? next.service_name
               : previous?.rebook_available
                 ? "Return to your usual."
-                : "Make time for yourself."}
+                : "Your physical destination."}
         </h2>
         {next ? (
           <>
@@ -65,7 +117,7 @@ export default async function Home({
             <p>
               {next.provider_name} ·{" "}
               {next.location_name
-                ? `Legacy Reserve — ${next.location_name}`
+                ? `Legacy Reserve Sanctum — ${next.location_name}`
                 : "Location not recorded"}
             </p>
             <div className="member-actions">

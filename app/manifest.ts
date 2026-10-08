@@ -13,9 +13,24 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: brand.backgroundColor,
     theme_color: brand.themeColor,
     icons: [
-      { src: brand.appIcon192, sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: brand.appIcon512, sizes: "512x512", type: "image/png", purpose: "any" },
-      { src: brand.appIconMaskable, sizes: "512x512", type: "image/png", purpose: "maskable" },
+      {
+        src: brand.appIcon192,
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: brand.appIcon512,
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: brand.appIconMaskable,
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
+      },
     ],
     shortcuts: [
       {
@@ -33,10 +48,10 @@ export default function manifest(): MetadataRoute.Manifest {
         icons: [{ src: brand.appIcon192, sizes: "192x192", type: "image/png" }],
       },
       {
-        name: "My Reserve",
-        short_name: "My Reserve",
-        description: "Open your Legacy Reserve relationship.",
-        url: "/my-reserve",
+        name: "Personal Reserve",
+        short_name: "Personal Reserve",
+        description: "Open your personal Legacy Reserve environment.",
+        url: "/home",
         icons: [{ src: brand.appIcon192, sizes: "192x192", type: "image/png" }],
       },
       {
