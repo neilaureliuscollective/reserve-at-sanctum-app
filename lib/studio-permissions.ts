@@ -1,5 +1,5 @@
 import type { Actor } from "./booking";
-import { BookingError } from "./booking";
+import { BookingError } from "./booking-error";
 export const capabilities = [
   "studio.read",
   "workspace.read",
