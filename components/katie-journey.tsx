@@ -64,7 +64,7 @@ export function KatieDirector() {
     localStorage.setItem("katie-journey-still", String(next === "still"));
     setMode(next);
   };
-  return <nav className="katie-nav" aria-label="Explore Katie’s world"><div><a href="#experience">The experience</a><a href="#the-chair">Your chair</a><a href="#visit">Plan a visit</a></div><button type="button" onClick={toggle} disabled={mode === "pending" || reduced} aria-pressed={mode === "still"} aria-label={mode === "motion" ? "Show the still view" : "Enable cinematic motion"}>{mode === "motion" ? <Pause size={13} /> : <Play size={13} />}<span>{mode === "motion" ? "STILL VIEW" : "MOTION OFF"}</span></button></nav>;
+  return <nav className="katie-nav" aria-label="Explore Katie’s world"><div><a href="#founder">Meet Katie</a><a href="#services">Your visit</a><a href="#the-chair">The Chair</a></div><button type="button" onClick={toggle} disabled={mode === "pending" || reduced} aria-pressed={mode === "still"} aria-label={mode === "motion" ? "Show the still view" : "Enable cinematic motion"}>{mode === "motion" ? <Pause size={13} /> : <Play size={13} />}<span>{mode === "motion" ? "STILL VIEW" : "MOTION OFF"}</span></button></nav>;
 }
 
 const preferences = {
