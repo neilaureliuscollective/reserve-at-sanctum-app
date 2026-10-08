@@ -22,23 +22,41 @@ the prior GENT Ascend/local grooming-house framing.
 No new backend, AI provider, billing, booking authority or database migration.
 Katie's page, provider logic and staff operations are unchanged.
 
-## Founder image provenance and exact likeness
+## Founder portrait rebuild — October 8, 2026
 
-Source: Neil's uploaded `1720.png` (actually JPEG, 1536×1536).
-`public/images/founder/neil-stutes-original.jpg` is a byte-for-byte copy.
-The hero and gateway use this source directly with a code-native SVG presentation
-mask. There is no generated face, body, wardrobe or pose in the shipped image.
-Architecture, light and the LR crest are separate CSS/image layers. Technology
-uses decorative signal geometry; it does not claim to be an official new logo.
+Neil rejected the masked presentation and explicitly authorized complete realistic
+portrait regeneration. The full scenes now replace the silhouette, synthetic
+background crest and floating geometry in the hero and gateway. The source
+reference remains `public/images/founder/neil-stutes-original.jpg` for provenance;
+it is no longer rendered on these routes. The retired SVG mask is removed.
 
-The built-in image generation tool was used for a transparent subject extraction
-study. It returned a different composition, so that generated subject was not used
-in production. It remains a reference study outside the repository.
+Built-in image generation produced two complete photographic scenes using Neil’s
+uploaded reference. These retain a close recognizable likeness, suit, seated pose,
+beard and watch; generated photographs are not claimed to preserve every source
+pixel. Visible captions identify the AI-recreated environment.
 
-Extraction prompt: remove the background, GENT emblem, shelves, table and props;
-retain the exact seated man and green leather chair with unchanged face, beard,
-hands, watch, suit, tie, body and pose; output true transparency. The original-pixel
-mask was selected because preservation mattered more than the extraction study.
+Final project assets:
+- `public/images/founder/neil-legacy-reserve-v2.webp`: heritage green leather,
+  black marble, physical gold LR/laurel wall crest and warm architectural light.
+- `public/images/founder/neil-aethelios-v2.webp`: imperial teal-blue technology
+  office, obsidian materials and physical gold A/laurel wall crest.
+
+Prompt set (built-in tool, identity-preserve): regenerate a complete ultra-realistic
+editorial founder photograph from Neil’s definitive reference; closely retain his
+bald head, face proportions, eyes, nose, full beard, age, skin tone, physique,
+expression, seated pose, hands, black three-piece suit, green tie and gold watch.
+Create a coherent photographic room, intact supporting chair and natural contact
+shadows. Legacy Reserve uses heritage green/obsidian/gold with an LR/laurel crest
+and LEGACY RESERVE wording. Aethelios uses imperial teal-blue/obsidian/gold with
+an A/laurel crest and restrained intelligent detail. Exclude Gent Ascend wording,
+standing statue, transparent cutouts, harsh silhouette edges, floating bodies,
+plastic skin, website UI and watermarks. Full original tool prompts are recorded
+in the execution conversation; the generated PNG masters remain there.
+
+The complete image fills its photographic stage; narrow layouts show the square
+composition with the face and chair intact. WebP compression (240–280 KiB per full scene), stable aspect ratios and hero
+preloading keep the artwork suited to mobile and large screens. No face mask or
+subject extraction is used.
 
 ## Verification
 
@@ -47,7 +65,7 @@ Run `npm test`, `npm run typecheck`, `npm run build` and
 The browser verification covers the gateway and both worlds at 320px, 390px short
 and tall phone, 884px Fold and 1440px desktop; selectable scenes and visible CTAs;
 keyboard; public routes; legacy redirects; route handoffs; dock context; scroll
-and still preferences; original portrait masking; no-JavaScript links; runtime errors.
+and still preferences; complete portrait rendering without masks; no-JavaScript links; runtime errors.
 Screenshots are written under ignored `artifacts/founder-worlds/`.
 
 Validation recorded: all 140 existing automated tests passed; TypeScript and the
