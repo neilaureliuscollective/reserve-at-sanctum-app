@@ -25,7 +25,8 @@
     "verify:collection-commerce": "node scripts/verify-collection-commerce.mjs",
     "verify:studio-loading": "node scripts/verify-studio-loading.mjs",
     "verify:vitalis": "node scripts/verify-vitalis.mjs",
-    "verify:vitalis-revenue": "node scripts/verify-vitalis-revenue.mjs"
+    "verify:vitalis-revenue": "node scripts/verify-vitalis-revenue.mjs",
+    "verify:vitalis-pilot": "node scripts/verify-vitalis-pilot.mjs"
   },
   "dependencies": {
     "@aethelios/concierge-core": "file:vendor/aethelios-concierge-core",

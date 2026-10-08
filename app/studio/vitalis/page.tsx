@@ -41,6 +41,11 @@ export default async function Page({
           Open Revenue intelligence ↗
         </Link>
       </p>
+      <p>
+        <Link className="button button-outline" href="/studio/vitalis/launch">
+          Open launch readiness ↗
+        </Link>
+      </p>
       {result.data ? (
         <VitalisOperations initial={JSON.parse(JSON.stringify(result.data))} />
       ) : (

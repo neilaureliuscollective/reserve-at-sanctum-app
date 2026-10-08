@@ -26,6 +26,7 @@ export function ExperienceChrome({
     "/home",
     "/vitalis",
     "/vitalis/membership",
+    "/vitalis/journey",
     "/pathways",
     "/aethelios",
     "/visit",
