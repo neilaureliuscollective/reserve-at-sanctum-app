@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
-import { brand } from "@/lib/brand";
+import { VitalisObservatory } from "@/components/public-worlds";
+import "../discover/public-worlds.css";
 import { EarlyAccessForm } from "@/components/vitalis/early-access-form";
 import "../vitalis.css";
 import { database } from "@/lib/db";
@@ -31,7 +31,7 @@ export default async function Page() {
             manage their early-access permission.
           </p>
           <EarlyAccessForm />
-          <Link href="/home">Return to your Reserve ↗</Link>
+          <Link href="/discover">Return to Legacy Reserve ↗</Link>
         </section>
       </main>
     );
@@ -41,7 +41,7 @@ export default async function Page() {
         <div className="vitalis-intro">
           <p className="experience-kicker">LEGACY RESERVE VITALIS</p>
           <p className="vitalis-status">
-            <span /> Coming soon
+            <span /> Free wellness pilot available
           </p>
           <h1>
             Precision for
@@ -54,34 +54,19 @@ export default async function Page() {
             Understand more. Navigate with confidence. A considered connection
             between your health, qualified care and the life you want to build.
           </p>
-          <a className="button button-gold" href="#early-access">
-            Explore early access ↗
-          </a>
+          <Link className="button button-gold" href="/vitalis/journey">
+            Start your free wellness rhythm ↗
+          </Link>
+          <a href="#early-access" className="vitalis-future-link">Future clinical access · Register interest ↗</a>
           <p>
             <Link href="/vitalis/membership" className="text-link">
               Explore the membership vision ↗
             </Link>
           </p>
         </div>
-        <div
-          className="vitalis-instrument"
-          aria-label="Vitalis division emblem"
-        >
-          <div className="vitalis-ring">
-            <Image
-              src={brand.mark}
-              width={220}
-              height={220}
-              alt="Legacy Reserve crest"
-              priority
-            />
-          </div>
-          <p>VITALIS</p>
-          <span>THE NEXT CHAPTER IN HEALTH INTELLIGENCE</span>
-          <div className="vitalis-instrument-foot">
-            <span>EDUCATION · AVAILABLE</span>
-            <span>CLINICAL ACCESS · PLANNED</span>
-          </div>
+        <div className="vitalis-hero-world">
+          <VitalisObservatory />
+          <div className="vitalis-instrument-foot"><span>WELLNESS PILOT · AVAILABLE</span><span>CLINICAL ACCESS · PLANNED</span></div>
         </div>
       </section>
       <section className="vitalis-horizon">
