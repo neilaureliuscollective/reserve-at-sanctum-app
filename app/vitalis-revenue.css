@@ -1,0 +1,253 @@
+.vitalis-revenue,
+.vitalis-membership {
+  --revenue-gold: #c4912f;
+  min-width: 0;
+}
+.revenue-planning > section,
+.revenue-actuals,
+.revenue-plot,
+.revenue-controls {
+  margin-block: 2.5rem;
+}
+.revenue-planning > h2 {
+  margin-top: 2rem;
+}
+.revenue-tabs {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+.revenue-caption {
+  font-size: 0.8rem;
+  color: #bdc6b8;
+}
+.revenue-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.revenue-metrics article,
+.revenue-unit-grid article {
+  background: linear-gradient(
+    135deg,
+    rgba(32, 50, 38, 0.85),
+    rgba(7, 9, 8, 0.7)
+  );
+  border: 1px solid #49513c;
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  box-shadow:
+    inset 0 1px 0 #d9b56820,
+    0 16px 35px #0004;
+  min-width: 0;
+}
+.revenue-metrics span,
+.revenue-metrics small {
+  display: block;
+  font-size: 0.75rem;
+  color: #b6c1b1;
+}
+.revenue-metrics strong {
+  display: block;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: #d9b568;
+  margin: 0.7rem 0;
+  overflow-wrap: anywhere;
+}
+.revenue-plot {
+  border-block: 1px solid #c4912f40;
+  padding-block: 1.7rem;
+}
+.revenue-plot svg {
+  width: 100%;
+  display: block;
+  height: auto;
+}
+.revenue-table {
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid #c4912f35;
+  border-radius: 0.7rem;
+  margin: 1.3rem 0;
+}
+.revenue-table table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.8rem;
+  text-align: left;
+  white-space: nowrap;
+}
+.revenue-table th,
+.revenue-table td {
+  padding: 0.85rem;
+  border-bottom: 1px solid #c4912f25;
+}
+.revenue-table th {
+  color: #e0bb6a;
+}
+.revenue-table caption {
+  padding: 1rem;
+  text-align: left;
+  color: #c1c9bd;
+  white-space: normal;
+}
+.revenue-unit-grid,
+.revenue-tier-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+.revenue-unit-grid strong {
+  font-size: 1.3rem;
+  color: #e0bb6a;
+}
+.revenue-unit-grid dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+}
+.revenue-unit-grid dd {
+  margin: 0;
+  text-align: right;
+}
+.revenue-signups {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+.revenue-controls fieldset {
+  border: 1px solid #c4912f35;
+  min-width: 0;
+  border-radius: 0.8rem;
+  padding: 1.2rem;
+}
+.revenue-controls legend {
+  color: #e0bb6a;
+  padding: 0 0.3rem;
+}
+.revenue-controls details {
+  margin-block: 1.5rem;
+}
+.revenue-controls summary {
+  font-size: 1rem;
+  padding: 1.2rem 0;
+  cursor: pointer;
+}
+.revenue-tier-controls .vitalis-field {
+  margin-block: 1rem;
+}
+.revenue-driver-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+.revenue-controls .member-actions {
+  margin-top: 1.4rem;
+}
+.vitalis-revenue p {
+  max-width: 85ch;
+}
+.vitalis-revenue button:focus-visible,
+.vitalis-revenue input:focus-visible,
+.revenue-table:focus-visible {
+  outline: 2px solid #e0bb6a;
+  outline-offset: 4px;
+}
+.vitalis-membership .vitalis-horizon {
+  margin-block: 2rem;
+  padding: 2rem 0;
+}
+.vitalis-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 3rem 0;
+}
+.vitalis-plan {
+  border: 1px solid #c4912f60;
+  border-radius: 1.3rem;
+  padding: 2rem;
+  background:
+    radial-gradient(ellipse at 80% 0, #c4912f12, transparent 65%),
+    linear-gradient(150deg, #183022, #070908);
+  box-shadow:
+    inset 0 1px 0 #e0bb6a30,
+    0 20px 50px #0004;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.vitalis-plan:nth-child(2) {
+  border-color: #c4912f;
+}
+.vitalis-plan ul {
+  padding-left: 1.2rem;
+  line-height: 1.7;
+  flex: 1;
+}
+.vitalis-plan li {
+  margin-block: 0.7rem;
+}
+.vitalis-plan small {
+  color: #bdc5b7;
+}
+.vitalis-plan-price {
+  font-size: 2.5rem;
+  color: #e0bb6a;
+}
+.vitalis-plan-price span {
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+.vitalis-plan .button {
+  margin-top: 1.4rem;
+}
+.vitalis-membership h1 {
+  font-size: clamp(2.7rem, 7vw, 5.6rem);
+}
+@media (max-width: 1000px) {
+  .revenue-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .revenue-unit-grid,
+  .revenue-tier-controls,
+  .vitalis-plan-grid {
+    grid-template-columns: 1fr;
+  }
+  .vitalis-plan {
+    padding: 1.6rem;
+  }
+  .revenue-unit-grid dl {
+    max-width: 40rem;
+  }
+}
+@media (max-width: 540px) {
+  .revenue-signups,
+  .revenue-driver-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .revenue-metrics article {
+    padding: 1rem;
+  }
+  .revenue-unit-grid dl {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .revenue-controls fieldset {
+    padding: 0.8rem;
+  }
+  .revenue-controls .vitalis-field {
+    font-size: 0.8rem;
+  }
+  .vitalis-plan-price {
+    font-size: 2.2rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vitalis-plan,
+  .revenue-metrics article {
+    transition: none;
+  }
+}

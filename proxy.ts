@@ -8,9 +8,23 @@ export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
   // Let public pages stream before account services respond. Protected routes
   // retain cookie refresh and authoritative getUser() verification.
-  const publicPaths = ['/vitalis', '/', '/home', '/enter', '/setup', '/fix-it-shop', '/book', '/shop', '/chair', '/sanctum-mirror', '/mirror', '/profile'];
+  const publicPaths = [
+    "/vitalis/membership",
+    "/vitalis",
+    "/",
+    "/home",
+    "/enter",
+    "/setup",
+    "/fix-it-shop",
+    "/book",
+    "/shop",
+    "/chair",
+    "/sanctum-mirror",
+    "/mirror",
+    "/profile",
+  ];
   if (publicPaths.includes(request.nextUrl.pathname)) {
-    response.headers.set('Cache-Control', 'private, no-store');
+    response.headers.set("Cache-Control", "private, no-store");
     return response;
   }
   const url = supabaseUrl;
@@ -28,8 +42,11 @@ export async function proxy(request: NextRequest) {
       },
     },
   });
-  try { await client.auth.getClaims(); }
-  catch { /* Transport failure must not break public browsing. Private routes still verify getUser. */ }
+  try {
+    await client.auth.getClaims();
+  } catch {
+    /* Transport failure must not break public browsing. Private routes still verify getUser. */
+  }
   response.headers.set("Cache-Control", "private, no-store");
   return response;
 }

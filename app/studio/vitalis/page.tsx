@@ -36,6 +36,11 @@ export default async function Page({
         Understand demand. Prepare trusted access. Keep clinical capabilities
         gated.
       </p>
+      <p>
+        <Link className="button button-gold" href="/studio/vitalis/revenue">
+          Open Revenue intelligence ↗
+        </Link>
+      </p>
       {result.data ? (
         <VitalisOperations initial={JSON.parse(JSON.stringify(result.data))} />
       ) : (

@@ -182,6 +182,19 @@ export default async function MembershipPage() {
       )}
       <section className="member-line">
         <div>
+          <p className="experience-kicker">VITALIS · IN PREPARATION</p>
+          <h2>A new membership chapter.</h2>
+          <p>
+            Explore the proposed Vitalis membership direction. Your existing
+            membership and privileges remain here.
+          </p>
+          <Link href="/vitalis/membership" className="text-link">
+            Explore Vitalis membership ↗
+          </Link>
+        </div>
+      </section>
+      <section className="member-line">
+        <div>
           <p className="experience-kicker">THE ONGOING RELATIONSHIP</p>
           <h2>Beyond the appointment.</h2>
           <p>

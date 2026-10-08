@@ -246,11 +246,11 @@ test("Vitalis concierge is factual navigation, does not read interest or dispatc
   assert.equal(r.links[0].href, "/vitalis");
   assert.match(r.text, /no clinical care/);
 });
-test("all six Vitalis tables have RLS, no policies or PUBLIC grants", async () => {
+test("all seven Vitalis tables have RLS, no policies or PUBLIC grants", async () => {
   const rows = await db.query<{ relname: string; relrowsecurity: boolean }>(
     "SELECT relname,relrowsecurity FROM pg_class WHERE relname LIKE 'reserve_vitalis_%' AND relkind='r'",
   );
-  assert.equal(rows.length, 6);
+  assert.equal(rows.length, 7);
   assert.ok(rows.every((x) => x.relrowsecurity));
   assert.deepEqual(
     await db.query(

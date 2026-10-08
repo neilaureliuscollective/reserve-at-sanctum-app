@@ -57,6 +57,11 @@ export default async function Page() {
           <a className="button button-gold" href="#early-access">
             Explore early access ↗
           </a>
+          <p>
+            <Link href="/vitalis/membership" className="text-link">
+              Explore the membership vision ↗
+            </Link>
+          </p>
         </div>
         <div
           className="vitalis-instrument"
