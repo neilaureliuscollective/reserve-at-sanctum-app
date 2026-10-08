@@ -57,6 +57,7 @@ export async function squareFetch<T>(
       headers,
       body: init.body === undefined ? undefined : JSON.stringify(init.body),
       cache: "no-store",
+      signal: AbortSignal.timeout(10000),
     });
   } catch {
     return {
