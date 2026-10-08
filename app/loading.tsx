@@ -1,5 +1,6 @@
 export default function Loading() {
-  return <main id="main" className="reserve-room">
+  return <main id="main" className="reserve-room imperial-loading">
+    <div className="imperial-loading-signal" aria-hidden="true"><i /><i /><i /></div>
     <p className="experience-kicker">LEGACY RESERVE</p>
     <h1>Opening Legacy Reserve.</h1>
     <p role="status">Your entrance is loading.</p>

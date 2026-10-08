@@ -12,6 +12,8 @@ import { readMemberSummary } from "@/lib/experience/member";
 import { MemberShell } from "@/components/experience/member-shell";
 import { HomeRefresh } from "@/components/experience/home-refresh";
 import { rebookPath } from "@/lib/experience/visits";
+import { ImperialWorlds } from "@/components/imperial-worlds";
+import { ImperialSurface } from "@/components/imperial-surface";
 export const dynamic = "force-dynamic";
 export default async function Home({
   searchParams,
@@ -57,13 +59,14 @@ export default async function Home({
       }
     >
       <HomeRefresh />
-      <section className="member-priority-stage" aria-labelledby="direction-title">
+      <ImperialWorlds />
+      <ImperialSurface level="hero" className="member-priority-stage" aria-labelledby="direction-title">
         <div><p className="experience-kicker">{routine ? `YOUR PRIORITY · ${routine.priority.toUpperCase()}` : "YOUR NEXT CHAPTER"}</p>
           <h2 id="direction-title">{routine?.title ?? "A standard that travels with you."}</h2>
           {routine ? <ol>{routine.steps.map((step,index)=><li key={index}>{step}</li>)}</ol> : <p>{routineState?.state === "unavailable" ? "Your saved routine could not refresh. Try again before making changes." : "Choose what matters today. Build a simple rhythm for your presence, performance or wellbeing. Your Reserve begins wherever you are."}</p>}
           <div className="member-actions"><Link href={routineState?.state === "unavailable" ? "/home" : "/pathways#routine"} className="button button-gold">{routineState?.state === "unavailable" ? "Try again" : routine ? "Refine your routine" : "Find your direction"} ↗</Link><Link href="/my-reserve" className="text-link">Your preferences ↗</Link></div>
         </div><DigitalInstrument world={routine?.priority ?? "presence"} />
-      </section>
+      </ImperialSurface>
       <section className="member-wellness" aria-labelledby="member-wellness-title"><div><p className="experience-kicker">LEGACY RESERVE VITALIS · FREE WELLNESS PILOT</p><h2 id="member-wellness-title">{foundation?.title ?? "A longer horizon. An everyday rhythm."}</h2><p>{wellnessState?.state === "unavailable" ? "Your wellness rhythm could not refresh. Try again before changing your saved choices." : foundation ? foundation.action : "Choose sleep consistency, everyday movement or meal preparation. Set your weekly target and return to your own progress."}</p><div className="member-actions"><Link href={wellnessState?.state === "unavailable" ? "/home" : "/vitalis/journey"} className="button button-gold">{wellnessState?.state === "unavailable" ? "Try again" : journey ? "Continue your wellness rhythm" : "Start your free wellness rhythm"} ↗</Link></div></div><div className="member-wellness-detail">{wellness && journey ? <><span className="digital-label">YOUR SAVED RHYTHM / {foundation?.label.toUpperCase()}</span><div className="member-week" aria-label="Your recorded wellness days this week">{wellness.week.map((day,index)=><span key={day} data-completed={journey.days.includes(day)} aria-label={`${day}: ${journey.days.includes(day) ? "marked complete" : "not marked"}`}>{["M","T","W","T","F","S","S"][index]}</span>)}</div><p className="member-week-progress">{completed} marked {completed === 1 ? "day" : "days"} this week · Target {journey.target}</p><p>Your recorded consistency, private to your customer account.</p></> : <><span className="digital-label">YOUR WELLBEING WORLD</span><p>The free pilot is available today. Advanced health intelligence and qualified clinical connections are the next horizon.</p></>}<Link href="/vitalis" className="text-link">Explore the Vitalis vision ↗</Link></div></section>
       {next || previous?.rebook_available || data.visits.state === "unavailable" ? <section className="member-focus" aria-labelledby="member-next-title">
         <p className="experience-kicker">

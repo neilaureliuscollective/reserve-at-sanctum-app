@@ -78,6 +78,6 @@ test("customer metadata and manifest no longer use Reserve at Sanctum", () => {
   assert.match(layout, /brand\.themeColor|themeColor: brand/);
   assert.match(manifest, /brand\.appIcon192/);
   assert.match(manifest, /brand\.appIconMaskable/);
-  assert.equal(brand.themeColor, "#0B1610");
+  assert.equal(brand.themeColor, "#12382D");
   assert.doesNotMatch(brand.themeColor, /#12373A|#0[Bb]1[Ff]2/i);
 });

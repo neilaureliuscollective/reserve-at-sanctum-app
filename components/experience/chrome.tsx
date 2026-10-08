@@ -61,7 +61,7 @@ export function ExperienceChrome({ children, footer, status }: {
         </nav>
       </details>
     </header>
-    <div className="command-content">{children}</div>
+    <div className="command-content"><div className="imperial-world-transition" key={path}>{children}</div></div>
     {["/privacy", "/terms", "/setup"].includes(path) && footer}
     <nav className="command-dock" aria-label="Legacy Reserve navigation">
       {customerPrimary.map((item, index) => { const Icon = icons[index]; return <Link

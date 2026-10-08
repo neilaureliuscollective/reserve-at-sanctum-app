@@ -1,3 +1,4 @@
+import { surfaceClass } from "@/components/imperial-surface";
 import Image from "next/image";
 import Link from "next/link";
 import { readCollection } from "@/lib/collection";
@@ -55,7 +56,7 @@ export default async function Shop() {
             const lowest = prices.length ? Math.min(...prices) : null;
             return (
               <Link
-                className="collection-product"
+                className={surfaceClass("glass", "collection-product")}
                 key={item.id}
                 href={item.href}
               >

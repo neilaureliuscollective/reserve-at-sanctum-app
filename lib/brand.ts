@@ -21,8 +21,8 @@ export const brand = {
   favicon32: "/brand/legacy-reserve/favicon-32.png",
   favicon48: "/brand/legacy-reserve/favicon-48.png",
   openGraph: "/brand/legacy-reserve/open-graph.png",
-  themeColor: "#0B1610",
-  backgroundColor: "#070908",
+  themeColor: "#12382D",
+  backgroundColor: "#080D0B",
 } as const;
 
 export function locationLabel(city: string) {

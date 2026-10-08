@@ -1,0 +1,316 @@
+/* Imperial Emerald: a single material vocabulary for the five connected worlds.
+   Partner pages retain their blue/gold and independent green identities. */
+:root {
+  --imperial-obsidian: var(--reserve-obsidian);
+  --imperial-midnight: var(--reserve-heritage-deep);
+  --imperial-emerald: var(--reserve-heritage);
+  --imperial-jade: var(--reserve-petrol-muted);
+  --imperial-gold: var(--reserve-gold);
+  --imperial-champagne: var(--reserve-gold-light);
+  --imperial-ivory: var(--reserve-text-primary);
+  --imperial-muted: var(--reserve-text-muted);
+  --imperial-edge: color-mix(in srgb, var(--imperial-gold) 34%, transparent);
+  --imperial-light: color-mix(in srgb, var(--imperial-ivory) 13%, transparent);
+  --imperial-halo: color-mix(in srgb, var(--imperial-jade) 48%, transparent);
+  --imperial-material: linear-gradient(145deg, var(--imperial-emerald), var(--imperial-midnight) 68%, var(--imperial-obsidian));
+  --imperial-glass: linear-gradient(145deg, color-mix(in srgb, var(--imperial-jade) 84%, transparent), color-mix(in srgb, var(--imperial-midnight) 96%, transparent) 58%, var(--imperial-obsidian));
+  --imperial-metal: linear-gradient(115deg, var(--imperial-gold), var(--imperial-champagne) 44%, var(--imperial-gold) 90%);
+  --imperial-elevation: inset 0 1px 0 var(--imperial-light), inset 0 -1px 0 #0008, 0 16px 36px #0005;
+  --imperial-float: inset 0 1px 0 var(--imperial-light), inset 1px 0 0 var(--imperial-edge), 0 28px 64px #0008, 0 4px 10px #0005;
+  --imperial-radius: 22px;
+  --imperial-ease: cubic-bezier(.2,.75,.25,1);
+  --imperial-press: 160ms;
+  --imperial-arrival: 480ms;
+}
+
+/* Material levels are reusable with ImperialSurface or surfaceClass(). */
+.reserve-app-shell .imperial-surface,
+.reserve-app-shell :is(.member-wellness,.pilot-surface,.sanctum-empty,.collection-status,.concierge-thread article) {
+  border: 1px solid var(--imperial-edge);
+  border-radius: var(--imperial-radius);
+  background: var(--imperial-material);
+  box-shadow: var(--imperial-elevation);
+}
+.reserve-app-shell .imperial-glass,
+.reserve-app-shell :is(.aethelios-preview,.collection-product,.shop-concept,.concierge-suggestions button,.sanctum-professional-grid button) {
+  background: var(--imperial-glass);
+  box-shadow: var(--imperial-float);
+  border: 1px solid var(--imperial-edge);
+  border-radius: var(--imperial-radius);
+}
+.reserve-app-shell .imperial-hero {
+  position: relative;
+  isolation: isolate;
+  background: radial-gradient(ellipse at 82% 25%, var(--imperial-halo), transparent 58%), var(--imperial-material);
+  box-shadow: var(--imperial-float);
+  overflow: hidden;
+}
+.reserve-app-shell .imperial-hero:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(125deg, var(--imperial-light), transparent 24%, transparent 72%, var(--imperial-edge));
+  opacity: .45;
+  z-index: -1;
+}
+.reserve-app-shell {
+  background: radial-gradient(ellipse at 70% 0%, var(--imperial-emerald), transparent 65vh), var(--imperial-obsidian);
+  color: var(--imperial-ivory);
+  --world-light: var(--imperial-jade);
+}
+.reserve-app-shell[data-world=Vitalis] { --world-light: var(--imperial-emerald); }
+.reserve-app-shell[data-world=Aethelios] { --world-light: var(--imperial-jade); }
+.reserve-app-shell[data-world=Collection] { --world-light: var(--imperial-gold); }
+.reserve-app-shell[data-world=Sanctum] { --world-light: var(--imperial-champagne); }
+.reserve-app-shell :is(h1,h2,h3) { text-wrap: balance; }
+.reserve-app-shell :is(.digital-label,.experience-kicker) { color: var(--imperial-champagne); }
+.reserve-app-shell :is(.button,.text-link) { min-height: 44px; }
+.reserve-app-shell .button {
+  border-radius: 12px;
+  transition: transform var(--imperial-press) var(--imperial-ease), box-shadow var(--imperial-press);
+}
+.reserve-app-shell .button-gold {
+  background: var(--imperial-metal);
+  color: var(--imperial-obsidian);
+  border: 1px solid var(--imperial-champagne);
+  box-shadow: inset 0 1px 0 var(--imperial-ivory), 0 5px 0 #513d1d, 0 9px 25px #0005;
+}
+.reserve-app-shell .button:active { transform: translateY(2px) scale(.985); box-shadow: inset 0 1px var(--imperial-light), 0 2px 0 #513d1d; }
+.reserve-app-shell :is(a,button,input,textarea,select,summary):focus-visible { outline: 2px solid var(--imperial-champagne); outline-offset: 4px; }
+.reserve-app-shell .command-masthead.experience-header {
+  background: linear-gradient(110deg, var(--imperial-midnight), var(--imperial-obsidian));
+  border-color: var(--imperial-edge);
+}
+.reserve-app-shell .command-current { color: var(--imperial-ivory); }
+.reserve-app-shell .command-current i { background: var(--imperial-champagne); }
+.reserve-app-shell .command-current i { box-shadow: 0 0 12px var(--world-light); }
+
+/* The dock is the foreground navigation plane, with a solid fallback. */
+.reserve-app-shell .command-dock {
+  border-color: var(--imperial-edge);
+  background: var(--imperial-glass);
+  box-shadow: inset 0 1px 0 var(--imperial-light), inset 0 -2px 0 #0008, 0 12px 26px #000a, 0 28px 70px #0008;
+  border-radius: 28px;
+  backdrop-filter: none;
+}
+@supports (backdrop-filter: blur(1px)) {
+  .reserve-app-shell .command-dock {
+    background: linear-gradient(145deg, color-mix(in srgb, var(--imperial-jade) 76%, transparent), color-mix(in srgb, var(--imperial-midnight) 93%, transparent) 65%);
+    backdrop-filter: blur(18px) saturate(125%);
+  }
+}
+.reserve-app-shell .command-dock a {
+  color: var(--imperial-muted);
+  transition: transform var(--imperial-press) var(--imperial-ease), color var(--imperial-press), background var(--imperial-press);
+}
+.reserve-app-shell .command-dock a[aria-current=page] {
+  color: var(--imperial-ivory);
+  background: linear-gradient(160deg, var(--imperial-jade), var(--imperial-emerald));
+  box-shadow: inset 0 1px var(--imperial-light), 0 4px 9px #0004;
+}
+.reserve-app-shell .command-dock a[aria-current=page]:after { width: 22px; background: var(--imperial-champagne); }
+.reserve-app-shell .command-dock a:active { transform: translateY(2px) scale(.96); }
+.reserve-app-shell .command-concierge .command-icon {
+  background: radial-gradient(circle at 32% 23%, var(--imperial-jade), var(--imperial-emerald) 45%, var(--imperial-obsidian) 85%);
+  color: var(--imperial-champagne);
+  border-color: var(--imperial-champagne);
+  box-shadow: inset 0 1px 6px var(--imperial-light), inset 0 -5px 10px #0008, 0 5px 14px #0008;
+}
+.reserve-app-shell .command-account nav { background: var(--imperial-midnight); border-color: var(--imperial-edge); }
+.imperial-world-transition { animation: imperial-enter var(--imperial-arrival) var(--imperial-ease) both; }
+@keyframes imperial-enter { from { opacity: .25; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.reserve-app-shell .imperial-loading { background: radial-gradient(ellipse at 75% 15%,var(--imperial-emerald),var(--imperial-obsidian) 75%); min-height: 70svh; }
+.imperial-loading-signal { display: flex; gap: 6px; margin-bottom: 28px; }
+.imperial-loading-signal i { width: 5px; height: 24px; border-radius: 3px; background: var(--imperial-metal); animation: imperial-loading 1.4s ease-in-out infinite; }
+.imperial-loading-signal i:nth-child(2) { animation-delay: .15s; }
+.imperial-loading-signal i:nth-child(3) { animation-delay: .3s; }
+@keyframes imperial-loading { 0%,100% { opacity: .3; transform: scaleY(.45); } 50% { opacity: 1; transform: scaleY(1); } }
+
+/* Three spatial planes: a projected instrument, emerald core and raised metal. */
+.reserve-app-shell .digital-instrument { --world-tone: var(--imperial-jade); }
+.reserve-app-shell .instrument-aura { background: radial-gradient(ellipse, var(--imperial-jade), transparent 70%); filter: none; opacity: .55; }
+.reserve-app-shell .instrument-vector { z-index: 2; filter: drop-shadow(0 3px 2px #0008); }
+.reserve-app-shell .instrument-glass {
+  border-color: var(--imperial-edge);
+  background: linear-gradient(145deg, var(--imperial-light), transparent 60%, var(--imperial-edge));
+  box-shadow: inset 0 1px var(--imperial-light), 0 20px 35px #0005;
+  border-radius: 24%;
+  backdrop-filter: none;
+}
+.imperial-orbits { position: absolute; inset: 18%; perspective: 650px; transform: rotate(-18deg); }
+.imperial-orbits i {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 6px solid var(--imperial-gold);
+  border-top-color: var(--imperial-champagne);
+  border-right-color: color-mix(in srgb, var(--imperial-gold) 45%, var(--imperial-obsidian));
+  box-shadow: inset 0 1px 1px var(--imperial-ivory), 0 8px 12px #0008;
+  transform: rotateX(62deg) rotateY(-18deg);
+  transition: transform 800ms var(--imperial-ease);
+}
+.imperial-orbits i:nth-child(2) { inset: 8%; transform: rotateX(-25deg) rotateY(64deg); border-width: 4px; }
+.imperial-orbits i:nth-child(3) { inset: -8%; transform: rotateX(35deg) rotateY(35deg); border-width: 2px; opacity: .65; }
+.imperial-core {
+  position: absolute; inset: 34%; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 32% 24%, var(--imperial-jade), var(--imperial-emerald) 48%, var(--imperial-obsidian) 82%);
+  border: 1px solid var(--imperial-edge);
+  box-shadow: inset 5px 7px 12px var(--imperial-light), inset -15px -12px 25px #0009, 0 18px 24px #0008;
+  transition: transform 800ms var(--imperial-ease);
+}
+.imperial-core:before { content: ''; position: absolute; inset: 7%; border: 1px solid var(--imperial-edge); border-radius: 50%; }
+.imperial-core span { font: 400 clamp(40px,6vw,95px)/1 var(--reserve-serif); color: var(--imperial-champagne); text-shadow: 0 2px 1px #000, 0 -1px var(--imperial-ivory); }
+.reserve-app-shell .vector-wellness,.reserve-app-shell .vector-presence,.reserve-app-shell .vector-performance { display: none; }
+.digital-instrument[data-world=presence] .imperial-orbits i:first-child { transform: rotateX(30deg) rotateY(58deg); }
+.digital-instrument[data-world=performance] .imperial-orbits i:first-child { transform: rotateX(-58deg) rotateY(20deg); }
+.digital-instrument[data-world=performance] .imperial-core { transform: rotate(-10deg) scale(.92); }
+.reserve-app-shell .instrument-caption { color: var(--imperial-muted); }
+.reserve-app-shell .instrument-caption strong { color: var(--imperial-champagne); }
+
+/* First-time introduction: shorter, composed, with every world immediately visible. */
+.reserve-app-shell .digital-reserve { background: var(--imperial-obsidian); color: var(--imperial-ivory); }
+.reserve-app-shell .digital-reserve em { color: var(--imperial-champagne); }
+.reserve-app-shell .digital-reserve p { color: var(--imperial-muted); }
+.reserve-app-shell .digital-arrival {
+  min-height: 680px; min-height: max(680px,calc(100svh - 76px));
+  padding: 70px 7% 100px;
+  background: radial-gradient(ellipse at 80% 35%, var(--imperial-jade), var(--imperial-midnight) 48%, var(--imperial-obsidian) 80%);
+}
+.reserve-app-shell .digital-arrival h1 { font-size: clamp(64px,6.8vw,110px); }
+.reserve-app-shell .digital-arrival-copy { max-width: 62%; }
+.reserve-app-shell .digital-arrival-copy>p:not(.digital-label) { max-width: 460px; font-size: 14px; }
+.reserve-app-shell .digital-arrival-field>.digital-instrument { width: clamp(620px,60vw,1000px); right: -14%; opacity: .85; }
+.reserve-app-shell .digital-arrival-field:after { background: linear-gradient(90deg, var(--imperial-obsidian), transparent 75%); }
+.reserve-app-shell .digital-horizon { background: linear-gradient(0deg, var(--imperial-obsidian), transparent); }
+.reserve-app-shell .digital-arrival-console {
+  width: 300px; right: 7%; bottom: 115px; padding: 22px;
+  transform: perspective(1100px) rotateY(-7deg) translateY(calc(var(--camera,0)*-28px));
+  backdrop-filter: none;
+}
+.reserve-app-shell .digital-arrival-console>a { min-height: 62px; padding: 10px 0; transition: transform var(--imperial-press); }
+.reserve-app-shell .digital-arrival-console strong { font-size: 14px; color: var(--imperial-ivory); }
+.reserve-app-shell .digital-arrival-console small { font-size: 10px; color: var(--imperial-muted); margin-top: 3px; }
+.reserve-app-shell .digital-arrival-console b { font-size: 9px; color: var(--imperial-champagne); }
+.reserve-app-shell .digital-chapters { background: var(--imperial-midnight); border-color: var(--imperial-edge); }
+.reserve-app-shell .digital-section { padding-block: clamp(48px,6vw,96px); }
+.reserve-app-shell .digital-pathways { background: linear-gradient(180deg, var(--imperial-obsidian), var(--imperial-midnight), var(--imperial-obsidian)); }
+.reserve-app-shell .digital-world-controls { border-color: var(--imperial-edge); background: var(--imperial-edge); }
+.reserve-app-shell .digital-world-controls button { background: var(--imperial-midnight); color: var(--imperial-ivory); }
+.reserve-app-shell .digital-world-controls button[aria-pressed=true] { background: var(--imperial-material); color: var(--imperial-champagne); box-shadow: inset 0 -2px var(--imperial-gold), inset 0 1px var(--imperial-light); }
+.reserve-app-shell .digital-preview-routine { background: var(--imperial-midnight); }
+.reserve-app-shell .digital-vitalis { background: radial-gradient(ellipse at 20% 50%, var(--imperial-emerald), var(--imperial-obsidian) 72%); }
+.reserve-app-shell .digital-intelligence { background: radial-gradient(ellipse at 75% 35%, var(--imperial-emerald), var(--imperial-obsidian) 70%); }
+.reserve-app-shell .digital-aethelios { min-height: calc(100svh - 76px); background: radial-gradient(ellipse at 85% 20%, var(--imperial-emerald), var(--imperial-obsidian) 75%); }
+.reserve-app-shell .digital-sanctum { background: var(--imperial-midnight); }
+.reserve-app-shell .digital-invitation { background: radial-gradient(ellipse at 50% 75%, var(--imperial-emerald), var(--imperial-obsidian) 75%); }
+.reserve-app-shell .digital-house-links>a { box-shadow: var(--imperial-elevation); border-radius: var(--imperial-radius); }
+
+/* Reserve: the member's useful personal command environment. */
+.imperial-worlds { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 12px; margin: 22px 0 30px; }
+.reserve-app-shell .imperial-world { position: relative; padding: 20px 16px; min-height: 154px; overflow: hidden; transition: transform 240ms var(--imperial-ease); }
+.imperial-world-top { display: flex; justify-content: space-between; color: var(--imperial-champagne); margin-bottom: 24px; }
+.imperial-world-top small { color: var(--imperial-muted); font-size: 9px; letter-spacing: .12em; }
+.imperial-world strong { display: block; font: 400 27px/1.1 var(--reserve-serif); margin-bottom: 8px; }
+.imperial-world>span:not(.imperial-world-top) { display: block; font-size: 10px; line-height: 1.65; color: var(--imperial-muted); max-width: 130px; }
+.imperial-world-arrow { position: absolute; right: 14px; bottom: 14px; color: var(--imperial-champagne); }
+.reserve-app-shell .member-environment { background: transparent; }
+.reserve-app-shell .member-priority-stage { padding: 32px; margin-top: 0; }
+.reserve-app-shell .member-priority-stage h2 { font-size: clamp(34px,4.3vw,58px); }
+.reserve-app-shell .member-wellness { padding: 30px; margin-block: 22px; }
+.reserve-app-shell .member-wellness-detail { background: color-mix(in srgb,var(--imperial-emerald) 70%,transparent); border-radius: 16px; border-color: var(--imperial-edge); }
+.reserve-app-shell .member-focus { background: var(--imperial-material); box-shadow: var(--imperial-elevation); }
+
+/* Vitalis: clear instruments, generous labels and data owned by the member. */
+.reserve-app-shell .vitalis-environment { background: radial-gradient(ellipse at 85% 12%,var(--imperial-emerald),transparent 55%), var(--imperial-obsidian); }
+.reserve-app-shell .vitalis-hero { padding-block: 54px 60px; min-height: 620px; gap: 36px; }
+.reserve-app-shell .vitalis-hero-world { border: 1px solid var(--imperial-edge); border-radius: 50% 50% 24px 24px; background: var(--imperial-material); box-shadow: var(--imperial-float); }
+.reserve-app-shell .vitalis-instrument-foot { padding: 12px 20px 24px; font-size: 9px; color: var(--imperial-muted); }
+.reserve-app-shell .vitalis-pillar-list article { border-color: var(--imperial-edge); background: linear-gradient(90deg,var(--imperial-midnight),transparent); }
+.reserve-app-shell .vitalis-availability>div { background: var(--imperial-material); border: 1px solid var(--imperial-edge); border-radius: 16px; padding: 24px; }
+.reserve-app-shell .pilot-surface { padding: clamp(20px,3vw,32px); }
+.reserve-app-shell .pilot-week { background: var(--imperial-midnight); border-color: var(--imperial-edge); box-shadow: var(--imperial-elevation); }
+
+/* Aethelios: a lit intelligence presence and a comfortable conversation plane. */
+.reserve-app-shell .reserve-concierge { background: radial-gradient(ellipse at 70% 0%,var(--imperial-emerald),transparent 65%); }
+.reserve-app-shell :is(.concierge-orb,.aethelios-signal) { background: radial-gradient(circle at 30% 25%,var(--imperial-champagne),var(--imperial-jade) 38%,var(--imperial-obsidian) 80%); box-shadow: inset 0 1px 5px var(--imperial-light),0 0 40px var(--imperial-halo); }
+.reserve-app-shell .concierge-thread article { padding: 24px; }
+.reserve-app-shell .concierge-compose { background: var(--imperial-midnight); border-color: var(--imperial-edge); box-shadow: var(--imperial-float); }
+.reserve-app-shell :is(.concierge-compose textarea,.concierge-booking input,.concierge-booking select) { background: var(--imperial-obsidian); color: var(--imperial-ivory); }
+.reserve-app-shell .aethelios-example { background: color-mix(in srgb,var(--imperial-midnight) 86%,transparent); }
+.reserve-app-shell .aethelios-prompts button { background: var(--imperial-midnight); border-color: var(--imperial-edge); color: var(--imperial-ivory); min-height: 48px; }
+.reserve-app-shell .aethelios-prompts button[aria-pressed=true] { background: var(--imperial-emerald); border-color: var(--imperial-gold); }
+
+/* Sanctum: architectural framing; Katie's independent blue remains untouched. */
+.reserve-app-shell .sanctum-portal { background: radial-gradient(ellipse at 10% 50%,var(--imperial-jade),transparent 70%),var(--imperial-midnight); border-color: var(--imperial-edge); box-shadow: var(--imperial-float); }
+.reserve-app-shell .sanctum-portal h1 em { color: var(--imperial-champagne); }
+.reserve-app-shell .sanctum-professional-grid button[aria-pressed=true] { background: var(--imperial-material); border-color: var(--imperial-gold); box-shadow: var(--imperial-float); }
+.reserve-app-shell .sanctum-services>div { background: var(--imperial-material); box-shadow: var(--imperial-elevation); }
+.reserve-app-shell .sanctum-services>div>a { background: transparent; min-height: 84px; }
+.reserve-app-shell .sanctum-world-grid>a { box-shadow: var(--imperial-float); }
+
+/* Collection: products sit on a lit plinth instead of flat tiles. */
+.reserve-app-shell :is(.collection-product,.shop-concept) { padding: 22px; transition: transform 240ms var(--imperial-ease); }
+.reserve-app-shell :is(.collection-product>img,.shop-concept>img) { background: radial-gradient(ellipse at 50% 70%,var(--imperial-jade),var(--imperial-midnight) 65%); border-radius: 14px; object-fit: contain; width: 100%; }
+.reserve-app-shell .collection-product h2 { font-size: 34px; }
+.reserve-app-shell .collection-status { padding: 24px; }
+.reserve-app-shell .collection-purchase { background: var(--imperial-material); border: 1px solid var(--imperial-edge); border-radius: var(--imperial-radius); padding: 26px; box-shadow: var(--imperial-elevation); }
+.reserve-app-shell .collection-object { background: radial-gradient(ellipse at 50% 55%,var(--imperial-jade),var(--imperial-midnight) 60%,var(--imperial-obsidian)); }
+
+@media (hover:hover) and (pointer:fine) {
+  .reserve-app-shell :is(.imperial-world,.collection-product,.shop-concept):hover { transform: perspective(900px) translateY(-5px) rotateX(2deg); }
+  .reserve-app-shell .digital-arrival-console>a:hover { transform: translateX(4px); }
+}
+.reserve-app-shell :is(.imperial-world,.collection-product,.shop-concept,.sanctum-professional-grid button):active { transform: scale(.985); }
+@media (min-width:701px) and (max-width:1150px) {
+  .reserve-app-shell .digital-arrival-console { display: block; width: 260px; right: 5%; }
+  .reserve-app-shell .digital-arrival-copy { max-width: 56%; }
+  .reserve-app-shell .digital-arrival h1 { font-size: clamp(58px,7vw,78px); }
+  .imperial-worlds { gap: 8px; }
+  .reserve-app-shell .imperial-world { padding: 16px 12px; }
+  .imperial-world strong { font-size: 24px; }
+}
+@media (max-width:700px) {
+  .reserve-app-shell .digital-arrival { padding: 34px 20px 68px; min-height: 0; }
+  .reserve-app-shell .digital-arrival-copy { max-width: 100%; }
+  .reserve-app-shell .digital-arrival h1 { font-size: clamp(47px,12.2vw,76px); margin: 22px 0; max-width: 520px; }
+  .reserve-app-shell .digital-arrival-copy>p:not(.digital-label) { font-size: 13px; line-height: 1.8; margin-top: 22px; }
+  .reserve-app-shell .digital-arrival-field>.digital-instrument { width: 520px; right: -260px; top: 20px; bottom: auto; opacity: .5; }
+  .reserve-app-shell .digital-arrival-field:after { background: linear-gradient(90deg,var(--imperial-obsidian),transparent 90%); }
+  .reserve-app-shell .digital-arrival-console { position: relative; right: auto; bottom: auto; width: 100%; margin-top: 30px; padding: 18px 20px; transform: none; }
+  .reserve-app-shell .digital-arrival-console>a { min-height: 56px; }
+  .reserve-app-shell .digital-arrival-axis { left: 20px; right: 20px; gap: 16px; font-size: 8px; }
+  .reserve-app-shell .digital-arrival-note { font-size: 8px; letter-spacing: .1em; margin-top: 24px; }
+  .reserve-app-shell .digital-chapters { gap: 2px 24px; padding-block: 8px; }
+  .reserve-app-shell .command-dock { border-radius: 24px; }
+  .reserve-app-shell .command-dock a { font-size: 10px; }
+  .imperial-worlds { display: flex; overflow-x: auto; scroll-snap-type: x proximity; gap: 10px; margin: 18px 0 16px; padding: 2px 2px 16px; scrollbar-width: thin; scrollbar-color: var(--imperial-edge) transparent; }
+  .reserve-app-shell .imperial-world { min-height: 132px; padding: 16px; flex: 0 0 158px; scroll-snap-align: start; }
+  .imperial-world-top { margin-bottom: 14px; }
+  .imperial-world strong { font-size: 28px; }
+  .reserve-app-shell .member-priority-stage { padding: 24px; }
+  .reserve-app-shell .member-wellness { padding: 24px 20px; }
+  .reserve-app-shell .vitalis-hero { min-height: 0; padding-block: 34px; gap: 28px; }
+  .reserve-app-shell .vitalis-hero-world { border-radius: 22px; }
+  .reserve-app-shell .vitalis-instrument-foot { font-size: 8px; padding: 10px 16px 18px; }
+  .reserve-app-shell :is(.collection-product,.shop-concept) { padding: 18px; }
+  .reserve-app-shell .collection-purchase { padding: 20px; }
+  .reserve-app-shell .concierge-thread article { padding: 20px 18px; }
+}
+/* Both system and in-app still mode apply to every new layer and interaction. */
+@media (prefers-reduced-motion:reduce) {
+  .reserve-app-shell *, .reserve-app-shell *:before, .reserve-app-shell *:after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .imperial-world-transition { transform: none; opacity: 1; }
+  .reserve-app-shell :is(.imperial-world,.collection-product,.shop-concept,.button):hover,
+  .reserve-app-shell :is(.imperial-world,.collection-product,.shop-concept,.button):active { transform: none; }
+}
+html[data-reserve-still=true] .reserve-app-shell *,
+html[data-reserve-still=true] .reserve-app-shell *:before,
+html[data-reserve-still=true] .reserve-app-shell *:after { animation: none !important; transition: none !important; }
+html[data-reserve-still=true] .reserve-app-shell .digital-arrival-console { transform: none !important; }
+html[data-reserve-still=true] .reserve-app-shell :is(.imperial-world,.collection-product,.shop-concept,.button):hover,
+html[data-reserve-still=true] .reserve-app-shell :is(.imperial-world,.collection-product,.shop-concept,.button):active { transform: none; }
+@media (forced-colors:active) {
+  .reserve-app-shell .command-dock { background: Canvas; border: 1px solid ButtonText; box-shadow: none; }
+  .reserve-app-shell .command-dock a[aria-current=page] { outline: 2px solid Highlight; color: LinkText; }
+  .imperial-core,.imperial-orbits { display: none; }
+}
