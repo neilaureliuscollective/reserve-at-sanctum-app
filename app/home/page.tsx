@@ -4,7 +4,7 @@ import { memberRead } from "@/lib/experience/member";
 import { readRoutine } from "@/lib/personal-reserve";
 import { DateTime } from "luxon";
 import { redirect } from "next/navigation";
-import { currentUser } from "@/lib/auth";
+import { publicUser } from "@/lib/auth";
 import { readMemberSummary } from "@/lib/experience/member";
 import { MemberShell } from "@/components/experience/member-shell";
 import { MemberDesk } from "@/components/experience/member-desk";
@@ -16,7 +16,7 @@ export default async function Home({
 }: {
   searchParams: Promise<{ explore?: string }>;
 }) {
-  const actor = await currentUser();
+  const actor = await publicUser();
   const exploring = (await searchParams).explore === "1";
   if (actor && actor.role !== "client" && !exploring) redirect("/studio");
   const client = actor?.role === "client" && !exploring ? actor : null;

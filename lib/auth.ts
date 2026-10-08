@@ -5,11 +5,13 @@ import { createHash, randomBytes } from "node:crypto";
 import { database, isPreview, configured } from "./db";
 import type { Actor } from "./booking";
 import { hasSupabase, supabaseKey, supabaseUrl } from "./supabase-config";
+import { authFetch } from "./auth-fetch";
 import { optionalRead } from "./experience/optional-read";
 export { hasSupabase } from "./supabase-config";
 export async function supabase() {
   const jar = await cookies();
   return createServerClient(supabaseUrl!, supabaseKey!, {
+    global: { fetch: authFetch },
     cookies: {
       getAll: () => jar.getAll(),
       setAll: (items) => {

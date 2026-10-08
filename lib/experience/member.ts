@@ -1,3 +1,4 @@
+import { optionalRead } from "./optional-read";
 import type { Actor } from "../booking";
 import { database, type Queryable } from "../db";
 import { listLocations, primaryLocation } from "./locations";
@@ -7,9 +8,10 @@ export type ReadState<T> =
   { state: "ready"; data: T } | { state: "unavailable"; data: null };
 export async function memberRead<T>(
   fn: () => Promise<T>,
+  milliseconds = 6000,
 ): Promise<ReadState<T>> {
   try {
-    return { state: "ready", data: await fn() };
+    return { state: "ready", data: await optionalRead(fn, milliseconds) };
   } catch {
     return { state: "unavailable", data: null };
   }

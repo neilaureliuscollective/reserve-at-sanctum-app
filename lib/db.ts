@@ -1,5 +1,5 @@
 import { PGlite } from "@electric-sql/pglite";
-import postgres from "postgres";
+import { hostedDatabase } from "./hosted-db";
 import { readFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
 import { serverlessDatabaseUrl } from "./db-connection";
@@ -63,21 +63,7 @@ export async function database(): Promise<Database> {
   if (!globalDb.reserveDb)
     globalDb.reserveDb = (async () => {
       if (process.env.DATABASE_URL) {
-        const sql = postgres(serverlessDatabaseUrl(process.env.DATABASE_URL), {
-          prepare: false,
-          max: 3,
-        });
-        const wrap = (q: typeof sql): Queryable => ({
-          query: async <T extends Row>(s: string, p: unknown[] = []) =>
-            Array.from(await q.unsafe(s, p as never[])) as T[],
-        });
-        return {
-          ...wrap(sql),
-          transaction: <T>(fn: (tx: Queryable) => Promise<T>) =>
-            sql.begin((tx) =>
-              fn(wrap(tx as unknown as typeof sql)),
-            ) as Promise<T>,
-        };
+        return hostedDatabase(serverlessDatabaseUrl(process.env.DATABASE_URL));
       }
       if (!isPreview()) throw new Error("Hosted database setup is required.");
       await mkdir(".data", { recursive: true });

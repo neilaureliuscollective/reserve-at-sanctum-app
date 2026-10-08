@@ -1,3 +1,4 @@
+import { authFetch } from "./lib/auth-fetch";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { supabaseKey, supabaseUrl } from "./lib/supabase-config";
@@ -31,6 +32,7 @@ export async function proxy(request: NextRequest) {
   const key = supabaseKey;
   if (!url || !key) return response;
   const client = createServerClient(url, key, {
+    global: { fetch: authFetch },
     cookies: {
       getAll: () => request.cookies.getAll(),
       setAll(items) {
