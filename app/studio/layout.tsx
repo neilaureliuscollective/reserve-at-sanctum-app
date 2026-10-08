@@ -47,6 +47,7 @@ export default async function StudioLayout({
             </span>
           </Link>
           <div className="studio-identity">
+            <Link className="studio-public-entrance" href="/discover">View public website ↗</Link>
             <span>{actor.name.split(" ·")[0]}</span>
             <small>
               {actor.role === "owner"

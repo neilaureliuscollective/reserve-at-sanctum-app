@@ -1353,3 +1353,5 @@ body:has(.studio-shell) .preview-ribbon {
 .studio-panel.membership-plan { padding: 22px; border: 1px solid var(--reserve-border); border-radius: 10px; background: var(--reserve-surface); }
 .membership-office > .studio-panel { padding: clamp(18px,3vw,30px); border: 1px solid var(--reserve-border); border-radius: 12px; background: var(--reserve-surface); }
 @media(max-width:700px) { .studio-nav { overflow-x: auto; justify-content: flex-start; } .studio-nav a { flex: 1 0 64px; min-width: 64px; font-size: 10px; } }
+
+.studio-identity .studio-public-entrance { display:inline-flex; color:#e0bb6a; min-height:44px; align-items:center; font-size:12px; }

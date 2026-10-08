@@ -9,7 +9,7 @@ export const publicPrimary = [
   { href: "/discover#grooming", label: "Grooming" },
   { href: "/vitalis", label: "Vitalis" },
   { href: "/shop", label: "Collection" },
-  { href: "/membership", label: "Membership" },
+  { href: "/discover/membership", label: "Membership" },
 ] as const;
 export const customerAccount = [
   { href: "/vitalis", label: "Vitalis" },
@@ -22,5 +22,5 @@ export const customerAccount = [
 ] as const;
 export const customerDestinations = [...customerPrimary, ...customerAccount];
 export function destinationActive(path: string, href: string) {
-  return path === href || path.startsWith(`${href}/`);
+  return path === href || (href !== "/discover" && path.startsWith(`${href}/`));
 }

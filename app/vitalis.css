@@ -425,3 +425,12 @@
     animation: none;
   }
 }
+
+.vitalis-hero-world { --journey:.5; --camera:0; position:relative; width:100%; background:radial-gradient(ellipse,#22463055,transparent 70%); }
+.vitalis-hero-world .vitalis-observatory { isolation:isolate; }
+.vitalis-hero-world .vitalis-instrument-foot { margin:0 5%; color:#c9b077; font-size:8px; }
+.vitalis-future-link { display:flex; width:fit-content; align-items:center; min-height:44px; margin-top:18px; font-size:11px; color:#e0bb6a; }
+.vitalis-intro .button { white-space:normal; }
+@media(max-width:760px) { .vitalis-hero-world { max-width:360px; margin:auto; }.vitalis-hero-world .vitalis-observatory { max-width:100%; }.vitalis-hero-world .observatory-world span { font-size:5rem; } }
+@media(prefers-reduced-motion:reduce) { .vitalis-hero-world * { transform:none!important; } }
+html[data-reserve-still=true] .vitalis-hero-world * { transform:none!important; }

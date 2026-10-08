@@ -26,6 +26,7 @@ export function ExperienceChrome({
   const immersive = [
     "/home",
     "/discover",
+    "/discover/membership",
     "/vitalis",
     "/vitalis/membership",
     "/vitalis/journey",
@@ -95,6 +96,7 @@ export function ExperienceChrome({
             >
               <summary>Menu</summary>
               <nav aria-label="More destinations">
+                <Link href="/discover">Public homepage</Link>
                 <MotionMode />
                 {customerDestinations.map((item) => (
                   <Link
