@@ -78,6 +78,19 @@ export default async function Page({
           </section>
         )}
       </div>
+      <section className="member-line">
+        <div>
+          <p className="experience-kicker">VITALIS · COMING SOON</p>
+          <h2>Health intelligence. A clearer direction.</h2>
+          <p>
+            Explore future diagnostics and licensed clinical partnerships,
+            separate from training and routines.
+          </p>
+        </div>
+        <Link href="/vitalis" className="button button-outline">
+          Explore Vitalis ↗
+        </Link>
+      </section>
       <section id="wellness" className="reserve-education">
         <p className="experience-kicker">WELLNESS & OPTIMIZATION</p>
         <h2>Explore with clarity.</h2>

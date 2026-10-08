@@ -166,6 +166,12 @@ export async function memberConcierge(
       links: [{ label: "Wellness education", href: "/pathways#wellness" }],
       mode: "education",
     };
+  if (/\bvitalis\b/i.test(i.message))
+    return {
+      text: "Legacy Reserve Vitalis is the planned health intelligence and longevity division. Its introduction and account-based early access are available; no clinical care, lab connection or treatment enrollment is active. You manage your interest and notification permission in Vitalis.",
+      links: [{ label: "Explore Vitalis", href: "/vitalis" }],
+      mode: "verified",
+    };
   const intent = classifyIntent(i.message);
   if (intent === "wellness")
     return {

@@ -170,6 +170,21 @@ export default async function Home({
           </>
         )}
       </section>
+      <section className="member-line">
+        <div>
+          <p className="experience-kicker">
+            LEGACY RESERVE VITALIS · COMING SOON
+          </p>
+          <h2>A longer horizon.</h2>
+          <p>
+            Advanced health intelligence, diagnostics and future clinical
+            partnerships. Explore the vision and register for early access.
+          </p>
+        </div>
+        <Link href="/vitalis" className="button button-outline">
+          Discover Vitalis ↗
+        </Link>
+      </section>
       <MemberDesk desk={data.membership} />
       <section className="member-line">
         <div>

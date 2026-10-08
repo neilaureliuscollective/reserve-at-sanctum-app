@@ -1,0 +1,427 @@
+/* Vitalis stays within the current Legacy Reserve materials. */
+.vitalis-environment {
+  max-width: 1600px;
+  margin: auto;
+  background:
+    radial-gradient(ellipse at 80% 10%, #14291e99, transparent 42%),
+    var(--reserve-obsidian);
+  padding: 0 clamp(20px, 5vw, 80px) 100px;
+  overflow: clip;
+}
+.vitalis-hero {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 60px;
+  align-items: center;
+  padding: 90px 0 100px;
+  min-height: 78svh;
+}
+.vitalis-intro h1 {
+  font-size: clamp(54px, 6.7vw, 100px);
+  margin: 28px 0;
+  line-height: 0.98;
+}
+.vitalis-position {
+  font-size: 13px;
+  color: var(--gold-light);
+  letter-spacing: 0.09em;
+}
+.vitalis-lede {
+  max-width: 520px;
+  color: var(--muted);
+  margin: 22px 0 30px;
+  font-size: 16px;
+}
+.vitalis-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 50px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  margin-top: 20px;
+}
+.vitalis-status span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold-light);
+}
+.vitalis-instrument {
+  position: relative;
+  text-align: center;
+  border: 1px solid var(--reserve-border-premium);
+  border-radius: 42px;
+  padding: 48px 22px 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, #d9b56810, transparent 70%),
+    var(--reserve-material);
+  box-shadow:
+    var(--reserve-highlight),
+    0 35px 80px #0008;
+  transform: perspective(1000px) rotateY(-5deg);
+}
+.vitalis-ring {
+  border: 1px solid #d9b56830;
+  border-radius: 50%;
+  width: min(280px, 100%);
+  aspect-ratio: 1;
+  margin: 0 auto 30px;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    inset 0 0 45px #c4912f0c,
+    0 0 50px #14291e;
+}
+.vitalis-ring img {
+  mix-blend-mode: screen;
+  max-width: 80%;
+  height: auto;
+}
+.vitalis-instrument > p {
+  font-size: 30px;
+  letter-spacing: 0.24em;
+  color: var(--gold-light);
+}
+.vitalis-instrument > span {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  margin: 10px 0 28px;
+}
+.vitalis-instrument-foot {
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 22px 0;
+  font-size: 8px;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.vitalis-pillars {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 65px;
+  padding: 70px 0;
+  border-top: 1px solid var(--line);
+}
+.vitalis-section-title h2,
+.vitalis-access h2 {
+  margin: 20px 0;
+  font-size: clamp(40px, 4vw, 62px);
+}
+.vitalis-section-title p,
+.vitalis-horizon > p,
+.vitalis-access > div > p,
+.vitalis-performance p {
+  color: var(--muted);
+  max-width: 640px;
+}
+.vitalis-pillar-list article {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 18px;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--line);
+}
+.vitalis-pillar-list article > span {
+  color: var(--gold-light);
+  font-size: 11px;
+}
+.vitalis-pillar-list h3 {
+  font-size: 30px;
+}
+.vitalis-pillar-list p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 14px 0;
+}
+.vitalis-pillar-list small {
+  grid-column: 2;
+  font-size: 8px;
+  color: var(--gold-light);
+  letter-spacing: 0.16em;
+}
+.vitalis-horizon {
+  padding: 65px clamp(24px, 5vw, 65px);
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: linear-gradient(135deg, #18241c, #08140e);
+  box-shadow: var(--reserve-highlight);
+}
+.vitalis-horizon h2 {
+  margin: 24px 0;
+}
+.vitalis-availability {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+}
+.vitalis-availability span {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--gold-light);
+}
+.vitalis-availability p {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.vitalis-access {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 65px;
+  align-items: start;
+  padding: 100px 0;
+  scroll-margin-top: 110px;
+}
+.vitalis-form {
+  padding: 32px;
+  border: 1px solid var(--reserve-border-premium);
+  border-radius: 24px;
+  background: var(--reserve-material);
+  box-shadow: var(--reserve-highlight), var(--reserve-shadow);
+  min-width: 0;
+}
+.vitalis-form h3 {
+  font-size: 32px;
+  margin: 15px 0;
+}
+.vitalis-form > p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.vitalis-form fieldset,
+.vitalis-partner-form fieldset {
+  border: 0;
+  padding: 0;
+  margin: 26px 0;
+}
+.vitalis-form legend,
+.vitalis-partner-form legend {
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+.vitalis-form legend span,
+.vitalis-field span {
+  color: var(--muted);
+  font-size: 11px;
+}
+.vitalis-check {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  font-size: 13px;
+  margin: 15px 0;
+  line-height: 1.6;
+}
+.vitalis-check input {
+  width: 19px;
+  height: 19px;
+  flex: none;
+  accent-color: var(--gold);
+  margin-top: 2px;
+}
+.vitalis-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+  margin: 25px 0;
+}
+.vitalis-field select,
+.vitalis-field input {
+  background: var(--reserve-obsidian);
+  border: 1px solid var(--reserve-border-control);
+  color: var(--paper);
+  border-radius: 8px;
+  min-height: 48px;
+  padding: 10px;
+  max-width: 100%;
+  width: 100%;
+  min-width: 0;
+}
+.vitalis-notice {
+  font-size: 12px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+.vitalis-notice summary {
+  cursor: pointer;
+  color: var(--paper);
+}
+.vitalis-notice p {
+  margin-top: 18px;
+}
+.vitalis-note {
+  padding-top: 22px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.vitalis-performance {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: center;
+  padding-top: 45px;
+  border-top: 1px solid var(--line);
+}
+.vitalis-performance h3 {
+  font-size: 32px;
+  margin: 16px 0;
+}
+.vitalis-performance .button {
+  flex: none;
+}
+.vitalis-form .member-actions {
+  flex-wrap: wrap;
+}
+.vitalis-form .button {
+  gap: 8px;
+  font-size: 12px;
+}
+.vitalis-office {
+  margin-top: 35px;
+}
+.vitalis-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+}
+.vitalis-metrics > div {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--reserve-material);
+}
+.vitalis-metrics span {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.vitalis-metrics strong {
+  display: block;
+  font-size: 30px;
+  color: var(--gold-light);
+  margin-top: 15px;
+}
+.vitalis-office-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.vitalis-roster {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin: 25px 0;
+}
+.vitalis-roster article {
+  border: 1px solid var(--line);
+  padding: 20px;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+.vitalis-roster h3 {
+  font-size: 25px;
+}
+.vitalis-roster p {
+  font-size: 13px;
+}
+.vitalis-partner-form {
+  max-width: 700px;
+  margin-top: 30px;
+}
+.vitalis-partner-form small {
+  overflow-wrap: anywhere;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .vitalis-hero {
+    gap: 30px;
+  }
+  .vitalis-instrument {
+    padding-top: 30px;
+    transform: none;
+  }
+  .vitalis-pillars,
+  .vitalis-access {
+    gap: 35px;
+  }
+  .vitalis-performance {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+@media (max-width: 650px) {
+  .vitalis-hero,
+  .vitalis-pillars,
+  .vitalis-access {
+    grid-template-columns: 1fr;
+  }
+  .vitalis-hero {
+    padding: 45px 0 55px;
+    gap: 40px;
+  }
+  .vitalis-instrument {
+    max-width: 420px;
+    width: 100%;
+    margin: auto;
+  }
+  .vitalis-ring {
+    width: 220px;
+  }
+  .vitalis-intro h1 {
+    font-size: 56px;
+  }
+  .vitalis-pillars {
+    padding: 45px 0;
+  }
+  .vitalis-access {
+    padding: 60px 0;
+  }
+  .vitalis-form {
+    padding: 24px 20px;
+  }
+  .vitalis-horizon {
+    padding: 35px 24px;
+  }
+  .vitalis-availability {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .vitalis-office-grid,
+  .vitalis-roster {
+    grid-template-columns: 1fr;
+  }
+  .vitalis-metrics {
+    grid-template-columns: 1fr;
+  }
+  .vitalis-instrument-foot {
+    font-size: 7px;
+  }
+  .vitalis-environment {
+    padding-bottom: 70px;
+  }
+  .vitalis-form .button {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vitalis-environment * {
+    scroll-behavior: auto;
+    transition: none;
+    animation: none;
+  }
+}

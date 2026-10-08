@@ -23,7 +23,8 @@
     "verify:completion": "node scripts/verify-completion.mjs",
     "verify:personal-reserve": "node scripts/verify-personal-reserve.mjs",
     "verify:collection-commerce": "node scripts/verify-collection-commerce.mjs",
-    "verify:studio-loading": "node scripts/verify-studio-loading.mjs"
+    "verify:studio-loading": "node scripts/verify-studio-loading.mjs",
+    "verify:vitalis": "node scripts/verify-vitalis.mjs"
   },
   "dependencies": {
     "@aethelios/concierge-core": "file:vendor/aethelios-concierge-core",

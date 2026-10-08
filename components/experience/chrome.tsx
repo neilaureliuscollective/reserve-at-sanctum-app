@@ -24,6 +24,7 @@ export function ExperienceChrome({
   if (work) return <>{children}</>;
   const immersive = [
     "/home",
+    "/vitalis",
     "/pathways",
     "/aethelios",
     "/visit",

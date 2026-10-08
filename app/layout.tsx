@@ -124,6 +124,7 @@ export default function RootLayout({
             <nav aria-label="Legacy Reserve destinations without JavaScript">
               <a href="/home">Reserve ↗</a>
               <a href="/pathways">Pathways ↗</a>
+              <a href="/vitalis">Vitalis ↗</a>
               <a href="/visit">Sanctum ↗</a>
               <a href="/book">Book ↗</a>
               <a href="/membership">Membership ↗</a>
