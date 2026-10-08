@@ -5,6 +5,7 @@ export const customerPrimary = [
   { href: "/shop", label: "Collection" },
 ] as const;
 export const customerAccount = [
+  { href: "/vitalis", label: "Vitalis" },
   { href: "/aethelios", label: "Aethelios" },
   { href: "/membership", label: "Membership" },
   { href: "/my-reserve", label: "My Reserve" },

@@ -17,6 +17,7 @@ const rooms = [
   ["/studio/build", "Build Room", Hammer],
   ["/studio/clients", "Clients", UsersRound],
   ["/studio/memberships", "Membership", UsersRound],
+  ["/studio/vitalis", "Vitalis", Settings2],
   ["/studio/commerce", "Commerce", Settings2],
   ["/studio/operations", "Operations", Settings2],
 ] as const;
@@ -35,8 +36,11 @@ export function StudioNav({ owner }: { owner: boolean }) {
       {rooms
         .filter(
           ([href]) =>
-            !["/studio/memberships", "/studio/commerce"].includes(href) ||
-            owner,
+            ![
+              "/studio/memberships",
+              "/studio/commerce",
+              "/studio/vitalis",
+            ].includes(href) || owner,
         )
         .map(([href, label, Icon]) => (
           <Link
