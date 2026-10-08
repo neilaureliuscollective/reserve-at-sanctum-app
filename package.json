@@ -26,7 +26,9 @@
     "verify:studio-loading": "node scripts/verify-studio-loading.mjs",
     "verify:vitalis": "node scripts/verify-vitalis.mjs",
     "verify:vitalis-revenue": "node scripts/verify-vitalis-revenue.mjs",
-    "verify:vitalis-pilot": "node scripts/verify-vitalis-pilot.mjs"
+    "verify:vitalis-pilot": "node scripts/verify-vitalis-pilot.mjs",
+    "verify:public": "node scripts/verify-public-experience.mjs",
+    "verify:digital-member": "node scripts/verify-digital-member.mjs"
   },
   "dependencies": {
     "@aethelios/concierge-core": "file:vendor/aethelios-concierge-core",

@@ -2,7 +2,9 @@
 
 ## Boundaries
 
-Next.js App Router hosts the Reserve website, booking, accounts, and staff book.
+Legacy Reserve is the digital personal ecosystem; Sanctum is its optional physical destination.
+Next.js App Router hosts its public introduction, account-owned personal routines,
+Vitalis wellness pilot, membership, concierge, booking, and private staff operations.
 The public worlds use server-rendered pages and optimized local imagery. Only
 the hero, navigation, sign-in, booking, and appointment interactions are client
 components. Three.js loads after the initial content and is isolated from forms.
@@ -163,3 +165,7 @@ See [Phase One implementation and release order](MEMBER-FOUNDATION-PHASE-ONE.md)
 ## Membership operations
 
 [Phase Two](MEMBERSHIP-OPERATIONS-PHASE-TWO.md) reuses plans/memberships and adds private account-owned requests and recorded events. Owner-only grants are explicitly complimentary, finite and snapshot the plan terms. User-row locking prevents competing current grants; revisions protect edits and lifecycle changes. Read-time availability accounts for status, dates, captured house and booking eligibility. Product discounts, credits and service redemption cannot be published as available. Profile/Chair access continues under its existing authorization rather than becoming exclusive through a descriptive membership benefit.
+
+## Digital ecosystem presentation — October 8, 2026
+
+Public `/discover`, `/discover/membership`, and `/discover/aethelios` are session-independent introductions. Anonymous entry goes directly to `/discover`; existing authenticated role routing is preserved. Interactive world previews use curated examples and brand geometry. `/home` reads the existing account-owned routine and bounded Vitalis journey state in parallel; marked wellness days remain private. No new database tables, access grants, external AI connections, billing, or booking authority are introduced. See [the transformation](DIGITAL-ECOSYSTEM-TRANSFORMATION.md).

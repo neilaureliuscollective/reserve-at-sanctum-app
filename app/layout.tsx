@@ -62,6 +62,8 @@ import "./reserve-material.css";
 import "./member-environment.css";
 import "./personal-reserve.css";
 import "./collection-commerce.css";
+import "./digital-reserve.css";
+import { StatusRibbon } from "@/components/experience/status-ribbon";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/supabase-config";
@@ -145,15 +147,7 @@ export default function RootLayout({
           </section>
         </noscript>
         <ExperienceChrome footer={<Footer />}>{children}</ExperienceChrome>
-        <aside className="preview-ribbon" aria-label="Legacy Reserve status">
-          {isPreview() || !configured() || !hasSupabase()
-            ? "PRIVATE SETUP"
-            : "PRIVATE PILOT"}{" "}
-          <span>·</span>{" "}
-          {shopifyReadiness().checkoutEnabled
-            ? "Appointments remain in pilot · Purchases require Shopify checkout"
-            : "Appointments and payments are not yet live"}
-        </aside>
+        <StatusRibbon setup={isPreview() || !configured() || !hasSupabase()} checkout={shopifyReadiness().checkoutEnabled} />
       </body>
     </html>
   );

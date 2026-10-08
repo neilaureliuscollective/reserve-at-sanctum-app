@@ -1,20 +1,15 @@
 import Link from "next/link";
-import Image from "next/image";
-import { brand } from "@/lib/brand";
-import "../public-reserve.css";
-import "../public-worlds.css";
-export const metadata = { title: "Membership · A place in Legacy Reserve", description: "Explore the Legacy Reserve membership vision: personal presence, wellbeing and a standard to return to." };
-export default function PublicMembership() {
-  return <main id="main" className="public-reserve membership-world">
-    <section className="membership-arrival" aria-labelledby="membership-arrival-title">
-      <div className="membership-crest" aria-hidden="true"><div className="membership-crest-ring" /><Image src={brand.mark} alt="" width={250} height={250} /></div>
-      <div><p className="experience-kicker">LEGACY RESERVE / THE MEMBERSHIP VISION</p><h1 id="membership-arrival-title">A place to belong.<br /><em>A standard to return to.</em></h1><p>Grooming, considered products and a growing wellbeing experience. One relationship with the house, shaped around your direction.</p><div className="public-actions"><Link href="/signin?next=/membership" className="button button-gold">Create or access your Reserve ↗</Link><Link href="/enter" className="text-link">Open your dashboard ↗</Link></div><small>MEMBERSHIP IS IN PREPARATION · NO PAID ENROLLMENT ON THIS PAGE</small></div>
-    </section>
-    <section className="membership-foundations" aria-labelledby="membership-foundations-title"><p className="experience-kicker">THE CONNECTED EXPERIENCE</p><h2 id="membership-foundations-title">More than a visit.<br /><em>A personal direction.</em></h2><div className="membership-foundation-list">
-      <article><span>01 / PRESENCE</span><h3>Your time in the house.</h3><p>Meet Katie and Fix It Shop, explore Neil’s GENT Ascend Collective world, and keep your grooming preferences ready for your next visit.</p><Link href="/discover#grooming" className="text-link">Explore grooming & presence ↗</Link></article>
-      <article><span>02 / WELLBEING</span><h3>Your longer horizon.</h3><p>The free Vitalis wellness pilot offers a private everyday rhythm. Future health intelligence and clinical partnerships are part of the division’s developing vision.</p><Link href="/vitalis" className="text-link">Discover Legacy Reserve Vitalis ↗</Link></article>
-      <article><span>03 / DAILY RITUALS</span><h3>Your standard, at home.</h3><p>Explore the Legacy Reserve collection. Each product’s page distinguishes concepts from published products and available purchases.</p><Link href="/shop" className="text-link">Explore the collection ↗</Link></article>
-    </div></section>
-    <section className="membership-next"><p className="experience-kicker">BEGIN WITH WHAT IS AVAILABLE</p><h2>Your Reserve starts with you.</h2><p>Your account keeps your visits and preferences together. Membership offers and benefits appear in your account when the house makes them available.</p><div className="public-actions"><Link href="/membership" className="button button-gold">Check your membership account ↗</Link><Link href="/discover" className="text-link">Explore the public website ↗</Link></div></section>
+import { DigitalInstrument } from "@/components/digital-instrument";
+export const metadata = { title: "Digital membership", description: "Your digital Legacy Reserve: personal direction, routines, Vitalis and Aethelios, wherever you are." };
+export default function Page() {
+  return <main id="main" className="digital-reserve digital-membership">
+    <section className="digital-membership-arrival digital-section"><div><p className="digital-label">LEGACY RESERVE / DIGITAL MEMBERSHIP</p><h1>Your standard.<br /><em>Wherever life takes you.</em></h1><p>A personal digital ecosystem for your presence, performance and wellbeing. Your Reserve is useful from home, on the move and between everything else.</p><div className="digital-actions"><Link href="/signin?next=/home" className="button button-gold">Create or access your Reserve ↗</Link><Link href="/home?explore=1" className="text-link">Preview the member environment ↗</Link></div><small>PERSONAL TOOLS AVAILABLE / PAID MEMBERSHIP IN PREPARATION</small></div><DigitalInstrument world="presence" /></section>
+    <section className="digital-section"><header className="digital-section-heading"><p className="digital-label">THE VALUE STARTS WITH YOUR EVERYDAY LIFE.</p><h2>A direction.<br /><em>A rhythm. A place to return.</em></h2></header><div className="digital-membership-tools">{[
+      ["01 / YOUR RESERVE", "Your next useful action.", "Keep your chosen priority and saved routine in one personal environment.", "/home?explore=1", "Preview your Reserve"],
+      ["02 / PATHWAYS", "A standard you shape.", "Build and refine simple routines for Presence, Performance or wellbeing.", "/pathways", "Explore Pathways"],
+      ["03 / VITALIS", "Wellbeing with continuity.", "The free pilot offers a private wellness direction, weekly target and daily check-ins.", "/vitalis", "Discover Vitalis"],
+      ["04 / AETHELIOS", "A clearer next step.", "Navigate your routines, verified membership benefits and Reserve tools with your customer concierge.", "/discover/aethelios", "Meet Aethelios"],
+    ].map(([index,title,copy,href,action])=><article key={index}><span className="digital-label">{index}</span><h3>{title}</h3><p>{copy}</p><Link href={href} className="text-link">{action} ↗</Link></article>)}</div></section>
+    <section className="digital-membership-clarity digital-section"><p className="digital-label">BEGIN WITH WHAT IS AVAILABLE.</p><h2>Your Reserve.<br /><em>Your choice.</em></h2><p>Personal routines and the Vitalis wellness pilot are available with a customer account. Paid plans and expanded benefits are being prepared. Your account shows published offers and any membership access assigned to you.</p><p>A Sanctum visit is optional. Physical experiences, products and future clinical services have their own availability.</p><div className="digital-actions"><Link href="/membership" className="button button-gold">Check your membership account ↗</Link><Link href="/discover" className="text-link">Explore the digital ecosystem ↗</Link></div></section>
   </main>;
 }

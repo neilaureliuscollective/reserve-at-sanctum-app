@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { DigitalInstrument } from '@/components/digital-instrument';
 export function Threshold() {
   const router = useRouter();
   const [entering, setEntering] = useState(false);
@@ -37,9 +38,9 @@ export function Threshold() {
   }
   return <main id="main" className={`reserve-threshold ${entering ? 'is-entering' : ''}`}>
     <a href="#threshold-title" className="skip">Skip to entrance</a>
-    <div className="threshold-room" aria-hidden="true"><Image src="/images/cinematic/reserve-hall.webp" alt="" fill sizes="100vw" priority /></div>
+    <div className="threshold-room" aria-hidden="true"><DigitalInstrument /></div>
     <div className="threshold-wing threshold-wing-left" aria-hidden="true" /><div className="threshold-wing threshold-wing-right" aria-hidden="true" />
-    <div className="threshold-content" inert={entering}><p className="experience-kicker">LEGACY RESERVE</p><Image src="/brand/legacy-reserve/official-seal.webp" width={148} height={148} alt="Legacy Reserve official seal" priority /><p className="experience-kicker">PRESENCE. PERFORMANCE. WELLBEING.</p><h1 id="threshold-title" tabIndex={-1}>A place to arrive.<br /><em>A standard to return to.</em></h1><p>A personal standard for how you look, feel, and live.</p><div className="threshold-actions"><Link href="/discover" onClick={enter} className="button button-gold">Enter the Reserve</Link><Link href="/book" className="threshold-book">Book a visit ↗</Link></div><div className="threshold-quiet"><Link href="/discover" onClick={remember}>Enter immediately</Link><Link prefetch={false} href="/signin">Sign in</Link></div><small>CONCEPT ENVIRONMENT · PRIVATE PILOT</small></div>
+    <div className="threshold-content" inert={entering}><p className="experience-kicker">LEGACY RESERVE</p><Image src="/brand/legacy-reserve/official-seal.webp" width={148} height={148} alt="Legacy Reserve official seal" priority /><p className="experience-kicker">PRESENCE. PERFORMANCE. WELLBEING.</p><h1 id="threshold-title" tabIndex={-1}>Your personal digital ecosystem.<br /><em>A standard to return to.</em></h1><p>Presence, performance and wellbeing. A standard that travels with you.</p><div className="threshold-actions"><Link href="/discover" onClick={enter} className="button button-gold">Enter the Reserve</Link><Link href="/discover#pathways" className="threshold-book">Explore your direction ↗</Link></div><div className="threshold-quiet"><Link href="/discover" onClick={remember}>Enter immediately</Link><Link prefetch={false} href="/signin">Sign in</Link></div><small>DIGITAL FIRST · PRIVATE PILOT</small></div>
     {entering && <div className="threshold-progress"><p role="status">Opening Legacy Reserve…</p><a href="/discover" onClick={() => { if (timer.current) clearTimeout(timer.current); }}>Enter immediately ↗</a></div>}
   </main>;
 }

@@ -27,6 +27,7 @@ export function ExperienceChrome({
     "/home",
     "/discover",
     "/discover/membership",
+    "/discover/aethelios",
     "/vitalis",
     "/vitalis/membership",
     "/vitalis/journey",
@@ -60,7 +61,7 @@ export function ExperienceChrome({
               </span>
             </Link>
             <nav aria-label="Legacy Reserve navigation">
-              {(path === "/home" || path === "/my-reserve" || path === "/profile" ? customerPrimary : publicPrimary).map((item) => (
+              {(["/home", "/my-reserve", "/profile", "/pathways", "/aethelios", "/vitalis/journey", "/membership"].includes(path) ? customerPrimary : publicPrimary).map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -73,7 +74,7 @@ export function ExperienceChrome({
               ))}
             </nav>
             <Link
-              href="/aethelios"
+              href={path.startsWith("/discover") ? "/discover/aethelios" : "/aethelios"}
               className="concierge-launch"
               aria-label="Open Aethelios concierge"
             >

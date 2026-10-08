@@ -18,6 +18,18 @@ Keep generated concept images labeled. Never invent live services, prices, resul
 Do not rename reserve_* tables, env vars, or production domains without an
 explicit data-safe migration. Public copy matters more than internal identifiers.
 
+## Digital ecosystem direction (Neil, 2026-10-08)
+
+Legacy Reserve is a DIGITAL company and personal ecosystem. Sanctum is its
+optional physical destination; Fix It Shop and GENT Ascend retain independent
+worlds within it. The public introduction must lead with useful digital Presence,
+Performance, Vitalis and Aethelios experiences from anywhere. Do not use the
+physical house or a Louisiana location as the master product narrative.
+The October 8 transformation explicitly supersedes preservation of the old
+physical Arrival hero. Public previews must remain usable while signed in as a
+founder and must not display fabricated personal data or promised integrations.
+See docs/DIGITAL-ECOSYSTEM-TRANSFORMATION.md for the current direction.
+
 ## Reserve homepage cinematic standard (Neil, 2026-09-23)
 
 The current post-hero homepage is a failed visual baseline, not an accepted design target.
@@ -31,9 +43,8 @@ transitions with spatial depth, changing environments, purposeful camera/object 
 generous negative space, and materially dimensional interactive surfaces. A Compass
 selection must visibly transform its scene and show the resulting path within the
 current mobile viewport; it cannot depend on hover or a result below the fold.
-Different sections need bespoke, art-directed visual assets rather than repeated crops
-of one triptych. Make mobile and Fold cover states first-class. Preserve the existing
-hero until separately approved, the Legacy Reserve heritage-green/obsidian/gold palette,
+Different sections need bespoke, art-directed environments rather than repeated crops
+of one triptych. Make mobile and Fold cover states first-class. Preserve the Legacy Reserve heritage-green/obsidian/gold palette,
 Katie's blue/gold identity, Neil's green/gold identity, and all booking/auth business logic.
 Verify the actual interaction and scroll experience on narrow mobile before claiming
 the cinematic work is complete; a passing build alone does not meet this standard.

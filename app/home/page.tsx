@@ -1,4 +1,8 @@
 import Link from "next/link";
+import { DigitalInstrument } from "@/components/digital-instrument";
+import { digitalWorlds } from "@/lib/experience/digital-worlds";
+import { readJourney } from "@/lib/vitalis/journey-store";
+import { foundations } from "@/lib/vitalis/journey-design";
 import { database } from "@/lib/db";
 import { memberRead } from "@/lib/experience/member";
 import { readRoutine } from "@/lib/personal-reserve";
@@ -20,14 +24,19 @@ export default async function Home({
   const exploring = (await searchParams).explore === "1";
   if (actor && actor.role !== "client" && !exploring) redirect("/studio");
   const client = actor?.role === "client" && !exploring ? actor : null;
-  const [data, routineState] = await Promise.all([
+  const [data, routineState, wellnessState] = await Promise.all([
     readMemberSummary(client),
     client
       ? memberRead(async () => readRoutine(await database(), client))
       : Promise.resolve(null),
+    client ? memberRead(async () => readJourney(await database(), client)) : Promise.resolve(null),
   ]);
   const routine =
     routineState?.data && !routineState.data.cleared ? routineState.data : null;
+  const wellness = wellnessState?.data;
+  const journey = wellness?.journey?.active ? wellness.journey : null;
+  const foundation = journey?.direction ? foundations[journey.direction] : null;
+  const completed = wellness && journey ? wellness.week.filter(day => journey.days.includes(day)).length : 0;
   const house = data.houses.data?.house;
   const next = data.visits.data?.next,
     previous = data.visits.data?.previous;
@@ -50,50 +59,17 @@ export default async function Home({
       }
     >
       <HomeRefresh />
-      <section className="reserve-direction" aria-labelledby="direction-title">
-        <div>
-          <p className="experience-kicker">
-            {routine
-              ? `YOUR PRIORITY · ${routine.priority.toUpperCase()}`
-              : "YOUR NEXT CHAPTER"}
-          </p>
-          <h2 id="direction-title">
-            {routine?.title ?? "A standard that travels with you."}
-          </h2>
-          {routine ? (
-            <ol>
-              {routine.steps.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ol>
-          ) : (
-            <p>
-              {routineState?.state === "unavailable"
-                ? "Your saved routine could not refresh. Try again before making changes."
-                : "Choose one priority. Create a simple routine for your presence, performance or wellbeing, and keep it close."}
-            </p>
-          )}
-          <div className="member-actions">
-            <Link href="/pathways" className="button button-gold">
-              {routine ? "Refine your routine" : "Find your direction"} ↗
-            </Link>
-            <Link href="/my-reserve" className="text-link">
-              Your preferences ↗
-            </Link>
-          </div>
-        </div>
-        <aside>
-          <p className="experience-kicker">AETHELIOS</p>
-          <h3>A considered next step.</h3>
-          <p>
-            Your concierge connects your personal direction with verified
-            membership and Sanctum tools.
-          </p>
-          <Link href="/aethelios" className="text-link">
-            Talk with Aethelios ↗
-          </Link>
-        </aside>
+      <section className="member-priority-stage" aria-labelledby="direction-title">
+        <div><p className="experience-kicker">{routine ? `YOUR PRIORITY · ${routine.priority.toUpperCase()}` : "YOUR NEXT CHAPTER"}</p>
+          <h2 id="direction-title">{routine?.title ?? "A standard that travels with you."}</h2>
+          {routine ? <ol>{routine.steps.map((step,index)=><li key={index}>{step}</li>)}</ol> : <p>{routineState?.state === "unavailable" ? "Your saved routine could not refresh. Try again before making changes." : "Choose what matters today. Build a simple rhythm for your presence, performance or wellbeing. Your Reserve begins wherever you are."}</p>}
+          <div className="member-actions"><Link href={routineState?.state === "unavailable" ? "/home" : "/pathways#routine"} className="button button-gold">{routineState?.state === "unavailable" ? "Try again" : routine ? "Refine your routine" : "Find your direction"} ↗</Link><Link href="/my-reserve" className="text-link">Your preferences ↗</Link></div>
+        </div><DigitalInstrument world={routine?.priority ?? "presence"} />
       </section>
+      <nav className="member-world-rail" aria-label="Your digital worlds">{digitalWorlds.map(world=><Link key={world.id} href={world.href}><span>{world.index} / {world.label.toUpperCase()}</span><strong>{world.focus}</strong><p>{world.id === "wellness" ? "Choose a private wellness rhythm." : world.id === "presence" ? "Keep your appearance priorities close." : "Give preparation and recovery a place."}</p><b aria-hidden="true">↗</b></Link>)}</nav>
+      <section className="member-wellness" aria-labelledby="member-wellness-title"><div><p className="experience-kicker">LEGACY RESERVE VITALIS · FREE WELLNESS PILOT</p><h2 id="member-wellness-title">{foundation?.title ?? "A longer horizon. An everyday rhythm."}</h2><p>{wellnessState?.state === "unavailable" ? "Your wellness rhythm could not refresh. Try again before changing your saved choices." : foundation ? foundation.action : "Choose sleep consistency, everyday movement or meal preparation. Set your weekly target and return to your own progress."}</p><div className="member-actions"><Link href={wellnessState?.state === "unavailable" ? "/home" : "/vitalis/journey"} className="button button-gold">{wellnessState?.state === "unavailable" ? "Try again" : journey ? "Continue your wellness rhythm" : "Start your free wellness rhythm"} ↗</Link></div></div><div className="member-wellness-detail">{wellness && journey ? <><span className="digital-label">YOUR SAVED RHYTHM / {foundation?.label.toUpperCase()}</span><div className="member-week" aria-label="Your recorded wellness days this week">{wellness.week.map((day,index)=><span key={day} data-completed={journey.days.includes(day)} aria-label={`${day}: ${journey.days.includes(day) ? "marked complete" : "not marked"}`}>{["M","T","W","T","F","S","S"][index]}</span>)}</div><p className="member-week-progress">{completed} marked {completed === 1 ? "day" : "days"} this week · Target {journey.target}</p><p>Your recorded consistency, private to your customer account.</p></> : <><span className="digital-label">YOUR WELLBEING WORLD</span><p>The free pilot is available today. Advanced health intelligence and qualified clinical connections are the next horizon.</p></>}<Link href="/vitalis" className="text-link">Explore the Vitalis vision ↗</Link></div></section>
+      <section className="member-concierge-line"><span className="aethelios-signal" aria-hidden="true"/><div><p className="experience-kicker">AETHELIOS / YOUR DIGITAL CONCIERGE</p><h2>A considered next step.</h2><p>Connect your personal direction with your routines, verified membership benefits and Reserve tools.</p></div><Link href="/aethelios" className="text-link">Talk with Aethelios ↗</Link></section>
+      <MemberDesk desk={data.membership} />
       <section className="member-focus" aria-labelledby="member-next-title">
         <p className="experience-kicker">
           {next ? "YOUR NEXT VISIT" : "SANCTUM"}
@@ -105,7 +81,7 @@ export default async function Home({
               ? next.service_name
               : previous?.rebook_available
                 ? "Return to your usual."
-                : "Your physical destination."}
+                : "Sanctum, when a visit fits."}
         </h2>
         {next ? (
           <>
@@ -140,7 +116,7 @@ export default async function Home({
                 ? "Try again before making another appointment."
                 : house?.booking_enabled
                   ? "Choose a service and a time. Your preferences can come first."
-                  : "Appointments are being prepared. You can save your preferences while the house gets ready."}
+                  : "Explore the physical houses and their availability when you want a visit. Your digital Reserve is here wherever you are."}
             </p>
             <div className="member-actions">
               <Link
@@ -170,35 +146,7 @@ export default async function Home({
           </>
         )}
       </section>
-      <section className="member-line">
-        <div>
-          <p className="experience-kicker">
-            LEGACY RESERVE VITALIS · COMING SOON
-          </p>
-          <h2>A longer horizon.</h2>
-          <p>
-            Advanced health intelligence, diagnostics and future clinical
-            partnerships. Explore the vision and register for early access.
-          </p>
-        </div>
-        <Link href="/vitalis" className="button button-outline">
-          Discover Vitalis ↗
-        </Link>
-      </section>
-      <MemberDesk desk={data.membership} />
-      <section className="member-line">
-        <div>
-          <p className="experience-kicker">BETWEEN VISITS</p>
-          <h2>Your own direction.</h2>
-          <p>
-            Keep your appearance priorities and visit preferences ready for the
-            next time you come in.
-          </p>
-        </div>
-        <Link href="/profile" className="text-link">
-          Open your profile ↗
-        </Link>
-      </section>
+      <section className="member-line"><div><p className="experience-kicker">YOUR PERSONAL RECORD</p><h2>Keep your direction close.</h2><p>Your profile and preferences belong to you. Refine them as your life changes.</p></div><Link href="/profile" className="text-link">Open your profile ↗</Link></section>
       <footer className="member-foot">
         <Link href="/shop">Explore the collection ↗</Link>
         <Link href="/visit">Location information ↗</Link>
