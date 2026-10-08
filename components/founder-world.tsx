@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { brand } from "@/lib/brand";
 import { founderWorlds, type FounderWorldId } from "@/lib/experience/founder-worlds";
 import { FounderExplorer, FounderMotion } from "./founder-explorer";
 
@@ -18,7 +17,7 @@ export function FounderWorld({ world }: { world: FounderWorldId }) {
     <section className="founder-arrival" aria-labelledby="founder-title">
       <div className="founder-arrival-environment" aria-hidden="true"><i/><i/><i/><div className="founder-arrival-grid"/></div>
       <div className="founder-arrival-copy"><p className="founder-label">NEIL STUTES / FOUNDER OF {content.name.toUpperCase()}</p><h1 id="founder-title">{content.headline[0]}<br/><em>{content.headline[1]}</em></h1><p className="founder-intro">{content.intro}</p><div className="founder-actions"><Link prefetch={false} href={content.primary.href} className="button button-gold">{content.primary.label}<ArrowUpRight size={16}/></Link><a className="founder-text-link" href="#origin">Explore the vision ↓</a></div></div>
-      <div className="founder-portrait-stage"><div className="founder-portrait-frame" aria-hidden="true"/>{world === "legacy" ? <Image className="founder-background-crest" src={brand.official} alt="" width={360} height={360} sizes="(max-width: 700px) 150px, 290px"/> : <div className="founder-background-signal" aria-hidden="true"><i/><i/><i/><span>A</span></div>}<Image className="founder-portrait" src="/images/founder/neil-stutes-original.jpg" alt="Neil Stutes, founder of Legacy Reserve and Aethelios Technologies, seated in a green leather chair" width={1536} height={1536} sizes="(max-width: 700px) 100vw, 55vw" unoptimized preload/><span className="founder-portrait-caption">FOUNDER PORTRAIT / COMPOSED BRAND ENVIRONMENT</span></div>
+      <div className="founder-portrait-stage"><Image className="founder-portrait" src={world === "legacy" ? "/images/founder/neil-legacy-reserve-v2.webp" : "/images/founder/neil-aethelios-v2.webp"} alt={`Neil Stutes seated in an AI-recreated ${content.name} founder environment`} width={1536} height={1536} sizes="(max-width: 700px) 100vw, 50vw" unoptimized preload/><span className="founder-portrait-caption">FOUNDER PORTRAIT / AI-RECREATED ENVIRONMENT</span></div>
       <div className="founder-arrival-signature"><span>{content.name.toUpperCase()}</span><span>THE FOUNDER’S VISION / 01</span></div>
     </section>
     <nav className="founder-chapters" aria-label="Founder chapters"><a href="#origin">01 / Origin</a><a href="#philosophy">02 / Principles</a><a href="#ecosystem">03 / {world === "legacy" ? "Ecosystem" : "Horizon"}</a><a href="#invitation">04 / Invitation</a></nav>

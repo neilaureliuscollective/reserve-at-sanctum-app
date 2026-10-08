@@ -17,7 +17,7 @@ Vitalis wellness days. Sanctum and Fix It Shop remain connected physical worlds.
 
 ## Founder worlds — October 8, 2026
 
-Neil’s public identity is founder of Legacy Reserve and founder of Aethelios Technologies. `/founder` connects the distinct green/gold and teal-blue/gold founder experiences. Original portrait pixels are preserved with an SVG presentation mask; old founder links redirect to the Reserve world. No technology backend or customer permissions changed. See [scope and validation](docs/FOUNDER-WORLDS-PHASE-1.md).
+Neil’s public identity is founder of Legacy Reserve and founder of Aethelios Technologies. `/founder` connects the distinct green/gold and teal-blue/gold founder experiences. Complete AI-recreated photographic environments use Neil’s reference likeness; old founder links redirect to the Reserve world. No technology backend or customer permissions changed. See [scope and validation](docs/FOUNDER-WORLDS-PHASE-1.md).
 
 ## Earlier visual continuation
 

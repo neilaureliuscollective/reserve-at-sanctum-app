@@ -56,13 +56,15 @@ try {
  await page.goto(base+'/discover');await page.getByRole('link',{name:'Meet the Founder',exact:false}).first().click();await page.waitForURL('**/founder');
  await page.goto(base+'/discover/aethelios');await page.getByRole('link',{name:'Enter the technology founder world',exact:false}).click();await page.waitForURL('**/founder/aethelios-technologies');
  const katie=await context.request.get(base+'/fix-it-shop');assert.ok(katie.ok());
- // Original source image is unchanged; mask removes the obsolete background visually.
- assert.equal(await page.locator('.founder-portrait').getAttribute('src').then(s=>decodeURIComponent(s).includes('neil-stutes-original.jpg')),true);
- assert.match(await page.locator('.founder-portrait').evaluate(el=>getComputedStyle(el).maskImage),/neil-subject-mask/);
+ // Complete generated photographs must replace the old source and silhouette mask.
+ assert.ok((await page.locator('.founder-portrait').getAttribute('src')).includes('neil-aethelios-v2.webp'));
+ assert.equal(await page.locator('.founder-portrait').evaluate(el=>getComputedStyle(el).maskImage),'none');
+ assert.equal(await page.locator('.founder-portrait').evaluate(el=>getComputedStyle(el).objectFit),'cover');
+ assert.equal(await page.locator('.founder-background-crest,.founder-background-signal').count(),0);
  await page.emulateMedia({reducedMotion:'no-preference'});await page.setViewportSize({width:1440,height:1000});await page.goto(base+'/founder/legacy-reserve',{waitUntil:'load'});
  await page.screenshot({path:'artifacts/founder-worlds/legacy-desktop-full.png',fullPage:true});
  await page.setViewportSize({width:390,height:844});await page.goto(base+'/founder/aethelios-technologies',{waitUntil:'load'});await page.screenshot({path:'artifacts/founder-worlds/technology-phone-full.png',fullPage:true});
  const noJS=await browser.newContext({javaScriptEnabled:false});const staticPage=await noJS.newPage();await staticPage.goto(base+'/founder/legacy-reserve');assert.ok(await staticPage.getByRole('heading',{name:'Choose your entrance.'}).isVisible());assert.ok(await staticPage.getByRole('link',{name:'Neil Stutes · The Founder ↗',exact:true}).isVisible());assert.ok(await staticPage.getByRole('link',{name:'Sanctum ↗',exact:true}).count()>0);await noJS.close();
  assert.deepEqual(errors,[]);
- console.log('PASS: founder gateway and both worlds; 320px/short phone/Fold/desktop; visible scene CTAs; keyboard; direct public access; legacy redirects; route handoffs; correct dock; motion/still; original portrait mask; no-JS; zero runtime errors');
+ console.log('PASS: founder gateway and both worlds; 320px/short phone/Fold/desktop; visible scene CTAs; keyboard; direct public access; legacy redirects; route handoffs; correct dock; motion/still; complete photographic portraits; no-JS; zero runtime errors');
 } catch(e){console.log(log);throw e} finally{await browser?.close();server.kill()}
