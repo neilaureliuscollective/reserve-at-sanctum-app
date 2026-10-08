@@ -12,11 +12,11 @@ export type ProductConcept = {
 export const productConcepts: readonly ProductConcept[] = [
   {
     id: "vitalis",
-    name: "Vitalis",
-    description: "Hair & beard oil · Obsidian Vale",
+    name: "Obsidian Noir",
+    description: "Signature hair & beard oil · Previous packaging concept",
     family: "GROOMING",
     src: "/images/cinematic/vitalis-cutout.webp",
-    alt: "Legacy Reserve Vitalis Hair and Beard Oil concept package",
+    alt: "Legacy Reserve previous Vitalis packaging concept for the renamed Obsidian Noir hair and beard oil",
     memberExclusive: false,
   },
   {

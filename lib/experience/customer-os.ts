@@ -4,6 +4,13 @@ export const customerPrimary = [
   { href: "/visit", label: "Sanctum" },
   { href: "/shop", label: "Collection" },
 ] as const;
+export const publicPrimary = [
+  { href: "/discover", label: "Home" },
+  { href: "/discover#grooming", label: "Grooming" },
+  { href: "/vitalis", label: "Vitalis" },
+  { href: "/shop", label: "Collection" },
+  { href: "/membership", label: "Membership" },
+] as const;
 export const customerAccount = [
   { href: "/vitalis", label: "Vitalis" },
   { href: "/aethelios", label: "Aethelios" },

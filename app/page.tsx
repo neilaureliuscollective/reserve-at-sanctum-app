@@ -8,6 +8,6 @@ export default async function Arrival({ searchParams }: { searchParams: Promise<
   const actor = await publicUser();
   const replay = (await searchParams).replay === '1';
   if (!replay && actor) redirect(entryDestination(actor));
-  if (!replay && (await cookies()).get('reserve-arrival-v1')?.value === 'seen') redirect('/home');
+  if (!replay && (await cookies()).get('reserve-arrival-v1')?.value === 'seen') redirect('/discover');
   return <Threshold />;
 }

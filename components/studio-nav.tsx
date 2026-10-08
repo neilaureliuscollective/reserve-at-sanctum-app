@@ -33,6 +33,7 @@ export function StudioNav({ owner }: { owner: boolean }) {
   }, [path]);
   return (
     <nav ref={nav} className="studio-nav" aria-label="Studio rooms">
+      <Link href="/discover"><span>View public website ↗</span></Link>
       {rooms
         .filter(
           ([href]) =>

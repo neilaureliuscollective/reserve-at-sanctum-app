@@ -64,7 +64,7 @@ export default async function StudioLayout({
         <footer className="studio-foot">
           <span>LEGACY RESERVE</span>
           <Link href="/setup?help=1">Phone setup</Link>
-          <Link href="/home?explore=1">View the house</Link>
+          <Link href="/discover">View public website</Link>
           <Link href="/account">Account</Link>
         </footer>
       </div>

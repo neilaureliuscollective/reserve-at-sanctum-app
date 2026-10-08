@@ -7,6 +7,7 @@ import { brand } from "@/lib/brand";
 import {
   customerDestinations,
   customerPrimary,
+  publicPrimary,
   destinationActive,
 } from "@/lib/experience/customer-os";
 import { MotionMode } from "./motion-mode";
@@ -24,6 +25,7 @@ export function ExperienceChrome({
   if (work) return <>{children}</>;
   const immersive = [
     "/home",
+    "/discover",
     "/vitalis",
     "/vitalis/membership",
     "/vitalis/journey",
@@ -49,7 +51,7 @@ export function ExperienceChrome({
             Skip to content
           </a>
           <header className="experience-header">
-            <Link prefetch={false} href="/home" className="experience-brand">
+            <Link prefetch={false} href="/discover" className="experience-brand">
               <Image src={brand.mark} alt="" width={48} height={48} />
               <span>
                 {brand.wordmark}
@@ -57,7 +59,7 @@ export function ExperienceChrome({
               </span>
             </Link>
             <nav aria-label="Legacy Reserve navigation">
-              {customerPrimary.map((item) => (
+              {(path === "/home" || path === "/my-reserve" || path === "/profile" ? customerPrimary : publicPrimary).map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -125,6 +127,7 @@ export function ExperienceChrome({
           </header>
         </>
       )}
+      {!arrival && <nav className="reserve-view-switch" aria-label="Website and dashboard"><Link href="/discover">View public website ↗</Link><Link prefetch={false} href="/enter">Return to dashboard ↗</Link></nav>}
       {children}
       {!arrival && !work && !immersive && footer}
     </>
