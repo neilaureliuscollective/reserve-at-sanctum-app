@@ -9,6 +9,7 @@ import { database } from "@/lib/db";
 import { memberRead } from "@/lib/experience/member";
 import { readRoutine } from "@/lib/personal-reserve";
 import { MemberShell } from "@/components/experience/member-shell";
+import { DigitalWorldSelector } from "@/components/digital-reserve";
 import { RoutineEditor } from "@/components/experience/routine-editor";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Your Pathways" };
@@ -32,20 +33,7 @@ export default async function Page({
       title="Build your own standard."
       intro="Presence, performance and wellbeing. Start with one useful priority and a rhythm you can keep."
     >
-      <div className="reserve-pathways">
-        {pathways.map((p) => (
-          <Link
-            key={p.id}
-            href={`/pathways?priority=${p.id}#routine`}
-            className="reserve-pathway"
-          >
-            <span className="experience-kicker">{p.label}</span>
-            <h2>{p.title}</h2>
-            <p>{p.description}</p>
-            <span className="text-link">Choose this direction ↗</span>
-          </Link>
-        ))}
-      </div>
+      <DigitalWorldSelector key={priority ?? "saved"} member initial={priority ?? state?.data?.priority ?? "presence"} />
       <div id="routine">
         {state?.state === "ready" ? (
           <RoutineEditor
@@ -80,11 +68,10 @@ export default async function Page({
       </div>
       <section className="member-line">
         <div>
-          <p className="experience-kicker">VITALIS · COMING SOON</p>
+          <p className="experience-kicker">VITALIS · FREE WELLNESS PILOT</p>
           <h2>Health intelligence. A clearer direction.</h2>
           <p>
-            Explore future diagnostics and licensed clinical partnerships,
-            separate from training and routines.
+            Start with a private wellness rhythm. Explore the future health intelligence and clinical partnership vision.
           </p>
         </div>
         <Link href="/vitalis" className="button button-outline">

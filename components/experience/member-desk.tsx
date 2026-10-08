@@ -26,7 +26,7 @@ export function MemberDesk({
               ? `Status: ${membershipState(member)}. View your membership details and benefits.`
               : desk.data?.offered
                 ? "Membership access is open for review. Explore the offer and request access."
-                : "Explore membership and let the house know what brings you to Legacy Reserve."}
+                : "Explore membership and let Legacy Reserve know what brings you to Legacy Reserve."}
         </p>
       </div>
       <Link href="/membership" className="text-link">

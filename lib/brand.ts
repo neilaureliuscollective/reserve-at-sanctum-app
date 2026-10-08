@@ -7,7 +7,7 @@ export const brand = {
   appleTitle: "Legacy Reserve",
   tagline: "A standard to return to.",
   description:
-    "A premium lifestyle ecosystem for presence, performance, wellbeing, membership, and the care between visits.",
+    "A premium lifestyle ecosystem for presence, performance, wellbeing, personal routines, and digital membership, wherever you are.",
   titleDefault: "Legacy Reserve — A standard to return to.",
   titleTemplate: "%s · Legacy Reserve",
   enterCta: "Enter the Reserve",

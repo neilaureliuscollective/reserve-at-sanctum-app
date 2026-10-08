@@ -1,12 +1,22 @@
 # Legacy Reserve
 
+**Legacy Reserve is a digital personal ecosystem. Sanctum is its optional physical destination.**
+
 The public master brand is **Legacy Reserve**. Reserve at Sanctum is retired from
 customer-facing identity. The house uses heritage green `#14291E`, deep green
 `#08140E`, obsidian `#070908`, and dimensional gold `#C4912F` / `#D9B568`.
 Katie's and Neil's independent visual worlds remain intact. The first operating
 location is Legacy Reserve — Eunice; the platform is built for more houses.
 
-## Current visual continuation
+## Digital transformation — October 8, 2026
+
+The public `/discover` introduction leads with Presence, Performance, Vitalis and
+Aethelios, with interactive public previews and a separate digital membership
+introduction. The member Reserve surfaces account-owned routines and actual
+Vitalis wellness days. Sanctum, Fix It Shop and GENT Ascend remain connected
+physical worlds. See [the scope, research and verification](docs/DIGITAL-ECOSYSTEM-TRANSFORMATION.md).
+
+## Earlier visual continuation
 
 The September 21 visual pass continues the recovered original source archive.
 It adds the architectural editorial homepage, distinct Fix It Shop and GENT

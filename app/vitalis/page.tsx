@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { VitalisObservatory } from "@/components/public-worlds";
+import { DigitalInstrument } from "@/components/digital-instrument";
 import "../discover/public-worlds.css";
 import { EarlyAccessForm } from "@/components/vitalis/early-access-form";
 import "../vitalis.css";
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Vitalis · Advanced Health Intelligence & Longevity",
   description:
-    "The next chapter in health intelligence. Explore Legacy Reserve Vitalis and register for early access.",
+    "Your wellbeing world inside Legacy Reserve. Start your free private wellness rhythm and explore the future of health intelligence.",
 };
 export default async function Page() {
   let visible = true;
@@ -65,7 +65,7 @@ export default async function Page() {
           </p>
         </div>
         <div className="vitalis-hero-world">
-          <VitalisObservatory />
+          <DigitalInstrument quiet />
           <div className="vitalis-instrument-foot"><span>WELLNESS PILOT · AVAILABLE</span><span>CLINICAL ACCESS · PLANNED</span></div>
         </div>
       </section>

@@ -25,9 +25,9 @@ test("customer navigation is member navigation separates membership and collecti
     [
       "Reserve",
       "Pathways",
+      "Vitalis",
       "Sanctum",
       "Collection",
-      "Vitalis",
       "Aethelios",
       "Membership",
       "My Reserve",
