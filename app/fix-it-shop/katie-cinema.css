@@ -146,3 +146,54 @@
 @media(prefers-reduced-motion:reduce) {
   .katie-cinema * { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
+
+/* Founder & owner: Fix It Shop keeps its own sapphire, obsidian and gold. */
+.katie-cinema{--katie-blue:#0c2036;--katie-gold:#dfbc78;--reserve-text-secondary:#dfbc78;--reserve-text-primary:#f4efe6;--reserve-text-muted:#b9c6d2;--katie-border:#dfbc7848}
+.katie-cinema section[id]{scroll-margin-top:24px}
+.katie-cinema .button-gold{border-radius:16px;box-shadow:inset 0 1px 0 #fff8,0 5px 0 #80602b,0 14px 35px #0006}
+.katie-cinema .button-gold:active{transform:translateY(3px);box-shadow:inset 0 1px 0 #fff8,0 2px 0 #80602b}
+.katie-hero{min-height:min(850px,calc(100svh - 76px));background:#080f19;border-bottom:1px solid var(--katie-border)}
+.katie-hero__content{padding:55px 7% 88px;max-width:850px}
+.katie-hero__shade{background:linear-gradient(90deg,#050c17f5,#09192bef 32%,#09192b60 65%,#060d130a),linear-gradient(0deg,#070b10,transparent 24%)}
+.katie-hero__identity{margin:24px 0 32px;font-size:22px;letter-spacing:.11em}
+.katie-hero__identity img{width:76px;height:76px}
+.katie-hero h1{font-size:clamp(88px,8vw,132px);line-height:.91;margin:20px 0 24px}
+.katie-hero__lead{font-size:17px;max-width:440px}
+.katie-hero .katie-actions{margin-top:27px;gap:14px 24px}
+.katie-hero-status{font-size:10px;color:#d3c3a1;margin-top:20px;letter-spacing:.04em}
+.katie-concept{font-size:7px;bottom:20px}
+.katie-hero__rail{bottom:20px}
+.katie-nav{border-bottom-color:var(--katie-border);background:linear-gradient(110deg,#102941,#060d16)}
+.katie-founder{display:grid;grid-template-columns:.85fr 1.15fr;gap:10%;align-items:center;padding:90px 9%;background:radial-gradient(ellipse at 15% 70%,#173d62,#080f19 65%)}
+.katie-founder-mark{position:relative;perspective:800px;padding:25px;border-radius:50%;background:radial-gradient(circle,#193857,#0a1725 60%,transparent 70%)}
+.katie-founder-mark img{width:100%;height:auto;mask-image:radial-gradient(circle,#000 61%,transparent 71%);filter:drop-shadow(0 24px 30px #0008);transform:rotateY(-8deg)}
+.katie-founder-mark span{display:block;text-align:center;font-size:7px;letter-spacing:.15em;color:#d3c3a1;padding-top:25px}
+.katie-founder h2{font-size:clamp(42px,4.6vw,70px);line-height:1.03;margin:22px 0}
+.katie-founder p:not(.katie-kicker){font-size:14px;line-height:1.85;color:#b9c6d2;max-width:530px}
+.katie-founder-principles{display:flex;gap:20px;flex-wrap:wrap;margin:26px 0;border-block:1px solid var(--katie-border);padding:20px 0;font-size:11px;color:#e4c78e}
+.katie-film[data-motion=true]{height:240svh}
+.katie-film__copy h2{font-size:clamp(54px,6.5vw,96px)}
+.katie-services{padding:85px 9%;border-block:1px solid var(--katie-border);background:radial-gradient(ellipse at 80% 0,#153452,#070e16 70%)}
+.katie-services header{max-width:650px;margin-bottom:35px}
+.katie-services h2,.katie-arrival-details h2{font-size:clamp(48px,5.6vw,80px);line-height:1;margin:22px 0}
+.katie-services header>p:not(.katie-kicker),.katie-arrival-details>div>p:not(.katie-kicker){font-size:14px;line-height:1.8;color:#b9c6d2;max-width:490px}
+.katie-service-preparation{padding:35px;border:1px solid var(--katie-border);border-radius:22px;background:linear-gradient(135deg,#193b58,#08131f);box-shadow:inset 0 1px 0 #fff2,0 25px 60px #0006}
+.katie-service-preparation h3{font:400 34px/1.2 var(--serif);margin:17px 0;color:#eee5d4}
+.katie-service-preparation p{font-size:13px;line-height:1.8;color:#b9c6d2;max-width:530px;margin-bottom:17px}
+.katie-service-location{margin-top:35px}.katie-service-location-heading{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:18px}.katie-service-location-heading h3{font:400 28px var(--serif)}.katie-service-location-heading>span{font-size:10px;color:#dfbc78}
+.katie-service-menu{display:grid;gap:12px}.katie-service-menu>a{display:flex;justify-content:space-between;gap:24px;padding:25px 28px;border:1px solid var(--katie-border);border-radius:17px;background:linear-gradient(145deg,#173952,#0a1726);box-shadow:inset 0 1px 0 #fff2,0 8px 0 #060d16,0 20px 45px #0004;transition:transform .2s}
+.katie-service-menu>a:active{transform:translateY(3px)}.katie-service-menu h3{font:400 29px/1.1 var(--serif);margin:0 0 12px}.katie-service-menu p{font-size:12px;line-height:1.6;color:#b9c6d2;max-width:470px;margin:0 0 10px}.katie-service-menu span{font-size:10px;color:#dfbc78;display:flex;gap:10px;align-items:center}.katie-service-menu>a>div:last-child{flex:none;text-align:right;display:flex;align-items:flex-end;flex-direction:column;justify-content:space-between;gap:25px}.katie-service-menu strong{font:400 26px var(--serif);color:#efe1c2}.katie-service-note{font-size:10px;color:#b9c6d2;margin-top:25px;line-height:1.7}
+.katie-preference{min-height:0;padding:80px 9%}.katie-preference h2{font-size:clamp(48px,5.6vw,80px);line-height:1}.katie-choice{border-radius:24px;box-shadow:inset 0 1px 0 #fff3,0 30px 70px #0008}.katie-choice__options button{border-radius:12px;box-shadow:inset 0 1px 0 #fff1}.katie-choice__options button[aria-pressed=true]{background:linear-gradient(140deg,#315c80,#18344e);box-shadow:inset 0 1px 0 #fff3,0 7px 18px #0004}
+.katie-arrival-details{display:grid;grid-template-columns:1.1fr .9fr;gap:10%;padding:80px 9%;border-block:1px solid var(--katie-border);background:#0a1623}
+.katie-location-details article{padding:27px;border:1px solid var(--katie-border);border-radius:18px;background:linear-gradient(145deg,#173a56,#08131f);margin-bottom:20px;box-shadow:inset 0 1px 0 #fff2,0 18px 45px #0005}.katie-location-details h3{font:400 30px var(--serif);margin:0 0 17px}.katie-location-details p{font-size:13px;line-height:1.7;color:#b9c6d2}.katie-location-details small{display:block;font-size:10px;color:#b9c6d2;margin:14px 0}.katie-location-details article .button{margin-top:20px}
+.katie-discretion{padding:70px 9%}.katie-discretion h2{font-size:clamp(40px,4.8vw,65px);line-height:1}.katie-discretion>p{font-size:12px;max-width:560px}
+.katie-outro{padding-bottom:95px}.katie-booking-shortcut{position:fixed;z-index:55;bottom:calc(max(124px,var(--command-clearance,112px)) + env(safe-area-inset-bottom));right:24px;max-width:calc(100% - 32px);border:1px solid #dfbc7877;border-radius:17px;background:linear-gradient(140deg,#1a3c59f5,#091827f5);box-shadow:inset 0 1px 0 #fff3,0 12px 40px #0009;backdrop-filter:blur(16px)}
+.katie-booking-shortcut a{display:block;padding:13px 18px;min-height:48px}.katie-booking-shortcut span{display:block;font-size:6px;letter-spacing:.14em;color:#b9c6d2;margin-bottom:6px}.katie-booking-shortcut strong{display:flex;align-items:center;gap:16px;font-size:11px;font-weight:500;color:#e8ca8d}
+@media(max-width:700px){
+ .katie-hero{min-height:0}.katie-hero__content{padding:25px 6% 80px}.katie-back{font-size:8px;min-height:32px}.katie-hero__identity{margin:18px 0 22px;font-size:20px;gap:12px}.katie-hero__identity img{width:58px;height:58px}.katie-hero__identity small{font-size:7px}.katie-hero .katie-kicker{font-size:8px}.katie-hero h1{font-size:clamp(72px,20vw,105px);margin:15px 0 20px}.katie-hero__lead{font-size:13px;line-height:1.7;max-width:280px}.katie-hero .katie-actions{margin-top:22px;gap:12px}.katie-cinema .button-gold{min-height:46px;font-size:11px;padding:12px 16px;gap:14px}.katie-cinema .katie-link{font-size:11px;min-height:44px;gap:10px}.katie-hero-status{margin-top:16px;font-size:8px}.katie-hero__shade{background:linear-gradient(90deg,#06111ff2,#06111fc7 60%,#06111f88),linear-gradient(0deg,#070b10,transparent 50%)}.katie-concept{bottom:15px;font-size:6px}.katie-hero .provider-explore{font-size:9px;margin-top:12px}
+ .katie-nav a{font-size:9px}.katie-nav>div{gap:12px}.katie-founder{grid-template-columns:1fr;gap:35px;padding:45px 7%}.katie-founder-mark{max-width:270px;margin:auto;padding:0}.katie-founder-mark span{font-size:6px;padding-top:15px}.katie-founder h2{font-size:41px}.katie-founder p:not(.katie-kicker){font-size:12px}.katie-founder-principles{gap:14px;font-size:10px;margin:22px 0;padding:16px 0}
+ .katie-film[data-motion=true]{height:230svh}.katie-film__copy{bottom:25%}.katie-film__copy h2{font-size:clamp(44px,11vw,65px);line-height:1}.katie-film__copy p{font-size:12px;line-height:1.7;max-width:340px}.katie-film__caption{bottom:18%;font-size:6px}.katie-film[data-motion=true] .katie-film__meter{bottom:16%}
+ .katie-services,.katie-preference,.katie-arrival-details{padding:45px 7%}.katie-services h2,.katie-preference h2,.katie-arrival-details h2{font-size:45px}.katie-services header>p:not(.katie-kicker),.katie-arrival-details>div>p:not(.katie-kicker){font-size:12px}.katie-service-preparation{padding:24px;border-radius:18px}.katie-service-preparation h3{font-size:29px}.katie-service-preparation p{font-size:11px}.katie-service-location-heading{align-items:start;flex-direction:column;gap:8px}.katie-service-menu>a{padding:22px;gap:14px}.katie-service-menu h3{font-size:25px}.katie-service-menu p{font-size:11px}.katie-service-menu strong{font-size:24px}.katie-service-menu>a>div:last-child{gap:14px}.katie-service-menu span{font-size:9px}
+ .katie-preference{display:block}.katie-choice{margin-top:35px;padding:24px}.katie-choice__question{font-size:29px}.katie-choice__response p{font-size:22px}.katie-arrival-details{grid-template-columns:1fr;gap:25px}.katie-location-details h3{font-size:27px}.katie-discretion{padding:45px 7%}.katie-discretion h2{font-size:39px}.katie-outro{padding:25px 7% 105px}.katie-booking-shortcut{right:16px;bottom:calc(max(120px,var(--command-clearance,112px)) + env(safe-area-inset-bottom))}
+}
+@media(max-width:350px){.katie-service-menu>a{flex-direction:column}.katie-service-menu>a>div:last-child{flex-direction:row;align-items:center}.katie-founder-principles{gap:10px}.katie-hero h1{font-size:70px}}

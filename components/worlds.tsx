@@ -35,7 +35,7 @@ export function Worlds() {
             <span>Concept imagery</span>
           </div>
           <div className="world-copy">
-            <span className="eyebrow">CRAFT. CARE. CONFIDENCE.</span>
+            <span className="eyebrow">KATIE GUIDRY / FOUNDER & OWNER</span>
             <h3>Fix It Shop</h3>
             <p>
               Personal attention. A considered cut.
