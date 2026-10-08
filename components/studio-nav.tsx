@@ -17,6 +17,7 @@ const rooms = [
   ["/studio/build", "Build Room", Hammer],
   ["/studio/clients", "Clients", UsersRound],
   ["/studio/memberships", "Membership", UsersRound],
+  ["/studio/commerce", "Commerce", Settings2],
   ["/studio/operations", "Operations", Settings2],
 ] as const;
 export function StudioNav({ owner }: { owner: boolean }) {
@@ -32,7 +33,11 @@ export function StudioNav({ owner }: { owner: boolean }) {
   return (
     <nav ref={nav} className="studio-nav" aria-label="Studio rooms">
       {rooms
-        .filter(([href]) => href !== "/studio/memberships" || owner)
+        .filter(
+          ([href]) =>
+            !["/studio/memberships", "/studio/commerce"].includes(href) ||
+            owner,
+        )
         .map(([href, label, Icon]) => (
           <Link
             key={href}

@@ -31,8 +31,8 @@ export default async function ShopConcept({
         <div className="visit-ledger">
           <span className="experience-kicker">NOT AVAILABLE FOR PURCHASE</span>
           <p>
-            This is a labeled concept preview. Square Catalog, inventory, and checkout are not connected,
-            so there is no price, stock, or order button here.
+            This is a labeled concept preview. This concept is not a published inventory record,
+            so it has no verified price, stock, or checkout.
           </p>
           <div className="room-actions">
             <Link href="/shop" className="button button-gold">Return to Shop</Link>
