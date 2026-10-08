@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import { brand } from "@/lib/brand";
 export function MemberShell({
@@ -28,7 +27,6 @@ export function MemberShell({
           priority
         />
       </header>
-      <Link href="/discover" className="text-link">View public website ↗</Link>
       {children}
     </main>
   );

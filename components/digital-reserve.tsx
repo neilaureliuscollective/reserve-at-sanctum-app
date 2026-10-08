@@ -13,9 +13,11 @@ export function DigitalWorldSelector({ initial = "wellness", member = false }: {
     setActive(id);
     // Keep the selected destination in view on phones; never hijack document scrolling.
     requestAnimationFrame(() => {
-      const bounds = stage.current?.getBoundingClientRect();
-      if (bounds && (bounds.top < 0 || bounds.bottom > innerHeight - 36))
-        stage.current?.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.reserveStill === "true" ? "instant" : "smooth" });
+      const bounds = stage.current?.querySelector(".digital-world-copy .button")?.getBoundingClientRect();
+      const dock = document.querySelector(".command-dock")?.getBoundingClientRect();
+      const bottom = dock?.top ? dock.top - 24 : innerHeight - 24;
+      if (bounds && (bounds.top < 24 || bounds.bottom > bottom))
+        window.scrollBy({ top: bounds.top < 24 ? bounds.top - 24 : bounds.bottom - bottom, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.reserveStill === "true" ? "instant" : "smooth" });
     });
   }
   return <div className="digital-selector" data-world={active} ref={stage}>

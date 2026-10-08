@@ -40,11 +40,46 @@ try{
    if(path==='/home')await page.screenshot({path:`artifacts/digital-member/home-${width}.png`,fullPage:true});
   }
  }
+ // The same dock works for customers and founders without changing private role routing.
+ await page.goto(base+'/reserve'); await page.waitForURL('**/home');
+ await page.goto(base+'/concierge'); await page.waitForURL('**/aethelios');
+ assert.equal(await page.locator('.command-dock a[aria-current=page]').innerText(), 'Aethelios');
+ await page.goto(base+'/visit');
+ await page.getByRole('button',{name:/Katie/}).click();
+ const serviceLink=page.locator('.sanctum-services').getByRole('link').first();
+ const bookingHref=await serviceLink.getAttribute('href');
+ assert.ok(bookingHref.includes('provider=katie'));
+ await serviceLink.click(); await page.waitForURL('**/book?**');
+ await page.getByRole('heading',{name:'With Katie.'}).waitFor();
+ assert.ok(await page.locator('.service-option').count()>0);
+ assert.ok((await page.locator('.service-option').allTextContents()).every(text=>text.includes('Katie')));
+ assert.equal(await page.locator('.command-dock a[aria-current=page]').innerText(),'Sanctum');
+ await page.goto(base+'/book?location=eunice&provider=nonexistent&service=signature');
+ await page.getByRole('alert').filter({hasText:'This professional is not accepting'}).waitFor();
+ assert.equal(await page.locator('.service-option').count(),0);
+ assert.equal(await page.getByRole('button',{name:'Find a time'}).isDisabled(),true);
+ // A stalled catalog must settle into a retryable error, rather than an endless loader.
+ await page.route('**/api/availability?location=*', () => {});
+ await page.goto(base+'/book?location=eunice');
+ await page.getByRole('alert').filter({hasText:'Unable to load the service menu'}).waitFor();
+ assert.equal(await page.getByText('Preparing the experience…', {exact:true}).count(),0);
+ await page.unroute('**/api/availability?location=*');
  const founder=await owner.newPage();
  await founder.goto(base+'/home');await founder.waitForURL('**/studio');
  for(const path of ['/discover','/discover/membership','/discover/aethelios','/home?explore=1']){await founder.goto(base+path);await founder.locator('main h1').waitFor();assert.equal(new URL(founder.url()).pathname,path.split('?')[0]);}
  await founder.getByRole('heading',{name:'A standard to return to.'}).waitFor();
  assert.equal(await founder.locator('.member-week span').count(),0,'founder public preview cannot project customer wellness records');
+ await founder.goto(base+'/reserve'); await founder.waitForURL('**/home?explore=1');
+ await founder.goto(base+'/concierge'); await founder.waitForURL('**/discover/aethelios');
+ for(const width of [320,390,884,1440]) {
+  await page.setViewportSize({width,height:660}); await page.goto(base+'/visit'); await page.waitForLoadState('networkidle');
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Sanctum overflow ${width}`);
+  assert.equal(await page.locator('.command-dock a').count(),5);
+  await page.getByRole('button',{name:/Katie/}).click(); await page.waitForTimeout(800);
+  const servicesTitle=await page.getByRole('heading',{name:'With Katie.'}).boundingBox();
+  assert.ok(servicesTitle.y>=0 && servicesTitle.y+servicesTitle.height<(await page.locator('.command-dock').boundingBox()).y, 'provider selection must reveal services above dock');
+  await page.screenshot({path:`artifacts/digital-member/sanctum-${width}.png`,fullPage:true});
+ }
  assert.deepEqual(errors,[]);
  console.log('PASS: saved routine and actual wellness check-ins on Home; account isolation; 320px/phone/Fold/desktop member layouts; genuine tool handoffs; founder public preview with no customer data; unchanged Studio role routing');
 }catch(e){console.log(log);throw e;}finally{await browser?.close();server.kill();}

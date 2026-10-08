@@ -23,6 +23,7 @@ type Slot = { start: string; label: string };
 export function BookingFlow() {
   const [zone,setZone]=useState("America/Chicago");
   const [house,setHouse]=useState("eunice");
+  const [provider,setProvider]=useState("");
   const [houseName,setHouseName]=useState("Eunice");
   const [services, setServices] = useState<Service[]>([]),
     [selected, setSelected] = useState(""),
@@ -45,10 +46,11 @@ export function BookingFlow() {
     setHouse(locationId);
     const today = DateTime.now().setZone(zone).plus({ days: 1 });
     setDate(u.searchParams.get("date") || today.toISODate()!);
-    setSelected(u.searchParams.get("service") || "");
-    setStart(u.searchParams.get("start") || "");
-    if (u.searchParams.get("start")) setStep(3);
+    const providerId = u.searchParams.get("provider") || "";
+    setProvider(providerId);
     const abort = new AbortController();
+    let active = true;
+    const timeout = setTimeout(() => abort.abort(), 12000);
     Promise.all([
       fetch(`/api/availability?location=${encodeURIComponent(locationId)}`, { signal: abort.signal }).then((r) =>
         r.json(),
@@ -57,10 +59,19 @@ export function BookingFlow() {
       fetch("/api/locations", { signal: abort.signal }).then((r) => r.json()),
     ])
       .then(([c, s, l]) => {
+        if (!active) return;
         const locationRow=l.locations?.find((row:{id:string})=>row.id===locationId);
         setHouseName(locationRow?.short_name || "Location unavailable");
         if(locationRow?.timezone) setZone(locationRow.timezone);
-        setServices(c.services || []);
+        const visible: Service[] = (c.services || []).filter((row: Service) => !providerId || row.provider_id === providerId);
+        setServices(visible);
+        const requested = visible.find(row => row.id === u.searchParams.get("service"));
+        if (requested) {
+          setSelected(requested.id);
+          setStart(u.searchParams.get("start") || "");
+          if (u.searchParams.get("start")) setStep(3);
+        }
+        if (providerId && c.services?.length && !visible.length) setError("This professional is not accepting appointments here. Choose another professional in Sanctum.");
         setActor(s.user);
         if (c.error) setError(c.error);
         else if (c.setupRequired || !c.services?.length)
@@ -69,16 +80,18 @@ export function BookingFlow() {
           );
       })
       .catch((e) => {
-        if (e.name !== "AbortError")
-          setError("Unable to load the service menu. Please refresh.");
+        if (active) setError("Unable to load the service menu. Return to Sanctum or refresh to try again.");
       })
-      .finally(() => setLoading(false));
-    return () => abort.abort();
+      .finally(() => { clearTimeout(timeout); if (active) setLoading(false); });
+    return () => { active = false; clearTimeout(timeout); abort.abort(); };
   }, []);
   useEffect(() => {
     if (!selected || !date) return;
     const controller = new AbortController();
+    let active = true;
+    const timeout = setTimeout(() => controller.abort(), 12000);
     setLoadingSlots(true);
+    setSlots([]);
     setError("");
     fetch(
       `/api/availability?service=${encodeURIComponent(selected)}&date=${date}&location=${encodeURIComponent(house)}`,
@@ -86,17 +99,18 @@ export function BookingFlow() {
     )
       .then((r) => r.json())
       .then((d) => {
+        if (!active) return;
         setSlots(d.slots || []);
         if (d.error) setError(d.error);
       })
       .catch((e) => {
-        if (e.name !== "AbortError")
-          setError("Unable to load availability. Try another date.");
+        if (active) setError("Unable to load availability. Try another date.");
       })
       .finally(() => {
-        if (!controller.signal.aborted) setLoadingSlots(false);
+        clearTimeout(timeout);
+        if (active) setLoadingSlots(false);
       });
-    return () => controller.abort();
+    return () => { active = false; clearTimeout(timeout); controller.abort(); };
   }, [selected, date, house]);
   const service = services.find((s) => s.id === selected);
   const days = Array.from({ length: 10 }, (_, i) =>
@@ -129,7 +143,7 @@ export function BookingFlow() {
       setBusy(false);
     }
   }
-  const returnPath = `/book?location=${encodeURIComponent(house)}&service=${selected}&date=${date}&start=${encodeURIComponent(start)}`;
+  const returnPath = `/book?location=${encodeURIComponent(house)}&provider=${encodeURIComponent(provider)}&service=${selected}&date=${date}&start=${encodeURIComponent(start)}`;
   if (confirmed)
     return (
       <section className="booking-success">
@@ -168,6 +182,7 @@ export function BookingFlow() {
     );
   return (
     <>
+      <Link className="text-link" href={`/visit?location=${encodeURIComponent(house)}#professionals`}>← Choose your professional in Sanctum</Link>
       <div className="booking-heading">
         <p className="eyebrow">LEGACY RESERVE SANCTUM — {houseName.toUpperCase()}</p>
         <h1>
@@ -196,9 +211,7 @@ export function BookingFlow() {
             <>
               {step === 1 && (
                 <div className="step-content">
-                  <h2>
-                    What brings <em>you in?</em>
-                  </h2>
+                  <h2>{provider && services[0] ? <>With <em>{services[0].provider_name}.</em></> : <>What brings <em>you in?</em></>}</h2>
                   <p className="muted">
                     Illustrative services for the private preview.
                   </p>
@@ -230,7 +243,7 @@ export function BookingFlow() {
                   </div>
                   <button
                     className="button button-gold next-button"
-                    disabled={!selected}
+                    disabled={!service}
                     onClick={() => setStep(2)}
                   >
                     Find a time <ArrowRight size={18} />
@@ -246,7 +259,7 @@ export function BookingFlow() {
                     A moment <em>for you.</em>
                   </h2>
                   <p className="muted">
-                    All appointments shown in Central Time.
+                    Appointment times use {zone}.
                   </p>
                   <div className="date-strip">
                     {days.map((d) => (

@@ -24,7 +24,7 @@ try {
    assert.equal(await page.locator('.digital-selector').getAttribute('data-world'),id);
    assert.equal(await page.locator('.digital-world-controls button[aria-pressed=true]').count(),1);
    const link=page.locator('.digital-world-copy .button'); const b=await link.boundingBox();
-   assert.ok(b.y>=0&&b.y+b.height<=height-35,`selected CTA outside viewport ${width}x${height} ${name}: ${JSON.stringify(b)}`);
+   assert.ok(b.y>=0&&b.y+b.height<=(await page.locator(".command-dock").boundingBox()).y-8,`selected CTA outside viewport ${width}x${height} ${name}: ${JSON.stringify(b)}`);
    assert.equal(await page.locator('.digital-world-preview .digital-instrument').getAttribute('data-world'),id);
    if(name==='Vitalis') await page.screenshot({path:`artifacts/public-experience/digital-selector-${width}-${height}.png`});
   }
@@ -50,7 +50,7 @@ try {
  assert.equal(await page.locator('.digital-vitalis-object').evaluate(el=>getComputedStyle(el).transform),'none');
  await page.getByRole('navigation',{name:'Legacy Reserve navigation',exact:true}).getByRole('link',{name:'Vitalis',exact:true}).click();
  await page.waitForURL('**/vitalis'); await page.getByRole('heading',{name:'Precision for a longer horizon.'}).waitFor();
- await page.getByRole('link',{name:'View public website',exact:false}).click(); await page.waitForURL('**/discover');
+ await page.locator('.experience-menu summary').click(); await page.getByRole('link',{name:'View public homepage',exact:false}).click(); await page.waitForURL('**/discover');
  for(const path of ['/discover/membership','/discover/aethelios','/home?explore=1','/pathways','/vitalis']){
   await page.goto(base+path,{waitUntil:'networkidle'}); await page.locator('main h1').waitFor();
   for(const width of [320,390,884,1440]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${path} overflow ${width}`);}
