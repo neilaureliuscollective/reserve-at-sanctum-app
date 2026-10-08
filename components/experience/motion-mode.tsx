@@ -34,7 +34,7 @@ export function MotionMode() {
     try { localStorage.setItem('reserve-motion-v1', next ? 'still' : 'motion'); } catch {}
   }
 
-  if (path !== '/' && path !== '/home' && path !== '/discover') return null;
+  if (path !== '/' && path !== '/home' && path !== '/discover' && !path.startsWith('/founder')) return null;
   return <button type="button" className="experience-motion" onClick={toggle}
     aria-pressed={still || reduced} disabled={reduced}
     aria-label={reduced ? 'Still environment: system reduced motion is enabled' : still ? 'Enable environment motion' : 'Pause environment motion'}>

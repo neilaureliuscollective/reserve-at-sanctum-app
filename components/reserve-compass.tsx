@@ -14,14 +14,14 @@ const directions = {
     detail: "A considered cut, personal attention, and a place where you are known.",
     image: "/images/reserve-craft.webp",
     primary: { href: "/fix-it-shop", label: "Enter Katie’s world" },
-    secondary: { href: "/gent-ascend", label: "See Neil’s rituals" },
+    secondary: { href: "/founder/legacy-reserve", label: "Meet the founder" },
   },
   ritual: {
-    name: "Neil’s ritual", prompt: "Find a rhythm", eyebrow: "02 / GENT ASCEND",
-    heading: "Take the care with you.",
-    detail: "Grooming direction and small rituals that carry beyond the visit.",
+    name: "Neil’s vision", prompt: "Find a rhythm", eyebrow: "02 / THE FOUNDER",
+    heading: "A standard worth building.",
+    detail: "Presence, performance and wellbeing. Explore the purpose behind Legacy Reserve.",
     image: "/images/reserve-ritual.webp",
-    primary: { href: "/gent-ascend", label: "Enter Neil’s world" },
+    primary: { href: "/founder/legacy-reserve", label: "Enter Neil’s world" },
     secondary: { href: "/fix-it-shop", label: "Meet Katie’s craft" },
   },
   place: {
@@ -91,7 +91,7 @@ export function ReserveCompass() {
         </div>
         <span className="portal-stage__progress" aria-hidden="true"><span /></span>
       </div>
-      <noscript><p className="compass-fallback">Explore directly: <Link href="/fix-it-shop">Katie’s craft</Link> · <Link href="/gent-ascend">Neil’s rituals</Link> · <Link href="/visit">the Reserve</Link>.</p></noscript>
+      <noscript><p className="compass-fallback">Explore directly: <Link href="/fix-it-shop">Katie’s craft</Link> · <Link href="/founder/legacy-reserve">Neil’s visions</Link> · <Link href="/visit">the Reserve</Link>.</p></noscript>
     </section>
   );
 }

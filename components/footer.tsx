@@ -22,8 +22,8 @@ export function Footer() {
           <Link href="/fix-it-shop">
             Fix It Shop <ArrowUpRight size={16} />
           </Link>
-          <Link href="/gent-ascend">
-            GENT Ascend Collective <ArrowUpRight size={16} />
+          <Link href="/founder">
+            Neil Stutes · The Founder <ArrowUpRight size={16} />
           </Link>
           <Link href="/shop">
             Shop <ArrowUpRight size={16} />
@@ -38,7 +38,7 @@ export function Footer() {
       </div>
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} {brand.legal}</span>
-        <span>Fix It Shop × GENT Ascend Collective</span>
+        <span>Presence · Performance · Wellbeing</span>
         <span>Private development preview</span>
       </div>
     </footer>

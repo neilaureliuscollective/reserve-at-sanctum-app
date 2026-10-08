@@ -44,7 +44,7 @@ export function Arrival() {
           </Link>
         </div>
         <p className="partnership">
-          FIX IT SHOP <span>×</span> GENT ASCEND COLLECTIVE
+          PRESENCE <span>·</span> PERFORMANCE <span>·</span> WELLBEING
         </p>
       </div>
       <div className="reserve-emblem-stage"><LivingEmblem brand="reserve" priority controls /></div>

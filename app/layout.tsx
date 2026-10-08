@@ -138,8 +138,9 @@ export default function RootLayout({
               <a href="/chair">The Chair ↗</a>
               <a href="/signin">Account entrance ↗</a>
               <a href="/fix-it-shop">Fix It Shop · Katie Guidry ↗</a>
-              <a href="/gent-ascend">Gent Ascend Collective · Neil Stutes ↗</a>
-              <a href="/gent-ascend#collection">
+              <a href="/founder">Neil Stutes · The Founder ↗</a>
+              <a href="/founder/aethelios-technologies">Aethelios Technologies · Founder world ↗</a>
+              <a href="/shop">
                 Legacy Reserve collection preview ↗
               </a>
             </nav>

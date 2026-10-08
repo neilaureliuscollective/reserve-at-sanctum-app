@@ -48,12 +48,12 @@ export function Header() {
             Fix It Shop
           </Link>
           <Link
-            className={path === "/gent-ascend" || path === "/sanctum-mirror" ? "active" : ""}
-            aria-current={path === "/gent-ascend" ? "page" : undefined}
-            href="/gent-ascend"
+            className={path.startsWith("/founder") ? "active" : ""}
+            aria-current={path.startsWith("/founder") ? "page" : undefined}
+            href="/founder"
             onClick={() => setOpen(false)}
           >
-            GENT Ascend
+            The Founder
           </Link>
           <Link href="/visit" onClick={() => setOpen(false)}>
             Visit us

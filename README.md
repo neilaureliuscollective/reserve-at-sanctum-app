@@ -13,8 +13,11 @@ location is Legacy Reserve — Eunice; the platform is built for more houses.
 The public `/discover` introduction leads with Presence, Performance, Vitalis and
 Aethelios, with interactive public previews and a separate digital membership
 introduction. The member Reserve surfaces account-owned routines and actual
-Vitalis wellness days. Sanctum, Fix It Shop and GENT Ascend remain connected
-physical worlds. See [the scope, research and verification](docs/DIGITAL-ECOSYSTEM-TRANSFORMATION.md).
+Vitalis wellness days. Sanctum and Fix It Shop remain connected physical worlds. Neil’s founder worlds describe the broader ecosystem. See [the scope, research and verification](docs/DIGITAL-ECOSYSTEM-TRANSFORMATION.md).
+
+## Founder worlds — October 8, 2026
+
+Neil’s public identity is founder of Legacy Reserve and founder of Aethelios Technologies. `/founder` connects the distinct green/gold and teal-blue/gold founder experiences. Original portrait pixels are preserved with an SVG presentation mask; old founder links redirect to the Reserve world. No technology backend or customer permissions changed. See [scope and validation](docs/FOUNDER-WORLDS-PHASE-1.md).
 
 ## Earlier visual continuation
 

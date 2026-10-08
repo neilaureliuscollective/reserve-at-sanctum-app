@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 type Path = "craft" | "ritual" | "reserve";
 const paths = {
   craft: { label: "Katie’s craft", overline: "THE BLUE ROOM", heading: "A visit built around you.", text: "Meet Katie and the care behind the cut.", image: "/images/reserve-craft.webp", href: "/fix-it-shop", action: "Enter Fix It Shop" },
-  ritual: { label: "Neil’s ritual", overline: "THE GREEN ROOM", heading: "Care that carries forward.", text: "Grooming direction, considered products and the wider Gent Ascend world.", image: "/images/reserve-ritual.webp", href: "/gent-ascend", action: "Enter Gent Ascend" },
+  ritual: { label: "Neil’s vision", overline: "THE GREEN ROOM", heading: "Care that carries forward.", text: "Presence, performance, wellbeing and the purpose behind Legacy Reserve.", image: "/images/reserve-ritual.webp", href: "/founder/legacy-reserve", action: "Enter the founder’s world" },
   reserve: { label: "Legacy Reserve", overline: "THE SHARED HOUSE", heading: "Come see what is taking shape.", text: "Two independent worlds meet at Legacy Reserve Sanctum — Eunice.", image: "/images/cinematic/reserve-hall.webp", href: "/visit", action: "Discover the house" },
 } as const;
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
