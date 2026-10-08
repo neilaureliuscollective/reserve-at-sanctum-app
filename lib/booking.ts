@@ -1,3 +1,5 @@
+import { BookingError } from "./booking-error";
+export { BookingError } from "./booking-error";
 import { hasCapability, requireCapability } from "./studio-permissions";
 import { DateTime } from "luxon";
 import { randomUUID } from "node:crypto";
@@ -41,14 +43,6 @@ export type Appointment = Row & {
   client_name?: string;
   location_id?: string | null;
 };
-export class BookingError extends Error {
-  constructor(
-    message: string,
-    public status = 400,
-  ) {
-    super(message);
-  }
-}
 const iso = (x: Date | string) => new Date(x).toISOString();
 export async function catalog(db: Queryable, locationId = primaryLocation.id) {
   let location;
