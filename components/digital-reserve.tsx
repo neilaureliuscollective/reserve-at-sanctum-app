@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { digitalWorlds } from "@/lib/experience/digital-worlds";
 import { DigitalInstrument } from "./digital-instrument";
 import type { Priority } from "@aethelios/concierge-core";
+import { surfaceClass } from "./imperial-surface";
 
 export function DigitalWorldSelector({ initial = "wellness", member = false }: { initial?: Priority; member?: boolean }) {
   const [active, setActive] = useState(initial);
@@ -20,7 +21,7 @@ export function DigitalWorldSelector({ initial = "wellness", member = false }: {
         window.scrollBy({ top: bounds.top < 24 ? bounds.top - 24 : bounds.bottom - bottom, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.reserveStill === "true" ? "instant" : "smooth" });
     });
   }
-  return <div className="digital-selector" data-world={active} ref={stage}>
+  return <div className={surfaceClass("glass", "digital-selector")} data-world={active} ref={stage}>
     <div className="digital-world-controls" role="group" aria-label="Choose your digital world">
       {digitalWorlds.map(w => <button key={w.id} type="button" aria-pressed={active === w.id} aria-controls="digital-world-preview" onClick={() => select(w.id)}><span>{w.index}</span>{w.label}<i aria-hidden="true">↗</i></button>)}
     </div>

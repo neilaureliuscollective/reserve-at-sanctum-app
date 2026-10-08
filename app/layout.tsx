@@ -64,6 +64,7 @@ import "./personal-reserve.css";
 import "./collection-commerce.css";
 import "./digital-reserve.css";
 import "./command-shell.css";
+import "./imperial-emerald.css";
 import { StatusRibbon } from "@/components/experience/status-ribbon";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";

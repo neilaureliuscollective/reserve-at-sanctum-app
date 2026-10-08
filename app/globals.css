@@ -1,21 +1,21 @@
 /* Legacy Reserve owns heritage green. Partner brand worlds retain their own identity. */
 :root {
-  --reserve-petrol: #14291E;
-  --reserve-petrol-deep: #08140E;
-  --reserve-petrol-muted: #1C3628;
-  --reserve-heritage: #14291E;
-  --reserve-heritage-deep: #08140E;
-  --reserve-obsidian: #070908;
-  --reserve-surface: #101814;
-  --reserve-surface-raised: #18241C;
-  --reserve-surface-glass: rgba(8,20,14,.94);
+  --reserve-petrol: #12382D;
+  --reserve-petrol-deep: #0D211B;
+  --reserve-petrol-muted: #205443;
+  --reserve-heritage: #12382D;
+  --reserve-heritage-deep: #0D211B;
+  --reserve-obsidian: #080D0B;
+  --reserve-surface: #0D211B;
+  --reserve-surface-raised: #12382D;
+  --reserve-surface-glass: rgba(13,33,27,.94);
   --reserve-gold: #C4912F;
-  --reserve-gold-light: #D9B568;
+  --reserve-gold-light: #E4BD70;
   --reserve-gold-dark: #8F6D32;
   --reserve-stone: #D7D1C5;
-  --reserve-text-primary: #F2EFE8;
+  --reserve-text-primary: #F2EEE4;
   --reserve-text-secondary: #D7D1C5;
-  --reserve-text-muted: #A7B5B3;
+  --reserve-text-muted: #B6C9BD;
   --reserve-border: rgba(167,181,179,.25);
   --reserve-border-premium: rgba(217,181,104,.38);
   --reserve-border-control: #6B8280;

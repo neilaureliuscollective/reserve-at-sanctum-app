@@ -13,6 +13,7 @@ try {
  const page = await browser.newPage(); const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/',{waitUntil:'networkidle'}); assert.equal(new URL(page.url()).pathname,'/discover');
  for(const [width,height] of [[320,780],[390,844],[390,660],[884,900],[1440,1000]]){
+  console.log(`Checking public viewport ${width}x${height}`);
   await page.setViewportSize({width,height}); await page.goto(base+'/discover',{waitUntil:'networkidle'});
   await page.getByRole('heading',{name:'Your life. At a higher standard.'}).waitFor();
   assert.equal(await page.locator('.arrival, .house-sequence, .public-grooming').count(),0,'digital homepage must not contain the old house hero');
@@ -33,6 +34,7 @@ try {
   await page.screenshot({path:`artifacts/public-experience/digital-aethelios-${width}-${height}.png`});
   await page.getByRole('button',{name:'Show HYDROS',exact:true}).click();
   await page.getByRole('heading',{name:'HYDROS',exact:true}).waitFor();
+  await page.locator('.collection-object img').evaluate(img=>img.scrollIntoView({block:'center',behavior:'instant'}));
   await page.locator('.collection-object img').evaluate(img=>img.decode());
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`collection overflow ${width}`);
  }
@@ -59,11 +61,11 @@ try {
  await page.goto(base+'/discover'); await page.locator('.digital-world-controls button').first().focus(); await page.keyboard.press('Enter');
  assert.equal(await page.locator('.digital-selector').getAttribute('data-world'),'presence');
  await page.emulateMedia({reducedMotion:'no-preference'}); await page.setViewportSize({width:1440,height:1000});
- for (const img of await page.locator('img').all()) {await img.scrollIntoViewIfNeeded(); await img.evaluate(i=>i.decode());}
+ for (const img of await page.locator('img').all()) {await img.evaluate(i=>i.scrollIntoView({block:'center',behavior:'instant'})); await img.evaluate(i=>i.decode());}
  await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));await page.waitForTimeout(250);
  await page.screenshot({path:'artifacts/public-experience/digital-home-desktop.png',fullPage:true});
  await page.setViewportSize({width:390,height:844}); await page.goto(base+'/discover');
- for (const img of await page.locator('img').all()) {await img.scrollIntoViewIfNeeded(); await img.evaluate(i=>i.decode());}
+ for (const img of await page.locator('img').all()) {await img.evaluate(i=>i.scrollIntoView({block:'center',behavior:'instant'})); await img.evaluate(i=>i.decode());}
  await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));await page.waitForTimeout(250);
  await page.screenshot({path:'artifacts/public-experience/digital-home-phone.png',fullPage:true});
  assert.deepEqual(errors,[]);

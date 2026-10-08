@@ -1,2 +1,2 @@
-export const reserveRelease = "legacy-reserve-command-dock-20261008";
-export const reserveReleaseLabel = "Legacy Reserve Command Dock · October 8, 2026";
+export const reserveRelease = "legacy-reserve-imperial-emerald-20261008";
+export const reserveReleaseLabel = "Legacy Reserve Imperial Emerald · October 8, 2026";

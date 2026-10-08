@@ -1,3 +1,4 @@
+import { surfaceClass } from "@/components/imperial-surface";
 import Link from "next/link";
 import { DigitalInstrument } from "@/components/digital-instrument";
 import "../discover/public-worlds.css";
@@ -64,7 +65,7 @@ export default async function Page() {
             </Link>
           </p>
         </div>
-        <div className="vitalis-hero-world">
+        <div className={surfaceClass("hero", "vitalis-hero-world")}>
           <DigitalInstrument quiet />
           <div className="vitalis-instrument-foot"><span>WELLNESS PILOT · AVAILABLE</span><span>CLINICAL ACCESS · PLANNED</span></div>
         </div>

@@ -1,4 +1,5 @@
 "use client";
+import { surfaceClass } from "@/components/imperial-surface";
 import { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -17,7 +18,7 @@ export function SanctumHub({ destinations, unavailable, initialLocation }: { des
     requestAnimationFrame(() => servicePanel.current?.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" }));
   };
   return <main id="main" className="sanctum-hub">
-    <header className="sanctum-portal">
+    <header className={surfaceClass("hero", "sanctum-portal")}>
       <div className="sanctum-portal-copy"><p className="digital-label">SANCTUM / YOUR PHYSICAL WORLD</p><h1>Presence.<br/><em>In person.</em></h1><p>Your digital Reserve meets personal service. Choose your professional. Make space for yourself.</p>
         <a className="button button-gold" href="#professionals">{open ? "Choose your professional" : "Meet the professionals"}<ArrowUpRight size={17}/></a>
       </div>
