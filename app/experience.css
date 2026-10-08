@@ -94,3 +94,5 @@ html[data-reserve-still=true] .reserve-rooms *{animation:none!important;transiti
   .shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
   .shop-concept strong{font-size:22px}
 }
+
+.reserve-view-switch{display:flex;justify-content:flex-end;gap:20px;padding:12px 5%;background:#0d1912;border-bottom:1px solid #c4912f33;font-size:.65rem;letter-spacing:.05em;color:#d9b568}.reserve-view-switch a{min-height:30px;display:flex;align-items:center}@media(max-width:760px){.reserve-view-switch{justify-content:space-between;gap:10px;font-size:.6rem}}
