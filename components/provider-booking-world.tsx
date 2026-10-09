@@ -1,3 +1,4 @@
+import { isFixItApp, legacyOrigin } from "@/lib/app-edition";
 import Link from "next/link";
 import { FixItCustomerNav } from "@/components/fix-it-customer";
 import type { CSSProperties, ReactNode } from "react";
@@ -55,7 +56,7 @@ export function ProviderWorld({
             <Link href="/fix-it-shop">Meet Katie</Link>
           )}
           <Link href="/privacy">Privacy</Link>
-          <Link href="/discover">Powered by Legacy Reserve ↗</Link>
+          <Link href={isFixItApp() ? legacyOrigin + "/discover" : "/discover"}>Powered by Legacy Reserve ↗</Link>
         </footer>
         {!preview && b.providerId === "katie" && <FixItCustomerNav />}
         {!preview && b.providerId !== "katie" && (
@@ -221,18 +222,17 @@ export function ProviderInstall({
           In Chrome or Samsung Internet, use Install app or Add to home screen
           from the browser menu, if available.
         </p>
-        <h2>If another Reserve app is installed</h2>
+        <h2>{isFixItApp() ? "Your own Fix It Shop app" : "If another Reserve app is installed"}</h2>
         <p>
+          {isFixItApp() ? "Fix It Shop uses its own website address and installation identity. Check the Fix It Shop name and crest before adding it to your home screen." : <>
           Your browser may reuse that app or suppress this install prompt.
           Manual home-screen setup may help; independent installation is not
-          guaranteed.
+          guaranteed.</>}
         </p>
         <h2>Your account</h2>
         <p>
           Use your existing Legacy Reserve account. An installed app may need a
-          fresh sign-in. Signing out in this browser also signs out the shared
-          Reserve session. Booking and appointments require an internet
-          connection.
+          fresh sign-in. {isFixItApp() ? "This website has its own browser session; sign in again after installation if asked." : "Signing out in this browser also signs out the shared Reserve session."} Booking and appointments require an internet connection.
         </p>
       </section>
       <Link href={b.base}>Return to {p.name} ↗</Link>

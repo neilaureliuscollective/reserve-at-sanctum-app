@@ -1,4 +1,5 @@
 "use client";
+import { bookingRequest } from "@/lib/booking-request";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { DateTime } from "luxon";
@@ -47,8 +48,12 @@ export function BookingFlow({
     [busy, setBusy] = useState(false),
     [confirmed, setConfirmed] = useState("");
   const requestKey = useRef("");
+  const submitting = useRef(false);
+  const [menuRetry, setMenuRetry] = useState(0), [availabilityRetry, setAvailabilityRetry] = useState(0);
   useEffect(() => {
-    requestKey.current = crypto.randomUUID();
+    if (!requestKey.current) requestKey.current = crypto.randomUUID();
+    setLoading(true);
+    setError("");
     const u = new URL(location.href);
     const locationId = u.searchParams.get("location") || "eunice";
     setHouse(locationId);
@@ -61,11 +66,9 @@ export function BookingFlow({
     let active = true;
     const timeout = setTimeout(() => abort.abort(), 12000);
     Promise.all([
-      fetch(`/api/availability?location=${encodeURIComponent(locationId)}`, {
-        signal: abort.signal,
-      }).then((r) => r.json()),
-      fetch("/api/session", { signal: abort.signal }).then((r) => r.json()),
-      fetch("/api/locations", { signal: abort.signal }).then((r) => r.json()),
+      bookingRequest<{ services?: Service[]; setupRequired?: boolean; error?: string }>(`/api/availability?location=${encodeURIComponent(locationId)}`, { signal: abort.signal }),
+      bookingRequest<{ user: Actor | null }>("/api/session", { signal: abort.signal }),
+      bookingRequest<{ locations?: { id: string; short_name: string; timezone: string }[] }>("/api/locations", { signal: abort.signal }),
     ])
       .then(([c, s, l]) => {
         if (!active) return;
@@ -110,7 +113,7 @@ export function BookingFlow({
       clearTimeout(timeout);
       abort.abort();
     };
-  }, []);
+  }, [menuRetry, identity?.providerId]);
   useEffect(() => {
     if (!selected || !date) return;
     const controller = new AbortController();
@@ -119,14 +122,14 @@ export function BookingFlow({
     setLoadingSlots(true);
     setSlots([]);
     setError("");
-    fetch(
+    bookingRequest<{ slots?: Slot[]; error?: string }>(
       `/api/availability?service=${encodeURIComponent(selected)}&date=${date}&location=${encodeURIComponent(house)}`,
       { signal: controller.signal },
     )
-      .then((r) => r.json())
       .then((d) => {
         if (!active) return;
         setSlots(d.slots || []);
+        setStart(current => current && d.slots?.some(slot => slot.start === current) ? current : "");
         if (d.error) setError(d.error);
       })
       .catch((e) => {
@@ -141,7 +144,7 @@ export function BookingFlow({
       clearTimeout(timeout);
       controller.abort();
     };
-  }, [selected, date, house]);
+  }, [selected, date, house, availabilityRetry]);
   const service = services.find((s) => s.id === selected);
   const days = Array.from({ length: 10 }, (_, i) =>
     DateTime.now()
@@ -149,11 +152,12 @@ export function BookingFlow({
       .plus({ days: i + 1 }),
   );
   async function reserve() {
-    if (!service || !start) return;
+    if (!service || !start || submitting.current || loadingSlots || !slots.some(slot => slot.start === start)) return;
+    submitting.current = true;
     setBusy(true);
     setError("");
     try {
-      const r = await fetch("/api/appointments", {
+      const d = await bookingRequest<{ appointment: { id: string } }>("/api/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -164,12 +168,11 @@ export function BookingFlow({
           requestKey: requestKey.current,
         }),
       });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error);
       setConfirmed(d.appointment.id);
     } catch (e) {
-      setError((e as Error).message);
+      setError(e instanceof Error && ! ["AbortError", "TimeoutError", "TypeError"].includes(e.name) ? e.message : "The confirmation did not finish. Check My visits before trying again; your appointment may already be saved.");
     } finally {
+      submitting.current = false;
       setBusy(false);
     }
   }
@@ -194,8 +197,7 @@ export function BookingFlow({
         <p className="success-time">
           {DateTime.fromISO(start)
             .setZone(zone)
-            .toFormat("cccc, LLLL d · h:mm a")}{" "}
-          CT
+            .toFormat("cccc, LLLL d · h:mm a ZZZZ")}
         </p>
         <p className="muted">
           {preview ? "Your test appointment" : "Your appointment"} is saved. No
@@ -262,6 +264,7 @@ export function BookingFlow({
                   step === i + 1 ? "current" : step > i + 1 ? "done" : ""
                 }
                 key={label}
+                aria-current={step === i + 1 ? "step" : undefined}
               >
                 <span>{step > i + 1 ? <Check size={14} /> : i + 1}</span>
                 {label}
@@ -294,6 +297,7 @@ export function BookingFlow({
                     {services.map((s) => (
                       <button
                         className={`service-option ${selected === s.id ? "selected" : ""}`}
+                        aria-pressed={selected === s.id}
                         onClick={() => {
                           setSelected(s.id);
                           setStart("");
@@ -341,6 +345,8 @@ export function BookingFlow({
                       <button
                         key={d.toISODate()}
                         className={`date-button ${date === d.toISODate() ? "selected" : ""}`}
+                        aria-pressed={date === d.toISODate()}
+                        aria-label={d.toFormat("cccc, LLLL d")}
                         onClick={() => {
                           setDate(d.toISODate()!);
                           setStart("");
@@ -378,6 +384,7 @@ export function BookingFlow({
                         <button
                           key={s.start}
                           className={start === s.start ? "selected" : ""}
+                          aria-pressed={start === s.start}
                           onClick={() => {
                             setStart(s.start);
                             requestKey.current = crypto.randomUUID();
@@ -422,7 +429,7 @@ export function BookingFlow({
                       {start
                         ? DateTime.fromISO(start)
                             .setZone(zone)
-                            .toFormat("ccc, LLL d · h:mm a") + " CT"
+                            .toFormat("ccc, LLL d · h:mm a ZZZZ")
                         : "Choose a time"}
                     </span>
                     <span>
@@ -465,7 +472,7 @@ export function BookingFlow({
                       </div>
                       <button
                         className="button button-gold next-button"
-                        disabled={busy || !service || !start}
+                        disabled={busy || !service || !start || loadingSlots || !slots.some(slot => slot.start === start)}
                         onClick={reserve}
                       >
                         {busy
@@ -496,11 +503,7 @@ export function BookingFlow({
               )}
             </>
           )}
-          {error && (
-            <p role="alert" className="error-message">
-              {error}
-            </p>
-          )}
+          {error && <div className="booking-recovery"><p role="alert" className="error-message">{error}</p><div className="hero-actions">{!services.length ? <button className="button button-outline" onClick={() => setMenuRetry(n => n + 1)}>Reload service menu</button> : step === 2 ? <button className="button button-outline" onClick={() => setAvailabilityRetry(n => n + 1)}>Reload available times</button> : null}<Link className="text-link" href={identity?.visits || "/account"}>Check saved visits ↗</Link></div></div>}
         </div>
         <aside className="booking-summary">
           <p className="eyebrow">
@@ -531,7 +534,7 @@ export function BookingFlow({
               {start
                 ? DateTime.fromISO(start)
                     .setZone(zone)
-                    .toFormat("ccc, LLL d · h:mm a") + " CT"
+                    .toFormat("ccc, LLL d · h:mm a ZZZZ")
                 : "Find a moment that works for you"}
             </span>
           </div>

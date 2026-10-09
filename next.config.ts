@@ -2,6 +2,7 @@ import { reserveRelease } from "./lib/experience/release";
 import type { NextConfig } from "next";
 const config: NextConfig = {
   devIndicators: false,
+  experimental: { useTypeScriptCli: false },
   serverExternalPackages: ["@electric-sql/pglite"],
   poweredByHeader: false,
   outputFileTracingIncludes: {

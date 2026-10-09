@@ -1,3 +1,4 @@
+import { isFixItApp } from "@/lib/app-edition";
 import { SigninForm } from "@/components/signin-form";
 import { configured, isPreview } from "@/lib/db";
 import { hasSupabase } from "@/lib/auth";
@@ -39,7 +40,7 @@ export default async function Page({
         hosted={hasSupabase() && configured()}
         next={next}
         oauthError={p.error === "oauth"}
-        clientOnly
+        clientOnly={!isFixItApp()}
         recoveryHref={brand.base + "/forgot-password"}
       />
     </main>

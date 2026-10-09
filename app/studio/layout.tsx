@@ -1,3 +1,4 @@
+import { isFixItApp } from "@/lib/app-edition";
 import Image from "next/image";
 import Link from "next/link";
 import { AccountEntrance } from "@/components/experience/account-entrance";
@@ -7,9 +8,11 @@ import { StudioNav } from "@/components/studio-nav";
 import { StudioAssistant } from "@/components/studio-assistant";
 import "./studio.css";
 import "./provider-studio.css";
+import "./staff-steel.css";
 export const dynamic = "force-dynamic";
 export const metadata = {
-  title: "Legacy Reserve Studio",
+  title: isFixItApp() ? "Fix It Shop · Private Studio" : "Legacy Reserve Studio",
+  ...(isFixItApp() ? { manifest: "/fix-it-shop/booking.webmanifest" } : {}),
   robots: { index: false, follow: false },
 };
 export default async function StudioLayout({
@@ -90,7 +93,7 @@ export default async function StudioLayout({
               : "LEGACY RESERVE"}
           </span>
           <Link href="/setup?help=1">Phone setup</Link>
-          <Link href="/discover">View public website</Link>
+          <Link href={isFixItApp() ? "/fix-it-shop/app" : "/discover"}>View public website</Link>
           <Link href="/account">Account</Link>
         </footer>
       </div>

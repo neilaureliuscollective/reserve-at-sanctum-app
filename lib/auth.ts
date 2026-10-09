@@ -1,3 +1,4 @@
+import { editionActor } from "./app-edition";
 import { cookies } from "next/headers";
 import { cache } from "react";
 import { createServerClient } from "@supabase/ssr";
@@ -26,7 +27,7 @@ export async function supabase() {
     },
   });
 }
-export const currentUser = cache(
+const resolvedUser = cache(
   async function currentUser(): Promise<Actor | null> {
     if (!configured()) return null;
     if (hasSupabase()) {
@@ -67,6 +68,7 @@ export const currentUser = cache(
     );
   },
 );
+export const currentUser = cache(async () => editionActor(await resolvedUser()));
 export async function previewLogin(identity: string) {
   if (!isPreview() || hasSupabase())
     throw new Error("Preview access is unavailable.");
@@ -110,7 +112,7 @@ export async function signout() {
  * Never use this optional identity lookup to authorize a private read or write. */
 export async function publicUser(): Promise<Actor | null> {
   try {
-    return await optionalRead(async () => {
+    return editionActor(await optionalRead(async () => {
       if (!configured()) return null;
       if (!hasSupabase()) return currentUser(); // Preview lookup is read-only.
       const {
@@ -129,7 +131,7 @@ export async function publicUser(): Promise<Actor | null> {
           )
         )[0] || null
       );
-    });
+    }));
   } catch {
     return null;
   }

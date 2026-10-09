@@ -8,3 +8,14 @@ playwright-report/
 artifacts/
 docs/previews/*.png
 *.tsbuildinfo
+
+# Independently assembled routes/assets are generated from canonical shared source.
+apps/fix-it-shop/app/fix-it-shop/
+apps/fix-it-shop/app/auth/
+apps/fix-it-shop/app/studio/
+apps/fix-it-shop/app/chair/
+apps/fix-it-shop/app/api/
+apps/fix-it-shop/public/
+apps/fix-it-shop/migrations/
+apps/fix-it-shop/next-env.d.ts
+.vercel/

@@ -1,3 +1,4 @@
+import { isFixItApp } from "./app-edition";
 import { BookingError } from "./booking-error";
 export { BookingError } from "./booking-error";
 import { hasCapability, requireCapability } from "./studio-permissions";
@@ -59,7 +60,7 @@ export async function catalog(db: Queryable, locationId = primaryLocation.id) {
       return [];
     throw e;
   }
-  return db.query<Service>(
+  const rows = await db.query<Service>(
     `SELECT s.*,p.name AS provider_name,$1::text AS location_id,$2::text AS timezone
      FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id
      WHERE s.enabled AND p.enabled AND EXISTS
@@ -67,6 +68,7 @@ export async function catalog(db: Queryable, locationId = primaryLocation.id) {
      ORDER BY p.name,s.minutes`,
     [location.id, location.timezone],
   );
+  return isFixItApp() ? rows.filter(s => s.provider_id === "katie") : rows;
 }
 export async function serviceLocation(
   db: Queryable,
@@ -105,7 +107,7 @@ export async function service(db: Queryable, id: string, lock = false) {
     `SELECT s.* FROM reserve_services s JOIN reserve_providers p ON p.id=s.provider_id WHERE s.id=$1 AND s.enabled AND p.enabled ${lock ? "FOR SHARE OF s" : ""}`,
     [id],
   );
-  if (!s) throw new BookingError("This service is not available.");
+  if (!s || (isFixItApp() && s.provider_id !== "katie")) throw new BookingError("This service is not available.");
   return s;
 }
 export function units(start: DateTime, count: number) {
@@ -213,6 +215,7 @@ export async function availability(
   return slots;
 }
 export function canAccess(actor: Actor, a: Appointment) {
+  if (isFixItApp() && a.provider_id !== "katie") return false;
   return (
     actor.role === "owner" ||
     (hasCapability(actor, "appointments.manage") &&
@@ -259,6 +262,7 @@ export async function book(
         [actor.id, input.requestKey],
       );
       if (prior) {
+        if (isFixItApp() && prior.provider_id !== "katie") throw new BookingError("Appointment not found.", 404);
         if (
           prior.service_id !== input.serviceId ||
           iso(prior.original_start) !== iso(input.start) ||
@@ -504,6 +508,10 @@ export async function visits(
     zone = location.timezone;
     values.push(locationId, primaryLocation.id);
     dayFilter += ` AND COALESCE(a.location_id,$${values.length})=$${values.length - 1}`;
+  }
+  if (isFixItApp()) {
+    if (providerId && providerId !== "katie") throw new BookingError("Provider access is required.", 403);
+    providerId = "katie";
   }
   if (providerId) {
     if (studio && actor.role !== "owner" && actor.provider_id !== providerId)

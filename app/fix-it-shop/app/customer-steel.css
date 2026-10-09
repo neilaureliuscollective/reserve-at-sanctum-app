@@ -1,0 +1,37 @@
+/* Sanctum Steel customer acceptance: scoped to Katie's existing identity. */
+.fix-it-premium .booking-heading { padding:24px 0; border-bottom:1px solid var(--steel-edge); }
+.fix-it-premium .booking-main { min-width:0; }
+.fix-it-premium .steps { gap:16px; margin-bottom:32px; }
+.fix-it-premium .steps li { color:var(--steel-muted); }
+.fix-it-premium .steps li.current { color:var(--steel-champagne); }
+.fix-it-premium .steps li.current>span,.fix-it-premium .steps li.done>span { background:var(--steel-champagne); color:var(--steel-ink); }
+.fix-it-premium .service-list { background:var(--steel-white); padding:16px; border:1px solid #ffffff40; border-radius:10px; box-shadow:0 12px 32px #0003; }
+.fix-it-premium .service-option { background:transparent; color:var(--steel-ink); border:1px solid #39464e40; padding:22px 18px; border-radius:8px; }
+.fix-it-premium .service-option.selected { background:#e8e5d9; border:2px solid #796029; box-shadow:inset 0 1px #fff; }
+.fix-it-premium .service-option .service-description>span,.fix-it-premium .service-option small { color:#46535b; }
+.fix-it-premium .service-option .service-price { color:#69501e; }
+.fix-it-premium .selection-circle { border-color:#796029; color:#192126; }
+.fix-it-premium .service-option.selected .selection-circle { background:#e0bb6a; }
+.fix-it-premium .booking-summary,.fix-it-premium .review-visit,.fix-it-premium .signin-card { background:var(--steel-material); border:1px solid var(--steel-edge); border-radius:10px; box-shadow:inset 0 1px #fff3,0 12px 32px #0003; }
+.fix-it-premium .booking-summary { align-self:start; }
+.fix-it-premium .date-button,.fix-it-premium .time-grid button { background:linear-gradient(140deg,#435059,#20282e); border:1px solid var(--steel-edge); border-radius:8px; color:var(--steel-white); min-height:52px; }
+.fix-it-premium .date-button.selected,.fix-it-premium .time-grid button.selected { background:linear-gradient(120deg,#e0bb6a,#c4912f); color:#192126; border-color:#e0bb6a; box-shadow:inset 0 1px #fff8,0 4px 12px #0004; }
+.fix-it-premium .date-button.selected span,.fix-it-premium .date-button.selected small { color:#192126; }
+.fix-it-premium input,.fix-it-premium textarea { font-size:16px; background:#20282e; color:var(--steel-white); border-color:var(--steel-edge); }
+.fix-it-premium .booking-success { background:var(--steel-material); border:1px solid var(--steel-edge); border-radius:12px; padding:48px 32px; }
+.fix-it-premium .success-icon { background:#e0bb6a; color:#192126; }
+.fix-it-premium .booking-recovery,.fix-it-premium .visit-recovery { padding:20px; border:1px solid #e0bb6a66; border-radius:8px; margin:24px 0; background:#20282e; }
+.fix-it-premium .appointment-card { background:var(--steel-material); border-color:var(--steel-edge); border-radius:10px; }
+.fix-it-premium .reschedule-panel,.fix-it-premium .cancel-confirm { border-color:var(--steel-edge); background:#20282e; }
+.fix-it-premium .date-strip { scroll-padding:12px; }
+.fix-it-premium .loading-text { color:var(--steel-muted); }
+.fix-it-premium .button:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+@media(max-width:600px) {
+ .fix-it-premium .booking-heading { padding-top:8px; }
+ .fix-it-premium .steps { gap:8px; font-size:11px; }
+ .fix-it-premium .service-list { padding:10px; }
+ .fix-it-premium .service-option { padding:18px 12px; gap:12px; }
+ .fix-it-premium .booking-success { padding:32px 20px; }
+ .fix-it-premium .booking-success .hero-actions { flex-direction:column; align-items:stretch; }
+ .fix-it-premium .booking-success .button { width:100%; }
+}
