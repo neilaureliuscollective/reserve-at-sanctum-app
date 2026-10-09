@@ -1,0 +1,11 @@
+# Imperial Core cinematic hero
+
+The approved direction replaces the stacked green copy card and photographic arch with one full-width cinematic scene. Brushed steel arcs surround a polished Imperial Green stone core; restrained warm reflections give dimensional light without chrome, blue lighting, or a physical-house narrative. Existing headline, descriptions, CTAs, navigation and downstream content remain intact.
+
+The five-second AI-generated concept film plays once, silently, with a small camera move and a single light progression. It holds its last frame and offers replay. A separate 1920×1080 JPEG supplies the immediate first view and the no-JavaScript, reduced-motion and saved Still-mode experience. The 1280×720 H.264 film is compressed with CRF 28, no audio, and a fast-start MP4 container (185,559 bytes). Both assets are checked into the repository and served on the application's origin, without an expiring generation URL.
+
+Video is not sourced until client preference checks complete. Data-saving browsers receive the poster until Play is requested. The film pauses when the hero leaves the viewport or the document becomes hidden. Global Still mode and OS reduced motion pause it and restore the poster. Film controls retain 44px targets; the concept-image disclosure is visible. No new dependency, looping film, scroll scrubbing or pinned narrative is introduced.
+
+The existing chapter arrival system remains: sections enter once and settle. Direct navigation, keyboard focus and motion preferences reveal content immediately. Product concept and founder AI disclosures remain unchanged. Studio, member, authentication, Katie Guidry's Fix It Shop and commerce code are outside this change.
+
+Research supporting the restrained motion direction is documented in CINEMATIC-HOMEPAGE-VISION.md. Competitor page text retrieval is distinguished there from rendered browser inspection. The supplied phone screenshot was inspected to identify the oversized green-card problem; the generated film still was also inspected. Browser acceptance covers mobile and desktop composition, playback/pause/end/replay, motion preference persistence, no-JavaScript fallback, selectors, keyboard navigation, touch targets, overflow, contrast and neighboring journeys. Do not interpret a successful build alone as proof of the rendered or deployed result.

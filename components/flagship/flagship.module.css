@@ -287,3 +287,38 @@
 .footer[data-lr-arrival="arriving"]>nav { animation-delay:80ms; }
 :global(html[data-reserve-still="true"]) .footer *, :global(html[data-reserve-still="true"]) .heroLead,:global(html[data-reserve-still="true"]) .heroDescription { opacity:1!important;transform:none!important;animation:none!important; }
 @media (prefers-reduced-motion:reduce),(forced-colors:active) { .footer *,.heroLead,.heroDescription { opacity:1!important;transform:none!important;animation:none!important; } }
+
+/* A single cinematic canvas replaces the stacked hero card and arch. */
+.hero { display:flex;align-items:center;min-height:720px;height:min(850px,calc(100svh - 88px));padding:64px max(32px,calc((100vw - 1280px)/2)) 88px;background:#080d0b;overflow:hidden; }
+.hero::before { display:none; }
+.heroCopy { display:block;align-self:auto;width:48%;padding:0;background:none;box-shadow:none;pointer-events:none; }
+.heroCopy a { pointer-events:auto; }
+.main .hero h1 { font-size:clamp(64px,6.7vw,100px); }
+.main .heroLead { max-width:370px;font-size:20px; }
+.heroDescription { max-width:370px;font-size:14px; }
+.film { position:absolute;inset:0;z-index:0;background:#080d0b; }
+.filmPoster,.filmVideo { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center; }
+.filmVideo { opacity:0;transition:opacity 250ms; }.filmVideo[data-visible="true"] { opacity:1; }
+.film::after { content:"";position:absolute;inset:0;background:linear-gradient(90deg,#080d0bde,transparent 75%),linear-gradient(0deg,#080d0b,transparent 25%);pointer-events:none; }
+.filmControls { position:absolute;z-index:4;bottom:18px;right:32px;display:flex;align-items:center;gap:16px;color:#f5f1e8; }
+.filmControls>span { font-size:8px;letter-spacing:.12em; }
+.filmControls button { display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 12px;color:#f5f1e8;border:1px solid #91aa9c;background:#080d0bd9;border-radius:3px;font:inherit;font-size:11px;cursor:pointer; }
+.filmControls button:disabled { cursor:default;opacity:.8; }
+.hero .chapterLink { left:max(32px,calc((100vw - 1280px)/2));bottom:22px; }
+@media (max-width:950px) and (min-width:761px) { .heroCopy { width:56%; }.main .hero h1 { font-size:64px; }.hero .actions { gap:10px; }.hero .action,.hero .secondary { padding:12px 16px; } }
+@media (max-width:760px) {
+ .hero { display:flex;align-items:flex-end;height:auto;min-height:calc(100svh - 76px);padding:230px 20px 88px; }
+ .heroCopy { width:100%;padding:0;margin:0; }
+ .filmPoster,.filmVideo { object-fit:cover;object-position:68% top; }
+ .film::after { background:linear-gradient(0deg,#080d0b 4%,#080d0bf5 25%,#080d0bd9 48%,#080d0b30 76%,transparent); }
+ .main .hero .eyebrow { margin-bottom:12px;font-size:9px; }
+ .main .hero h1 { font-size:clamp(48px,13vw,66px);margin-bottom:16px;line-height:1; }
+ .main .heroLead { font-size:17px;max-width:300px;margin-bottom:10px; }
+ .heroDescription { font-size:12px;max-width:320px; }
+ .hero .actions { margin-top:20px; }.main .heroFoot { margin-top:14px;font-size:7px; }
+ .filmControls { right:20px;bottom:14px;gap:8px; }.filmControls>span { max-width:88px;font-size:6px;line-height:1.5; }
+ .hero .chapterLink { left:20px;bottom:16px;font-size:8px;gap:8px; }
+}
+@media (max-width:760px) and (max-height:740px) { .hero { padding-top:140px; }.main .hero h1 { font-size:48px; }.main .hero .eyebrow { margin-bottom:8px; }.main .hero h1 { margin-bottom:12px; }.hero .actions { margin-top:16px; }.main .heroFoot { display:none; } }
+@media (max-width:359px) { .hero { padding-left:16px;padding-right:16px; }.hero .chapterLink { left:16px; }.filmControls { right:16px; }.filmControls>span { display:none; } }
+@media (forced-colors:active) { .film { display:none; }.hero { height:auto;min-height:0; }.heroCopy { width:100%; }.hero .action,.hero .secondary { color:ButtonText;background:ButtonFace;border-color:ButtonText; } }
