@@ -1,3 +1,4 @@
+import { recoveryDestination } from "@/lib/booking-identity";
 import { safeDestination } from "@/lib/experience/entry";
 import { z } from "zod";
 import { hasSupabase, previewLogin, signout, supabase } from "@/lib/auth";
@@ -37,11 +38,7 @@ export async function POST(req: Request) {
       ).auth.resetPasswordForEmail(email, {
         redirectTo: new URL(
           "/auth/callback?next=" +
-            encodeURIComponent(
-              body.next === "/fix-it-shop/app/reset-password"
-                ? body.next
-                : "/reset-password",
-            ),
+            encodeURIComponent(recoveryDestination(body.next)),
           process.env.APP_ORIGIN!,
         ).toString(),
       });

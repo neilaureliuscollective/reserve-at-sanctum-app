@@ -184,3 +184,9 @@ for the required hosted configuration and real-device verification.
 ## Fix It Shop branded booking — Phase 2
 
 Katie's focused customer app is at `/fix-it-shop/app`, sharing the existing booking engine, account and staff calendar. [Scope, PWA research, verification and release gates](docs/FIX-IT-SHOP-BOOKING-PHASE-2.md). Run `npm run verify:fix-it-booking` with synthetic local data. The provider branding studio is the remaining build phase; actual operating setup and physical-phone installation still require verification.
+
+## Provider branding studio — booking Phase 3
+
+[Implementation, research, permissions and release checks](docs/PROVIDER-BRANDING-PHASE-3.md).
+Owner onboarding and scoped drafts live at `/studio/brands`. Published provider apps
+reuse the shared booking engine; Fix It Shop keeps its existing entrance.
