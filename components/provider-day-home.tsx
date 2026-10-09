@@ -339,6 +339,14 @@ export function ProviderDayHome({
         aria-label="Studio quick actions"
       >
         {canClients && (
+          <Link href="/studio/insights">
+            <UsersRound size={22} />
+            <span>
+              Client continuity<small>Visits & next-booking coverage</small>
+            </span>
+          </Link>
+        )}
+        {canClients && (
           <Link href="/studio/clients">
             <UsersRound size={22} />
             <span>

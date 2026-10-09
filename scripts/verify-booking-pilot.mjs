@@ -259,6 +259,12 @@ try {
   await login("preview-client");
   assert.equal(
     (
+      await context.request.get(origin + "/api/studio/insights?provider=katie")
+    ).status(),
+    403,
+  );
+  assert.equal(
+    (
       await context.request.get(
         origin + "/api/studio/pilot/clients?provider=katie",
       )
@@ -328,9 +334,118 @@ try {
   await page.unroute("**/api/studio/day?**");
   await page.getByRole("button", { name: "Try again", exact: true }).click();
   await page.locator(".provider-day-stats").waitFor();
+  await page.getByRole("link", { name: /Client continuity/ }).click();
+  await page.locator(".insights-stats").waitFor();
+  const insightsResponse = await context.request.get(
+    origin + "/api/studio/insights?provider=katie",
+  );
+  assert.equal(insightsResponse.status(), 200);
+  assert.match(
+    insightsResponse.headers()["cache-control"],
+    /(?:^|,\s*)no-store(?:,|$)/,
+  );
+  const insights = await insightsResponse.json();
+  assert.ok(!JSON.stringify(insights).includes("Keep the finish natural."));
+  assert.equal(
+    (
+      await context.request.get(origin + "/api/studio/insights?provider=other")
+    ).status(),
+    403,
+  );
+  assert.equal(
+    (
+      await context.request.get(origin + "/api/studio/insights?days=365")
+    ).status(),
+    400,
+  );
+  await page.getByLabel("Visit window").selectOption("90");
+  await page.locator(".insights-stats").waitFor();
+  await page.getByText("How these numbers work", { exact: true }).click();
+  await page
+    .getByText(/not realized retention or same-day rebooking/)
+    .waitFor();
+  for (const width of [320, 390, 540, 768, 884, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.ok(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth + 1,
+      ),
+      "Insights overflow " + width,
+    );
+    await page.screenshot({
+      path: `artifacts/katie-insights-${width}.png`,
+      fullPage: true,
+    });
+  }
+  // Isolated synthetic transport exercises queue links and pagination even when the local book has no past visits.
+  const fixture = {
+    ...insights,
+    days: 90,
+    metrics: {
+      ...insights.metrics,
+      completed: 2,
+      clients: 1,
+      returning: 1,
+      rebooked: 0,
+      followUp: 31,
+    },
+    rebookedPercent: 0,
+    followUp: [
+      {
+        id: stored.crm_client_id,
+        name,
+        last_visit: new Date(Date.now() - 86400000).toISOString(),
+        service_name: "Signature grooming",
+        visits: 2,
+      },
+    ],
+    hasMore: true,
+  };
+  await page.route("**/api/studio/insights?**", (r) =>
+    r.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify(fixture),
+    }),
+  );
+  await page
+    .getByRole("button", { name: "Refresh insights", exact: true })
+    .click();
+  await page.locator(".insights-client").waitFor();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({
+    path: "artifacts/katie-insights-queue-390.png",
+    fullPage: true,
+  });
+  const nextPage = page.waitForRequest(
+    (r) =>
+      r.url().includes("/api/studio/insights?") &&
+      new URL(r.url()).searchParams.get("page") === "1",
+  );
+  await page.getByRole("button", { name: "Next clients", exact: true }).click();
+  await nextPage;
+  await page.locator(".insights-client").waitFor();
+  await page.getByRole("link", { name: "Review client", exact: true }).click();
+  await page.getByRole("heading", { name }).waitFor();
+  await page.unroute("**/api/studio/insights?**");
+  await page.route("**/api/studio/insights?**", (r) =>
+    r.fulfill({
+      status: 503,
+      contentType: "application/json",
+      body: JSON.stringify({ error: "Preview connection unavailable" }),
+    }),
+  );
+  await visit(origin + "/studio/insights");
+  await page
+    .getByRole("heading", { name: "Insights couldn’t load." })
+    .waitFor();
+  assert.equal(await page.locator(".insights-stats").count(), 0);
+  await page.unroute("**/api/studio/insights?**");
+  await page.getByRole("button", { name: "Try again", exact: true }).click();
+  await page.locator(".insights-stats").waitFor();
   assert.deepEqual(errors, []);
   console.log(
-    "PASS booking pilot: client entry/history, staff launch, manual booking/reload/reschedule/cancel, ICS privacy, client denial, CSV preview/import, five widths and no page errors.",
+    "PASS booking pilot: client entry/history, staff launch, manual booking/reload/reschedule/cancel, ICS privacy, client denial, CSV preview/import, six Insights widths, queue/pagination/retry and no page errors.",
   );
 } catch (e) {
   await writeFile("artifacts/booking-pilot-server.log", logs);
