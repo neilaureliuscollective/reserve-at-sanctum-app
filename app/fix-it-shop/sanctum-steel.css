@@ -1,0 +1,77 @@
+/* Sanctum Steel: scoped to Katie; no provider, parent or staff selectors. */
+.sanctum-steel,.fix-it-app.fix-it-premium {
+  --steel:#5a6168; --alloy:#39464e; --steel-blue:#163e43;
+  --steel-gold:#c4912f; --steel-champagne:#e0bb6a;
+  --steel-white:#f5f4ef; --steel-carbon:#121417;
+  --steel-ink:#192126; --steel-muted:#c3ccd0;
+  --steel-edge:rgba(226,235,239,.22);
+  --steel-brush:repeating-linear-gradient(102deg,transparent 0 2px,rgba(245,244,239,.025) 2px 3px,transparent 3px 5px);
+  --steel-material:var(--steel-brush),linear-gradient(128deg,#263139 0%,#5a6168 27%,#39464e 43%,#20282e 68%,#121417 100%);
+  --steel-depth:radial-gradient(ellipse at 80% 0%,#28525a80,transparent 55%),linear-gradient(145deg,#242d33,#121417 75%);
+  --reserve-text-primary:var(--steel-white); --reserve-text-secondary:#dce2e4;
+  --reserve-text-muted:var(--steel-muted); --reserve-border:var(--steel-edge);
+  --line:var(--steel-edge); --paper:var(--steel-white);
+  color:var(--steel-white); background:var(--steel-depth);
+}
+.sanctum-steel :focus-visible,.fix-it-premium :focus-visible {outline:2px solid var(--steel-champagne);outline-offset:5px}
+.sanctum-steel .button,.fix-it-premium .button {min-height:52px;border-radius:8px;transition:transform .16s ease,box-shadow .16s ease; font:600 12px var(--sans);letter-spacing:.025em;box-shadow:inset 0 1px #ffffff29,0 8px 22px #0003}
+.sanctum-steel .button.button-gold,.fix-it-premium .button.button-gold {background:linear-gradient(115deg,#eed299,var(--steel-champagne) 30%,var(--steel-gold));color:#171b1d;border:1px solid #e0bb6a;box-shadow:inset 0 1px #fff8,0 8px 24px #0004}
+.sanctum-steel .button:active,.fix-it-premium .button:active {transform:translateY(2px);box-shadow:inset 0 2px 6px #0003}
+.sanctum-steel .button.button-outline,.fix-it-premium .button.button-outline {background:linear-gradient(135deg,#435059,#20282e);border-color:var(--steel-edge);color:var(--steel-white)}
+.steel-public-nav {display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px 7%;background:var(--steel-material);border-bottom:1px solid var(--steel-edge)}
+.steel-public-nav>a {font:600 14px var(--sans);letter-spacing:.24em;color:var(--steel-champagne)}
+.steel-public-nav>div {display:flex;align-items:center;gap:28px;font:500 12px var(--sans)}
+.steel-public-nav a {min-height:44px;display:inline-flex;align-items:center}
+.sanctum-steel .katie-hero {background:var(--steel-depth);min-height:760px;border-color:var(--steel-edge)}
+.sanctum-steel .katie-hero__image {opacity:.62}
+.sanctum-steel .katie-hero__shade {background:linear-gradient(90deg,#121417f5 10%,#202a30db 48%,#163e4322),linear-gradient(0deg,#121417,transparent 60%)}
+.sanctum-steel .katie-hero__content {padding:54px 7% 90px}
+.sanctum-steel .katie-hero h1 {font-size:clamp(76px,9vw,136px);letter-spacing:-.055em;line-height:.88}
+.sanctum-steel .katie-kicker,.sanctum-steel .katie-link {color:var(--steel-champagne)}
+.sanctum-steel .katie-nav {background:var(--steel-material);border-color:var(--steel-edge)}
+.sanctum-steel .katie-nav a,.sanctum-steel .katie-nav button {min-height:44px}
+.sanctum-steel .katie-founder {background:var(--steel-depth)}
+.sanctum-steel .katie-founder-mark {background:var(--steel-material);border:1px solid var(--steel-edge);box-shadow:inset 0 1px #fff3,0 24px 50px #0004}
+.sanctum-steel .katie-services {background:var(--steel-white);color:var(--steel-ink)}
+.sanctum-steel .katie-services h2,.sanctum-steel .katie-services h3,.sanctum-steel .katie-services p {color:var(--steel-ink)}
+.sanctum-steel .katie-services .katie-kicker,.sanctum-steel .katie-services .katie-link {color:#69501e}
+.sanctum-steel .katie-services a {color:var(--steel-ink)}
+.sanctum-steel .katie-service-menu>a {border-color:#39464e40;background:transparent;box-shadow:none;border-radius:0}
+.sanctum-steel .katie-service-menu strong {color:#69501e}
+.sanctum-steel .katie-preference,.sanctum-steel .katie-arrival-details,.sanctum-steel .katie-discretion {background:var(--steel-depth)}
+.sanctum-steel .katie-choice {background:var(--steel-material);border-color:var(--steel-edge)}
+.fix-it-premium .fix-it-masthead {max-width:none;padding:24px max(24px,calc((100vw - 1120px)/2));background:linear-gradient(120deg,#3a464e,#242b31 40%,#163e43);border-bottom:1px solid var(--steel-edge)}
+.fix-it-premium .fix-it-masthead>a:first-child {color:var(--steel-champagne)}
+.fix-it-premium .fix-it-content {padding-top:36px}
+.fix-it-premium .steel-arrival {gap:70px;padding:50px 0 64px;grid-template-columns:1.2fr 1fr;align-items:center}
+.fix-it-premium .steel-arrival h1 {font-size:clamp(52px,6.6vw,92px);line-height:.98;letter-spacing:-.04em;margin:24px 0}
+.fix-it-premium .steel-arrival>div>p:not(.eyebrow):not(.steel-signature) {max-width:480px}
+.fix-it-premium .steel-signature {font:500 10px var(--sans);letter-spacing:.18em;color:var(--steel-muted);margin:32px 0 0}
+.steel-portrait {position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:450px;background:var(--steel-material);border:1px solid var(--steel-edge);border-radius:160px 160px 8px 8px;box-shadow:inset 0 1px #ffffff66,0 32px 65px #0005;overflow:hidden;padding:48px 30px}
+.steel-portrait:before {content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(117deg,transparent 40%,#e0bb6a45 41%,#f5f4ef1a 42%,transparent 49%),radial-gradient(ellipse at 50% 15%,#f5f4ef25,transparent 58%)}
+.steel-portrait img {width:100%;height:auto;max-width:320px;filter:drop-shadow(0 14px 24px #0008);border-radius:50%}
+.steel-portrait__label,.steel-portrait__foot {font:500 9px var(--sans);letter-spacing:.16em;color:var(--steel-white);text-align:center;margin:18px 0}
+.steel-portrait__foot {color:var(--steel-champagne);margin-top:30px}
+.fix-it-premium .fix-it-principles {border-color:var(--steel-edge);margin-bottom:54px}
+.fix-it-premium .fix-it-next {background:var(--steel-material);border-color:var(--steel-edge);border-radius:10px;box-shadow:inset 0 1px #fff3,0 12px 30px #0003}
+.fix-it-premium .fix-it-next h2 {font-size:32px}
+.fix-it-premium .fix-it-menu {background:var(--steel-white);color:var(--steel-ink);margin:0 -30px;padding:48px 30px;border-radius:8px}
+.fix-it-premium .fix-it-menu h2,.fix-it-premium .fix-it-menu h3,.fix-it-premium .fix-it-menu p,.fix-it-premium .fix-it-menu span,.fix-it-premium .fix-it-menu small {color:var(--steel-ink)}
+.fix-it-premium .fix-it-menu .eyebrow,.fix-it-premium .fix-it-menu strong {color:#69501e}
+.fix-it-premium .fix-it-service {color:var(--steel-ink);border-color:#39464e40;min-height:100px}
+.fix-it-premium .fix-it-return {border:0;padding:64px 0 24px}
+.fix-it-premium .fix-it-nav {background:linear-gradient(120deg,#39464efa,#121417fa 55%,#163e43fa);border-color:var(--steel-edge);box-shadow:0 -12px 36px #0003}
+.fix-it-premium .fix-it-nav a {gap:8px;min-height:52px;border-radius:8px;color:var(--steel-muted)}
+.fix-it-premium .fix-it-nav a[aria-current="page"] {color:var(--steel-champagne);background:#f5f4ef0c;box-shadow:inset 0 1px #fff2}
+@media(hover:hover){.fix-it-premium .button:hover,.sanctum-steel .button:hover {transform:translateY(-1px);box-shadow:inset 0 1px #fff5,0 12px 26px #0004}.fix-it-premium .fix-it-service:hover{background:#39464e09}}
+@media(max-width:700px){
+ .steel-public-nav {padding:16px 6%;gap:12px;flex-wrap:wrap}.steel-public-nav>div{gap:18px;flex-wrap:wrap}.steel-public-nav .button {min-height:44px;padding:12px}
+ .sanctum-steel .katie-hero__content {padding:40px 7% 100px}.sanctum-steel .katie-hero__shade {background:linear-gradient(0deg,#121417 4%,#202a30dd 50%,#163e4366)}
+ .sanctum-steel .katie-hero h1 {font-size:clamp(68px,18vw,100px)}
+ .fix-it-premium .fix-it-masthead {padding:18px 20px}.fix-it-premium .steel-arrival{grid-template-columns:1fr;gap:32px;padding:18px 0 40px}
+ .fix-it-premium .steel-arrival h1 {font-size:clamp(48px,12vw,70px)}.fix-it-premium .steel-signature {margin-top:25px;font-size:9px}
+ .steel-portrait {min-height:320px;max-width:420px;width:100%;justify-self:center;padding:28px;border-radius:120px 120px 8px 8px}.steel-portrait img {max-width:230px}
+ .fix-it-premium .fix-it-menu{margin:0 -8px;padding:32px 20px}.fix-it-premium .fix-it-nav a{flex-direction:column;gap:5px;font-size:10px}
+ .fix-it-premium .fix-it-next{padding:20px;flex-wrap:wrap}.fix-it-premium .fix-it-next .button {width:100%}
+}
+@media(prefers-reduced-motion:reduce){.sanctum-steel *,.fix-it-premium *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

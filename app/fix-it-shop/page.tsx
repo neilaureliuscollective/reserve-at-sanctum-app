@@ -9,6 +9,7 @@ import { memberRead } from "@/lib/experience/member";
 import { sanctumDirectory } from "@/lib/experience/sanctum-directory";
 import { katieVisitPresentation } from "@/lib/experience/katie-world";
 import "./katie-cinema.css";
+import "./sanctum-steel.css";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +28,8 @@ export default async function Page() {
   const directory = configured() ? await memberRead(async () => sanctumDirectory(await database()), 1800) : { state: "ready" as const, data: [] };
   const visit = katieVisitPresentation(directory.data ?? [], directory.state === "unavailable");
   const money = (cents: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(cents / 100);
-  return <main id="main" className="brand-page katie-cinema">
+  return <main id="main" className="brand-page katie-cinema sanctum-steel">
+    <nav className="steel-public-nav" aria-label="Fix It Shop destinations"><Link href="/fix-it-shop/app">FIX IT SHOP</Link><div><a href="#services">Services</a><Link href="/fix-it-shop/app/appointments">My visits</Link><Link className="button button-gold" href="/fix-it-shop/app/book">Find a time <ArrowUpRight size={16}/></Link></div></nav>
     <section className="katie-hero" aria-labelledby="katie-title">
       <Image src="/images/katie/private-chair.webp" alt="" fill preload unoptimized sizes="100vw" className="katie-hero__image" />
       <div className="katie-hero__shade" aria-hidden="true" />
