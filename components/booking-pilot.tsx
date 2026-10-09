@@ -86,15 +86,27 @@ function ProviderSelect({
     </label>
   );
 }
-export function PilotAppointmentForm({ providerId }: { providerId: string }) {
+export function PilotAppointmentForm({
+  providerId,
+  initial,
+}: {
+  providerId: string;
+  initial?: {
+    date?: string;
+    location?: string;
+    service?: string;
+    start?: string;
+    open?: boolean;
+  };
+}) {
   const { data, provider, setProvider, error, setError } = useSetup(providerId);
-  const [open, setOpen] = useState(false),
+  const [open, setOpen] = useState(initial?.open || false),
     [clients, setClients] = useState<Client[]>([]),
     [clientId, setClientId] = useState(""),
-    [serviceId, setServiceId] = useState(""),
-    [locationId, setLocationId] = useState("eunice"),
+    [serviceId, setServiceId] = useState(initial?.service || ""),
+    [locationId, setLocationId] = useState(initial?.location || "eunice"),
     [date, setDate] = useState(
-      DateTime.now().setZone("America/Chicago").toISODate()!,
+      initial?.date || DateTime.now().setZone("America/Chicago").toISODate()!,
     ),
     [slots, setSlots] = useState<{ start: string; label: string }[]>([]),
     [start, setStart] = useState(""),
@@ -102,6 +114,9 @@ export function PilotAppointmentForm({ providerId }: { providerId: string }) {
     [message, setMessage] = useState(""),
     [q, setQ] = useState("");
   const [key, setKey] = useState("");
+  useEffect(() => {
+    if (initial?.open) setKey(crypto.randomUUID());
+  }, [initial?.open]);
   const zone =
     data?.locations.find((l) => l.id === locationId)?.timezone ||
     "America/Chicago";
@@ -132,7 +147,14 @@ export function PilotAppointmentForm({ providerId }: { providerId: string }) {
         }),
     )
       .then((d) => {
-        if (active) setSlots(d.slots);
+        if (active) {
+          setSlots(d.slots);
+          if (
+            initial?.start &&
+            d.slots.some((s: { start: string }) => s.start === initial.start)
+          )
+            setStart(initial.start);
+        }
       })
       .catch((e) => {
         if (active) setError(e.message);
@@ -140,7 +162,7 @@ export function PilotAppointmentForm({ providerId }: { providerId: string }) {
     return () => {
       active = false;
     };
-  }, [serviceId, date, locationId, provider, setError]);
+  }, [serviceId, date, locationId, provider, setError, initial?.start]);
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const f = new FormData(e.currentTarget);

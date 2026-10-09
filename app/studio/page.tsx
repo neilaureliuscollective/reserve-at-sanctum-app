@@ -6,7 +6,7 @@ import { database } from "@/lib/db";
 import { studioOverview } from "@/lib/command-center";
 export default async function StudioHome() {
   const actor = await studioActor();
-  if (actor.role !== "owner") redirect("/studio/schedule");
+  if (actor.role !== "owner") redirect("/studio/today");
   const data = await studioOverview(await database(), actor);
   return (
     <>

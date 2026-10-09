@@ -65,13 +65,20 @@ export default async function Client({
           />
         )}
       <section className="studio-section">
+        <h2>Visit history.</h2>
+        {!data.visits.length && (
+          <p>No visits saved yet. Add an appointment from your calendar.</p>
+        )}
         {data.visits.map((v) => (
           <div key={String(v.id)} className="studio-status-row">
             <div>
               <strong>{String(v.service_name)}</strong>
               <p>
                 {new Intl.DateTimeFormat("en-US", {
-                  timeZone: "America/Chicago",
+                  timeZone:
+                    typeof v.timezone === "string"
+                      ? v.timezone
+                      : "America/Chicago",
                   dateStyle: "medium",
                   timeStyle: "short",
                 }).format(new Date(v.starts_at as string))}

@@ -200,7 +200,7 @@ export async function pilotHistory(
   if (!client) throw new BookingError("Client not found.", 404);
   providerScope(actor, client.provider_id);
   const visits = await db.query(
-    "SELECT a.*,s.name AS service_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id WHERE a.provider_id=$1 AND (a.crm_client_id=$2 OR ($3::text IS NOT NULL AND a.client_id=$3)) ORDER BY a.starts_at DESC,a.id LIMIT 31 OFFSET $4",
+    "SELECT a.*,s.name AS service_name,COALESCE(l.timezone,'America/Chicago') AS timezone FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id LEFT JOIN reserve_locations l ON l.id=a.location_id WHERE a.provider_id=$1 AND (a.crm_client_id=$2 OR ($3::text IS NOT NULL AND a.client_id=$3)) ORDER BY a.starts_at DESC,a.id LIMIT 31 OFFSET $4",
     [client.provider_id, id, client.user_id, page * 30],
   );
   return { client, visits: visits.slice(0, 30), hasMore: visits.length > 30 };
