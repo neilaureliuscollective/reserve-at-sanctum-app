@@ -48,9 +48,10 @@ export default async function Page() {
       ) : (
         actor && <FixItNextVisit />
       )}
-      <section className="fix-it-arrival">
+      <section className="fix-it-arrival steel-arrival">
         <div>
           <p className="eyebrow">KATIE GUIDRY · FOUNDER OF FIX IT SHOP</p>
+          <p className="steel-signature">PERSONAL ATTENTION. A HIGHER STANDARD.</p>
           <h1>{profile.headline}</h1>
           <p>{profile.bio}</p>
           <div className="hero-actions">
@@ -65,6 +66,8 @@ export default async function Page() {
             </Link>
           </div>
         </div>
+        <div className="steel-portrait">
+        <span className="steel-portrait__label">FIX IT SHOP / KATIE GUIDRY</span>
         <Image
           src={
             profile.cover
@@ -83,6 +86,8 @@ export default async function Page() {
           sizes="(max-width:600px) 60vw, 35vw"
           priority
         />
+        <span className="steel-portrait__foot">HER BUSINESS. HER STANDARD.</span>
+        </div>
       </section>
       <div className="fix-it-principles" aria-label="Katie’s approach">
         <span>
