@@ -13,6 +13,8 @@ import {
 const rooms = [
   ["/studio", "Command", Compass],
   ["/studio/schedule", "Schedule", CalendarDays],
+  ["/studio/connections", "Connections", Settings2],
+  ["/studio/websites", "Websites", PenLine],
   ["/studio/content", "Content", PenLine],
   ["/studio/build", "Build Room", Hammer],
   ["/studio/clients", "Clients", UsersRound],
@@ -45,6 +47,8 @@ export function StudioNav({ owner }: { owner: boolean }) {
             owner ||
             [
               "/studio/schedule",
+              "/studio/connections",
+              "/studio/websites",
               "/studio/clients",
               "/studio/operations",
               "/studio/brands",

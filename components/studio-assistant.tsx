@@ -12,9 +12,11 @@ export const useStudioAssistant = () => useContext(AssistantContext);
 export function StudioAssistant({
   children,
   connected,
+  externalHref,
 }: {
   children: React.ReactNode;
   connected: boolean;
+  externalHref?: string | null;
 }) {
   const path = usePathname();
   const dialog = useRef<HTMLDialogElement>(null),
@@ -32,6 +34,10 @@ export function StudioAssistant({
   }, [path]);
   useEffect(() => () => controller.current?.abort(), []);
   const open = (options: Request = {}) => {
+    if (externalHref) {
+      window.location.assign(externalHref);
+      return;
+    }
     controller.current?.abort();
     request.current = options;
     setPrompt("");
