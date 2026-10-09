@@ -17,14 +17,14 @@ const money = (c: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(c / 100);
 type Slot = { start: string; label: string };
-export function BookingFlow() {
-  const [zone,setZone]=useState("America/Chicago");
-  const [house,setHouse]=useState("eunice");
-  const [provider,setProvider]=useState("");
-  const [houseName,setHouseName]=useState("Eunice");
+export function BookingFlow({ preview = false }: { preview?: boolean }) {
+  const [zone, setZone] = useState("America/Chicago");
+  const [house, setHouse] = useState("eunice");
+  const [provider, setProvider] = useState("");
+  const [houseName, setHouseName] = useState("Eunice");
   const [services, setServices] = useState<Service[]>([]),
     [selected, setSelected] = useState(""),
     [date, setDate] = useState(""),
@@ -42,7 +42,7 @@ export function BookingFlow() {
   useEffect(() => {
     requestKey.current = crypto.randomUUID();
     const u = new URL(location.href);
-    const locationId=u.searchParams.get("location") || "eunice";
+    const locationId = u.searchParams.get("location") || "eunice";
     setHouse(locationId);
     const today = DateTime.now().setZone(zone).plus({ days: 1 });
     setDate(u.searchParams.get("date") || today.toISODate()!);
@@ -52,26 +52,35 @@ export function BookingFlow() {
     let active = true;
     const timeout = setTimeout(() => abort.abort(), 12000);
     Promise.all([
-      fetch(`/api/availability?location=${encodeURIComponent(locationId)}`, { signal: abort.signal }).then((r) =>
-        r.json(),
-      ),
+      fetch(`/api/availability?location=${encodeURIComponent(locationId)}`, {
+        signal: abort.signal,
+      }).then((r) => r.json()),
       fetch("/api/session", { signal: abort.signal }).then((r) => r.json()),
       fetch("/api/locations", { signal: abort.signal }).then((r) => r.json()),
     ])
       .then(([c, s, l]) => {
         if (!active) return;
-        const locationRow=l.locations?.find((row:{id:string})=>row.id===locationId);
+        const locationRow = l.locations?.find(
+          (row: { id: string }) => row.id === locationId,
+        );
         setHouseName(locationRow?.short_name || "Location unavailable");
-        if(locationRow?.timezone) setZone(locationRow.timezone);
-        const visible: Service[] = (c.services || []).filter((row: Service) => !providerId || row.provider_id === providerId);
+        if (locationRow?.timezone) setZone(locationRow.timezone);
+        const visible: Service[] = (c.services || []).filter(
+          (row: Service) => !providerId || row.provider_id === providerId,
+        );
         setServices(visible);
-        const requested = visible.find(row => row.id === u.searchParams.get("service"));
+        const requested = visible.find(
+          (row) => row.id === u.searchParams.get("service"),
+        );
         if (requested) {
           setSelected(requested.id);
           setStart(u.searchParams.get("start") || "");
           if (u.searchParams.get("start")) setStep(3);
         }
-        if (providerId && c.services?.length && !visible.length) setError("This professional is not accepting appointments here. Choose another professional in Sanctum.");
+        if (providerId && c.services?.length && !visible.length)
+          setError(
+            "This professional is not accepting appointments here. Choose another professional in Sanctum.",
+          );
         setActor(s.user);
         if (c.error) setError(c.error);
         else if (c.setupRequired || !c.services?.length)
@@ -80,10 +89,20 @@ export function BookingFlow() {
           );
       })
       .catch((e) => {
-        if (active) setError("Unable to load the service menu. Return to Sanctum or refresh to try again.");
+        if (active)
+          setError(
+            "Unable to load the service menu. Return to Sanctum or refresh to try again.",
+          );
       })
-      .finally(() => { clearTimeout(timeout); if (active) setLoading(false); });
-    return () => { active = false; clearTimeout(timeout); abort.abort(); };
+      .finally(() => {
+        clearTimeout(timeout);
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+      clearTimeout(timeout);
+      abort.abort();
+    };
   }, []);
   useEffect(() => {
     if (!selected || !date) return;
@@ -110,7 +129,11 @@ export function BookingFlow() {
         clearTimeout(timeout);
         if (active) setLoadingSlots(false);
       });
-    return () => { active = false; clearTimeout(timeout); controller.abort(); };
+    return () => {
+      active = false;
+      clearTimeout(timeout);
+      controller.abort();
+    };
   }, [selected, date, house]);
   const service = services.find((s) => s.id === selected);
   const days = Array.from({ length: 10 }, (_, i) =>
@@ -150,13 +173,17 @@ export function BookingFlow() {
         <div className="success-icon">
           <Check size={32} />
         </div>
-        <p className="eyebrow">PREVIEW VISIT RESERVED</p>
+        <p className="eyebrow">
+          {preview ? "PREVIEW VISIT RESERVED" : "APPOINTMENT RESERVED"}
+        </p>
         <h1>
           Time set aside.
           <br />
           <em>Just for you.</em>
         </h1>
-        <p>{service?.name} with {service?.provider_name}</p>
+        <p>
+          {service?.name} with {service?.provider_name}
+        </p>
         <p className="success-time">
           {DateTime.fromISO(start)
             .setZone(zone)
@@ -164,11 +191,21 @@ export function BookingFlow() {
           CT
         </p>
         <p className="muted">
-          Your test appointment is saved. No payment was taken and no
-          notification was sent.
+          {preview ? "Your test appointment" : "Your appointment"} is saved. No
+          payment was taken and no notification was sent.
         </p>
         <div className="hero-actions">
-          <Link prefetch={false} href={`/my-visit?visit=${encodeURIComponent(confirmed)}`} className="button button-gold">
+          <a
+            className="button button-outline"
+            href={`/api/appointments/${confirmed}/calendar`}
+          >
+            Save to calendar
+          </a>
+          <Link
+            prefetch={false}
+            href={`/my-visit?visit=${encodeURIComponent(confirmed)}`}
+            className="button button-gold"
+          >
             Prepare your visit <ArrowUpRight size={18} />
           </Link>
           <Link href="/home" className="text-link">
@@ -182,9 +219,16 @@ export function BookingFlow() {
     );
   return (
     <>
-      <Link className="text-link" href={`/visit?location=${encodeURIComponent(house)}#professionals`}>← Choose your professional in Sanctum</Link>
+      <Link
+        className="text-link"
+        href={`/visit?location=${encodeURIComponent(house)}#professionals`}
+      >
+        ← Choose your professional in Sanctum
+      </Link>
       <div className="booking-heading">
-        <p className="eyebrow">LEGACY RESERVE SANCTUM — {houseName.toUpperCase()}</p>
+        <p className="eyebrow">
+          LEGACY RESERVE SANCTUM — {houseName.toUpperCase()}
+        </p>
         <h1>
           Make time <em>for yourself.</em>
         </h1>
@@ -211,9 +255,21 @@ export function BookingFlow() {
             <>
               {step === 1 && (
                 <div className="step-content">
-                  <h2>{provider && services[0] ? <>With <em>{services[0].provider_name}.</em></> : <>What brings <em>you in?</em></>}</h2>
+                  <h2>
+                    {provider && services[0] ? (
+                      <>
+                        With <em>{services[0].provider_name}.</em>
+                      </>
+                    ) : (
+                      <>
+                        What brings <em>you in?</em>
+                      </>
+                    )}
+                  </h2>
                   <p className="muted">
-                    Illustrative services for the private preview.
+                    {preview
+                      ? "Illustrative services for the private preview."
+                      : "Choose your service with your professional."}
                   </p>
                   <div className="service-list">
                     {services.map((s) => (
@@ -232,11 +288,13 @@ export function BookingFlow() {
                         <span className="service-description">
                           <strong>{s.name}</strong>
                           <span>{s.description}</span>
-                          <small>{s.minutes} minutes · {s.provider_name}</small>
+                          <small>
+                            {s.minutes} minutes · {s.provider_name}
+                          </small>
                         </span>
                         <span className="service-price">
                           {money(s.price)}
-                          <small>preview</small>
+                          {preview && <small>preview</small>}
                         </span>
                       </button>
                     ))}
@@ -258,9 +316,7 @@ export function BookingFlow() {
                   <h2>
                     A moment <em>for you.</em>
                   </h2>
-                  <p className="muted">
-                    Appointment times use {zone}.
-                  </p>
+                  <p className="muted">Appointment times use {zone}.</p>
                   <div className="date-strip">
                     {days.map((d) => (
                       <button
@@ -317,7 +373,8 @@ export function BookingFlow() {
                       <CalendarDays />
                       <p>No times available on this day.</p>
                       <span className="muted">
-                        Choose another date. Preview hours are Tuesday–Saturday.
+                        Choose another date. Available days follow your
+                        professional’s schedule.
                       </span>
                     </div>
                   )}
@@ -339,7 +396,9 @@ export function BookingFlow() {
                     Make it <em>yours.</em>
                   </h2>
                   <div className="review-visit">
-                    <strong>{service?.name} · {service?.provider_name}</strong>
+                    <strong>
+                      {service?.name} · {service?.provider_name}
+                    </strong>
                     <span>
                       {start
                         ? DateTime.fromISO(start)
@@ -349,7 +408,8 @@ export function BookingFlow() {
                     </span>
                     <span>
                       {service?.minutes} minutes ·{" "}
-                      {service ? money(service.price) : "—"} illustrative total
+                      {service ? money(service.price) : "—"}{" "}
+                      {preview ? "illustrative total" : "service total"}
                     </span>
                   </div>
                   {actor ? (
@@ -375,20 +435,25 @@ export function BookingFlow() {
                         placeholder="Your preferred finish, a style you have in mind, or how you wear your hair…"
                       />
                       <p className="muted small">
-                        This note is shared with your provider and authorized studio
-                        staff.
+                        This note is shared with your provider and authorized
+                        studio staff.
                       </p>
                       <div className="inline-note">
-                        This is a test booking. The listed menu, prices, and
-                        hours are illustrative. No deposit or payment will be
-                        collected.
+                        {preview
+                          ? "This is a test booking with illustrative details."
+                          : "Your appointment is saved with the service details shown."}{" "}
+                        No deposit or payment will be collected online.
                       </div>
                       <button
                         className="button button-gold next-button"
                         disabled={busy || !service || !start}
                         onClick={reserve}
                       >
-                        {busy ? "Saving your visit…" : "Reserve preview visit"}{" "}
+                        {busy
+                          ? "Saving your visit…"
+                          : preview
+                            ? "Reserve preview visit"
+                            : "Confirm appointment"}{" "}
                         <ArrowUpRight size={18} />
                       </button>
                     </>
@@ -397,10 +462,10 @@ export function BookingFlow() {
                       <LockKeyhole />
                       <h3>Your visits, kept together.</h3>
                       <p>
-                        Sign in to save this preview appointment and manage your
-                        visits.
+                        Sign in to save this appointment and manage your visits.
                       </p>
-                      <Link prefetch={false}
+                      <Link
+                        prefetch={false}
                         className="button button-gold"
                         href={`/signin?next=${encodeURIComponent(returnPath)}`}
                       >
@@ -449,10 +514,10 @@ export function BookingFlow() {
           </div>
           <div className="summary-divider" />
           <div className="summary-total">
-            <span>Illustrative total</span>
+            <span>{preview ? "Illustrative total" : "Service total"}</span>
             <strong>{service ? money(service.price) : "—"}</strong>
           </div>
-          <span className="small muted">No charge in the private preview.</span>
+          <span className="small muted">No online payment is collected.</span>
           <p className="summary-signature">
             LEGACY RESERVE · {houseName.toUpperCase()}
           </p>

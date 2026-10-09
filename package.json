@@ -16,6 +16,7 @@
     "preview:reset": "node --env-file-if-exists=.env.local --import tsx scripts/reset-preview.ts",
     "verify:chair": "node scripts/verify-chair.mjs",
     "staff:provision": "node --env-file-if-exists=.env.local --import tsx scripts/provision-staff.ts",
+    "verify:booking-pilot": "node scripts/verify-booking-pilot.mjs",
     "verify:pilot": "node scripts/verify-pilot.mjs",
     "verify:studio": "node scripts/verify-studio.mjs",
     "verify:studio-ai": "node scripts/verify-studio-ai.mjs",

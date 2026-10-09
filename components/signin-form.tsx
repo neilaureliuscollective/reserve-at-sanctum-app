@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { SocialAuthButtons } from "@/components/social-auth-buttons";
@@ -48,52 +49,66 @@ export function SigninForm({
       {hosted ? (
         <>
           <div className="email-fallback">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const d = new FormData(e.currentTarget);
-              submit({
-                action: signup ? "signup" : "signin",
-                email: d.get("email"),
-                password: d.get("password"),
-                ...(signup ? { name: d.get("name") } : {}),
-              });
-            }}
-          >
-            {signup && (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const d = new FormData(e.currentTarget);
+                submit({
+                  action: signup ? "signup" : "signin",
+                  email: d.get("email"),
+                  password: d.get("password"),
+                  ...(signup ? { name: d.get("name") } : {}),
+                });
+              }}
+            >
+              {signup && (
+                <label className="form-field">
+                  Your name
+                  <input
+                    name="name"
+                    autoComplete="name"
+                    maxLength={100}
+                    required
+                  />
+                </label>
+              )}
               <label className="form-field">
-                Your name
+                Email
                 <input
-                  name="name"
-                  autoComplete="name"
-                  maxLength={100}
+                  name="email"
+                  type="email"
+                  autoComplete="email"
                   required
                 />
               </label>
-            )}
-            <label className="form-field">
-              Email
-              <input name="email" type="email" autoComplete="email" required />
-            </label>
-            <label className="form-field">
-              Password
-              <input
-                name="password"
-                type="password"
-                autoComplete={signup ? "new-password" : "current-password"}
-                minLength={12}
-                maxLength={128}
-                required
-              />
-            </label>
-            <button className="button button-gold full" disabled={busy}>
-              {busy ? "One moment…" : signup ? "Create an account" : "Sign in"}{" "}
-              <ArrowRight size={18} />
+              <label className="form-field">
+                Password
+                <input
+                  name="password"
+                  type="password"
+                  autoComplete={signup ? "new-password" : "current-password"}
+                  minLength={12}
+                  maxLength={128}
+                  required
+                />
+              </label>
+              <button className="button button-gold full" disabled={busy}>
+                {busy
+                  ? "One moment…"
+                  : signup
+                    ? "Create an account"
+                    : "Sign in"}{" "}
+                <ArrowRight size={18} />
+              </button>
+            </form>
+            <Link className="text-link" href="/forgot-password">
+              Forgot password?
+            </Link>
+            <button className="text-link" onClick={() => setSignup(!signup)}>
+              {signup
+                ? "Already have an account? Sign in"
+                : "Create an account"}
             </button>
-          </form>
-          <button className="text-link" onClick={() => setSignup(!signup)}>
-            {signup ? "Already have an account? Sign in" : "Create an account"}
-          </button>
           </div>
           <details className="email-fallback">
             <summary>Continue with Google or Apple</summary>
@@ -163,7 +178,10 @@ export function SigninForm({
         </p>
       )}
       {oauthError && !error && (
-        <p className="error-message" role="alert">That sign-in did not finish. Your work is still here—try Google or Apple again.</p>
+        <p className="error-message" role="alert">
+          That sign-in did not finish. Your work is still here—try Google or
+          Apple again.
+        </p>
       )}
       {message && (
         <p className="inline-note" role="status">

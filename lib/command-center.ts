@@ -10,7 +10,11 @@ import {
 export type WorkspaceStatus = "captured" | "building" | "review" | "approved";
 export type WorkspaceLane = "reserve" | "fix-it" | "gent";
 export type WorkspaceKind =
-  "idea" | "feedback" | "decision" | "task" | "content";
+  | "idea"
+  | "feedback"
+  | "decision"
+  | "task"
+  | "content";
 export type WorkspaceAssignee = "neil" | "katie" | "both";
 export type WorkspaceItem = Row & {
   id: string;
@@ -299,7 +303,7 @@ export async function studioOverview(db: Queryable, actor: Actor) {
       [...params, begin, end],
     ),
     db.query<Appointment>(
-      `SELECT a.id,a.starts_at,s.name AS service_name,u.name AS client_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id JOIN reserve_users u ON u.id=a.client_id WHERE ${appointment} AND a.status='confirmed' AND a.starts_at>=$${offset + 1} ORDER BY a.starts_at LIMIT 1`,
+      `SELECT a.id,a.starts_at,s.name AS service_name,COALESCE(c.name,u.name) AS client_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id LEFT JOIN reserve_users u ON u.id=a.client_id LEFT JOIN reserve_clients c ON c.id=a.crm_client_id WHERE ${appointment} AND a.status='confirmed' AND a.starts_at>=$${offset + 1} ORDER BY a.starts_at LIMIT 1`,
       [...params, now.toUTC().toISO()],
     ),
     hasCapability(actor, "workspace.read")

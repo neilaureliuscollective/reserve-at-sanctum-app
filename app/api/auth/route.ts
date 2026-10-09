@@ -29,6 +29,37 @@ export async function POST(req: Request) {
         "Member sign-in will open when hosted accounts are connected.",
         503,
       );
+    if (body.action === "recover") {
+      const email = z.email().parse(body.email);
+      const { error } = await (
+        await supabase()
+      ).auth.resetPasswordForEmail(email, {
+        redirectTo: new URL(
+          "/auth/callback?next=%2Freset-password",
+          process.env.APP_ORIGIN!,
+        ).toString(),
+      });
+      if (error)
+        throw new BookingError(
+          "Unable to request recovery. Please try again later.",
+          503,
+        );
+      return Response.json({ ok: true, recovery: true });
+    }
+    if (body.action === "update-password") {
+      const client = await supabase();
+      const { data } = await client.auth.getUser();
+      if (!data.user)
+        throw new BookingError("Open your recovery link first.", 401);
+      const { error } = await client.auth.updateUser({
+        password: z.string().min(12).max(128).parse(body.password),
+      });
+      if (error)
+        throw new BookingError(
+          "Unable to update the password. Request a new recovery link.",
+        );
+      return Response.json({ ok: true });
+    }
     const input = z
       .object({
         action: z.enum(["signin", "signup"]),
@@ -44,7 +75,10 @@ export async function POST(req: Request) {
         password: input.password,
         options: {
           data: { name: input.name },
-          emailRedirectTo: new URL("/auth/callback?next=%2Fenter", req.url).toString(),
+          emailRedirectTo: new URL(
+            "/auth/callback?next=%2Fenter",
+            req.url,
+          ).toString(),
         },
       });
       if (error)

@@ -1,3 +1,4 @@
+import { PilotReadiness } from "@/components/booking-pilot";
 import { studioActor } from "@/lib/studio-session";
 import { database } from "@/lib/db";
 import { operationOverview } from "@/lib/studio-operations";
@@ -10,14 +11,17 @@ export default async function Operations({
   const actor = await studioActor(),
     params = await searchParams;
   return (
-    <StudioOperations
-      initial={await operationOverview(await database(), actor)}
-      actorId={actor.id}
-      initialView={
-        ["menu", "availability", "review"].includes(params.view || "")
-          ? params.view
-          : "menu"
-      }
-    />
+    <>
+      <PilotReadiness />
+      <StudioOperations
+        initial={await operationOverview(await database(), actor)}
+        actorId={actor.id}
+        initialView={
+          ["menu", "availability", "review"].includes(params.view || "")
+            ? params.view
+            : "menu"
+        }
+      />
+    </>
   );
 }

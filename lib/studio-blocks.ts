@@ -1,3 +1,4 @@
+import { providerScope } from "./booking-pilot";
 import { hasCapability } from "./studio-permissions";
 import { randomUUID } from "node:crypto";
 import { DateTime } from "luxon";
@@ -8,29 +9,38 @@ export type StudioBlock = Row & {
   starts_at: string | Date;
   ends_at: string | Date;
 };
-export function requireKatie(actor: Actor) {
-  if (
-    actor.role !== "owner" &&
-    !(hasCapability(actor, "blocks.manage") && actor.provider_id === "katie")
-  )
-    throw new BookingError("Katie’s studio access is required.", 403);
+async function context(db: Queryable, actor: Actor, provider?: string) {
+  const id = providerScope(actor, provider || actor.provider_id || "katie");
+  if (!hasCapability(actor, "blocks.manage"))
+    throw new BookingError("Provider block access is required.", 403);
+  const [p] = await db.query<{ timezone: string }>(
+    "SELECT COALESCE(l.timezone,'America/Chicago') AS timezone FROM reserve_providers p LEFT JOIN reserve_locations l ON l.id=p.location_id WHERE p.id=$1",
+    [id],
+  );
+  if (!p) throw new BookingError("Provider access is not configured.", 403);
+  return { id, zone: p.timezone };
 }
-export async function listBlocks(db: Queryable, actor: Actor) {
-  requireKatie(actor);
+export async function listBlocks(
+  db: Queryable,
+  actor: Actor,
+  provider?: string,
+) {
+  const { id } = await context(db, actor, provider);
   return db.query<StudioBlock>(
-    "SELECT id,starts_at,ends_at FROM reserve_blocks WHERE provider_id='katie' AND ends_at>now() ORDER BY starts_at LIMIT 200",
+    "SELECT id,provider_id,starts_at,ends_at FROM reserve_blocks WHERE provider_id=$1 AND ends_at>now() ORDER BY starts_at LIMIT 200",
+    [id],
   );
 }
 export async function blockTime(
   db: Database,
   actor: Actor,
-  input: { date: string; start: string; end: string },
+  input: { date: string; start: string; end: string; provider?: string },
 ) {
-  requireKatie(actor);
+  const { id: provider, zone } = await context(db, actor, input.provider);
   const start = DateTime.fromISO(`${input.date}T${input.start}`, {
-    zone: ZONE,
+    zone,
   });
-  const end = DateTime.fromISO(`${input.date}T${input.end}`, { zone: ZONE });
+  const end = DateTime.fromISO(`${input.date}T${input.end}`, { zone });
   if (
     !/^\d{4}-\d{2}-\d{2}$/.test(input.date) ||
     !/^\d{2}:\d{2}$/.test(input.start) ||
@@ -52,13 +62,13 @@ export async function blockTime(
   try {
     await db.transaction(async (tx) => {
       await tx.query(
-        "INSERT INTO reserve_blocks(id,provider_id,starts_at,ends_at,created_by) VALUES($1,'katie',$2,$3,$4)",
-        [id, start.toUTC().toISO(), end.toUTC().toISO(), actor.id],
+        "INSERT INTO reserve_blocks(id,provider_id,starts_at,ends_at,created_by) VALUES($1,$5,$2,$3,$4)",
+        [id, start.toUTC().toISO(), end.toUTC().toISO(), actor.id, provider],
       );
       for (const slot of units(start, end.diff(start, "minutes").minutes))
         await tx.query(
-          "INSERT INTO reserve_occupancy(provider_id,starts_at,block_reason,block_id) VALUES('katie',$1,'Unavailable',$2)",
-          [slot, id],
+          "INSERT INTO reserve_occupancy(provider_id,starts_at,block_reason,block_id) VALUES($3,$1,'Unavailable',$2)",
+          [slot, id, provider],
         );
     });
   } catch (e) {
@@ -71,11 +81,16 @@ export async function blockTime(
   }
   return id;
 }
-export async function removeBlock(db: Queryable, actor: Actor, id: string) {
-  requireKatie(actor);
+export async function removeBlock(
+  db: Queryable,
+  actor: Actor,
+  id: string,
+  providerId?: string,
+) {
+  const { id: provider } = await context(db, actor, providerId);
   const rows = await db.query(
-    "DELETE FROM reserve_blocks WHERE id=$1 AND provider_id='katie' RETURNING id",
-    [id],
+    "DELETE FROM reserve_blocks WHERE id=$1 AND provider_id=$2 RETURNING id",
+    [id, provider],
   );
   if (!rows.length)
     throw new BookingError(

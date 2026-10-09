@@ -33,8 +33,21 @@ export function StudioNav({ owner }: { owner: boolean }) {
   }, [path]);
   return (
     <nav ref={nav} className="studio-nav" aria-label="Studio rooms">
-      <Link href="/discover"><span>View public website ↗</span></Link>
+      {owner && (
+        <Link href="/discover">
+          <span>View public website ↗</span>
+        </Link>
+      )}
       {rooms
+        .filter(
+          ([href]) =>
+            owner ||
+            [
+              "/studio/schedule",
+              "/studio/clients",
+              "/studio/operations",
+            ].includes(href),
+        )
         .filter(
           ([href]) =>
             ![
@@ -55,7 +68,13 @@ export function StudioNav({ owner }: { owner: boolean }) {
             }
           >
             <Icon size={19} />
-            <span>{label}</span>
+            <span>
+              {!owner && href === "/studio/schedule"
+                ? "Today"
+                : !owner && href === "/studio/operations"
+                  ? "Availability"
+                  : label}
+            </span>
           </Link>
         ))}
     </nav>

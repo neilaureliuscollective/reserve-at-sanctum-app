@@ -176,3 +176,7 @@ for the required hosted configuration and real-device verification.
 ## Ecosystem Collection commerce readiness — October 7, 2026
 
 [The next commerce workstream](docs/phase-two-collection-commerce.md) adds an explicitly selected Shopify Storefront bridge for an approved product collection and private one-time checkout preparation. It is stacked on the Personal Reserve/concierge draft. Checkout, recurring billing and member discounts are not activated by this build. `npm run verify:collection-commerce` exercises an isolated synthetic transport with no external Shopify calls or charges.
+
+## Operational booking/provider pilot — October 2026
+
+[Phase 1 operating guide and acceptance gates](docs/BOOKING-PROVIDER-PHASE-1.md) covers CRM-only clients, manual appointments, day/week calendars, reviewed pilot contact imports, manual confirmations, real account provisioning and production rollback. Run `npm run verify:booking-pilot` in the synthetic local environment. Fix It Shop's branded customer PWA and the universal provider studio are the two subsequent phases; hosted pilot readiness requires real account/configuration and physical-phone checks.
