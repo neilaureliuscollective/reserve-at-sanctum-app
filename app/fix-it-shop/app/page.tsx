@@ -1,6 +1,8 @@
+import { publicUser } from "@/lib/auth";
 import { katieBranding } from "@/lib/katie-branding";
 import { brandAsset } from "@/lib/provider-brand-display";
 import Image from "next/image";
+import { FixItNextVisit } from "@/components/fix-it-customer";
 import Link from "next/link";
 import { configured, database, isPreview } from "@/lib/db";
 import { memberRead } from "@/lib/experience/member";
@@ -9,7 +11,7 @@ import { katieVisitPresentation } from "@/lib/experience/katie-world";
 import { fixItBooking as brand } from "@/lib/fix-it-booking";
 export const dynamic = "force-dynamic";
 export default async function Page() {
-  const profile = await katieBranding();
+  const [profile, actor] = await Promise.all([katieBranding(), publicUser()]);
   const directory = configured()
     ? await memberRead(async () => sanctumDirectory(await database()), 2500)
     : { state: "ready" as const, data: [] };
@@ -29,6 +31,7 @@ export default async function Page() {
           Development preview · services, prices and accounts are illustrative.
         </p>
       )}
+      {actor && <FixItNextVisit />}
       <section className="fix-it-arrival">
         <div>
           <p className="eyebrow">KATIE GUIDRY · FOUNDER OF FIX IT SHOP</p>
@@ -65,10 +68,23 @@ export default async function Page() {
           priority
         />
       </section>
+      <div className="fix-it-principles" aria-label="Katie’s approach">
+        <span>
+          01 <strong>Listen first.</strong>
+        </span>
+        <span>
+          02 <strong>Work with care.</strong>
+        </span>
+        <span>
+          03 <strong>Leave ready.</strong>
+        </span>
+      </div>
       <section className="fix-it-menu" aria-labelledby="menu-title">
         <p className="eyebrow">YOUR TIME, WELL PLACED</p>
         <h2 id="menu-title">Services with Katie.</h2>
-        <p role="status">{visit.status}</p>
+        <p role="status" className="fix-it-status">
+          {visit.status}
+        </p>
         {visit.locations.map((location) => (
           <div key={location.id}>
             <h3>

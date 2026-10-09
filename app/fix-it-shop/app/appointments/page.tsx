@@ -11,6 +11,17 @@ export default async function Page() {
     redirect(brand.signin + "?next=" + encodeURIComponent(brand.visits));
   return (
     <main id="main" className="fix-it-content">
+      <header className="fix-it-visit-heading">
+        <p className="eyebrow">FIX IT SHOP · YOUR TIME WITH KATIE</p>
+        <h1>
+          Your visits.
+          <br />
+          <em>All in one place.</em>
+        </h1>
+        <p>
+          Review your appointments, adjust your plans, or book your next visit.
+        </p>
+      </header>
       <Visits actor={actor} preview={isPreview()} identity={brand} />
     </main>
   );
