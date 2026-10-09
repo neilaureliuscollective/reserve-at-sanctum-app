@@ -1,0 +1,258 @@
+/* Legacy Reserve's app is an ivory editorial canvas, not an all-green environment.
+   Applied explicitly to customer routes and Legacy Studio; never Katie's world. */
+.legacy-app-theme[data-legacy-app] {
+  color-scheme:light;
+  --app-canvas:var(--lr-architectural-ivory);
+  --app-paper:#fffdf8;
+  --app-soft:#e9e5dc;
+  --app-ink:#1d2923;
+  --app-muted:#4c5d53;
+  --app-line:#c4c9c0;
+  --app-control-line:#77857a;
+  --app-label:var(--lr-gold-on-ivory);
+  --app-steel:var(--lr-carbon-shadow);
+  --app-steel-panel:var(--lr-brushed-grain),linear-gradient(120deg,#26312c,#4a5450 38%,#26312c 70%,#121417);
+  --reserve-text-primary:var(--app-ink);
+  --reserve-text-secondary:var(--app-muted);
+  --reserve-text-muted:var(--app-muted);
+  --reserve-stone:var(--app-muted);
+  --reserve-surface:var(--app-paper);
+  --reserve-surface-raised:var(--app-soft);
+  --reserve-surface-glass:var(--app-paper);
+  --reserve-background:var(--app-canvas);
+  --reserve-border:var(--app-line);
+  --reserve-border-premium:#b9bcae;
+  --reserve-border-control:var(--app-control-line);
+  --reserve-gold-light:var(--app-label);
+  --reserve-material:linear-gradient(135deg,#fffdf8,#f0ece3);
+  --reserve-material-petrol:linear-gradient(135deg,#e7ebe3,#f5f1e8);
+  --reserve-material-petrol-shadow:var(--lr-steel-shadow);
+  --reserve-shadow:0 12px 36px #12141712;
+  --reserve-highlight:inset 0 1px 0 #fff;
+  --reserve-success:#245d3f;
+  --reserve-warning:#72501c;
+  --reserve-danger:#9e3730;
+  --reserve-success-surface:#e6efe6;
+  --reserve-warning-surface:#f4ead7;
+  --reserve-danger-surface:#f7e8e3;
+  --imperial-ivory:var(--app-ink);
+  --imperial-muted:var(--app-muted);
+  --imperial-champagne:var(--app-label);
+  --imperial-midnight:var(--app-soft);
+  --imperial-material:var(--reserve-material);
+  --imperial-glass:var(--reserve-material);
+  --imperial-edge:var(--app-line);
+  --imperial-light:#ffffff80;
+  --imperial-halo:#88958d30;
+  --imperial-elevation:inset 0 1px 0 #fff,0 8px 24px #1214170a;
+  --imperial-float:inset 0 1px 0 #fff,0 12px 28px #12141712;
+  --paper:var(--app-ink);
+  --muted:var(--app-muted);
+  --surface:var(--app-paper);
+  --surface-2:var(--app-soft);
+  --line:var(--app-line);
+  --gold-light:var(--app-label);
+  --studio-gold:var(--app-label);
+  font-family:var(--reserve-sans),sans-serif;
+  background:var(--app-canvas);
+  color:var(--app-ink);
+}
+/* The entire content canvas changes, including screens with their own backgrounds. */
+.reserve-app-shell.legacy-app-theme,
+.legacy-app-theme[data-legacy-app] .studio-shell,
+.legacy-app-theme[data-legacy-app] .command-content,
+.legacy-app-theme[data-legacy-app] .imperial-world-transition,
+.legacy-app-theme[data-legacy-app] :is(.member-environment,.reserve-room,.reserve-account-entrance,.personal-reserve,.reserve-concierge,.vitalis-environment,.digital-reserve,.vitalis-pilot,.task-world,.signin-page,.booking-page,.inner-page) {
+  background:var(--app-canvas);color:var(--app-ink);
+}
+.legacy-app-theme[data-legacy-app] :is(h1,h2,h3,h4) { color:var(--reserve-text-primary); }
+.legacy-app-theme[data-legacy-app] :is(.digital-label,.experience-kicker,.eyebrow,.founder-label) { color:var(--app-label)!important; }
+.legacy-app-theme[data-legacy-app] :is(.text-link,.katie-link,.room-intro>p,.member-intro,.member-line p) { color:var(--reserve-text-secondary); }
+.legacy-app-theme[data-legacy-app] :is(.member-opening,.command-heading,.content-heading) {
+  background:none;border:0;box-shadow:none;border-radius:0;
+  color:var(--app-ink);padding:16px 0 28px;margin-bottom:8px;
+}
+.legacy-app-theme[data-legacy-app] .member-opening h1,
+.legacy-app-theme[data-legacy-app] .command-heading h1,
+.legacy-app-theme[data-legacy-app] .content-heading h1 {
+  color:var(--lr-imperial-green);font-weight:500;letter-spacing:-.045em;
+}
+.legacy-app-theme[data-legacy-app] .member-opening h1 { font-family:var(--reserve-sans),sans-serif; }
+.legacy-app-theme[data-legacy-app] .member-opening>img { filter:none;opacity:1; }
+.legacy-app-theme[data-legacy-app] .member-opening :is(.member-intro,.experience-kicker) { color:var(--app-muted); }
+.legacy-app-theme[data-legacy-app] :is(.member-opening,.command-heading) h1 em { color:inherit;font-style:normal;font-family:var(--reserve-serif); }
+/* Carbon navigation connects directly to the public homepage's masthead. */
+.legacy-app-theme[data-legacy-app] :is(.command-masthead.experience-header,.studio-masthead,.command-dock,.studio-nav,.command-account nav) {
+  --reserve-text-primary:var(--lr-architectural-ivory);
+  --reserve-text-secondary:var(--lr-dark-muted);
+  --reserve-text-muted:var(--lr-dark-muted);
+  --app-label:var(--lr-champagne);
+  --imperial-ivory:var(--lr-architectural-ivory);
+  --imperial-muted:var(--lr-dark-muted);
+  --imperial-champagne:var(--lr-champagne);
+  color-scheme:dark;
+  background:var(--lr-brushed-grain),linear-gradient(120deg,#26312c,#121417 68%);
+  color:var(--lr-architectural-ivory);border-color:#88958d66;
+}
+.legacy-app-theme[data-legacy-app] :is(.experience-brand,.command-current,.studio-wordmark,.studio-identity,.studio-public-entrance,.studio-nav a,.command-account summary) { color:var(--lr-architectural-ivory); }
+.legacy-app-theme[data-legacy-app] :is(.experience-brand small,.studio-wordmark small,.studio-identity small,.command-dock a) { color:var(--lr-dark-muted); }
+.legacy-app-theme[data-legacy-app] .command-account summary { background:#ffffff09;border-color:#88958d80; }
+.legacy-app-theme[data-legacy-app] :is(.command-dock,.studio-nav) a[aria-current="page"] {
+  background:#f5f1e814;color:var(--lr-champagne);box-shadow:inset 0 -2px 0 var(--lr-reserve-gold);
+}
+.legacy-app-theme[data-legacy-app] .command-dock { box-shadow:inset 0 1px 0 #ffffff24,0 16px 40px #12141730;backdrop-filter:none; }
+.legacy-app-theme[data-legacy-app] .command-concierge .command-icon { background:var(--app-steel-panel);color:var(--lr-champagne);border-color:var(--lr-champagne); }
+/* White/ivory reading surfaces establish the dominant app color at every depth. */
+.legacy-app-theme[data-legacy-app] :is(.imperial-surface,.imperial-glass,.imperial-world,.member-world-rail>a,.member-wellness,.member-focus,.collection-status,.collection-product,.shop-concept,.pilot-surface,.signin-panel,.booking-main,.booking-summary,.appointment,.visit-card,.sanctum-empty,.sanctum-professional-grid button,.concierge-suggestions button,.concierge-thread article,.chair-summary,.review-visit,.mirror-result,.blueprint-panel,.studio-section,.pilot-panel,.stat-grid>div,.studio-brief,.studio-action-row,.studio-work-card,.studio-client-card,.studio-work-dialog,.studio-aethelios-dialog,.assistant-room,.operation-proposal,.operation-editor,.studio-day-block,.studio-day-visit):not(:is(.member-priority-stage,.digital-world-preview,.vitalis-hero-world,.sanctum-portal,.command-center)) {
+  background:var(--reserve-material);color:var(--app-ink);
+  border-color:var(--app-line);box-shadow:inset 0 1px 0 #fff,0 10px 28px #1214170a;
+}
+.legacy-app-theme[data-legacy-app] :is(.imperial-world,.collection-product,.signin-panel,.booking-main,.booking-summary,.pilot-surface,.studio-work-card,.studio-client-card) { border-radius:12px; }
+.legacy-app-theme[data-legacy-app] .imperial-world-top { color:var(--lr-imperial-green); }
+.legacy-app-theme[data-legacy-app] .imperial-world strong { font-family:var(--reserve-sans);font-size:23px;font-weight:500; }
+.legacy-app-theme[data-legacy-app] .imperial-worlds { gap:14px;margin:12px 0 32px; }
+.legacy-app-theme[data-legacy-app] .imperial-world-top { margin-bottom:20px; }
+.legacy-app-theme[data-legacy-app] .imperial-world::before { background:var(--lr-edge-reflection);opacity:.2; }
+.legacy-app-theme[data-legacy-app] :is(.member-world-rail,.member-concierge-line,.member-line,.reserve-direction,.reserve-pathway,.reserve-routine,.reserve-education,.collection-purchase,.collection-product-detail,.content-library,.studio-foot) { border-color:var(--app-line); }
+.legacy-app-theme[data-legacy-app] .member-wellness { padding:36px;margin:30px 0; }
+.legacy-app-theme[data-legacy-app] .member-wellness :is(p,.member-week-progress) { color:var(--app-muted); }
+.legacy-app-theme[data-legacy-app] .member-week span { background:var(--app-soft);color:var(--app-muted);border-color:var(--app-control-line); }
+.legacy-app-theme[data-legacy-app] .member-week span[data-completed="true"] { background:var(--lr-imperial-green);color:var(--lr-architectural-ivory); }
+.legacy-app-theme[data-legacy-app] :is(.collection-product>img,.collection-no-image,.shop-concept-image) { background:var(--app-soft); }
+/* Selected feature scenes are steel, with ivory foregrounds; green never fills the page. */
+.legacy-app-theme[data-legacy-app] :is(.member-priority-stage,.digital-world-preview,.vitalis-hero-world,.sanctum-portal,.command-center) {
+  --reserve-text-primary:var(--lr-architectural-ivory);
+  --reserve-text-secondary:var(--lr-dark-muted);
+  --reserve-text-muted:var(--lr-dark-muted);
+  --imperial-ivory:var(--lr-architectural-ivory);
+  --imperial-muted:var(--lr-dark-muted);
+  --imperial-champagne:var(--lr-champagne);
+  --app-label:var(--lr-champagne);
+  color-scheme:dark;
+  color:var(--lr-architectural-ivory);background:var(--app-steel-panel);
+  border:1px solid #88958d;border-radius:16px;
+  box-shadow:inset 0 1px 0 #ffffff30,0 16px 36px #1214171c;
+}
+.legacy-app-theme[data-legacy-app] :is(.member-priority-stage,.digital-world-preview,.vitalis-hero-world,.sanctum-portal,.command-center) :is(h1,h2,h3) { color:var(--lr-architectural-ivory); }
+.legacy-app-theme[data-legacy-app] :is(.member-priority-stage,.sanctum-portal,.command-center) :is(p,li,.text-link) { color:var(--lr-dark-muted); }
+.legacy-app-theme[data-legacy-app] .member-priority-stage { margin:16px 0 30px; }
+.legacy-app-theme[data-legacy-app] .member-priority-stage::before { background:var(--lr-edge-reflection);opacity:.22; }
+.legacy-app-theme[data-legacy-app] .digital-world-layout { background:var(--app-paper);border:1px solid var(--app-line);border-radius:16px;overflow:hidden; }
+.legacy-app-theme[data-legacy-app] .digital-world-copy { color:var(--app-ink);padding-left:32px; }
+.legacy-app-theme[data-legacy-app] .digital-world-copy :is(h3,p) { color:var(--app-ink); }
+.legacy-app-theme[data-legacy-app] .digital-world-copy :is(p,li,.preview-note) { color:var(--app-muted); }
+.legacy-app-theme[data-legacy-app] :is(.digital-world-controls,.digital-selector) { background:var(--app-soft);border-color:var(--app-line); }
+.legacy-app-theme[data-legacy-app] .digital-world-controls button { background:var(--app-paper);color:var(--app-ink);border-color:var(--app-line); }
+.legacy-app-theme[data-legacy-app] .digital-world-controls button[aria-pressed="true"] { background:var(--lr-imperial-green);color:var(--lr-architectural-ivory);box-shadow:inset 0 -3px var(--lr-reserve-gold); }
+.legacy-app-theme[data-legacy-app] .digital-preview-routine { background:var(--app-soft);color:var(--app-ink);border-color:var(--app-line); }
+.legacy-app-theme[data-legacy-app] .digital-preview-routine :is(p,strong,li) { color:var(--app-ink); }
+.legacy-app-theme[data-legacy-app] .digital-preview-routine small { color:var(--app-muted); }
+/* The instrument reflects steel and brass, with one small green core. */
+.legacy-app-theme[data-legacy-app] .digital-instrument { --world-tone:#88958d; }
+.legacy-app-theme[data-legacy-app] .instrument-aura { background:radial-gradient(ellipse,#88958d44,transparent 68%);filter:blur(16px);opacity:.45; }
+.legacy-app-theme[data-legacy-app] .imperial-core { background:radial-gradient(circle at 32% 23%,#88958d,#4a5450 35%,#26312c 70%,#121417);border-color:#e4bd70; }
+.legacy-app-theme[data-legacy-app] .imperial-orbits i { background:linear-gradient(135deg,#88958d16,#12141718);border-color:#e4bd7080; }
+.legacy-app-theme[data-legacy-app] .instrument-glass { background:linear-gradient(125deg,#88958d33,#12141744);border-color:#e4bd7066; }
+.legacy-app-theme[data-legacy-app] .instrument-caption { color:var(--lr-dark-muted); }
+.legacy-app-theme[data-legacy-app] .instrument-caption strong { color:var(--lr-champagne); }
+/* Forms use paper fields; primary actions retain the homepage's Imperial Green. */
+.legacy-app-theme[data-legacy-app] :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),textarea,select) {
+  background:var(--app-paper);color:var(--app-ink);border-color:var(--app-control-line);color-scheme:light;
+}
+.legacy-app-theme[data-legacy-app] :is(input,textarea)::placeholder { color:#657268;opacity:1; }
+.legacy-app-theme[data-legacy-app] :is(input[type="checkbox"],input[type="radio"]) { accent-color:var(--lr-imperial-green); }
+.legacy-app-theme[data-legacy-app] :is(.button.button-gold,.preview-blueprint-button) {
+  background:linear-gradient(135deg,#205443,#12382d 72%);color:var(--lr-architectural-ivory);
+  border-color:#12382d;box-shadow:inset 0 1px 0 #ffffff24,0 6px 16px #12382d20;border-radius:6px;
+}
+.legacy-app-theme[data-legacy-app] :is(.button.button-outline,.social-auth-button) {
+  background:var(--app-paper);color:var(--app-ink);border-color:var(--app-control-line);
+  box-shadow:inset 0 1px 0 #fff,0 4px 12px #1214170a;border-radius:6px;
+}
+.legacy-app-theme[data-legacy-app] :is(.service-option,.time-grid button,.date-button,.chair-choice,.choice-group button,.routine-choice) {
+  background:var(--app-paper);color:var(--app-ink);border-color:var(--app-control-line);box-shadow:0 3px 9px #12141708;
+}
+.legacy-app-theme[data-legacy-app] :is(.service-option.selected,.time-grid button.selected,.date-button.selected,.chair-choice.selected,.choice-group button[aria-pressed="true"],.routine-choice[aria-pressed="true"]) {
+  background:#e7ebe3;color:var(--app-ink);border-color:#12382d;box-shadow:inset 3px 0 0 #c4912f;
+}
+.legacy-app-theme[data-legacy-app] :is(a,button,input,select,textarea,summary):focus-visible { outline:2px solid var(--lr-gold-on-ivory);outline-offset:4px; }
+.legacy-app-theme[data-legacy-app] :is(.command-dock,.studio-nav,.command-account nav,.member-priority-stage,.command-center) :focus-visible { outline-color:var(--lr-champagne); }
+.legacy-app-theme[data-legacy-app] :is(.field-note,.reserve-field-note,.booking-summary p,.studio-muted,.studio-section p,.chair-step p,.mirror-intro p,.status,.review-visit strong) { color:var(--app-muted); }
+/* Vitalis is a light reading and progress environment, including the actual pilot. */
+.legacy-app-theme[data-legacy-app] :is(.vitalis-hero,.vitalis-horizon,.vitalis-pillars,.vitalis-reading,.vitalis-membership,.vitalis-pilot,.pilot-focus,.pilot-reading,.pilot-preview,.pilot-privacy) { background:var(--app-canvas);color:var(--app-ink); }
+.legacy-app-theme[data-legacy-app] :is(.vitalis-lede,.vitalis-pilot p,.pilot-count span,.pilot-week li,.pilot-reading p,.pilot-privacy p,.vitalis-pilot legend) { color:var(--app-muted); }
+.legacy-app-theme[data-legacy-app] :is(.vitalis-status,.vitalis-position,.pilot-count strong,.vitalis-future-link) { color:var(--app-label); }
+.legacy-app-theme[data-legacy-app] .pilot-preview { border-color:var(--lr-reserve-gold);background:var(--app-soft); }
+.legacy-app-theme[data-legacy-app] .pilot-message { background:var(--app-paper);color:var(--lr-imperial-green);border:1px solid var(--app-control-line);box-shadow:0 8px 24px #12141712; }
+.legacy-app-theme[data-legacy-app] .pilot-week { background:var(--app-soft);border-color:var(--app-line); }
+.legacy-app-theme[data-legacy-app] .pilot-week li[data-done="true"]>span:nth-child(2) { background:var(--lr-imperial-green);color:var(--lr-architectural-ivory); }
+/* Concierge, membership and Sanctum keep the same reading canvas instead of green rooms. */
+.legacy-app-theme[data-legacy-app] :is(.digital-membership-arrival,.digital-membership-tools,.digital-membership-clarity,.digital-membership-invitation,.digital-aethelios,.digital-pathways,.digital-intelligence,.digital-vitalis,.digital-sanctum,.digital-invitation) { background:var(--app-canvas);color:var(--app-ink); }
+.legacy-app-theme[data-legacy-app] .digital-reserve :is(h1,h2,h3) { color:var(--app-ink); }
+.legacy-app-theme[data-legacy-app] .digital-reserve :is(p,li) { color:var(--app-muted); }
+.legacy-app-theme[data-legacy-app] .digital-reserve em { color:var(--lr-imperial-green); }
+.legacy-app-theme[data-legacy-app] :is(.aethelios-preview,.digital-aethelios .aethelios-preview,.concierge-compose,.concierge-booking,.concierge-question,.concierge-links a,.sanctum-services>div>a,.sanctum-world-grid>a,.sanctum-destination select,.sanctum-status) { background:var(--app-paper);color:var(--app-ink);border-color:var(--app-control-line); }
+.legacy-app-theme[data-legacy-app] :is(.aethelios-example,.aethelios-preview-top,.aethelios-founder-entry p,.concierge-suggestions button,.concierge-thread article p,.sanctum-section-heading>p,.sanctum-timezone,.sanctum-world-grid p) { color:var(--app-muted); }
+.legacy-app-theme[data-legacy-app] .concierge-compose { box-shadow:0 -8px 28px #1214170a; }
+.legacy-app-theme[data-legacy-app] .sanctum-monogram { background:var(--app-soft);color:var(--app-ink); }
+.legacy-app-theme[data-legacy-app] .sanctum-portal figure::after { background:linear-gradient(90deg,#26312c,transparent 30%),linear-gradient(0deg,#12141766,transparent); }
+/* The owner's destination must transform too: its dominant canvas and work panels are ivory. */
+.legacy-studio-theme .studio-shell { padding-bottom:6rem; }
+.legacy-studio-theme .studio-canvas { max-width:1360px;margin:auto;padding:44px clamp(20px,4vw,64px) 50px; }
+.legacy-studio-theme .command-world { background:none; }
+.legacy-studio-theme .command-heading h1 { font-family:var(--reserve-sans);font-size:clamp(42px,5.7vw,78px);line-height:1.05; }
+.legacy-studio-theme .command-center { padding:32px;gap:48px;margin:16px 0 36px; }
+.legacy-studio-theme :is(.command-pulse,.command-signals strong,.command-intelligence) { color:var(--lr-architectural-ivory); }
+.legacy-studio-theme .command-intelligence { background:none; }
+.legacy-studio-theme .command-signals { color:var(--lr-dark-muted); }
+.legacy-studio-theme .command-signals span { border-color:#88958d80; }
+.legacy-studio-theme .command-focus { background:var(--app-paper);border:1px solid var(--app-line);border-radius:12px;padding:24px 28px; }
+.legacy-studio-theme :is(.command-tabs,.studio-filters,.studio-content-tabs) { border-color:var(--app-line); }
+.legacy-studio-theme :is(.command-tabs button,.studio-filters button,.studio-content-tabs button) { color:var(--app-muted);background:transparent; }
+.legacy-studio-theme :is(.command-tabs button[aria-selected="true"],.studio-filters button[aria-pressed="true"],.studio-content-tabs button[aria-pressed="true"]) { color:var(--app-ink);background:var(--app-soft);border-color:var(--lr-reserve-gold); }
+.legacy-studio-theme .studio-action-row { box-shadow:none;border-color:var(--app-line); }
+.legacy-studio-theme :is(.studio-action-row span,.studio-status-row strong,.studio-notice,.operation-view p,.operation-description,.operation-grid small,.operation-help,.operation-event small,.operation-event p,.content-word-count) { color:var(--app-muted); }
+.legacy-studio-theme :is(.studio-action-row strong,.content-toolbar,.content-copy-label textarea,.studio-clients table,.studio-day-visit strong,.studio-control label) { color:var(--app-ink); }
+.legacy-studio-theme :is(.studio-section,.pilot-panel) { border:1px solid var(--app-line);padding:28px;border-radius:12px; }
+.legacy-studio-theme :is(.studio-filters select,.studio-day-block,.calendar-cell,.studio-day-visit,.studio-controls select,.content-toolbar select,.content-copy-label textarea,.content-editor input,.studio-control input,.operation-view button,.operation-proposal,.operation-editor,.operation-audit,.studio-client-note,.studio-empty,.studio-work-editor) { background:var(--app-paper);color:var(--app-ink);border-color:var(--app-control-line); }
+.legacy-studio-theme :is(.studio-notice,.studio-status-row,.studio-brief,.studio-capability,.operation-status,.operation-conflict) { background:var(--app-soft);color:var(--app-ink);border-color:var(--app-line); }
+.legacy-studio-theme .assistant-room { color-scheme:light;box-shadow:0 24px 70px #12141730; }
+.legacy-studio-theme .assistant-room :is(h2,label) { color:var(--app-ink); }
+.legacy-studio-theme .assistant-room :is(p,small) { color:var(--app-muted); }
+.legacy-studio-theme .assistant-launch { background:var(--app-steel-panel);color:var(--lr-champagne);border-color:#88958d; }
+.legacy-studio-theme .studio-foot { background:none;color:var(--app-muted); }
+.legacy-studio-theme .studio-error { background:var(--reserve-danger-surface);color:var(--reserve-danger);border-color:var(--reserve-danger); }
+/* Profile and Mirror are also Legacy app routes, with older literal green rooms. */
+.reserve-app-shell.legacy-app-theme :is(.my-sanctum-page,.mirror-page) { background:var(--app-canvas);color:var(--app-ink); }
+.reserve-app-shell.legacy-app-theme :is(.profile-hero-card,.sanctum-dashboard-grid article,.empty-blueprint,.chair-profile-link,.blueprint-handoff,.blueprint-grid article,.profile-questions,.mirror-panel) { background:var(--reserve-material);color:var(--app-ink);border-color:var(--app-line); }
+.reserve-app-shell.legacy-app-theme :is(.sanctum-command,.profile-summary,.sanctum-dashboard-grid,.empty-blueprint,.chair-profile-link,.blueprint-grid,.mirror-intro) :is(p,li,small) { color:var(--app-muted); }
+.reserve-app-shell.legacy-app-theme :is(.profile-tags span,.sanctum-dashboard-grid .dashboard-icon) { background:var(--app-soft);color:var(--lr-imperial-green);border-color:var(--app-line); }
+.reserve-app-shell.legacy-app-theme .profile-visual { background:var(--app-steel-panel);color:var(--lr-champagne); }
+.reserve-app-shell.legacy-app-theme .profile-visual>span { color:var(--lr-dark-muted); }
+.reserve-app-shell.legacy-app-theme .sanctum-success { background:var(--reserve-success-surface);color:var(--reserve-success); }
+.legacy-studio-theme .studio-muted { color:var(--app-muted)!important; }
+.legacy-app-theme[data-legacy-app] .preview-ribbon { background:none;color:var(--app-muted); }
+.legacy-app-theme[data-legacy-app] .command-account .preview-ribbon { color:var(--lr-dark-muted); }
+/* Responsive composition, not just a desktop palette replacement. */
+@media (max-width:700px) {
+  .legacy-app-theme[data-legacy-app] .member-opening { padding:8px 0 24px;margin-bottom:4px; }
+  .legacy-app-theme[data-legacy-app] .member-wellness { padding:26px 22px;margin:24px 0; }
+  .legacy-app-theme[data-legacy-app] .digital-world-copy { padding:26px 22px; }
+  .legacy-studio-theme .studio-canvas { padding:28px 20px 32px; }
+  .legacy-studio-theme .command-center { padding:24px 22px;gap:24px; }
+  .legacy-studio-theme .command-focus { padding:20px 18px; }
+  .legacy-studio-theme :is(.studio-section,.pilot-panel) { padding:22px 18px; }
+  .legacy-app-theme[data-legacy-app] .imperial-worlds { gap:12px; }
+}
+@media (max-width:430px) {
+  .legacy-app-theme[data-legacy-app] .member-opening { flex-direction:column-reverse;align-items:flex-start;gap:16px; }
+  .legacy-app-theme[data-legacy-app] .member-opening>img { width:42px;height:42px; }
+}
+@media (prefers-contrast:more) {
+  .legacy-app-theme[data-legacy-app] { --app-control-line:#465a50;--app-line:#77857a; }
+}
+@media (forced-colors:active) {
+  .legacy-app-theme,.legacy-app-theme[data-legacy-app] :is(.member-opening,.command-content,.member-environment,.studio-shell,.command-center,.member-priority-stage,.digital-world-preview) { background:Canvas;color:CanvasText; }
+  .legacy-app-theme[data-legacy-app] :is(h1,h2,h3,p,span,.digital-label,.experience-kicker,.eyebrow) { color:CanvasText!important; }
+  .legacy-app-theme[data-legacy-app] :focus-visible { outline-color:Highlight; }
+}

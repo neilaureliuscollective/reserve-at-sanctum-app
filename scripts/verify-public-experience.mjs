@@ -129,7 +129,7 @@ try {
  }
  await page.goto(base+'/home?explore=1');
  const opening=page.locator('.member-opening');
- await expect(opening).toHaveCSS('background-color','rgb(245, 241, 232)');
+ await expect(page.locator('.reserve-app-shell.legacy-app-theme')).toHaveCSS('background-color','rgb(245, 241, 232)');
  await expect(opening.locator('h1')).toHaveCSS('color','rgb(18, 56, 45)');
  await expect(page.locator('.command-dock')).toHaveCSS('border-top-color','rgb(136, 149, 141)');
  console.log('Checking no-JavaScript navigation');

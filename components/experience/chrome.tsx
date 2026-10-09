@@ -18,6 +18,7 @@ export function ExperienceChrome({ children, footer, status }: {
   const menu = useRef<HTMLDetailsElement>(null);
   const [keyboard, setKeyboard] = useState(false);
   const world = commandWorld(path);
+  const legacyApp = !path.startsWith("/fix-it-shop") && !path.startsWith("/founder");
   useEffect(() => { if (menu.current) menu.current.open = false; }, [path]);
   useEffect(() => {
     const viewport = window.visualViewport;
@@ -36,7 +37,7 @@ export function ExperienceChrome({ children, footer, status }: {
   if (path.startsWith("/studio")) return <>{children}{status}</>;
   if (path === "/discover") return <div data-lr-theme="mineral"><ArrivalMotion /><PublicNavigation />{children}</div>;
   if (path === "/") return <><ArrivalMotion /><MotionMode />{children}</>;
-  return <div className="reserve-app-shell" data-world={world} data-keyboard={keyboard}>
+  return <div className={`reserve-app-shell${legacyApp ? " legacy-app-theme" : ""}`} data-legacy-app={legacyApp ? "true" : undefined} data-world={world} data-keyboard={keyboard}>
     <ArrivalMotion />
     <a className="skip" href="#main">Skip to content</a>
     <header className="experience-header command-masthead">

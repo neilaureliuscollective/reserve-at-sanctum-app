@@ -69,6 +69,7 @@ import "./command-shell.css";
 import "./imperial-emerald.css";
 import "./design-system-v2.css";
 import "./app-materials.css";
+import "./legacy-app-theme.css";
 import { StatusRibbon } from "@/components/experience/status-ribbon";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";

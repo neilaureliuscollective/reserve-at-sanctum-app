@@ -18,7 +18,7 @@ export default async function StudioLayout({
   children: React.ReactNode;
 }) {
   const actor = await currentUser();
-  if (!actor) return <AccountEntrance next="/studio" />;
+  if (!actor) return <div className="legacy-app-theme legacy-studio-entrance" data-legacy-app="true"><AccountEntrance next="/studio" /></div>;
   if (!hasCapability(actor, "studio.read"))
     return (
       <main id="main" className="inner-page section center-state">
@@ -32,6 +32,7 @@ export default async function StudioLayout({
     );
   const katie = actor.role !== "owner" && actor.provider_id === "katie";
   return (
+    <div className={katie ? undefined : "legacy-app-theme legacy-studio-theme"} data-legacy-app={katie ? undefined : "true"}>
     <StudioAssistant connected={Boolean(process.env.OPENAI_API_KEY)}>
       <div className={`studio-shell${katie ? " fix-it-studio" : ""}`}>
         <header className="studio-masthead">
@@ -95,5 +96,6 @@ export default async function StudioLayout({
         </footer>
       </div>
     </StudioAssistant>
+    </div>
   );
 }

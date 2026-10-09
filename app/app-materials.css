@@ -54,15 +54,15 @@
 .reserve-app-shell :is(.reserve-concierge,.personal-reserve,.vitalis-environment) {
   background:radial-gradient(ellipse at 90% 0%,#4a545033,transparent 60%),var(--lr-obsidian);
 }
-.reserve-app-shell .button.button-gold:not(.sanctum-steel *):not(.provider-app *) {
+.reserve-app-shell:not(.legacy-app-theme) .button.button-gold:not(.sanctum-steel *):not(.provider-app *) {
   background:linear-gradient(135deg,var(--lr-green-light),var(--lr-imperial-green) 72%);
   color:var(--lr-architectural-ivory);border:1px solid var(--lr-steel-light);
   box-shadow:inset 0 1px 0 #ffffff24,0 6px 18px #0003;
 }
-.reserve-app-shell .button.button-outline:not(.sanctum-steel *):not(.provider-app *) {
+.reserve-app-shell:not(.legacy-app-theme) .button.button-outline:not(.sanctum-steel *):not(.provider-app *) {
   background:var(--lr-carbon-shadow);border-color:var(--lr-steel-light);color:var(--lr-architectural-ivory);
 }
-.reserve-app-shell :is(input:not([type="checkbox"]):not([type="radio"]),textarea,select):not(.sanctum-steel *):not(.provider-app *) {
+.reserve-app-shell:not(.legacy-app-theme) :is(input:not([type="checkbox"]):not([type="radio"]),textarea,select):not(.sanctum-steel *):not(.provider-app *) {
   background:var(--lr-carbon-shadow);color:var(--lr-architectural-ivory);border-color:var(--lr-steel-light);
 }
 .reserve-app-shell :is(.service-option.selected,.date-button.selected,.time-grid button.selected,.chair-choice.selected) {
