@@ -6,6 +6,7 @@ import { hasCapability } from "@/lib/studio-permissions";
 import { StudioNav } from "@/components/studio-nav";
 import { StudioAssistant } from "@/components/studio-assistant";
 import "./studio.css";
+import "./provider-studio.css";
 export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Legacy Reserve Studio",
@@ -29,26 +30,39 @@ export default async function StudioLayout({
         </Link>
       </main>
     );
+  const katie = actor.role !== "owner" && actor.provider_id === "katie";
   return (
     <StudioAssistant connected={Boolean(process.env.OPENAI_API_KEY)}>
-      <div className="studio-shell">
+      <div className={`studio-shell${katie ? " fix-it-studio" : ""}`}>
         <header className="studio-masthead">
           <Link href="/studio" className="studio-wordmark">
             <span className="studio-monogram">
               <Image
-                src="/brand/legacy-reserve/mark-gold.webp"
+                src={
+                  katie
+                    ? "/images/approved/fix-it-shop.webp"
+                    : "/brand/legacy-reserve/mark-gold.webp"
+                }
                 alt=""
                 width={32}
                 height={32}
               />
             </span>
             <span>
-              LEGACY RESERVE<small>STUDIO · OPERATIONS</small>
+              {katie ? "FIX IT SHOP" : "LEGACY RESERVE"}
+              <small>
+                {katie
+                  ? "KATIE GUIDRY · PRIVATE STUDIO"
+                  : "STUDIO · OPERATIONS"}
+              </small>
             </span>
           </Link>
           <div className="studio-identity">
-            <Link className="studio-public-entrance" href="/discover">
-              View public website ↗
+            <Link
+              className="studio-public-entrance"
+              href={katie ? "/fix-it-shop/app" : "/discover"}
+            >
+              {katie ? "View your customer app" : "View public website"} ↗
             </Link>
             <span>{actor.name.split(" ·")[0]}</span>
             <small>
@@ -62,12 +76,19 @@ export default async function StudioLayout({
             </small>
           </div>
         </header>
-        <StudioNav owner={actor.role === "owner"} />
+        <StudioNav
+          owner={actor.role === "owner"}
+          provider={!!actor.provider_id}
+        />
         <main id="main" className="studio-canvas">
           {children}
         </main>
         <footer className="studio-foot">
-          <span>LEGACY RESERVE</span>
+          <span>
+            {katie
+              ? "FIX IT SHOP · POWERED BY LEGACY RESERVE"
+              : "LEGACY RESERVE"}
+          </span>
           <Link href="/setup?help=1">Phone setup</Link>
           <Link href="/discover">View public website</Link>
           <Link href="/account">Account</Link>

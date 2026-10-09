@@ -3,7 +3,11 @@ import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { DateTime } from "luxon";
-if (process.env.DATABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL)
+if (
+  process.env.DATABASE_URL ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  process.env.NODE_ENV === "production"
+)
   throw Error("Synthetic local environment only.");
 await mkdir("artifacts", { recursive: true });
 const origin = "http://localhost:3000";
@@ -61,7 +65,7 @@ try {
     );
   await login("preview-katie");
   await visit(origin + "/studio");
-  await page.waitForURL("**/studio/schedule");
+  await page.waitForURL("**/studio/today");
   await visit(origin + "/studio/clients");
   await page.getByText("Add client", { exact: true }).click();
   const form = page.locator("form").first();
@@ -105,6 +109,74 @@ try {
     .getByRole("button", { name: "Save appointment", exact: true })
     .click();
   await page.getByText(/Appointment saved. Reference/).waitFor();
+  await visit(origin + "/studio/today");
+  await page.getByLabel("Working day", { exact: true }).fill(day.toISODate());
+  await page
+    .locator(".provider-agenda")
+    .getByRole("link", { name: name + " ↗", exact: true })
+    .waitFor();
+  assert.equal(await page.locator(".fix-it-studio").count(), 1);
+  assert.ok(
+    !(await page.locator(".provider-day").textContent()).includes(
+      "Keep the finish natural.",
+    ),
+  );
+  const dayData = await (
+    await context.request.get(
+      origin + "/api/studio/day?date=" + day.toISODate() + "&provider=katie",
+    )
+  ).json();
+  assert.ok(dayData.visits.some((v) => v.client_name === name));
+  assert.ok(!dayData.visits.some((v) => "note" in v));
+  assert.equal(
+    (
+      await context.request.get(origin + "/api/studio/day?provider=other")
+    ).status(),
+    403,
+  );
+  for (const width of [320, 390, 540, 768, 884, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.ok(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth + 1,
+      ),
+      "Day overflow " + width,
+    );
+    await page.screenshot({
+      path: `artifacts/katie-studio-day-${width}.png`,
+      fullPage: true,
+    });
+  }
+  await page
+    .locator(".provider-agenda")
+    .getByRole("link", { name: name + " ↗", exact: true })
+    .click();
+  await page.getByRole("heading", { name, exact: true }).waitFor();
+  await visit(origin + "/studio/today");
+  await page.getByLabel("Working day", { exact: true }).fill(day.toISODate());
+  const slot = page.locator(".provider-slot-list a").first();
+  await slot.waitFor();
+  const slotHref = await slot.getAttribute("href");
+  await slot.click();
+  await page.getByRole("heading", { name: "Appointments, handled." }).waitFor();
+  const pref = page.locator("#manual-booking form");
+  await pref.waitFor();
+  assert.equal(
+    await pref.getByLabel("Date", { exact: true }).inputValue(),
+    day.toISODate(),
+  );
+  const chosen = new URL(slotHref, origin).searchParams.get("time");
+  await page.waitForFunction(
+    (value) =>
+      document.querySelector("#manual-booking select") &&
+      [...document.querySelectorAll("#manual-booking select")].some(
+        (s) => s.value === value,
+      ),
+    chosen,
+  );
+  await visit(
+    origin + "/studio/schedule?date=" + day.toISODate() + "&location=eunice",
+  );
   await page
     .locator(".calendar-filter")
     .getByLabel("Choose a day")
@@ -194,6 +266,12 @@ try {
     403,
   );
   assert.equal((await context.request.get(origin + calendar)).status(), 404);
+  assert.equal(
+    (
+      await context.request.get(origin + "/api/studio/day?provider=katie")
+    ).status(),
+    403,
+  );
   await login("preview-katie");
   const cancel = await context.request.patch(
     origin + "/api/appointments/" + stored.id,
@@ -235,6 +313,21 @@ try {
   await page
     .getByText("1 clients added; 0 already imported.", { exact: true })
     .waitFor();
+  await page.route("**/api/studio/day?**", (r) =>
+    r.fulfill({
+      status: 503,
+      contentType: "application/json",
+      body: JSON.stringify({ error: "Preview connection unavailable" }),
+    }),
+  );
+  await visit(origin + "/studio/today");
+  await page
+    .getByRole("heading", { name: "Your day couldn’t load." })
+    .waitFor();
+  assert.equal(await page.locator(".provider-day-stats").count(), 0);
+  await page.unroute("**/api/studio/day?**");
+  await page.getByRole("button", { name: "Try again", exact: true }).click();
+  await page.locator(".provider-day-stats").waitFor();
   assert.deepEqual(errors, []);
   console.log(
     "PASS booking pilot: client entry/history, staff launch, manual booking/reload/reschedule/cancel, ICS privacy, client denial, CSV preview/import, five widths and no page errors.",

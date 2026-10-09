@@ -502,8 +502,8 @@ export async function visits(
     );
     if (!location) throw new BookingError("Location unavailable.");
     zone = location.timezone;
-    values.push(locationId);
-    dayFilter += ` AND a.location_id=$${values.length}`;
+    values.push(locationId, primaryLocation.id);
+    dayFilter += ` AND COALESCE(a.location_id,$${values.length})=$${values.length - 1}`;
   }
   if (providerId) {
     if (studio && actor.role !== "owner" && actor.provider_id !== providerId)

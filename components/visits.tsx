@@ -11,11 +11,15 @@ export function Visits({
   studio = false,
   preview = false,
   identity,
+  initialDate,
+  initialLocation,
 }: {
   actor: Actor;
   studio?: boolean;
   preview?: boolean;
   identity?: BookingIdentity;
+  initialDate?: string;
+  initialLocation?: string;
 }) {
   const [rows, setRows] = useState<Appointment[]>([]),
     [loading, setLoading] = useState(true),
@@ -30,14 +34,16 @@ export function Visits({
       studio ? "calendar" : "visits",
     ),
     [filter, setFilter] = useState(
-      studio ? DateTime.now().setZone("America/Chicago").toISODate()! : "",
+      studio
+        ? initialDate || DateTime.now().setZone("America/Chicago").toISODate()!
+        : "",
     ),
     [message, setMessage] = useState(""),
     [page, setPage] = useState(0),
     [hasMore, setHasMore] = useState(false),
     [days, setDays] = useState(1),
     [provider, setProvider] = useState(actor.provider_id || ""),
-    [locationId, setLocationId] = useState("eunice"),
+    [locationId, setLocationId] = useState(initialLocation || "eunice"),
     [providers, setProviders] = useState<{ id: string; name: string }[]>([]),
     [locations, setLocations] = useState<
       { id: string; name: string; timezone: string }[]
@@ -226,7 +232,15 @@ export function Visits({
               Studio <ArrowUpRight size={16} />
             </Link>
           )}
-          <Link href={identity?.book || "/book"} className="button button-gold">
+          <Link
+            href={
+              identity?.book ||
+              (studio && actor.provider_id === "katie"
+                ? "/fix-it-shop/app/book"
+                : "/book")
+            }
+            className="button button-gold"
+          >
             {studio ? "Client booking" : "Book a visit"}{" "}
             <ArrowUpRight size={16} />
           </Link>
@@ -271,6 +285,38 @@ export function Visits({
       )}
       {view === "calendar" && (
         <div className="calendar-filter">
+          <button
+            className="button button-outline"
+            aria-label="Previous schedule day"
+            onClick={() => {
+              setFilter(
+                DateTime.fromISO(
+                  filter || DateTime.now().setZone(zone).toISODate()!,
+                )
+                  .minus({ days: days })
+                  .toISODate()!,
+              );
+              setPage(0);
+            }}
+          >
+            ← Previous
+          </button>
+          <button
+            className="button button-outline"
+            aria-label="Next schedule day"
+            onClick={() => {
+              setFilter(
+                DateTime.fromISO(
+                  filter || DateTime.now().setZone(zone).toISODate()!,
+                )
+                  .plus({ days: days })
+                  .toISODate()!,
+              );
+              setPage(0);
+            }}
+          >
+            Next →
+          </button>
           <label className="form-field">
             Choose a day
             <input
@@ -415,6 +461,16 @@ export function Visits({
                     <small>{dt.toFormat("ccc")}</small>
                   </div>
                   <div className="appointment-content">
+                    {studio &&
+                      hasCapability(actor, "clients.read") &&
+                      (a.crm_client_id || a.client_id) && (
+                        <Link
+                          className="studio-client-link"
+                          href={`/studio/clients/${encodeURIComponent(a.crm_client_id || a.client_id!)}`}
+                        >
+                          {a.client_name} ↗
+                        </Link>
+                      )}
                     {!studio && !identity && (
                       <Link
                         prefetch={false}

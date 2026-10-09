@@ -11,6 +11,7 @@ import {
   PenLine,
 } from "lucide-react";
 const rooms = [
+  ["/studio/today", "Today", CalendarDays],
   ["/studio", "Command", Compass],
   ["/studio/schedule", "Schedule", CalendarDays],
   ["/studio/content", "Content", PenLine],
@@ -22,7 +23,13 @@ const rooms = [
   ["/studio/operations", "Operations", Settings2],
   ["/studio/brands", "Brands", PenLine],
 ] as const;
-export function StudioNav({ owner }: { owner: boolean }) {
+export function StudioNav({
+  owner,
+  provider = false,
+}: {
+  owner: boolean;
+  provider?: boolean;
+}) {
   const path = usePathname();
   const nav = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -40,10 +47,12 @@ export function StudioNav({ owner }: { owner: boolean }) {
         </Link>
       )}
       {rooms
+        .filter(([href]) => href !== "/studio/today" || provider)
         .filter(
           ([href]) =>
             owner ||
             [
+              "/studio/today",
               "/studio/schedule",
               "/studio/clients",
               "/studio/operations",
@@ -72,7 +81,7 @@ export function StudioNav({ owner }: { owner: boolean }) {
             <Icon size={19} />
             <span>
               {!owner && href === "/studio/schedule"
-                ? "Today"
+                ? "Calendar"
                 : !owner && href === "/studio/operations"
                   ? "Availability"
                   : label}

@@ -1,3 +1,4 @@
+import { hasCapability } from "@/lib/studio-permissions";
 import { publicUser } from "@/lib/auth";
 import { katieBranding } from "@/lib/katie-branding";
 import { brandAsset } from "@/lib/provider-brand-display";
@@ -31,7 +32,22 @@ export default async function Page() {
           Development preview · services, prices and accounts are illustrative.
         </p>
       )}
-      {actor && <FixItNextVisit />}
+      {actor &&
+      actor.provider_id === "katie" &&
+      hasCapability(actor, "studio.read") ? (
+        <section className="fix-it-next">
+          <div>
+            <p className="eyebrow">YOUR PRIVATE FIX IT SHOP STUDIO</p>
+            <h2>Your working day, ready.</h2>
+            <p>Open your calendar, client history, and availability.</p>
+          </div>
+          <Link className="button button-gold" href="/studio/today">
+            Open my Studio ↗
+          </Link>
+        </section>
+      ) : (
+        actor && <FixItNextVisit />
+      )}
       <section className="fix-it-arrival">
         <div>
           <p className="eyebrow">KATIE GUIDRY · FOUNDER OF FIX IT SHOP</p>

@@ -380,7 +380,7 @@ export async function clientHistory(
       404,
     );
   const rows = await db.query(
-    `SELECT a.id,a.starts_at,a.status,s.name AS service_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id WHERE a.client_id=$1 ${company ? "" : "AND a.provider_id=$2"} ORDER BY a.starts_at DESC,a.id LIMIT 31 OFFSET $${company ? 2 : 3}`,
+    `SELECT a.id,a.starts_at,a.status,s.name AS service_name,COALESCE(l.timezone,'America/Chicago') AS timezone FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id LEFT JOIN reserve_locations l ON l.id=a.location_id WHERE a.client_id=$1 ${company ? "" : "AND a.provider_id=$2"} ORDER BY a.starts_at DESC,a.id LIMIT 31 OFFSET $${company ? 2 : 3}`,
     company ? [id, page * 30] : [id, actor.provider_id, page * 30],
   );
   return { client, visits: rows.slice(0, 30), hasMore: rows.length > 30 };
