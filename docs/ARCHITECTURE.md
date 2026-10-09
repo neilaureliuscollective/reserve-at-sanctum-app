@@ -166,3 +166,10 @@ See [Phase One implementation and release order](MEMBER-FOUNDATION-PHASE-ONE.md)
 ## Digital ecosystem presentation — October 8, 2026
 
 Public `/discover`, `/discover/membership`, and `/discover/aethelios` are session-independent introductions. Anonymous entry goes directly to `/discover`; existing authenticated role routing is preserved. Interactive world previews use curated examples and brand geometry. `/home` reads the existing account-owned routine and bounded Vitalis journey state in parallel; marked wellness days remain private. No new database tables, access grants, external AI connections, billing, or booking authority are introduced. See [the transformation](DIGITAL-ECOSYSTEM-TRANSFORMATION.md).
+
+## Universal provider branding
+
+[Booking Phase 3](PROVIDER-BRANDING-PHASE-3.md) adds private brand drafts, bounded raster assets
+and actor/revision events. Owner publication exposes only a reviewed snapshot; staff
+can edit only their assigned brand. URLs, manifests and phone icons reuse the shared
+booking/auth engine and provider boundaries. New providers and locations start closed.

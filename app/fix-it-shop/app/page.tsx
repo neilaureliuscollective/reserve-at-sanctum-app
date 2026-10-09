@@ -1,3 +1,5 @@
+import { katieBranding } from "@/lib/katie-branding";
+import { brandAsset } from "@/lib/provider-brand-display";
 import Image from "next/image";
 import Link from "next/link";
 import { configured, database, isPreview } from "@/lib/db";
@@ -7,6 +9,7 @@ import { katieVisitPresentation } from "@/lib/experience/katie-world";
 import { fixItBooking as brand } from "@/lib/fix-it-booking";
 export const dynamic = "force-dynamic";
 export default async function Page() {
+  const profile = await katieBranding();
   const directory = configured()
     ? await memberRead(async () => sanctumDirectory(await database()), 2500)
     : { state: "ready" as const, data: [] };
@@ -29,12 +32,8 @@ export default async function Page() {
       <section className="fix-it-arrival">
         <div>
           <p className="eyebrow">KATIE GUIDRY · FOUNDER OF FIX IT SHOP</p>
-          <h1>
-            Your next visit.
-            <br />
-            <em>With Katie.</em>
-          </h1>
-          <p>Personal attention. Professional care. A visit made for you.</p>
+          <h1>{profile.headline}</h1>
+          <p>{profile.bio}</p>
           <div className="hero-actions">
             <Link className="button button-gold" href={brand.book}>
               {visit.state === "open"
@@ -48,8 +47,18 @@ export default async function Page() {
           </div>
         </div>
         <Image
-          src="/images/approved/fix-it-shop.webp"
-          alt="Fix It Shop’s blue and gold crest"
+          src={
+            profile.cover
+              ? brandAsset(profile.cover)
+              : profile.logo
+                ? brandAsset(profile.logo)
+                : "/images/approved/fix-it-shop.webp"
+          }
+          alt={
+            profile.cover
+              ? "Fix It Shop studio"
+              : "Fix It Shop’s blue and gold crest"
+          }
           width={440}
           height={440}
           sizes="(max-width:600px) 60vw, 35vw"

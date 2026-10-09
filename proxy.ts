@@ -70,6 +70,7 @@ export const config = {
     "/mirror",
     "/profile",
     "/fix-it-shop/:path*",
+    "/providers/:path*",
     "/enter",
     "/account/:path*",
     "/chair",

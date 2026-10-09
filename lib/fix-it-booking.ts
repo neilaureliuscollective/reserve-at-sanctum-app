@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { providerEntrance } from "./booking-identity";
 import { safeDestination } from "./experience/entry";
 export const fixItBooking = {
   name: "Fix It Shop",
@@ -11,7 +12,7 @@ export const fixItBooking = {
   manifest: "/fix-it-shop/booking.webmanifest",
   theme: "#0b1b2a",
 } as const;
-export type BookingIdentity = typeof fixItBooking;
+export type { BookingIdentity } from "./booking-identity";
 export function fixItDestination(value?: string | null) {
   const safeUrl = new URL(safeDestination(value), "https://reserve.invalid");
   const safe = safeUrl.pathname + safeUrl.search + safeUrl.hash;
@@ -23,7 +24,7 @@ export function fixItDestination(value?: string | null) {
 export function accountEntranceFor(next: string) {
   return next === fixItBooking.base || next.startsWith(fixItBooking.base + "/")
     ? fixItBooking.signin
-    : "/signin";
+    : providerEntrance(next) || "/signin";
 }
 export function fixItManifest(): MetadataRoute.Manifest {
   return {

@@ -66,7 +66,7 @@ export function FixItInstallCapture({ children }: { children: ReactNode }) {
     </InstallationContext.Provider>
   );
 }
-export function FixItInstall() {
+export function FixItInstall({ name = "Fix It Shop" }: { name?: string }) {
   const { available, installed, request } = useContext(InstallationContext),
     [message, setMessage] = useState("");
   return (
@@ -82,7 +82,7 @@ export function FixItInstall() {
           className="button button-gold"
           onClick={async () => setMessage(await request())}
         >
-          Install Fix It Shop
+          Install {name}
         </button>
       )}
       {message && <p role="status">{message}</p>}

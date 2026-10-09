@@ -88,7 +88,7 @@ export function BookingFlow({
         }
         if (providerId && c.services?.length && !visible.length)
           setError(
-            "This professional is not accepting appointments here. Please check Katie’s booking status.",
+            "This professional is not accepting appointments here. Please check this provider’s booking status.",
           );
         setActor(s.user);
         if (c.error) setError(c.error);
@@ -221,7 +221,7 @@ export function BookingFlow({
             <ArrowUpRight size={18} />
           </Link>
           <Link href={identity?.base || "/home"} className="text-link">
-            {identity ? "Back to Fix It Shop" : "Back to the Reserve"}
+            {identity ? `Back to ${identity.name}` : "Back to the Reserve"}
           </Link>
         </div>
         <p className="small muted">
@@ -238,12 +238,14 @@ export function BookingFlow({
           `/visit?location=${encodeURIComponent(house)}#professionals`
         }
       >
-        {identity ? "← Fix It Shop" : "← Choose your professional in Sanctum"}
+        {identity
+          ? `← ${identity.name}`
+          : "← Choose your professional in Sanctum"}
       </Link>
       <div className="booking-heading">
         <p className="eyebrow">
           {identity
-            ? "FIX IT SHOP · KATIE GUIDRY"
+            ? `${identity.name} · ${identity.founder}`.toUpperCase()
             : `LEGACY RESERVE SANCTUM — ${houseName.toUpperCase()}`}
         </p>
         <h1>
@@ -502,7 +504,9 @@ export function BookingFlow({
         </div>
         <aside className="booking-summary">
           <p className="eyebrow">
-            {identity ? "YOUR TIME WITH KATIE" : "YOUR TIME AT LEGACY RESERVE"}
+            {identity
+              ? `YOUR TIME WITH ${identity.founder.toUpperCase()}`
+              : "YOUR TIME AT LEGACY RESERVE"}
           </p>
           <h3>
             A place in

@@ -125,7 +125,7 @@ async function affectedVisits(db: Queryable, proposal: OperationProposal) {
           [proposal.service_id],
         )
       : await db.query<{ count: string }>(
-          `SELECT count(*)::text AS count FROM reserve_appointments WHERE provider_id=$1 AND status='confirmed' AND starts_at>now() AND (NOT $2 OR NOT (EXTRACT(ISODOW FROM starts_at AT TIME ZONE 'America/Chicago')::int=ANY($3::int[])) OR starts_at AT TIME ZONE 'America/Chicago'<date_trunc('day',starts_at AT TIME ZONE 'America/Chicago')+make_interval(hours=>$4) OR busy_until AT TIME ZONE 'America/Chicago'>date_trunc('day',starts_at AT TIME ZONE 'America/Chicago')+make_interval(hours=>$5))`,
+          `SELECT count(*)::text AS count FROM reserve_appointments a LEFT JOIN reserve_locations l ON l.id=a.location_id WHERE a.provider_id=$1 AND a.status='confirmed' AND a.starts_at>now() AND (NOT $2 OR NOT (EXTRACT(ISODOW FROM a.starts_at AT TIME ZONE COALESCE(l.timezone,'America/Chicago'))::int=ANY($3::int[])) OR a.starts_at AT TIME ZONE COALESCE(l.timezone,'America/Chicago')<date_trunc('day',a.starts_at AT TIME ZONE COALESCE(l.timezone,'America/Chicago'))+make_interval(hours=>$4) OR a.busy_until AT TIME ZONE COALESCE(l.timezone,'America/Chicago')>date_trunc('day',a.starts_at AT TIME ZONE COALESCE(l.timezone,'America/Chicago'))+make_interval(hours=>$5))`,
           [
             proposal.provider_id,
             p.enabled,

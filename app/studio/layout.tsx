@@ -43,17 +43,21 @@ export default async function StudioLayout({
               />
             </span>
             <span>
-              LEGACY RESERVE<small>STUDIO · EUNICE</small>
+              LEGACY RESERVE<small>STUDIO · OPERATIONS</small>
             </span>
           </Link>
           <div className="studio-identity">
-            <Link className="studio-public-entrance" href="/discover">View public website ↗</Link>
+            <Link className="studio-public-entrance" href="/discover">
+              View public website ↗
+            </Link>
             <span>{actor.name.split(" ·")[0]}</span>
             <small>
               {actor.role === "owner"
                 ? "Founder · Owner"
                 : actor.role === "operator"
-                  ? "Fix It Shop · Operator"
+                  ? actor.provider_id === "katie"
+                    ? "Fix It Shop · Operator"
+                    : "Provider · Operator"
                   : "Team · Staff"}
             </small>
           </div>

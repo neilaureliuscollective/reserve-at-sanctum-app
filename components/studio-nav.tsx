@@ -20,6 +20,7 @@ const rooms = [
   ["/studio/vitalis", "Vitalis", Settings2],
   ["/studio/commerce", "Commerce", Settings2],
   ["/studio/operations", "Operations", Settings2],
+  ["/studio/brands", "Brands", PenLine],
 ] as const;
 export function StudioNav({ owner }: { owner: boolean }) {
   const path = usePathname();
@@ -46,6 +47,7 @@ export function StudioNav({ owner }: { owner: boolean }) {
               "/studio/schedule",
               "/studio/clients",
               "/studio/operations",
+              "/studio/brands",
             ].includes(href),
         )
         .filter(

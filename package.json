@@ -32,7 +32,8 @@
     "verify:public": "node scripts/verify-public-experience.mjs",
     "verify:digital-member": "node scripts/verify-digital-member.mjs",
     "verify:living-crest": "node scripts/verify-living-crest.mjs",
-    "verify:sculptures": "node scripts/verify-signature-sculptures.mjs"
+    "verify:sculptures": "node scripts/verify-signature-sculptures.mjs",
+    "verify:provider-brands": "node scripts/verify-provider-brands.mjs"
   },
   "dependencies": {
     "@aethelios/concierge-core": "file:vendor/aethelios-concierge-core",
@@ -49,6 +50,7 @@
     "postgres": "^3.4.8",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "sharp": "0.35.4",
     "three": "^0.183.0",
     "zod": "^4.3.6"
   },
