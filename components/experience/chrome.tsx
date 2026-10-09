@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Compass, HeartPulse, Sparkles, Landmark, ShoppingBag, UserRound, ArrowUpRight } from "lucide-react";
 import { brand } from "@/lib/brand";
 import { customerPrimary, commandWorld } from "@/lib/experience/customer-os";
+import { PublicNavigation } from "@/components/flagship/public-navigation";
 import { MotionMode } from "./motion-mode";
 
 const icons = [Compass, HeartPulse, Sparkles, Landmark, ShoppingBag];
@@ -32,6 +33,7 @@ export function ExperienceChrome({ children, footer, status }: {
   }, []);
   if (path.startsWith("/providers/") || path === "/fix-it-shop/app" || path.startsWith("/fix-it-shop/app/")) return <>{children}</>;
   if (path.startsWith("/studio")) return <>{children}{status}</>;
+  if (path === "/discover") return <div data-lr-theme="mineral"><PublicNavigation />{children}</div>;
   if (path === "/") return <><MotionMode />{children}</>;
   return <div className="reserve-app-shell" data-world={world} data-keyboard={keyboard}>
     <a className="skip" href="#main">Skip to content</a>
