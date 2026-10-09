@@ -3,13 +3,14 @@ import { mkdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 await mkdir('artifacts/public-experience',{recursive:true});
-const server = spawn(process.execPath, ['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port','3116'],{cwd:process.cwd(),env:{...process.env,RESERVE_DEV_PREVIEW:'false'},stdio:['ignore','pipe','pipe']});
+const port=process.env.VERIFY_PUBLIC_PORT || '3116';
+const server = spawn(process.execPath, ['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port',port],{cwd:process.cwd(),env:{...process.env,RESERVE_DEV_PREVIEW:'false'},stdio:['ignore','pipe','pipe']});
 let log=''; server.stdout.on('data',d=>log+=d); server.stderr.on('data',d=>log+=d);
 let browser;
-const base='http://127.0.0.1:3116';
+const base=`http://127.0.0.1:${port}`;
 try {
  await new Promise((resolve,reject)=>{server.stdout.on('data',d=>{if(String(d).includes('Ready in'))resolve()});server.on('exit',()=>reject(Error(log)));setTimeout(()=>reject(Error(log)),30000).unref()});
- browser = await chromium.launch({executablePath:process.env.CHROMIUM_PATH,args:['--no-sandbox','--disable-dev-shm-usage']});
+ browser = await chromium.launch({executablePath:process.env.CHROMIUM_PATH,args:['--no-sandbox','--disable-dev-shm-usage','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
  const page = await browser.newPage(); const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/',{waitUntil:'networkidle'}); assert.equal(new URL(page.url()).pathname,'/discover');
  for(const [width,height] of [[320,780],[390,844],[390,660],[884,900],[1440,1000]]){
@@ -38,13 +39,11 @@ try {
   await page.locator('.collection-object img').evaluate(img=>img.decode());
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`collection overflow ${width}`);
  }
- // Motion changes the instrument with document scroll; still settings stop it.
+ // The Living Crest replaces the hero instrument; the selector stays intact.
  await page.setViewportSize({width:1440,height:1000}); await page.goto(base+'/discover');
- await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'})); await page.waitForTimeout(250);
- const start=await page.locator('.digital-arrival-field>.digital-instrument').evaluate(el=>getComputedStyle(el).transform);
- await page.evaluate(()=>window.scrollBy({top:350,behavior:'instant'})); await page.waitForTimeout(250);
- const end=await page.locator('.digital-arrival-field>.digital-instrument').evaluate(el=>getComputedStyle(el).transform);
- assert.notEqual(start,end,'digital arrival instrument must respond to scroll');
+ await page.locator('.living-crest[data-crest-state="active"]').waitFor();
+ assert.equal(await page.locator('.living-crest canvas').count(),1);
+ assert.equal(await page.locator('.digital-arrival-field>.digital-instrument').count(),0);
  await page.locator('.experience-menu summary').click(); await page.getByRole('button',{name:'Pause environment motion'}).click();
  assert.equal(await page.locator('.digital-vitalis-object').evaluate(el=>getComputedStyle(el).transform),'none');
  await page.getByRole('button',{name:'Enable environment motion'}).click(); await page.locator('.experience-menu summary').click();

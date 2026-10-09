@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { surfaceClass } from "@/components/imperial-surface";
+import { LivingCrest } from "@/components/living-crest";
 import { DigitalInstrument } from "@/components/digital-instrument";
 import { DigitalWorldSelector, AetheliosPreview } from "@/components/digital-reserve";
 import { PublicDirector } from "@/components/public-reserve";
 import { PublicCollection } from "@/components/public-worlds";
 import "./public-reserve.css";
 import "./public-worlds.css";
+import "./living-crest.css";
 export const metadata = {
   title: "Your personal digital ecosystem",
   description: "Legacy Reserve connects your presence, performance and wellbeing. Explore personal routines, Vitalis, Aethelios and a standard that travels with you.",
@@ -14,8 +16,9 @@ export default function Discover() {
   return <main id="main" className="digital-reserve public-reserve">
     <PublicDirector />
     <section className="digital-arrival public-scene" data-public-scene aria-labelledby="digital-arrival-title">
-      <div className="digital-arrival-field" aria-hidden="true"><DigitalInstrument /><div className="digital-horizon" /></div>
+      <div className="digital-arrival-field" aria-hidden="true"><div className="digital-horizon" /></div>
       <div className="digital-arrival-copy"><p className="digital-label">LEGACY RESERVE / YOUR PERSONAL DIGITAL ECOSYSTEM</p><h1 id="digital-arrival-title">Your life.<br /><em>At a higher standard.</em></h1><p>Presence. Performance. Wellbeing. A personal environment for the routines you keep, the direction you choose, and the life you’re building.</p><div className="digital-actions"><a href="#pathways" className="button button-gold">Explore your Reserve ↗</a><Link href="/signin?next=/home" className="text-link">Open your personal Reserve ↗</Link></div><span className="digital-arrival-note">DIGITAL FIRST. WITH YOU, WHEREVER YOU ARE.</span></div>
+      <LivingCrest />
       <nav className={surfaceClass("glass", "digital-arrival-console")} aria-label="Inside your digital Reserve"><span className="digital-label">FIVE WORLDS / ONE RESERVE</span><Link href="/pathways"><b>01</b><span><strong>Reserve</strong><small>Presence & Performance routines</small></span><i aria-hidden="true">↗</i></Link><Link href="/vitalis"><b>02</b><span><strong>Vitalis</strong><small>Legacy Reserve Vitalis</small></span><i aria-hidden="true">↗</i></Link><Link href="/discover/aethelios"><b>03</b><span><strong>Aethelios</strong><small>Aethelios concierge</small></span><i aria-hidden="true">↗</i></Link><Link href="/visit"><b>04</b><span><strong>Sanctum</strong><small>Physical locations & appointments</small></span><i aria-hidden="true">↗</i></Link><Link href="/shop"><b>05</b><span><strong>Collection</strong><small>Luxury products & daily rituals</small></span><i aria-hidden="true">↗</i></Link></nav>
       <div className="digital-arrival-axis" aria-hidden="true"><span>PRESENCE</span><i/><span>PERFORMANCE</span><i/><span>VITALIS</span></div>
     </section>
