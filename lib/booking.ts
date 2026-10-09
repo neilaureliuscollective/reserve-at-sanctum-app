@@ -28,7 +28,10 @@ export type Service = Row & {
 };
 export type Appointment = Row & {
   id: string;
-  client_id: string;
+  client_id: string | null;
+  crm_client_id?: string | null;
+  timezone?: string;
+  provider_name?: string;
   provider_id: string;
   service_id: string;
   starts_at: Date | string;
@@ -65,7 +68,7 @@ export async function catalog(db: Queryable, locationId = primaryLocation.id) {
     [location.id, location.timezone],
   );
 }
-async function serviceLocation(
+export async function serviceLocation(
   db: Queryable,
   s: Service,
   locationId: string,
@@ -90,7 +93,7 @@ async function serviceLocation(
     throw new BookingError("This service is not offered at this location.");
   return { ...s, location_id: location.id, timezone: location.timezone };
 }
-async function service(db: Queryable, id: string, lock = false) {
+export async function service(db: Queryable, id: string, lock = false) {
   if (lock) {
     // Configuration and booking acquire provider, then service locks in this order.
     await db.query(
@@ -106,11 +109,13 @@ async function service(db: Queryable, id: string, lock = false) {
   return s;
 }
 export function units(start: DateTime, count: number) {
-  return Array.from({ length: count / 15 }, (_, i) =>
-    start
-      .plus({ minutes: i * 15 })
-      .toUTC()
-      .toISO()!,
+  return Array.from(
+    { length: count / 15 },
+    (_, i) =>
+      start
+        .plus({ minutes: i * 15 })
+        .toUTC()
+        .toISO()!,
   );
 }
 type ProviderHours = Row & {
@@ -118,12 +123,13 @@ type ProviderHours = Row & {
   open_hour: number;
   close_hour: number;
 };
-async function validateTime(
+export async function validateTime(
   db: Queryable,
   s: Service,
   startISO: string,
-  now = DateTime.now(),
+  now: DateTime = DateTime.now(),
   hours?: ProviderHours,
+  staffEntry = false,
 ) {
   const start = DateTime.fromISO(startISO, {
     zone: s.timezone || ZONE,
@@ -135,9 +141,14 @@ async function validateTime(
     start.minute % 15 !== 0
   )
     throw new BookingError("Choose an available appointment time.");
-  if (start < now.plus({ hours: 2 }) || start > now.plus({ days: 45 }))
+  if (
+    start < now.plus({ minutes: staffEntry ? 0 : 120 }) ||
+    start > now.plus({ days: 45 })
+  )
     throw new BookingError(
-      "Choose a time between two hours and 45 days from now.",
+      staffEntry
+        ? "Choose a future time within 45 days."
+        : "Choose a time between two hours and 45 days from now.",
     );
   const p =
     hours ||
@@ -152,7 +163,10 @@ async function validateTime(
     !p.weekdays.includes(start.weekday) ||
     start.hour < p.open_hour ||
     start.plus({ minutes: s.minutes + s.buffer }) >
-      start.startOf("day").plus({ hours: p.close_hour })
+      start
+        .startOf("day")
+        .set({ hour: Math.min(p.close_hour, 23), minute: 0 })
+        .plus({ hours: p.close_hour === 24 ? 1 : 0 })
   )
     throw new BookingError("That time is outside studio hours.");
   return start;
@@ -161,8 +175,9 @@ export async function availability(
   db: Queryable,
   serviceId: string,
   date: string,
-  now = DateTime.now(),
+  now: DateTime = DateTime.now(),
   locationId = primaryLocation.id,
+  staffEntry = false,
 ) {
   const s = await serviceLocation(db, await service(db, serviceId), locationId),
     day = DateTime.fromISO(date, { zone: s.timezone || ZONE });
@@ -178,10 +193,14 @@ export async function availability(
     [s.provider_id],
   );
   const slots = [];
-  for (let minutes = 0; minutes < 1440; minutes += 15) {
+  for (
+    let minutes = 0;
+    minutes < day.plus({ days: 1 }).diff(day, "minutes").minutes;
+    minutes += 15
+  ) {
     const start = day.startOf("day").plus({ minutes });
     try {
-      await validateTime(db, s, start.toISO()!, now, hours);
+      await validateTime(db, s, start.toISO()!, now, hours, staffEntry);
       if (units(start, s.minutes + s.buffer).every((x) => !busy.has(iso(x))))
         slots.push({
           start: start.toUTC().toISO()!,
@@ -201,7 +220,7 @@ export function canAccess(actor: Actor, a: Appointment) {
     actor.id === a.client_id
   );
 }
-async function occupy(
+export async function occupy(
   tx: Queryable,
   a: Appointment,
   start: DateTime,
@@ -221,6 +240,7 @@ function conflict(e: unknown): never {
     );
   throw e;
 }
+type AccountAppointment = Appointment & { client_id: string };
 export async function book(
   db: Database,
   actor: Actor,
@@ -234,8 +254,8 @@ export async function book(
 ) {
   try {
     return await db.transaction(async (tx) => {
-      const [prior] = await tx.query<Appointment>(
-        "SELECT * FROM reserve_appointments WHERE client_id=$1 AND request_key=$2",
+      const [prior] = await tx.query<AccountAppointment>(
+        "SELECT * FROM reserve_appointments WHERE client_id=$1 AND request_key=$2 AND source='online'",
         [actor.id, input.requestKey],
       );
       if (prior) {
@@ -260,7 +280,7 @@ export async function book(
         ),
         start = await validateTime(tx, s, input.start),
         id = randomUUID();
-      const [a] = await tx.query<Appointment>(
+      const [a] = await tx.query<AccountAppointment>(
         `INSERT INTO reserve_appointments(id,client_id,provider_id,service_id,starts_at,ends_at,busy_until,price,note,request_key,original_start,location_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$5,$11) RETURNING *`,
         [
           id,
@@ -279,7 +299,23 @@ export async function book(
           s.location_id,
         ],
       );
+      const [crm] = await tx.query<{ id: string }>(
+        "INSERT INTO reserve_clients(id,provider_id,user_id,name,email,source,source_key,created_by) VALUES($1,$2,$3,$4,$5,'account',$3,$3) ON CONFLICT(provider_id,user_id) WHERE user_id IS NOT NULL DO UPDATE SET user_id=EXCLUDED.user_id RETURNING id",
+        [
+          randomUUID(),
+          s.provider_id,
+          actor.id,
+          actor.name,
+          actor.email.toLowerCase(),
+        ],
+      );
+      await tx.query(
+        "UPDATE reserve_appointments SET crm_client_id=$2,created_by=$3 WHERE id=$1",
+        [a.id, crm.id, actor.id],
+      );
+      a.crm_client_id = crm.id;
       await occupy(tx, a, start, s.minutes + s.buffer);
+      await queueBookingMessage(tx, a, "booked");
       await tx.query(
         "INSERT INTO reserve_audit(actor_id,appointment_id,action) VALUES($1,$2,'booked')",
         [actor.id, id],
@@ -287,6 +323,26 @@ export async function book(
       return a;
     });
   } catch (e) {
+    if ((e as { code?: string }).code === "23505") {
+      const [prior] = await db.query<AccountAppointment>(
+        "SELECT * FROM reserve_appointments WHERE client_id=$1 AND request_key=$2 AND source='online'",
+        [actor.id, input.requestKey],
+      );
+      if (
+        prior &&
+        prior.service_id === input.serviceId &&
+        iso(prior.original_start) === iso(input.start) &&
+        prior.note === input.note &&
+        (prior.location_id ?? primaryLocation.id) ===
+          (input.locationId ?? primaryLocation.id)
+      )
+        return prior;
+      if (prior)
+        throw new BookingError(
+          "This request was already used for another booking.",
+          409,
+        );
+    }
     return conflict(e);
   }
 }
@@ -335,6 +391,10 @@ export async function change(
           "INSERT INTO reserve_audit(actor_id,appointment_id,action) VALUES($1,$2,'completed')",
           [actor.id, id],
         );
+        await tx.query(
+          "UPDATE reserve_booking_messages SET state='superseded' WHERE appointment_id=$1 AND state IN ('manual_required','failed')",
+          [id],
+        );
         return (
           await tx.query<Appointment>(
             "SELECT * FROM reserve_appointments WHERE id=$1",
@@ -363,7 +423,14 @@ export async function change(
           minutes: originalMinutes,
           buffer,
         };
-        start = await validateTime(tx, s, input.start);
+        start = await validateTime(
+          tx,
+          s,
+          input.start,
+          undefined,
+          undefined,
+          hasCapability(actor, "appointments.manage"),
+        );
         await tx.query(
           "DELETE FROM reserve_occupancy WHERE appointment_id=$1",
           [id],
@@ -395,12 +462,12 @@ export async function change(
         "INSERT INTO reserve_audit(actor_id,appointment_id,action) VALUES($1,$2,$3)",
         [actor.id, id, input.action],
       );
-      return (
-        await tx.query<Appointment>(
-          "SELECT * FROM reserve_appointments WHERE id=$1",
-          [id],
-        )
-      )[0];
+      const [updated] = await tx.query<Appointment>(
+        "SELECT * FROM reserve_appointments WHERE id=$1",
+        [id],
+      );
+      await queueBookingMessage(tx, updated, input.action);
+      return updated;
     });
   } catch (e) {
     return conflict(e);
@@ -412,6 +479,9 @@ export async function visits(
   studio = false,
   page = 0,
   date = "",
+  days = 1,
+  providerId = "",
+  locationId = "",
 ) {
   if (studio) requireCapability(actor, "appointments.read");
   const where = studio
@@ -424,16 +494,63 @@ export async function visits(
       ? []
       : [studio ? actor.provider_id : actor.id];
   let dayFilter = "";
+  let zone = ZONE;
+  if (locationId) {
+    const [location] = await db.query<{ timezone: string }>(
+      "SELECT timezone FROM reserve_locations WHERE id=$1",
+      [locationId],
+    );
+    if (!location) throw new BookingError("Location unavailable.");
+    zone = location.timezone;
+    values.push(locationId);
+    dayFilter += ` AND a.location_id=$${values.length}`;
+  }
+  if (studio && providerId) {
+    if (actor.role !== "owner" && actor.provider_id !== providerId)
+      throw new BookingError("Provider access is required.", 403);
+    values.push(providerId);
+    dayFilter += ` AND a.provider_id=$${values.length}`;
+  }
   if (studio && date) {
-    const day = DateTime.fromISO(date, { zone: ZONE }).startOf("day");
+    const day = DateTime.fromISO(date, { zone }).startOf("day");
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !day.isValid)
       throw new BookingError("Choose a valid schedule day.");
-    dayFilter = ` AND a.starts_at >= $${values.length + 1} AND a.starts_at < $${values.length + 2}`;
-    values.push(day.toUTC().toISO()!, day.plus({ days: 1 }).toUTC().toISO()!);
+    dayFilter += ` AND a.starts_at >= $${values.length + 1} AND a.starts_at < $${values.length + 2}`;
+    values.push(day.toUTC().toISO()!, day.plus({ days }).toUTC().toISO()!);
   }
   const offsetParam = values.length + 1;
   return db.query<Appointment>(
-    `SELECT a.*,s.name AS service_name,u.name AS client_name FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id JOIN reserve_users u ON u.id=a.client_id WHERE ${where}${dayFilter} ORDER BY a.starts_at DESC,a.id LIMIT ${studio ? 101 : 100} OFFSET $${offsetParam}`,
-    [...values, studio ? page * 100 : 0],
+    `SELECT a.*,s.name AS service_name,COALESCE(c.name,u.name) AS client_name,p.name AS provider_name,COALESCE(l.timezone,'America/Chicago') AS timezone FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id LEFT JOIN reserve_users u ON u.id=a.client_id LEFT JOIN reserve_clients c ON c.id=a.crm_client_id JOIN reserve_providers p ON p.id=a.provider_id LEFT JOIN reserve_locations l ON l.id=a.location_id WHERE ${where}${dayFilter} ORDER BY a.starts_at ${date ? "ASC" : "DESC"},a.id LIMIT 101 OFFSET $${offsetParam}`,
+    [...values, page * 100],
   );
+}
+
+export async function queueBookingMessage(
+  tx: Queryable,
+  appointment: Appointment,
+  kind: "booked" | "cancel" | "reschedule",
+) {
+  await tx.query(
+    "UPDATE reserve_booking_messages SET state='superseded' WHERE appointment_id=$1 AND state IN ('manual_required','failed')",
+    [appointment.id],
+  );
+  await tx.query(
+    "INSERT INTO reserve_booking_messages(id,appointment_id,revision,kind) VALUES($1,$2,$3,$4) ON CONFLICT(appointment_id,revision,kind) DO NOTHING",
+    [randomUUID(), appointment.id, appointment.revision, kind],
+  );
+  if (kind !== "cancel")
+    await tx.query(
+      "INSERT INTO reserve_booking_messages(id,appointment_id,revision,kind,available_at) VALUES($1,$2,$3,'reminder',$4) ON CONFLICT(appointment_id,revision,kind) DO NOTHING",
+      [
+        randomUUID(),
+        appointment.id,
+        appointment.revision,
+        new Date(
+          Math.max(
+            Date.now(),
+            new Date(appointment.starts_at).getTime() - 86400000,
+          ),
+        ).toISOString(),
+      ],
+    );
 }

@@ -1,7 +1,9 @@
+import { PilotContactEditor } from "@/components/booking-pilot";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { studioActor } from "@/lib/studio-session";
 import { database } from "@/lib/db";
+import { pilotHistory } from "@/lib/booking-pilot";
 import { clientHistory } from "@/lib/command-center";
 import { BookingError } from "@/lib/booking";
 import { z } from "zod";
@@ -23,7 +25,12 @@ export default async function Client({
     .parse((await searchParams).page ?? 0);
   let data;
   try {
-    data = await clientHistory(await database(), actor, id, page);
+    try {
+      data = await pilotHistory(await database(), actor, id, page);
+    } catch (e) {
+      if (!(e instanceof BookingError && e.status === 404)) throw e;
+      data = await clientHistory(await database(), actor, id, page);
+    }
   } catch (e) {
     if (e instanceof BookingError && e.status === 404) notFound();
     throw e;
@@ -41,6 +48,22 @@ export default async function Client({
           environment.
         </p>
       </header>
+      {"phone" in data.client &&
+        "email" in data.client &&
+        "revision" in data.client &&
+        typeof data.client.phone === "string" &&
+        typeof data.client.email === "string" &&
+        typeof data.client.revision === "number" && (
+          <PilotContactEditor
+            client={{
+              id: data.client.id,
+              name: data.client.name,
+              email: data.client.email,
+              phone: data.client.phone,
+              revision: data.client.revision,
+            }}
+          />
+        )}
       <section className="studio-section">
         {data.visits.map((v) => (
           <div key={String(v.id)} className="studio-status-row">
@@ -59,7 +82,9 @@ export default async function Client({
         ))}
         <div className="studio-pagination">
           {page > 0 && <Link href={`?page=${page - 1}`}>Previous</Link>}
-          {data.hasMore && <Link href={`?page=${page + 1}`}>Next</Link>}
+          {"hasMore" in data && data.hasMore && (
+            <Link href={`?page=${page + 1}`}>Next</Link>
+          )}
         </div>
         <Link className="studio-inline" href="/studio/schedule#chair-studio">
           Open the Chair ↗

@@ -22,9 +22,17 @@ export async function GET(req: Request) {
       studio,
       page,
       params.get("date") ?? "",
+      z.coerce
+        .number()
+        .int()
+        .min(1)
+        .max(7)
+        .parse(params.get("days") ?? 1),
+      params.get("provider") ?? "",
+      params.get("location") ?? "",
     );
     return Response.json(
-      { visits: rows.slice(0, 100), hasMore: studio && rows.length > 100 },
+      { visits: rows.slice(0, 100), hasMore: rows.length > 100 },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (e) {

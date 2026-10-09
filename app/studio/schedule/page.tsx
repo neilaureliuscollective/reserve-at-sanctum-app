@@ -1,3 +1,7 @@
+import {
+  PilotAppointmentForm,
+  PilotMessages,
+} from "@/components/booking-pilot";
 import { studioActor } from "@/lib/studio-session";
 import { isPreview } from "@/lib/db";
 import { Visits } from "@/components/visits";
@@ -21,14 +25,15 @@ export default async function Schedule() {
         </p>
       </header>
       <section id="schedule">
+        <PilotAppointmentForm providerId={actor.provider_id || ""} />
+        <PilotMessages />
         <Visits actor={actor} studio preview={isPreview()} />
       </section>
-      {hasCapability(actor, "blocks.manage") &&
-        (actor.role === "owner" || actor.provider_id === "katie") && (
-          <section id="availability">
-            <StudioBlocks />
-          </section>
-        )}
+      {hasCapability(actor, "blocks.manage") && (
+        <section id="availability">
+          <StudioBlocks />
+        </section>
+      )}
       {canReadChairStudio(actor) && <ChairStudio />}
     </>
   );

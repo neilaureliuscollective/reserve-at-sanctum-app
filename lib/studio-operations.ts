@@ -153,12 +153,10 @@ export async function operationOverview(db: Queryable, actor: Actor, page = 0) {
     ),
   ]);
   const proposals = await Promise.all(
-    rows
-      .slice(0, 20)
-      .map(async (p) => ({
-        ...p,
-        affected_visits: await affectedVisits(db, p),
-      })),
+    rows.slice(0, 20).map(async (p) => ({
+      ...p,
+      affected_visits: await affectedVisits(db, p),
+    })),
   );
   return {
     providers,
@@ -285,6 +283,12 @@ export async function applyOperation(
           409,
         );
       if (p.kind === "provider") {
+        const locationId = p.location_id ?? provider?.location_id ?? "eunice";
+        const [location] = await tx.query(
+          "SELECT id FROM reserve_locations WHERE id=$1",
+          [locationId],
+        );
+        if (!location) throw new BookingError("Choose an existing location.");
         if (p.enabled) {
           const services = await tx.query<ManagedService>(
             "SELECT * FROM reserve_services WHERE provider_id=$1 AND enabled",
@@ -331,6 +335,10 @@ export async function applyOperation(
               p.location_id ?? "eunice",
             ],
           );
+        await tx.query(
+          "INSERT INTO reserve_provider_locations(provider_id,location_id) VALUES($1,$2) ON CONFLICT DO NOTHING",
+          [p.provider_id, locationId],
+        );
       } else {
         if (target)
           await tx.query(

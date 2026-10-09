@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { DateTime } from "luxon";
 import { ArrowUpRight, CalendarDays, Check, LogOut, List } from "lucide-react";
 import { hasCapability } from "@/lib/studio-permissions";
@@ -23,27 +23,82 @@ export function Visits({
     [slots, setSlots] = useState<{ start: string; label: string }[]>([]),
     [selected, setSelected] = useState(""),
     [busy, setBusy] = useState(false),
-    [view, setView] = useState<"visits" | "calendar">(studio && actor.role === "staff" ? "calendar" : "visits"),
-    [filter, setFilter] = useState(studio && actor.role === "staff" ? DateTime.now().setZone("America/Chicago").toISODate()! : ""),
-    [message, setMessage] = useState("");
+    [view, setView] = useState<"visits" | "calendar">(
+      studio ? "calendar" : "visits",
+    ),
+    [filter, setFilter] = useState(
+      studio ? DateTime.now().setZone("America/Chicago").toISODate()! : "",
+    ),
+    [message, setMessage] = useState(""),
+    [page, setPage] = useState(0),
+    [hasMore, setHasMore] = useState(false),
+    [days, setDays] = useState(1),
+    [provider, setProvider] = useState(actor.provider_id || ""),
+    [locationId, setLocationId] = useState("eunice"),
+    [providers, setProviders] = useState<{ id: string; name: string }[]>([]),
+    [locations, setLocations] = useState<
+      { id: string; name: string; timezone: string }[]
+    >([]);
+  const zone =
+    locations.find((l) => l.id === locationId)?.timezone || "America/Chicago";
+  useEffect(() => {
+    if (studio)
+      fetch("/api/studio/pilot")
+        .then((r) => r.json())
+        .then((d) => {
+          setProviders(d.providers || []);
+          setLocations(d.locations || []);
+        })
+        .catch(() => {});
+  }, [studio]);
+  const loadSequence = useRef(0);
   async function load() {
-    const r = await fetch(`/api/appointments${studio ? "?studio=true" : ""}`);
+    const sequence = ++loadSequence.current;
+    const params = new URLSearchParams({ page: String(page) });
+    if (studio) {
+      params.set("studio", "true");
+      params.set("date", filter);
+      params.set("days", String(days));
+      params.set("provider", provider);
+      params.set("location", locationId);
+    }
+    const r = await fetch("/api/appointments?" + params, { cache: "no-store" });
     const d = await r.json();
+    if (sequence !== loadSequence.current) return;
     if (!r.ok) throw new Error(d.error);
     setRows(d.visits);
+    setHasMore(!!d.hasMore);
   }
   useEffect(() => {
+    setLoading(true);
     load()
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [filter, page, days, provider, locationId]);
+  useEffect(() => {
+    const refresh = () => {
+      if (document.visibilityState === "visible")
+        void load().catch((e) => setError(e.message));
+    };
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("booking-updated", refresh);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("booking-updated", refresh);
+    };
+  }, [filter, page, days, provider, locationId]);
   useEffect(() => {
     if (!editing || !date) return;
     const c = new AbortController();
     setSlots([]);
-    fetch(`/api/availability?service=${editing.service_id}&date=${date}`, {
-      signal: c.signal,
-    })
+    fetch(
+      `${studio ? "/api/studio/pilot/appointments" : "/api/availability"}?service=${editing.service_id}&date=${date}&provider=${encodeURIComponent(editing.provider_id)}&location=${encodeURIComponent(editing.location_id || "eunice")}`,
+      {
+        signal: c.signal,
+      },
+    )
       .then((r) => r.json())
       .then((d) => {
         if (d.error) setError(d.error);
@@ -53,7 +108,7 @@ export function Visits({
         if (e.name !== "AbortError") setError("Unable to load times.");
       });
     return () => c.abort();
-  }, [editing, date]);
+  }, [editing, date, studio]);
   async function update(
     a: Appointment,
     action: "cancel" | "reschedule" | "complete",
@@ -76,6 +131,7 @@ export function Visits({
       setEditing(null);
       setCancelId("");
       await load();
+      window.dispatchEvent(new Event("booking-updated"));
       setMessage(
         action === "complete"
           ? "Visit marked complete. No payment has been recorded."
@@ -102,33 +158,29 @@ export function Visits({
       (a) => a.status === "confirmed" && new Date(a.starts_at) > new Date(),
     )
     .sort((a, b) => +new Date(a.starts_at) - +new Date(b.starts_at));
-  const shown = rows
-    .filter(
-      (a) =>
-        !filter ||
-        DateTime.fromISO(new Date(a.starts_at).toISOString())
-          .setZone("America/Chicago")
-          .toISODate() === filter,
-    )
-    .sort((a, b) => +new Date(a.starts_at) - +new Date(b.starts_at));
+  const shown = [...rows].sort(
+    (a, b) => +new Date(a.starts_at) - +new Date(b.starts_at),
+  );
   return (
     <div className={studio ? "workspace" : "account-workspace"}>
-      <div className="workspace-heading">
-        <div>
-          <p className="eyebrow">
-            {studio ? "FIX IT SHOP · STUDIO" : "YOUR LEGACY RESERVE"}
-          </p>
-          <h1>{studio ? "A considered day." : "Your next chapter."}</h1>
-          <p>
-            {studio
-              ? `Welcome, ${actor.name.split(" ·")[0]}. Time and attention, well placed.`
-              : `Welcome, ${actor.name.split(" ·")[0]}. Your time, kept together.`}
-          </p>
+      {!studio && (
+        <div className="workspace-heading">
+          <div>
+            <p className="eyebrow">
+              {studio ? "FIX IT SHOP · STUDIO" : "YOUR LEGACY RESERVE"}
+            </p>
+            <h1>{studio ? "A considered day." : "Your next chapter."}</h1>
+            <p>
+              {studio
+                ? `Welcome, ${actor.name.split(" ·")[0]}. Time and attention, well placed.`
+                : `Welcome, ${actor.name.split(" ·")[0]}. Your time, kept together.`}
+            </p>
+          </div>
+          <button className="text-link" onClick={logout}>
+            Sign out <LogOut size={16} />
+          </button>
         </div>
-        <button className="text-link" onClick={logout}>
-          Sign out <LogOut size={16} />
-        </button>
-      </div>
+      )}
       <div className="workspace-toolbar">
         <div className="workspace-tabs">
           <button
@@ -150,7 +202,12 @@ export function Visits({
           </button>
         </div>
         <div className="workspace-links">
-          {studio && (actor.role === "owner" || actor.provider_id === "katie") && <a className="text-link" href="#chair-studio">Chair check-ins <ArrowUpRight size={16} /></a>}
+          {studio &&
+            (actor.role === "owner" || actor.provider_id === "katie") && (
+              <a className="text-link" href="#chair-studio">
+                Chair check-ins <ArrowUpRight size={16} />
+              </a>
+            )}
           {!studio && (
             <Link prefetch={false} className="text-link" href="/profile">
               Your profile <ArrowUpRight size={16} />
@@ -162,7 +219,7 @@ export function Visits({
             </Link>
           )}
           <Link href="/book" className="button button-gold">
-            {studio ? "Booking preview" : "Book a visit"}{" "}
+            {studio ? "Client booking" : "Book a visit"}{" "}
             <ArrowUpRight size={16} />
           </Link>
         </div>
@@ -170,7 +227,10 @@ export function Visits({
       {preview && (
         <div className="preview-workspace">
           <span>Development environment · synthetic records only</span>
-          <Link prefetch={false} href={`/signin?next=${studio ? "/studio" : "/account"}`}>
+          <Link
+            prefetch={false}
+            href={`/signin?next=${studio ? "/studio" : "/account"}`}
+          >
             Switch preview identity <ArrowUpRight size={14} />
           </Link>
         </div>
@@ -178,7 +238,11 @@ export function Visits({
       {view === "visits" && (
         <div className="stat-grid">
           <div>
-            <p>{studio ? "Upcoming appointments" : "Upcoming visits"}</p>
+            <p>
+              {studio
+                ? "Upcoming appointments on this page"
+                : "Upcoming visits on this page"}
+            </p>
             <strong>{active.length.toString().padStart(2, "0")}</strong>
           </div>
           <div>
@@ -186,14 +250,14 @@ export function Visits({
             <strong className="stat-date">
               {active[0]
                 ? DateTime.fromISO(new Date(active[0].starts_at).toISOString())
-                    .setZone("America/Chicago")
+                    .setZone(zone)
                     .toFormat("LLL d · h:mm a")
                 : "A little space for you"}
             </strong>
           </div>
           <div>
             <p>{studio ? "Provider" : "Your studio"}</p>
-            <strong className="stat-date">Katie · Fix It Shop</strong>
+            <strong className="stat-date">Your service professional</strong>
           </div>
         </div>
       )}
@@ -204,23 +268,94 @@ export function Visits({
             <input
               type="date"
               value={filter}
-              onChange={(e) => setFilter(e.target.value)}
+              onChange={(e) => {
+                setFilter(e.target.value);
+                setPage(0);
+              }}
             />
           </label>
           <button
             className="text-link"
-            onClick={() =>
-              setFilter(DateTime.now().setZone("America/Chicago").toISODate()!)
-            }
+            onClick={() => setFilter(DateTime.now().setZone(zone).toISODate()!)}
           >
             Today
           </button>
           <button className="text-link" onClick={() => setFilter("")}>
             All dates
           </button>
-          <span className="muted">Central Time</span>
+          <label className="form-field">
+            View
+            <select
+              value={days}
+              onChange={(e) => {
+                setDays(Number(e.target.value));
+                setPage(0);
+              }}
+            >
+              <option value={1}>Day</option>
+              <option value={7}>Week from selected day</option>
+            </select>
+          </label>
+          {actor.role === "owner" && (
+            <label className="form-field">
+              Provider
+              <select
+                value={provider}
+                onChange={(e) => {
+                  setProvider(e.target.value);
+                  setPage(0);
+                }}
+              >
+                <option value="">All providers</option>
+                {providers.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          <label className="form-field">
+            Location
+            <select
+              value={locationId}
+              onChange={(e) => {
+                setLocationId(e.target.value);
+                setPage(0);
+              }}
+            >
+              {locations.map((l) => (
+                <option key={l.id} value={l.id}>
+                  {l.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <span className="muted">{zone}</span>
         </div>
       )}
+      <div className="studio-controls">
+        <button
+          className="text-link"
+          onClick={() => {
+            setError("");
+            void load().catch((e) => setError(e.message));
+          }}
+        >
+          Refresh appointments
+        </button>
+        {page > 0 && (
+          <button className="button" onClick={() => setPage(page - 1)}>
+            Previous page
+          </button>
+        )}
+        {hasMore && (
+          <button className="button" onClick={() => setPage(page + 1)}>
+            Next page
+          </button>
+        )}
+        <span className="muted small">Page {page + 1}</span>
+      </div>
       {error && (
         <p role="alert" className="error-message">
           {error}
@@ -251,7 +386,7 @@ export function Visits({
             <p>
               {filter
                 ? "No appointments on this day."
-                : "Saved preview appointments will appear here."}
+                : "Appointments will appear here once booked."}
             </p>
             <Link href="/book" className="text-link">
               Find a moment <ArrowUpRight size={17} />
@@ -262,7 +397,7 @@ export function Visits({
             {shown.map((a) => {
               const dt = DateTime.fromISO(
                   new Date(a.starts_at).toISOString(),
-                ).setZone("America/Chicago"),
+                ).setZone(a.timezone || zone),
                 future = dt.toMillis() > Date.now();
               return (
                 <article className="appointment" key={a.id}>
@@ -272,14 +407,24 @@ export function Visits({
                     <small>{dt.toFormat("ccc")}</small>
                   </div>
                   <div className="appointment-content">
-                    {!studio && <Link prefetch={false} href={`/my-visit?visit=${encodeURIComponent(a.id)}`} className="text-link">Open your visit & preparation ↗</Link>}
+                    {!studio && (
+                      <Link
+                        prefetch={false}
+                        href={`/my-visit?visit=${encodeURIComponent(a.id)}`}
+                        className="text-link"
+                      >
+                        Open your visit & preparation ↗
+                      </Link>
+                    )}
                     <div className="appointment-top">
                       <h3>{a.service_name}</h3>
                       <span className={`status ${a.status}`}>{a.status}</span>
                     </div>
                     <p>
-                      {studio ? a.client_name : "With Katie"} <span>·</span>{" "}
-                      {dt.toFormat("h:mm a")} CT <span>·</span>{" "}
+                      {studio
+                        ? a.client_name
+                        : `With ${a.provider_name || "your professional"}`}{" "}
+                      <span>·</span> {dt.toFormat("h:mm a ZZZZ")} <span>·</span>{" "}
                       {(new Date(a.ends_at).getTime() -
                         new Date(a.starts_at).getTime()) /
                         60000}{" "}
@@ -296,6 +441,20 @@ export function Visits({
                     </span>
                   </div>
                   <div className="appointment-actions">
+                    <a
+                      className="text-link"
+                      href={`/api/appointments/${a.id}/calendar`}
+                    >
+                      Save to calendar
+                    </a>
+                    {studio && a.crm_client_id && (
+                      <Link
+                        className="text-link"
+                        href={`/studio/clients/${a.crm_client_id}`}
+                      >
+                        Client record
+                      </Link>
+                    )}
                     {a.status === "confirmed" && future && (
                       <>
                         <button
@@ -348,7 +507,7 @@ export function Visits({
                     {a.status !== "confirmed" && !studio && (
                       <Link
                         className="text-link"
-                        href={`/book?service=${a.service_id}`}
+                        href={`/book?service=${a.service_id}&provider=${a.provider_id}&location=${a.location_id || "eunice"}`}
                       >
                         Book again <ArrowUpRight size={14} />
                       </Link>
@@ -356,10 +515,10 @@ export function Visits({
                   </div>
                   {cancelId === a.id && (
                     <div className="appointment-edit">
-                      <h4>Cancel this preview visit?</h4>
+                      <h4>Cancel this visit?</h4>
                       <p>
                         This releases the time. No payment or cancellation fee
-                        applies in the preview.
+                        is collected through this booking system.
                       </p>
                       <div className="hero-actions">
                         <button
@@ -387,13 +546,13 @@ export function Visits({
                         <input
                           type="date"
                           value={date}
-                          min={DateTime.now()
-                            .setZone("America/Chicago")
-                            .toISODate()!}
-                          max={DateTime.now()
-                            .setZone("America/Chicago")
-                            .plus({ days: 45 })
-                            .toISODate()!}
+                          min={DateTime.now().setZone(zone).toISODate()!}
+                          max={
+                            DateTime.now()
+                              .setZone(zone)
+                              .plus({ days: 45 })
+                              .toISODate()!
+                          }
                           onChange={(e) => {
                             setDate(e.target.value);
                             setSelected("");

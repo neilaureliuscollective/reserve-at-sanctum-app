@@ -10,12 +10,28 @@ const format = (value: string) =>
     minute: "2-digit",
   }).format(new Date(value));
 export function StudioBlocks() {
+  const [provider, setProvider] = useState("");
+  const [providers, setProviders] = useState<{ id: string; name: string }[]>(
+    [],
+  );
+  useEffect(() => {
+    fetch("/api/studio/pilot")
+      .then((r) => r.json())
+      .then((d) => {
+        setProviders(d.providers || []);
+        setProvider(d.providers?.[0]?.id || "");
+      })
+      .catch(() => {});
+  }, []);
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
   async function refresh() {
-    const response = await fetch("/api/studio/blocks", { cache: "no-store" });
+    const response = await fetch(
+      "/api/studio/blocks?provider=" + encodeURIComponent(provider),
+      { cache: "no-store" },
+    );
     const data = await response.json();
     if (!response.ok) throw Error(data.error || "Could not load blocked time.");
     setBlocks(data.blocks);
@@ -24,7 +40,7 @@ export function StudioBlocks() {
     refresh()
       .catch((e) => setMessage(e.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [provider]);
   async function mutate(method: string, data: unknown) {
     setBusy(true);
     setMessage("");
@@ -32,7 +48,10 @@ export function StudioBlocks() {
       const response = await fetch("/api/studio/blocks", {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...(data as object),
+          ...(provider ? { provider } : {}),
+        }),
       });
       const result = await response.json();
       if (!response.ok)
@@ -60,11 +79,21 @@ export function StudioBlocks() {
   }
   return (
     <section aria-labelledby="blocks-title" className="studio-blocks">
-      <p className="eyebrow">KATIE’S AVAILABILITY</p>
+      <p className="eyebrow">PROVIDER AVAILABILITY</p>
+      <label>
+        Professional
+        <select value={provider} onChange={(e) => setProvider(e.target.value)}>
+          {providers.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
+          ))}
+        </select>
+      </label>
       <h2 id="blocks-title">Make room for your day.</h2>
       <p>
-        Block lunch, time away, or a break. All times are Louisiana time.
-        Existing visits stay protected.
+        Block lunch, time away, or a break. Use the professional’s location
+        time. Existing visits stay protected.
       </p>
       <form onSubmit={submit}>
         <fieldset disabled={busy || loading} className="block-fields">
