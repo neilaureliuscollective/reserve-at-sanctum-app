@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <main id="main" className="fix-it-content fix-it-install">
       <Image
-        src="/fix-it-shop/app/brand-icons/192"
+        src="/fix-it-shop/app/brand-icons/192?v=steel-symbol-1"
         width={96}
         height={96}
         alt="Fix It Shop home-screen icon"

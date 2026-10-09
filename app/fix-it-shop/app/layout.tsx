@@ -15,14 +15,14 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/fix-it-shop/app/brand-icons/192",
+        url: "/fix-it-shop/app/brand-icons/192?v=steel-symbol-1",
         sizes: "192x192",
         type: "image/png",
       },
     ],
     apple: [
       {
-        url: "/fix-it-shop/app/brand-icons/180",
+        url: "/fix-it-shop/app/brand-icons/180?v=steel-symbol-1",
         sizes: "180x180",
         type: "image/png",
       },

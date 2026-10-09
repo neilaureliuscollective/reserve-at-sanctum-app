@@ -39,7 +39,7 @@ export function fixItManifest(): MetadataRoute.Manifest {
     background_color: "#070b10",
     theme_color: fixItBooking.theme,
     icons: [192, 512].map((size) => ({
-      src: `/fix-it-shop/app/icons/${size}.png`,
+      src: `/fix-it-shop/app/icons/${size}.png?v=steel-symbol-1`,
       sizes: `${size}x${size}`,
       type: "image/png",
       purpose: "any" as const,
