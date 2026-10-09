@@ -219,6 +219,40 @@
 @media (prefers-contrast:more),(prefers-reduced-transparency:reduce) { .header { background:#08140e;backdrop-filter:none; }.secondary,.menu summary { border-color:currentColor; } }
 :global(html[data-reserve-still="true"]) .materialLight::before,:global(html[data-reserve-still="true"]) .main *,:global(html[data-reserve-still="true"]) .header * { animation:none!important;transition:none!important; }
 @media (prefers-reduced-motion:reduce) { .materialLight::before,.main *,.header * { animation:none!important;transition:none!important; } }
+/* Imperial Steel architectural composition: broad surfaces, recessed green rooms. */
+.header { background:linear-gradient(100deg,#26312c,#121417 55%,#12382d);box-shadow:inset 0 1px 0 #f5f1e833,0 8px 24px #080d0b25; }
+.hero { --flag-ink:#f5f1e8;--flag-muted:#d2dcd5;--flag-gold:#e4bd70;--flag-line:#91aa9c;max-width:none;gap:0;padding-top:48px;padding-bottom:88px;background:var(--lr-steel-wall);color:var(--flag-ink); }
+.hero::before { content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,transparent 49.8%,#f5f1e833 50%,#080d0b66 50.15%,transparent 50.5%);pointer-events:none; }
+.heroCopy { align-self:stretch;display:flex;flex-direction:column;justify-content:center;padding:52px 42px;background:radial-gradient(ellipse at 0 0,#20544388,transparent 70%),#12382d;box-shadow:inset 1px 1px 0 #f5f1e833,inset -1px -1px 0 #080d0b,0 24px 40px #080d0b44; }
+.main .hero h1,.hero h1 span { color:#f5f1e8; }
+.hero .action { background:#f5f1e8;color:#12382d;border-color:#f5f1e8; }
+.hero .secondary { color:#f5f1e8;background:#12382d;border-color:#91aa9c; }
+.heroScene { margin:32px 0 32px 32px;min-height:570px;--lr-metal-rim:48px;border-radius:220px 220px 3px 3px;box-shadow:inset 0 1px 0 #f5f1e888,inset -12px -12px 24px #080d0b66,0 28px 36px #080d0b66; }
+.heroImage { border-radius:180px 180px 0 0; }
+.heroSceneType { left:70px;bottom:100px; }.heroScene figcaption { left:70px;bottom:66px; }
+.chapterLink { color:#f5f1e8; }
+.reserve { background:linear-gradient(90deg,#f5f1e8 58%,#e9e0d0 58%); }
+.collection { border-top:1px solid #88958d; }
+.signature { grid-template-columns:1.15fr 1fr;box-shadow:0 28px 48px #12382d26; }
+.signatureImage { min-height:540px;background:var(--lr-steel-wall); }
+.signatureImage::after { inset:48px 12% 80px;border:1px solid #88958d;background:radial-gradient(ellipse at 50% 20%,#205443,#12382d 55%,#080d0b);box-shadow:inset 0 12px 28px #080d0b88,0 1px 0 #f5f1e866;z-index:0; }
+.signatureImage::before { width:84%;height:88px;left:8%;bottom:48px;z-index:1;border-radius:50% 50% 3px 3px;background:var(--lr-brushed-steel);box-shadow:inset 0 2px 0 #f5f1e888,inset 0 -26px 24px #12141788,0 18px 26px #080d0b88; }
+.signatureImage img { z-index:2;padding:76px 25% 100px; }.imageIndex,.imageNote { z-index:3;color:#f5f1e8; }
+.productImage { border-radius:3px;border:0;border-bottom:12px solid #4a5450;box-shadow:inset 0 1px 0 #fff,0 12px 20px #12382d12; }
+.product:nth-child(2) .productImage { background:radial-gradient(ellipse at 50% 25%,#88958d,#4a5450 70%,#26312c);border-bottom-color:#26312c; }
+.product:nth-child(3) .productImage { background:radial-gradient(ellipse at 50% 25%,#205443,#12382d 70%,#080d0b);border-bottom-color:#080d0b; }
+.philosophy { background:linear-gradient(90deg,#121417,#12382d 50%,#080d0b);border-top:14px solid #4a5450; }
+.philosophyCopy { position:relative; }.philosophyCopy::before { content:"";display:block;width:76px;height:8px;margin-bottom:32px;background:var(--lr-brushed-steel);box-shadow:0 1px 0 #88958d; }
+.membership { background:#f5f1e8; }
+.experiences { background:var(--lr-green-depth);border-left:12px solid #4a5450; }
+.footer { position:relative;background:linear-gradient(105deg,#121417,#0d211b 65%,#12382d);border-top:0;padding-top:88px; }
+.footer::before { content:"";position:absolute;top:0;left:0;right:0;height:40px;background:var(--lr-steel-wall);border-top:1px solid #88958d;border-bottom:1px solid #080d0b; }
+@media (max-width:1100px) and (min-width:761px) { .heroCopy { padding:40px 28px; }.heroScene { margin-left:24px;--lr-metal-rim:32px; }.heroSceneType,.heroScene figcaption { left:48px; } }
+@media (max-width:760px) {
+ .hero { padding-top:20px; }.heroCopy { padding:28px 20px 24px;margin:0 -4px; }.heroScene { margin:24px 0 0;--lr-metal-rim:30px;height:360px;min-height:360px; }.heroImage { border-radius:150px 150px 0 0; }.heroSceneType { left:48px;bottom:74px; }.heroScene figcaption { left:48px;bottom:44px; }.heroSceneType strong { font-size:29px; }
+ .reserve { background:#f5f1e8; }.signature { grid-template-columns:1fr; }.signatureImage { min-height:360px; }.signatureImage::after { inset:40px 12% 68px; }.signatureImage::before { height:64px;bottom:36px; }.signatureImage img { padding:64px 29% 76px; }.productImage { border-bottom-width:7px; }.footer { padding-top:72px; }
+}
+@media (max-width:359px) { .heroCopy { padding:24px 16px; }.heroScene { height:320px;min-height:320px; }.main .hero h1 { font-size:52px; }.hero .actions { gap:8px; }.hero .action,.hero .secondary { padding:12px 8px;gap:6px; } }
 @media (forced-colors:active) {
  .header,.main,.footer,.signature,.collection { --flag-ink:CanvasText;--flag-muted:CanvasText;--flag-gold:CanvasText;--flag-line:CanvasText; }
  .main,.header,.signature,.productImage,.reserve,.direction,.collection,.philosophy,.wellness,.membership,.standard,.footer { background:Canvas!important;color:CanvasText; }

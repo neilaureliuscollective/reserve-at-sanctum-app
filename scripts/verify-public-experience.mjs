@@ -69,7 +69,7 @@ try {
  await page.setViewportSize({width:1440,height:1000});await page.goto(base+'/discover');
  const heroImage=page.locator('main img').first();
  const steelLight=page.locator('[data-lr-flagship] figure').first().locator('span[aria-hidden=true]');
- await expect(page.locator('main[data-lr-flagship]')).toHaveAttribute('data-lr-release','imperial-steel-20261009');
+ await expect(page.locator('main[data-lr-flagship]')).toHaveAttribute('data-lr-release','imperial-steel-strong-20261009');
  if(await page.evaluate(()=>CSS.supports('animation-timeline','view()'))){
   await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).transform!=='none')).toBe(true);
   const steelBefore=await steelLight.evaluate(el=>getComputedStyle(el,'::before').transform);

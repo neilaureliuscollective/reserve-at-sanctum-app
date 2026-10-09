@@ -11,7 +11,7 @@ export function Flagship() {
  const signature=productConcepts[0];
  return <>
  <noscript><style>{`body:has(main[data-lr-flagship]) div[hidden]:has(> main[data-lr-flagship]) { display: block; } body:has(main[data-lr-flagship]) :is(.imperial-loading, .reserve-no-script, [data-lr-directions]) { display: none; }`}</style></noscript>
- <main id="main" data-lr-flagship data-lr-release="imperial-steel-20261009" className={`${styles.main} ${materials.tokens}`}>
+ <main id="main" data-lr-flagship data-lr-release="imperial-steel-strong-20261009" className={`${styles.main} ${materials.tokens}`}>
   <section className={styles.hero} aria-labelledby="flagship-title">
    <div className={styles.heroCopy}><p className={styles.eyebrow}>THE LEGACY RESERVE STANDARD</p><h1 id="flagship-title">Built for<br/><span>Presence.</span></h1><p className={styles.heroLead}>Refined essentials for a more intentional life.</p><p className={styles.heroDescription}>Personal routines. Everyday wellbeing. Your Reserve, wherever you are.</p><div className={styles.actions}><Action href="/shop">Explore the Collection</Action><Action href="/enter" secondary>Enter Your Reserve</Action></div><p className={styles.heroFoot}>A PERSONAL ECOSYSTEM. WHEREVER YOU ARE.</p></div>
    <figure className={styles.heroScene}><span aria-hidden="true" className={`${materials.edgeLight} ${styles.materialLight}`}/><div className={styles.heroImage}><Image src="/images/neil/ritual-plinth.webp" alt="Illustrative green and gold Legacy Reserve architectural environment" fill preload sizes="(max-width: 760px) 100vw, 48vw"/></div><div className={styles.heroSceneType} aria-hidden="true"><span>THE ART OF</span><strong>the daily ritual.</strong><i/></div><figcaption>ILLUSTRATIVE BRAND ENVIRONMENT</figcaption></figure>
