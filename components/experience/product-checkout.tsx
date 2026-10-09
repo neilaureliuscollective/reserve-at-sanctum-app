@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type { ShopVariant, PreparedCheckout } from "@/lib/shopify/storefront";
+import Link from "next/link";
+import type { ShopVariant } from "@/lib/shopify/storefront";
 function price(variant: ShopVariant) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -11,43 +12,38 @@ function price(variant: ShopVariant) {
 export function ProductCheckout({
   variants,
   enabled,
-  signedIn,
 }: {
   variants: ShopVariant[];
   enabled: boolean;
-  signedIn: boolean;
+  signedIn?: boolean;
 }) {
   const router = useRouter();
   const [variantId, setVariant] = useState(
       variants.find((v) => v.availableForSale)?.id ?? variants[0]?.id ?? "",
     ),
     [quantity, setQuantity] = useState(1),
-    [attempt, setAttempt] = useState(""),
     [busy, setBusy] = useState(false),
     [notice, setNotice] = useState(""),
-    [prepared, setPrepared] = useState<PreparedCheckout | null>(null);
+    [added, setAdded] = useState(false);
   const selected = variants.find((v) => v.id === variantId);
   function reset() {
-    setAttempt("");
-    setPrepared(null);
+    setAdded(false);
     setNotice("");
   }
   async function prepare() {
-    if (busy || prepared) return;
-    const key = attempt || crypto.randomUUID();
-    setAttempt(key);
+    if (busy || added) return;
     setBusy(true);
     setNotice("");
     try {
-      const response = await fetch("/api/shop/checkout", {
+      const response = await fetch("/api/shop/cart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ attemptKey: key, variantId, quantity }),
+        body: JSON.stringify({ action: "add", variantId, quantity }),
       });
       const result = await response.json();
       if (!response.ok)
-        throw new Error(result.error || "Checkout could not prepare.");
-      setPrepared(result);
+        throw new Error(result.error || "Your product could not be added.");
+      setAdded(true);
     } catch (e) {
       setNotice(e instanceof Error ? e.message : "Please try again.");
     } finally {
@@ -86,7 +82,7 @@ export function ProductCheckout({
         </p>
         <p className="reserve-field-note">
           {selected?.availableForSale
-            ? "Available according to Shopify. Availability is checked again when preparing checkout."
+            ? "Available according to Shopify. Availability is checked again when adding to your cart."
             : "This option is not currently available."}
         </p>
         <label>
@@ -113,28 +109,16 @@ export function ProductCheckout({
         </p>
         {!enabled ? (
           <p className="reserve-notice">Purchasing is not open yet.</p>
-        ) : !signedIn ? (
-          <button
-            className="button button-gold"
-            type="button"
-            onClick={() =>
-              router.push(
-                `/signin?next=${encodeURIComponent(window.location.pathname)}`,
-              )
-            }
-          >
-            Sign in to prepare checkout ↗
-          </button>
         ) : (
           <button
             className="button button-gold"
-            disabled={busy || !selected?.availableForSale || Boolean(prepared)}
+            disabled={busy || !selected?.availableForSale || added}
           >
             {busy
-              ? "Preparing…"
-              : prepared
-                ? "Checkout prepared"
-                : "Prepare checkout"}
+              ? "Adding…"
+              : added
+                ? "Added to cart"
+                : "Add to cart"}
           </button>
         )}
       </form>
@@ -152,31 +136,7 @@ export function ProductCheckout({
           Refresh product options ↗
         </button>
       )}
-      {prepared && (
-        <div className="collection-handoff">
-          <p className="experience-kicker">
-            CHECKOUT PREPARED · NOT A PURCHASE
-          </p>
-          <p>
-            Estimated total:{" "}
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: prepared.estimatedTotal.currencyCode,
-            }).format(Number(prepared.estimatedTotal.amount))}
-          </p>
-          <p>
-            Continue to Shopify to review shipping, taxes and final pricing.
-            Nothing has been charged by Legacy Reserve.
-          </p>
-          <a
-            href={prepared.url}
-            className="button button-gold"
-            rel="noreferrer"
-          >
-            Continue to Shopify checkout ↗
-          </a>
-        </div>
-      )}
+      {added && <div className="collection-handoff"><p role="status">Added to your cart.</p><Link href="/shop/cart" className="button button-gold">View cart ↗</Link><Link href="/shop" className="text-link">Continue shopping ↗</Link></div>}
     </section>
   );
 }

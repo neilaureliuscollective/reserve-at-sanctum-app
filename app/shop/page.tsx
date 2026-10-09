@@ -15,6 +15,7 @@ export default async function Shop() {
       title="A standard you can carry."
       intro="Considered essentials for your everyday presence. Explore the collection, with a clear distinction between published products and concepts."
     >
+      <p><Link href="/shop/cart" className="button button-gold">Your cart ↗</Link></p>
       <section
         className="collection-status"
         aria-labelledby="collection-status-title"
@@ -111,7 +112,7 @@ export default async function Shop() {
       )}
       <section className="shop-concepts" aria-labelledby="shop-concepts-title">
         <p className="experience-kicker" id="shop-concepts-title">
-          CONCEPT COLLECTION · NOT LIVE INVENTORY
+          FUTURE RELEASES · CONCEPT COLLECTION · NOT LIVE INVENTORY
         </p>
         <p className="reserve-field-note">
           Packaging concepts below have no purchase price, stock or checkout.

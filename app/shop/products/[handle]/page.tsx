@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { currentUser } from "@/lib/auth";
 import { readCollection } from "@/lib/collection";
 import { MemberShell } from "@/components/experience/member-shell";
 import { ProductCheckout } from "@/components/experience/product-checkout";
@@ -14,7 +13,7 @@ export default async function Product({
 }) {
   const handle = (await params).handle;
   if (!/^[a-z0-9][a-z0-9_-]{0,199}$/.test(handle)) notFound();
-  const [catalog, actor] = await Promise.all([readCollection(), currentUser()]);
+  const catalog = await readCollection();
   if (catalog.state === "unavailable")
     return (
       <MemberShell
@@ -52,8 +51,7 @@ export default async function Product({
         <ProductCheckout
           key={JSON.stringify(product.variants)}
           variants={product.variants}
-          enabled={catalog.checkout && (!actor || actor.role === "client")}
-          signedIn={actor?.role === "client"}
+          enabled={catalog.checkout}
         />
       </div>
       <footer className="member-foot">

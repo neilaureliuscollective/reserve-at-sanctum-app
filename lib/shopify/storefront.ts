@@ -30,7 +30,7 @@ const failure = () =>
     "The live Collection could not refresh. Please try again before purchasing.",
     503,
   );
-async function storefront<T>(
+export async function storefront<T>(
   config: ShopifyConfig,
   query: string,
   variables: object,
@@ -82,9 +82,9 @@ async function storefront<T>(
     throw failure();
   }
 }
-const collectionQuery = `query ReserveCollection($handle:String!) @inContext(country:US) {
- collection(handle:$handle) { handle products(first:40) {
-  pageInfo { hasNextPage } nodes { id handle title description requiresSellingPlan
+const collectionQuery = `query ReserveCollection($handle:String!,$after:String) @inContext(country:US) {
+ collection(handle:$handle) { handle products(first:40,after:$after) {
+  pageInfo { hasNextPage endCursor } nodes { id handle title description requiresSellingPlan
    featuredImage { url altText }
    variants(first:20) { pageInfo { hasNextPage } nodes { id title availableForSale price { amount currencyCode } } }
   }
@@ -95,7 +95,7 @@ const collectionData = z.object({
     .object({
       handle: z.string(),
       products: z.object({
-        pageInfo: z.object({ hasNextPage: z.boolean() }),
+        pageInfo: z.object({ hasNextPage: z.boolean(), endCursor: z.string().nullable().optional() }),
         nodes: z
           .array(
             z.object({
@@ -122,30 +122,34 @@ export async function shopifyCollection(
   config: ShopifyConfig,
   fetcher: typeof fetch = fetch,
 ): Promise<ShopProduct[]> {
-  const parsed = collectionData.safeParse(
-    await storefront(
-      config,
-      collectionQuery,
-      { handle: config.collection },
-      fetcher,
-    ),
-  );
-  if (
-    !parsed.success ||
-    !parsed.data.collection ||
-    parsed.data.collection.handle !== config.collection
-  )
-    throw failure();
-  const collection = parsed.data.collection;
-  if (
-    collection.products.pageInfo.hasNextPage ||
-    collection.products.nodes.some((p) => p.variants.pageInfo.hasNextPage)
-  )
-    throw new BookingError(
-      "The approved Collection exceeds this release’s product limits. Please narrow the collection before opening purchasing.",
-      503,
-    );
-  return collection.products.nodes
+  const products: NonNullable<z.infer<typeof collectionData>["collection"]>["products"]["nodes"] = [];
+  let after: string | null = null;
+  const cursors = new Set<string>();
+  for (let page = 0; ; page++) {
+    if (page >= 100) throw failure();
+    const query = config.collection ? collectionQuery : `query ReserveProducts($after:String) @inContext(country:US) {
+      products(first:40,after:$after) { pageInfo { hasNextPage endCursor } nodes {
+        id handle title description requiresSellingPlan featuredImage { url altText }
+        variants(first:20) { pageInfo { hasNextPage } nodes { id title availableForSale price { amount currencyCode } } }
+      } }
+    }`;
+    const raw = await storefront<Record<string, unknown>>(config, query,
+      config.collection ? { handle: config.collection, after } : { after }, fetcher);
+    const parsed = collectionData.safeParse(config.collection ? raw : {
+      collection: { handle: "", products: raw.products },
+    });
+    if (!parsed.success || !parsed.data.collection || parsed.data.collection.handle !== config.collection) throw failure();
+    const connection = parsed.data.collection.products;
+    if (connection.nodes.some(p => p.variants.pageInfo.hasNextPage))
+      throw new BookingError("A product exceeds this release’s variant limits. Please review its options before purchasing.", 503);
+    products.push(...connection.nodes);
+    if (!connection.pageInfo.hasNextPage) break;
+    const cursor = connection.pageInfo.endCursor;
+    if (!cursor || cursors.has(cursor)) throw new BookingError("The Collection exceeds valid pagination limits. Please try again.", 503);
+    cursors.add(cursor);
+    after = cursor;
+  }
+  return products
     .filter((p) => !p.requiresSellingPlan)
     .map((p) => {
       let image: ShopProduct["image"] = null;

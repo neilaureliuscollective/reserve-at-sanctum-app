@@ -180,3 +180,8 @@
   letter-spacing: 0.18em;
   color: var(--reserve-gold-light);
 }
+
+.collection-cart-line { padding: 2rem 0; border-bottom: 1px solid var(--reserve-border); }
+.collection-cart-line select { margin: 0 1rem; padding: .6rem; background: var(--reserve-obsidian); color: var(--reserve-text-primary); }
+.collection-cart-line button { margin: 1rem; }
+.collection-handoff { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }

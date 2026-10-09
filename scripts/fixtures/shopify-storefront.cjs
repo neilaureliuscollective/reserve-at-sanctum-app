@@ -12,6 +12,7 @@ if (
 const { readFileSync } = require("node:fs");
 const { resolve } = require("node:path");
 const originalFetch = globalThis.fetch;
+let savedCart = null;
 globalThis.fetch = async (input, init) => {
   const url =
     typeof input === "string"
@@ -35,6 +36,29 @@ globalThis.fetch = async (input, init) => {
       errors: [{ message: "SYNTHETIC_PROVIDER_FAILURE" }],
     });
   const request = JSON.parse(init?.body || (await input.clone().text()));
+  if (request.query.includes("ReserveCart")) {
+    let operation = "cart";
+    if (request.query.includes("cartCreate")) {
+      operation = "cartCreate";
+      savedCart = { id:"gid://shopify/Cart/local?key=synthetic-secret", checkoutUrl:"https://reserve-test.myshopify.com/cart/c/synthetic-local-only", lines:{pageInfo:{hasNextPage:false},nodes:[]} };
+    } else if (request.query.includes("cartLinesAdd")) operation="cartLinesAdd";
+    else if (request.query.includes("cartLinesUpdate")) operation="cartLinesUpdate";
+    else if (request.query.includes("cartLinesRemove")) operation="cartLinesRemove";
+    if(operation==="cartCreate" || operation==="cartLinesAdd") {
+      const line=operation==="cartCreate"?request.variables.input.lines[0]:request.variables.lines[0];
+      const existing=savedCart.lines.nodes.find(l=>l.merchandise.id===line.merchandiseId);
+      if(existing) existing.quantity+=line.quantity;
+      else savedCart.lines.nodes.push({id:"line-"+savedCart.lines.nodes.length,quantity:line.quantity,merchandise:{id:line.merchandiseId,title:"50 ml",availableForSale:true,product:{title:"Synthetic Essential",handle:"synthetic-essential"}}});
+    }
+    if(operation==="cartLinesUpdate") {const line=request.variables.lines[0]; savedCart.lines.nodes.find(l=>l.id===line.id).quantity=line.quantity;}
+    if(operation==="cartLinesRemove") savedCart.lines.nodes=savedCart.lines.nodes.filter(l=>!request.variables.lines.includes(l.id));
+    if(savedCart) {
+      savedCart.totalQuantity=savedCart.lines.nodes.reduce((n,l)=>n+l.quantity,0);
+      savedCart.cost={totalAmount:{amount:String(24*savedCart.totalQuantity),currencyCode:"USD"}};
+      for(const l of savedCart.lines.nodes) l.cost={totalAmount:{amount:String(24*l.quantity),currencyCode:"USD"}};
+    }
+    return Response.json({data:{[operation]:operation==="cart"?savedCart:{userErrors:[],warnings:[],cart:savedCart}}});
+  }
   if (request.query.includes("cartCreate")) {
     const line = request.variables.input.lines[0];
     return Response.json({

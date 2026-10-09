@@ -25,8 +25,8 @@ export function shopifySettings(
   if (!/^[a-z0-9][a-z0-9-]*\.myshopify\.com$/.test(domain))
     issues.push("A valid Shopify store domain is required.");
   if (!token) issues.push("A server-side Storefront token is required.");
-  if (!/^[a-z0-9][a-z0-9_-]{0,99}$/.test(collection))
-    issues.push("An approved collection handle is required.");
+  if (collection && !/^[a-z0-9][a-z0-9_-]{0,99}$/.test(collection))
+    issues.push("The collection handle is invalid.");
   if (version !== "2026-07")
     issues.push(
       "This bridge requires the tested Storefront API version 2026-07.",
