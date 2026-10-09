@@ -21,25 +21,43 @@ try {
   await page.locator('main img').first().evaluate(i=>i.decode());
   await page.screenshot({path:`artifacts/public-experience/flagship-${width}-${height}.png`});
   const directions=page.getByRole('group',{name:'Choose your Reserve direction'});
+  const sceneTones=new Set();
   for(const [name,href] of [['Presence','/pathways?priority=presence'],['Performance','/pathways?priority=performance'],['Vitalis','/vitalis/journey']]){
+   if(width<=760)await directions.evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));
    await directions.getByRole('button',{name,exact:true}).click();
    assert.equal(await directions.locator('button[aria-pressed=true]').count(),1);
+   await expect(page.locator('[data-direction]')).toHaveAttribute('data-direction',name.toLowerCase());
+   sceneTones.add(await page.locator('[data-direction]').evaluate(el=>getComputedStyle(el).getPropertyValue('--instrument-light')));
    const result=page.locator('[aria-live=polite]');const link=result.getByRole('link');assert.equal(await link.getAttribute('href'),href);
-   await directions.evaluate(el=>el.scrollIntoView({block:'start',behavior:'instant'}));
-   const box=await link.boundingBox();assert.ok(box.y>=0 && box.y+box.height<=height,`direction CTA clipped ${width}x${height} ${name}: ${JSON.stringify(box)}`);
+   if(width>760)await directions.evaluate(el=>el.scrollIntoView({block:'start',behavior:'instant'}));
+   await expect.poll(async()=>{const box=await link.boundingBox();return !!box && box.y>=76 && box.y+box.height<=height;},{message:`direction CTA clipped ${width}x${height} ${name}`}).toBe(true);
   }
+  assert.equal(sceneTones.size,3,'each direction visibly changes its scene material');
   const menu=page.getByLabel('Open navigation menu');await menu.click();
   assert.ok(await page.getByRole('navigation',{name:'All public destinations'}).isVisible());
   await page.keyboard.press('Escape');assert.equal(await page.locator('details[open]').count(),0);
   assert.equal(await menu.evaluate(el=>document.activeElement===el),true);
+  for(const image of await page.locator('main img').all()){
+   await image.scrollIntoViewIfNeeded();
+   await expect.poll(()=>image.evaluate(i=>i.complete && i.naturalWidth>0),{message:'flagship image failed to load'}).toBe(true);
+   await image.evaluate(i=>i.decode());
+  }
   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
   await page.screenshot({path:`artifacts/public-experience/flagship-full-${width}-${height}.png`,fullPage:true});
   console.log(`PASS viewport ${width}x${height}, directions, menu and overflow`);
  }
  console.log('Checking motion and route regressions');
  await page.setViewportSize({width:1440,height:1000});await page.goto(base+'/discover');
+ const heroImage=page.locator('main img').first();
+ if(await page.evaluate(()=>CSS.supports('animation-timeline','view()'))){
+  await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).transform!=='none')).toBe(true);
+  const before=await heroImage.evaluate(i=>getComputedStyle(i).transform);
+  await page.evaluate(()=>window.scrollTo({top:300,behavior:'instant'}));
+  await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).transform)).not.toBe(before);
+ }
  await page.getByLabel('Open navigation menu').click();await page.getByRole('button',{name:'Pause environment motion'}).click();
  await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
+ await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).animationName)).toBe('none');
  await page.reload();await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
  await page.getByLabel('Open navigation menu').click();await page.getByRole('button',{name:'Enable environment motion'}).click();await page.keyboard.press('Escape');
  await page.emulateMedia({reducedMotion:'reduce'});await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
