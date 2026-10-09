@@ -1,3 +1,4 @@
+import { safeDestination } from "@/lib/experience/entry";
 import { z } from "zod";
 import { hasSupabase, previewLogin, signout, supabase } from "@/lib/auth";
 import { mutationOrigin, failure } from "@/lib/http";
@@ -35,7 +36,12 @@ export async function POST(req: Request) {
         await supabase()
       ).auth.resetPasswordForEmail(email, {
         redirectTo: new URL(
-          "/auth/callback?next=%2Freset-password",
+          "/auth/callback?next=" +
+            encodeURIComponent(
+              body.next === "/fix-it-shop/app/reset-password"
+                ? body.next
+                : "/reset-password",
+            ),
           process.env.APP_ORIGIN!,
         ).toString(),
       });
@@ -66,6 +72,7 @@ export async function POST(req: Request) {
         email: z.email(),
         password: z.string().min(12).max(128),
         name: z.string().min(1).max(100).optional(),
+        next: z.string().max(2000).optional(),
       })
       .parse(body);
     const client = await supabase();
@@ -76,7 +83,8 @@ export async function POST(req: Request) {
         options: {
           data: { name: input.name },
           emailRedirectTo: new URL(
-            "/auth/callback?next=%2Fenter",
+            "/auth/callback?next=" +
+              encodeURIComponent(safeDestination(input.next)),
             req.url,
           ).toString(),
         },

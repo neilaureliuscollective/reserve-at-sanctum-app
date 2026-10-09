@@ -30,6 +30,7 @@ export function ExperienceChrome({ children, footer, status }: {
     window.addEventListener("focusout", update);
     return () => { viewport?.removeEventListener("resize", update); window.removeEventListener("focusout", update); };
   }, []);
+  if (path === "/fix-it-shop/app" || path.startsWith("/fix-it-shop/app/")) return <>{children}</>;
   if (path.startsWith("/studio")) return <>{children}{status}</>;
   if (path === "/") return <><MotionMode />{children}</>;
   return <div className="reserve-app-shell" data-world={world} data-keyboard={keyboard}>

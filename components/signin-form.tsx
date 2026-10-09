@@ -8,11 +8,15 @@ export function SigninForm({
   hosted,
   next,
   oauthError = false,
+  clientOnly = false,
+  recoveryHref = "/forgot-password",
 }: {
   preview: boolean;
   hosted: boolean;
   next: string;
   oauthError?: boolean;
+  clientOnly?: boolean;
+  recoveryHref?: string;
 }) {
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
@@ -55,6 +59,7 @@ export function SigninForm({
                 const d = new FormData(e.currentTarget);
                 submit({
                   action: signup ? "signup" : "signin",
+                  next,
                   email: d.get("email"),
                   password: d.get("password"),
                   ...(signup ? { name: d.get("name") } : {}),
@@ -101,7 +106,7 @@ export function SigninForm({
                 <ArrowRight size={18} />
               </button>
             </form>
-            <Link className="text-link" href="/forgot-password">
+            <Link className="text-link" href={recoveryHref}>
               Forgot password?
             </Link>
             <button className="text-link" onClick={() => setSignup(!signup)}>
@@ -149,27 +154,29 @@ export function SigninForm({
               title: "Open Neil’s owner view",
               desc: "Review the entire preview experience",
             },
-          ].map((x) => (
-            <button
-              key={x.id}
-              disabled={busy}
-              className="identity-button"
-              onClick={() =>
-                submit(
-                  { action: "preview", identity: x.id },
-                  next === "/account" && x.id !== "preview-client"
-                    ? "/studio"
-                    : next,
-                )
-              }
-            >
-              <span>
-                <strong>{x.title}</strong>
-                <small>{x.desc}</small>
-              </span>
-              <ArrowRight size={18} />
-            </button>
-          ))}
+          ]
+            .filter((x) => !clientOnly || x.id === "preview-client")
+            .map((x) => (
+              <button
+                key={x.id}
+                disabled={busy}
+                className="identity-button"
+                onClick={() =>
+                  submit(
+                    { action: "preview", identity: x.id },
+                    next === "/account" && x.id !== "preview-client"
+                      ? "/studio"
+                      : next,
+                  )
+                }
+              >
+                <span>
+                  <strong>{x.title}</strong>
+                  <small>{x.desc}</small>
+                </span>
+                <ArrowRight size={18} />
+              </button>
+            ))}
         </>
       )}
       {error && (

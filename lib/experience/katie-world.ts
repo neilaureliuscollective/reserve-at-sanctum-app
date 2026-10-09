@@ -15,12 +15,12 @@ export function katieVisitPresentation(destinations: SanctumDestination[], unava
     locations: unavailable ? [] : published.map(({ destination, services }) => ({
       id: destination.id, city: destination.city, region: destination.region,
       address: destination.address, timezone: destination.timezone,
-      bookingHref: `/book?location=${encodeURIComponent(destination.id)}&provider=katie`,
-      services: services.map(service => ({ id: service.id, name: service.name, description: service.description, minutes: service.minutes, price: service.price, href: `/book?location=${encodeURIComponent(destination.id)}&provider=katie&service=${encodeURIComponent(service.id)}` })),
+      bookingHref: `/fix-it-shop/app/book?location=${encodeURIComponent(destination.id)}&provider=katie`,
+      services: services.map(service => ({ id: service.id, name: service.name, description: service.description, minutes: service.minutes, price: service.price, href: `/fix-it-shop/app/book?location=${encodeURIComponent(destination.id)}&provider=katie&service=${encodeURIComponent(service.id)}` })),
     })),
     locationLabel: unavailable ? "Location details could not refresh" : `${fallback?.city ?? primaryLocation.city}, ${fallback?.region ?? primaryLocation.region}`,
     primary: state === "open"
-      ? { label: "Book with Katie", href: `/book?location=${encodeURIComponent(published[0].destination.id)}&provider=katie` }
+      ? { label: "Book with Katie", href: `/fix-it-shop/app/book?location=${encodeURIComponent(published[0].destination.id)}&provider=katie` }
       : { label: state === "unavailable" ? "Check visit details" : "Explore Katie’s services", href: "#services" },
     status: state === "open" ? "Katie’s service menu is published. Choose a service to find a time."
       : state === "unavailable" ? "Booking details could not refresh. Check again before planning your visit."

@@ -372,3 +372,27 @@ test("DST closing hour stays local clock time rather than elapsed hours from mid
   );
   assert.ok(Array.isArray(slots));
 });
+
+test("client provider filters preserve ownership and filter before pagination", async () => {
+  const filteredClient = { ...client, id: "preview-other" };
+  const a = await book(db, filteredClient, {
+    serviceId: "signature",
+    start: time(),
+    note: "",
+    requestKey: randomUUID(),
+  });
+  assert.ok(
+    (await visits(db, filteredClient, false, 0, "", 1, "katie")).some(
+      (v) => v.id === a.id,
+    ),
+  );
+  assert.equal(
+    (await visits(db, filteredClient, false, 0, "", 1, "second")).length,
+    0,
+  );
+  assert.ok(
+    !(await visits(db, client, false, 0, "", 1, "katie")).some(
+      (v) => v.id === a.id,
+    ),
+  );
+});

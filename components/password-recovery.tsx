@@ -1,7 +1,15 @@
 "use client";
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
-export function PasswordRecovery({ reset = false }: { reset?: boolean }) {
+export function PasswordRecovery({
+  reset = false,
+  recoveryReturn,
+  accountHref,
+}: {
+  reset?: boolean;
+  recoveryReturn?: string;
+  accountHref?: string;
+}) {
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState(""),
     [error, setError] = useState("");
@@ -17,7 +25,11 @@ export function PasswordRecovery({ reset = false }: { reset?: boolean }) {
         body: JSON.stringify(
           reset
             ? { action: "update-password", password: f.get("password") }
-            : { action: "recover", email: f.get("email") },
+            : {
+                action: "recover",
+                email: f.get("email"),
+                next: recoveryReturn,
+              },
         ),
       });
       const d = await r.json();
@@ -55,7 +67,10 @@ export function PasswordRecovery({ reset = false }: { reset?: boolean }) {
       </button>
       {error && <p role="alert">{error}</p>}
       {message && <p role="status">{message}</p>}
-      <Link className="text-link" href={reset ? "/enter" : "/signin"}>
+      <Link
+        className="text-link"
+        href={accountHref || (reset ? "/enter" : "/signin")}
+      >
         {reset ? "Open your account" : "Back to sign in"}
       </Link>
     </form>

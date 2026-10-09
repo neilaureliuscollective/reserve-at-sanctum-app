@@ -180,3 +180,7 @@ for the required hosted configuration and real-device verification.
 ## Operational booking/provider pilot — October 2026
 
 [Phase 1 operating guide and acceptance gates](docs/BOOKING-PROVIDER-PHASE-1.md) covers CRM-only clients, manual appointments, day/week calendars, reviewed pilot contact imports, manual confirmations, real account provisioning and production rollback. Run `npm run verify:booking-pilot` in the synthetic local environment. Fix It Shop's branded customer PWA and the universal provider studio are the two subsequent phases; hosted pilot readiness requires real account/configuration and physical-phone checks.
+
+## Fix It Shop branded booking — Phase 2
+
+Katie's focused customer app is at `/fix-it-shop/app`, sharing the existing booking engine, account and staff calendar. [Scope, PWA research, verification and release gates](docs/FIX-IT-SHOP-BOOKING-PHASE-2.md). Run `npm run verify:fix-it-booking` with synthetic local data. The provider branding studio is the remaining build phase; actual operating setup and physical-phone installation still require verification.

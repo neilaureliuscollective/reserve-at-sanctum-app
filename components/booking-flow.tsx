@@ -11,6 +11,7 @@ import {
   LockKeyhole,
   ArrowUpRight,
 } from "lucide-react";
+import type { BookingIdentity } from "@/lib/fix-it-booking";
 import type { Service, Actor } from "@/lib/booking";
 
 const money = (c: number) =>
@@ -20,7 +21,14 @@ const money = (c: number) =>
     maximumFractionDigits: 2,
   }).format(c / 100);
 type Slot = { start: string; label: string };
-export function BookingFlow({ preview = false }: { preview?: boolean }) {
+export function BookingFlow({
+  preview = false,
+  identity,
+}: {
+  preview?: boolean;
+  identity?: BookingIdentity;
+}) {
+  const bookPath = identity?.book || "/book";
   const [zone, setZone] = useState("America/Chicago");
   const [house, setHouse] = useState("eunice");
   const [provider, setProvider] = useState("");
@@ -46,7 +54,8 @@ export function BookingFlow({ preview = false }: { preview?: boolean }) {
     setHouse(locationId);
     const today = DateTime.now().setZone(zone).plus({ days: 1 });
     setDate(u.searchParams.get("date") || today.toISODate()!);
-    const providerId = u.searchParams.get("provider") || "";
+    const providerId =
+      identity?.providerId || u.searchParams.get("provider") || "";
     setProvider(providerId);
     const abort = new AbortController();
     let active = true;
@@ -79,7 +88,7 @@ export function BookingFlow({ preview = false }: { preview?: boolean }) {
         }
         if (providerId && c.services?.length && !visible.length)
           setError(
-            "This professional is not accepting appointments here. Choose another professional in Sanctum.",
+            "This professional is not accepting appointments here. Please check Katie’s booking status.",
           );
         setActor(s.user);
         if (c.error) setError(c.error);
@@ -90,9 +99,7 @@ export function BookingFlow({ preview = false }: { preview?: boolean }) {
       })
       .catch((e) => {
         if (active)
-          setError(
-            "Unable to load the service menu. Return to Sanctum or refresh to try again.",
-          );
+          setError("Unable to load the service menu. Refresh to try again.");
       })
       .finally(() => {
         clearTimeout(timeout);
@@ -166,7 +173,7 @@ export function BookingFlow({ preview = false }: { preview?: boolean }) {
       setBusy(false);
     }
   }
-  const returnPath = `/book?location=${encodeURIComponent(house)}&provider=${encodeURIComponent(provider)}&service=${selected}&date=${date}&start=${encodeURIComponent(start)}`;
+  const returnPath = `${bookPath}?location=${encodeURIComponent(house)}&provider=${encodeURIComponent(provider)}&service=${selected}&date=${date}&start=${encodeURIComponent(start)}`;
   if (confirmed)
     return (
       <section className="booking-success">
@@ -203,13 +210,18 @@ export function BookingFlow({ preview = false }: { preview?: boolean }) {
           </a>
           <Link
             prefetch={false}
-            href={`/my-visit?visit=${encodeURIComponent(confirmed)}`}
+            href={
+              identity
+                ? identity.visits
+                : `/my-visit?visit=${encodeURIComponent(confirmed)}`
+            }
             className="button button-gold"
           >
-            Prepare your visit <ArrowUpRight size={18} />
+            {identity ? "Manage my visits" : "Prepare your visit"}{" "}
+            <ArrowUpRight size={18} />
           </Link>
-          <Link href="/home" className="text-link">
-            Back to the Reserve
+          <Link href={identity?.base || "/home"} className="text-link">
+            {identity ? "Back to Fix It Shop" : "Back to the Reserve"}
           </Link>
         </div>
         <p className="small muted">
@@ -221,13 +233,18 @@ export function BookingFlow({ preview = false }: { preview?: boolean }) {
     <>
       <Link
         className="text-link"
-        href={`/visit?location=${encodeURIComponent(house)}#professionals`}
+        href={
+          identity?.base ||
+          `/visit?location=${encodeURIComponent(house)}#professionals`
+        }
       >
-        ← Choose your professional in Sanctum
+        {identity ? "← Fix It Shop" : "← Choose your professional in Sanctum"}
       </Link>
       <div className="booking-heading">
         <p className="eyebrow">
-          LEGACY RESERVE SANCTUM — {houseName.toUpperCase()}
+          {identity
+            ? "FIX IT SHOP · KATIE GUIDRY"
+            : `LEGACY RESERVE SANCTUM — ${houseName.toUpperCase()}`}
         </p>
         <h1>
           Make time <em>for yourself.</em>
@@ -467,7 +484,7 @@ export function BookingFlow({ preview = false }: { preview?: boolean }) {
                       <Link
                         prefetch={false}
                         className="button button-gold"
-                        href={`/signin?next=${encodeURIComponent(returnPath)}`}
+                        href={`${identity?.signin || "/signin"}?next=${encodeURIComponent(returnPath)}`}
                       >
                         Continue to sign in <ArrowRight size={18} />
                       </Link>
@@ -484,7 +501,9 @@ export function BookingFlow({ preview = false }: { preview?: boolean }) {
           )}
         </div>
         <aside className="booking-summary">
-          <p className="eyebrow">YOUR TIME AT LEGACY RESERVE</p>
+          <p className="eyebrow">
+            {identity ? "YOUR TIME WITH KATIE" : "YOUR TIME AT LEGACY RESERVE"}
+          </p>
           <h3>
             A place in
             <br />
@@ -519,7 +538,8 @@ export function BookingFlow({ preview = false }: { preview?: boolean }) {
           </div>
           <span className="small muted">No online payment is collected.</span>
           <p className="summary-signature">
-            LEGACY RESERVE · {houseName.toUpperCase()}
+            {identity?.name.toUpperCase() || "LEGACY RESERVE"} ·{" "}
+            {houseName.toUpperCase()}
           </p>
         </aside>
       </div>

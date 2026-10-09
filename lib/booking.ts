@@ -505,8 +505,8 @@ export async function visits(
     values.push(locationId);
     dayFilter += ` AND a.location_id=$${values.length}`;
   }
-  if (studio && providerId) {
-    if (actor.role !== "owner" && actor.provider_id !== providerId)
+  if (providerId) {
+    if (studio && actor.role !== "owner" && actor.provider_id !== providerId)
       throw new BookingError("Provider access is required.", 403);
     values.push(providerId);
     dayFilter += ` AND a.provider_id=$${values.length}`;
