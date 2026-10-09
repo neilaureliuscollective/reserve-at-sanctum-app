@@ -163,20 +163,6 @@
  .product:hover .productImage img { transform:translateY(-5px) scale(1.035); }
  .desktopNav a:hover,.footer a:hover { text-decoration:underline;text-underline-offset:6px; }
 }
-/* Native scroll-linked camera movement; readable static scenes are the fallback. */
-@supports (animation-timeline:view()) {
- .hero { view-timeline-name:--flag-hero;view-timeline-axis:block; }
- .founderImage { view-timeline-name:--flag-founder;view-timeline-axis:block; }
- .wellness { view-timeline-name:--flag-wellness;view-timeline-axis:block; }
- .wellnessInstrument>span:first-child { animation:wellness-meridian linear both;animation-timeline:--flag-wellness;animation-range:entry 0% exit 100%; }
- .materialLight::before { animation:steel-light linear both;animation-timeline:--flag-hero;animation-range:entry 0% exit 100%; }
- .heroImage>img { animation:hero-camera linear both;animation-timeline:--flag-hero;animation-range:exit 0% exit 100%; }
- .founderImage>img { animation:portrait-camera linear both;animation-timeline:--flag-founder;animation-range:entry 0% exit 100%; }
-}
-@keyframes wellness-meridian { from { transform:rotateX(58deg) rotateZ(-35deg); } to { transform:rotateX(58deg) rotateZ(45deg); } }
-@keyframes steel-light { from { transform:translateX(-18%); } to { transform:translateX(18%); } }
-@keyframes hero-camera { from { transform:scale(1.06) translateY(0); } to { transform:scale(1.14) translateY(5%); } }
-@keyframes portrait-camera { from { transform:scale(1.1) translateY(-3%); } to { transform:scale(1.1) translateY(3%); } }
 @media (max-width:1100px) {
  .desktopNav { gap:20px;font-size:12px; }.header { gap:20px; }
  .hero { min-height:700px;gap:32px;padding-left:32px;padding-right:32px; }.heroCopy { padding-left:0; }.heroScene { min-height:580px; }
@@ -262,3 +248,42 @@
  .main .eyebrow,.menu summary,.footer strong,.conciergeLink>span { color:CanvasText; }
  .header :focus-visible,.main :focus-visible,.footer :focus-visible { outline-color:Highlight; }
 }
+
+/* Chapter arrivals finish once; text and controls then remain still. */
+.main { --arrival-distance:20px; }
+.main [data-lr-arrival="waiting"] { opacity:0;transform:translateY(var(--arrival-distance)); }
+.main [data-lr-arrival="arriving"] { animation:chapter-arrive 600ms cubic-bezier(.22,1,.36,1) both; }
+.main [data-lr-arrival="arriving"][data-lr-beat="1"] { animation-delay:60ms; }
+.main [data-lr-arrival="arriving"][data-lr-beat="2"] { animation-delay:120ms; }
+.main .direction[data-lr-arrival="waiting"] { transform:translateX(20px); }
+.main .direction[data-lr-arrival="arriving"] { animation-name:panel-arrive; }
+.main .founderImage[data-lr-arrival="waiting"] { opacity:1;transform:none; }
+.main .founderImage[data-lr-arrival="arriving"] { animation:none; }
+.founderImage[data-lr-arrival="waiting"] img { transform:scale(1.025); }
+.founderImage[data-lr-arrival="arriving"] img { animation:image-settle 650ms cubic-bezier(.22,1,.36,1) both; }
+.heroImage>img { animation:image-settle 650ms cubic-bezier(.22,1,.36,1) both; }
+.heroCopy h1 { animation:chapter-arrive 550ms cubic-bezier(.22,1,.36,1) both; }
+.materialLight::before { animation:arrival-light 800ms ease-out both; }
+.signature[data-lr-arrival="arriving"] .signatureImage img { animation:product-arrive 650ms cubic-bezier(.22,1,.36,1) both; }
+.directionInstrument>span { transition:transform 300ms ease,border-radius 300ms ease; }
+.directionResult>h3,.directionResult>p:not(.previewNote) { animation:selection-settle 250ms ease-out; }
+.wellnessInstrument>span:first-child { transform:rotateX(58deg) rotateZ(0deg); }
+.wellness [data-lr-arrival="arriving"] .wellnessInstrument>span:first-child { animation:instrument-arrive 650ms ease-out both; }
+@keyframes chapter-arrive { from { opacity:0;transform:translateY(var(--arrival-distance)); } to { opacity:1;transform:none; } }
+@keyframes panel-arrive { from { opacity:0;transform:translateX(20px); } to { opacity:1;transform:none; } }
+@keyframes image-settle { from { transform:scale(1.025); } to { transform:scale(1); } }
+@keyframes product-arrive { from { transform:translateY(12px); } to { transform:none; } }
+@keyframes arrival-light { from { transform:translateX(-12%); } to { transform:translateX(12%); } }
+@keyframes selection-settle { from { opacity:.6;transform:translateY(5px); } to { opacity:1;transform:none; } }
+@keyframes instrument-arrive { from { transform:rotateX(58deg) rotateZ(-12deg); } to { transform:rotateX(58deg) rotateZ(0deg); } }
+@media (max-width:760px) { .main { --arrival-distance:12px; }.main .direction[data-lr-arrival="waiting"] { transform:translateY(12px); }.main .direction[data-lr-arrival="arriving"] { animation-name:chapter-arrive; } }
+:global(html[data-reserve-still="true"]) .main [data-lr-arrival] { opacity:1!important;transform:none!important;animation:none!important; }
+:global(html[data-reserve-still="true"]) .main img,:global(html[data-reserve-still="true"]) .main span { transform:none; }
+@media (prefers-reduced-motion:reduce),(forced-colors:active) { .main [data-lr-arrival] { opacity:1!important;transform:none!important;animation:none!important; }.main img { transform:none!important; } }
+
+.heroLead,.heroDescription { animation:selection-settle 500ms ease-out both;animation-delay:80ms; }
+.footer[data-lr-arrival="waiting"]>div,.footer[data-lr-arrival="waiting"]>nav { opacity:0;transform:translateY(12px); }
+.footer[data-lr-arrival="arriving"]>div,.footer[data-lr-arrival="arriving"]>nav { animation:chapter-arrive 550ms cubic-bezier(.22,1,.36,1) both;--arrival-distance:12px; }
+.footer[data-lr-arrival="arriving"]>nav { animation-delay:80ms; }
+:global(html[data-reserve-still="true"]) .footer *, :global(html[data-reserve-still="true"]) .heroLead,:global(html[data-reserve-still="true"]) .heroDescription { opacity:1!important;transform:none!important;animation:none!important; }
+@media (prefers-reduced-motion:reduce),(forced-colors:active) { .footer *,.heroLead,.heroDescription { opacity:1!important;transform:none!important;animation:none!important; } }

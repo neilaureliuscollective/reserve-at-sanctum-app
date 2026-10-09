@@ -23,7 +23,7 @@ export function Direction() {
  return <div ref={panel} className={styles.direction} data-direction={direction.name.toLowerCase()}>
   <noscript><nav aria-label="Your Reserve directions without JavaScript">{directions.map(item=><Action key={item.name} href={item.href} secondary>{item.name}</Action>)}</nav></noscript>
   <div className={styles.directionControls} data-lr-directions role="group" aria-label="Choose your Reserve direction">{directions.map((item,index)=><button key={item.name} type="button" aria-pressed={active===index} onClick={()=>select(index)}>{item.name}</button>)}</div>
-  <div className={styles.directionResult} aria-live="polite" aria-atomic="true"><div className={styles.directionInstrument} aria-hidden="true"><span/><span/><span/><Icon size={32} strokeWidth={1.3}/></div><p className={styles.eyebrow}>{direction.detail}</p><h3>{direction.title}</h3><p>{direction.copy}</p><Action href={direction.href}>{direction.action}</Action></div>
+  <div className={styles.directionResult} aria-live="polite" aria-atomic="true"><div className={styles.directionInstrument} aria-hidden="true"><span/><span/><span/><Icon size={32} strokeWidth={1.3}/></div><p className={styles.eyebrow}>{direction.detail}</p><h3 key={direction.name}>{direction.title}</h3><p>{direction.copy}</p><Action href={direction.href}>{direction.action}</Action></div>
   <p className={styles.previewNote}>Explore a direction here. Your personal routines stay inside your account.</p>
  </div>;
 }

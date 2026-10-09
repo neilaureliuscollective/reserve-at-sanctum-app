@@ -69,21 +69,17 @@ try {
  await page.setViewportSize({width:1440,height:1000});await page.goto(base+'/discover');
  const heroImage=page.locator('main img').first();
  const steelLight=page.locator('[data-lr-flagship] figure').first().locator('span[aria-hidden=true]');
- await expect(page.locator('main[data-lr-flagship]')).toHaveAttribute('data-lr-release','imperial-steel-strong-20261009');
- if(await page.evaluate(()=>CSS.supports('animation-timeline','view()'))){
-  await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).transform!=='none')).toBe(true);
-  const steelBefore=await steelLight.evaluate(el=>getComputedStyle(el,'::before').transform);
-  const before=await heroImage.evaluate(i=>getComputedStyle(i).transform);
-  await page.evaluate(()=>window.scrollTo({top:300,behavior:'instant'}));
-  await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).transform)).not.toBe(before);
-  await expect.poll(()=>steelLight.evaluate(el=>getComputedStyle(el,'::before').transform)).not.toBe(steelBefore);
-  const wellness=page.locator('[aria-labelledby="wellness-title"]');
-  const meridian=wellness.locator('[aria-hidden="true"] > span').first();
-  await wellness.scrollIntoViewIfNeeded();
-  const meridianBefore=await meridian.evaluate(el=>getComputedStyle(el).transform);
-  await page.evaluate(()=>window.scrollBy({top:150,behavior:'instant'}));
-  await expect.poll(()=>meridian.evaluate(el=>getComputedStyle(el).transform)).not.toBe(meridianBefore);
- }
+ await expect(page.locator('main[data-lr-flagship]')).toHaveAttribute('data-lr-release','imperial-steel-cinematic-20261009');
+ await expect(page.locator('main[data-lr-flagship]')).toHaveAttribute('data-lr-motion','ready');
+ const chapter=page.locator('#pathways > div').first();
+ await expect(chapter).toHaveAttribute('data-lr-arrival','waiting');
+ const chapterY=await chapter.evaluate(el=>el.getBoundingClientRect().top+scrollY);
+ await page.evaluate(y=>scrollTo({top:y-innerHeight*.8,behavior:'instant'}),chapterY);
+ await expect(chapter).toHaveAttribute('data-lr-arrival','arriving');
+ await page.waitForTimeout(850);
+ assert.equal(await chapter.evaluate(el=>getComputedStyle(el).opacity),'1');
+ await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
+ assert.equal(await chapter.getAttribute('data-lr-arrival'),'arriving','chapter must not replay');
  await page.getByLabel('Open navigation menu').click();await page.getByRole('button',{name:'Pause environment motion'}).click();
  await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
  await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).animationName)).toBe('none');
