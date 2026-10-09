@@ -1,0 +1,131 @@
+.signature-sculpture {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  max-width: 440px;
+  margin: auto;
+  isolation: isolate;
+  aspect-ratio: 1 / 1.13;
+  background: radial-gradient(ellipse at 50% 43%, #26483155, transparent 68%);
+}
+.signature-sculpture__art {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  touch-action: pan-y;
+}
+.signature-sculpture__poster,
+.signature-sculpture__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+.signature-sculpture__canvas {
+  opacity: 0;
+  pointer-events: none;
+}
+.signature-sculpture[data-sculpture-state="active"]
+  .signature-sculpture__canvas {
+  opacity: 1;
+}
+.signature-sculpture[data-sculpture-state="active"]
+  .signature-sculpture__poster {
+  opacity: 0;
+}
+.signature-sculpture__caption {
+  text-align: center;
+  position: relative;
+  margin-top: -6%;
+  pointer-events: none;
+}
+.signature-sculpture__caption span {
+  display: block;
+  font: 500 9px/1.8 var(--reserve-sans);
+  letter-spacing: 0.24em;
+  color: var(--imperial-muted);
+}
+.signature-sculpture__caption strong {
+  display: block;
+  font: 400 clamp(24px, 2.4vw, 32px)/1.4 var(--reserve-serif);
+  color: var(--imperial-champagne);
+}
+.signature-sculpture__motion {
+  display: block;
+  min-height: 44px;
+  margin: 8px auto 0;
+  padding: 8px 16px;
+  border: 1px solid #c4912f44;
+  border-radius: 24px;
+  background: #08140e;
+  color: var(--imperial-muted);
+  font: 400 10px var(--reserve-sans);
+  cursor: pointer;
+}
+.signature-sculpture__control {
+  min-height: 60px;
+  padding-top: 1px;
+}
+.signature-sculpture__motion[hidden] {
+  display: none;
+}
+.signature-sculpture__motion:focus-visible {
+  outline: 2px solid #e0bb6a;
+  outline-offset: 4px;
+}
+.digital-world-preview:has(.signature-sculpture) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: center;
+}
+.digital-world-preview > .signature-sculpture {
+  padding-bottom: 12px;
+}
+.digital-vitalis-object:has(.signature-sculpture) {
+  transform: none !important;
+}
+@media (max-width: 700px) {
+  .digital-world-preview:has(.signature-sculpture) {
+    display: flex;
+    flex-direction: column;
+  }
+  .digital-world-preview > .signature-sculpture {
+    width: 230px;
+    max-width: 90%;
+    order: 0;
+    margin: 15px auto 5px;
+    padding-bottom: 0;
+  }
+  .digital-world-preview:has(.signature-sculpture) .digital-world-copy {
+    min-height: 0;
+    padding-top: 24px;
+  }
+  .signature-sculpture__caption strong {
+    font-size: 25px;
+  }
+  .signature-sculpture.is-quiet {
+    max-width: 330px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .signature-sculpture__motion {
+    display: none;
+  }
+  .signature-sculpture__canvas {
+    display: none;
+  }
+}
+html[data-reserve-still="true"] .signature-sculpture__canvas {
+  opacity: 0 !important;
+}
+html[data-reserve-still="true"] .signature-sculpture__poster {
+  opacity: 1 !important;
+}
+@media (forced-colors: active) {
+  .signature-sculpture__motion {
+    background: Canvas;
+    color: ButtonText;
+    border-color: ButtonText;
+  }
+}

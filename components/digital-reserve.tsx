@@ -2,11 +2,12 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { digitalWorlds } from "@/lib/experience/digital-worlds";
+import { SignatureSculpture } from "./signature-sculpture";
 import { DigitalInstrument } from "./digital-instrument";
 import type { Priority } from "@aethelios/concierge-core";
 import { surfaceClass } from "./imperial-surface";
 
-export function DigitalWorldSelector({ initial = "wellness", member = false }: { initial?: Priority; member?: boolean }) {
+export function DigitalWorldSelector({ initial = "wellness", member = false, sculptures = false }: { initial?: Priority; member?: boolean; sculptures?: boolean }) {
   const [active, setActive] = useState(initial);
   const stage = useRef<HTMLDivElement>(null);
   const world = digitalWorlds.find(w => w.id === active)!;
@@ -26,7 +27,7 @@ export function DigitalWorldSelector({ initial = "wellness", member = false }: {
       {digitalWorlds.map(w => <button key={w.id} type="button" aria-pressed={active === w.id} aria-controls="digital-world-preview" onClick={() => select(w.id)}><span>{w.index}</span>{w.label}<i aria-hidden="true">↗</i></button>)}
     </div>
     <div id="digital-world-preview" className="digital-world-preview">
-      <DigitalInstrument world={active} />
+      {sculptures ? <SignatureSculpture key={active} world={active} /> : <DigitalInstrument world={active} />}
       <div className="digital-world-copy" aria-live="polite" aria-atomic="true"><span className="digital-label">{member ? "EXPLORE YOUR DIRECTION" : "INTERACTIVE EXPERIENCE PREVIEW"}</span><h3>{world.headline}</h3><p>{world.description}</p><Link href={world.href} className="button button-gold">{world.action} ↗</Link></div>
     </div>
     <div className="digital-preview-routine"><span>{member ? "A FOUNDATION TO CONSIDER" : "ILLUSTRATIVE ROUTINE · YOUR SAVED CHOICES STAY PRIVATE"}</span><ol>{world.steps.map((step,i) => <li key={step}><b>{String(i+1).padStart(2,"0")}</b>{step}</li>)}</ol></div>
