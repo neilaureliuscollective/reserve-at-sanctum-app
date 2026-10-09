@@ -325,7 +325,7 @@ export async function setBrandLocations(
     if (
       (
         await tx.query(
-          "SELECT id FROM reserve_appointments WHERE provider_id=$1 AND status='confirmed' AND starts_at>now() AND NOT(location_id=ANY($2::text[])) LIMIT 1",
+          "SELECT id FROM reserve_appointments WHERE provider_id=$1 AND status='confirmed' AND starts_at>now() AND NOT(COALESCE(location_id,'eunice')=ANY($2::text[])) LIMIT 1",
           [provider, ids],
         )
       ).length
@@ -335,7 +335,7 @@ export async function setBrandLocations(
         409,
       );
     await tx.query(
-      "DELETE FROM reserve_provider_locations WHERE provider_id=$1 AND NOT(location_id=ANY($2::text[]))",
+      "DELETE FROM reserve_provider_locations WHERE provider_id=$1 AND NOT(COALESCE(location_id,'eunice')=ANY($2::text[]))",
       [provider, ids],
     );
     for (const id of ids)

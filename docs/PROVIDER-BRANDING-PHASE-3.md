@@ -58,7 +58,7 @@ Onboarding creates inactive professionals with no services; existing enabled pro
 settings remain intact. New locations start closed. Publication does not activate booking,
 approve prices/hours, assign a verified user, open locations or send notifications.
 Location assignments lock the provider alongside booking configuration. Revisions prevent
-stale writes; removing a location with future confirmed visits is blocked. Operation review
+stale writes; removing a location with future confirmed visits is blocked (including legacy visits without saved location, which retain the Eunice default). Operation review
 now counts affected visits in each appointment location timezone instead of Chicago.
 
 Auth stays on the canonical origin. Generic brand destinations and password recovery
@@ -98,7 +98,7 @@ No payment service is activated here.
 
 ## Release evidence
 
-161 automated tests, TypeScript and production build passed. Provider studio/customer browser
+162 automated tests, TypeScript and production build passed. Provider studio/customer browser
 checks passed at 320, 390, 540, 768, 884 and 1440 px. Existing Fix It Shop and booking-pilot
 browser regressions passed. Hosted migration applied to RAS App (Postgres 17.11); new tables
 have RLS and no anon/authenticated SELECT grants. Production still has zero provider, service,

@@ -291,6 +291,11 @@ test("location changes require owner and revision, and preserve future appointme
     "eunice",
   );
 });
+test("legacy visits without a saved location still protect the original Eunice assignment",async()=>{
+ await db.query("UPDATE reserve_appointments SET location_id=NULL WHERE id='brand-future'");
+ await assert.rejects(setBrandLocations(db,owner,"katie",2,["austin"]),/future visits/);
+ assert.equal((await db.query("SELECT location_id FROM reserve_appointments WHERE id='brand-future'"))[0].location_id,null);
+});
 test("safe image normalization rejects SVG and excessive pixels, strips metadata and creates actual PNG icons", async () => {
   await assert.rejects(
     prepareBrandImage(
