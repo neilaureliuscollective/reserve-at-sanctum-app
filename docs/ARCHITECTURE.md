@@ -167,6 +167,9 @@ See [Phase One implementation and release order](MEMBER-FOUNDATION-PHASE-ONE.md)
 
 Public `/discover`, `/discover/membership`, and `/discover/aethelios` are session-independent introductions. Anonymous entry goes directly to `/discover`; existing authenticated role routing is preserved. Interactive world previews use curated examples and brand geometry. `/home` reads the existing account-owned routine and bounded Vitalis journey state in parallel; marked wellness days remain private. No new database tables, access grants, external AI connections, billing, or booking authority are introduced. See [the transformation](DIGITAL-ECOSYSTEM-TRANSFORMATION.md).
 
+## Connected Business — reviewed implementation, activation pending
+
+Public Aethelios is the existing shared intelligence engine for connected professionals. Reserve's managed OAuth authenticates a separate confirmed professional account; native identity scopes never replace explicit server-only provider/link grants. Delegated endpoints expose only bounded read-only schedule projections and optionally registered website copy/proposals. Existing Studio AI is blocked server-side for active linked professionals, with a configured Public launcher. Website proposals never publish remotely: the existing owner publisher separately approves exact revisions in Reserve, atomically with service-description/history writes. No price/booking rule/code changes are delegated. Fix It Shop's existing branded website and booking app are reused. Flags remain off until staged native Auth/OAuth and real Katie configuration pass. See BUSINESS_CONNECTIONS_PHASE_1.md and BUSINESS_WEBSITES_PHASE_2.md.
 ## Universal provider branding
 
 [Booking Phase 3](PROVIDER-BRANDING-PHASE-3.md) adds private brand drafts, bounded raster assets

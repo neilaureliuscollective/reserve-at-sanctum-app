@@ -1,3 +1,8 @@
+import { database } from "@/lib/db";
+import {
+  hasBusinessConnection,
+  publicBusinessDestination,
+} from "@/lib/business-connections";
 import Image from "next/image";
 import Link from "next/link";
 import { AccountEntrance } from "@/components/experience/account-entrance";
@@ -29,8 +34,15 @@ export default async function StudioLayout({
         </Link>
       </main>
     );
+  const businessConnected = await hasBusinessConnection(
+    await database(),
+    actor,
+  );
   return (
-    <StudioAssistant connected={Boolean(process.env.OPENAI_API_KEY)}>
+    <StudioAssistant
+      externalHref={businessConnected ? publicBusinessDestination() : null}
+      connected={!businessConnected && Boolean(process.env.OPENAI_API_KEY)}
+    >
       <div className="studio-shell">
         <header className="studio-masthead">
           <Link href="/studio" className="studio-wordmark">
