@@ -42,7 +42,9 @@ try {
  // The Living Crest replaces the hero instrument; the selector stays intact.
  await page.setViewportSize({width:1440,height:1000}); await page.goto(base+'/discover');
  await page.locator('.living-crest[data-crest-state="active"]').waitFor();
- assert.equal(await page.locator('.living-crest canvas').count(),1);
+ assert.equal(await page.locator('.living-crest canvas').count(),0);
+ await page.locator('.living-crest img').evaluate(img=>img.decode());
+ assert.equal(await page.locator('.living-crest img').evaluate(img=>getComputedStyle(img).opacity),'1');
  assert.equal(await page.locator('.digital-arrival-field>.digital-instrument').count(),0);
  await page.locator('.experience-menu summary').click(); await page.getByRole('button',{name:'Pause environment motion'}).click();
  assert.equal(await page.locator('.digital-vitalis-object').evaluate(el=>getComputedStyle(el).transform),'none');
