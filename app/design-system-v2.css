@@ -1,0 +1,12 @@
+/* Raw brand values are reusable. Semantic mappings stay inside an opt-in theme. */
+:root {
+  --lr-porcelain: #F5F2EC; --lr-linen: #E9E3DA; --lr-white: #FFFDFA;
+  --lr-graphite: #1B1D1E; --lr-muted: #53605D;
+  --lr-green: #0F3D2E; --lr-green-deep: #08271D;
+  --lr-blue: #123B4E; --lr-blue-light: #2B6677; --lr-night: #0B202B;
+  --lr-gold: #C4912F; --lr-gold-light: #E4BD70; --lr-gold-text: #856020;
+}
+[data-lr-theme="mineral"] { color-scheme: light; --lr-canvas: var(--lr-porcelain); --lr-ink: var(--lr-graphite); --lr-secondary: var(--lr-muted); --lr-line: #d4d7ce; --lr-label: var(--lr-gold-text); background: var(--lr-canvas); color: var(--lr-ink); }
+[data-lr-theme="dark"], [data-lr-theme="atmosphere"] { color-scheme: dark; --lr-canvas: var(--lr-green-deep); --lr-ink: var(--lr-porcelain); --lr-secondary: #c7d6cf; --lr-line: #738c80; --lr-label: var(--lr-gold-light); color: var(--lr-ink); background: var(--lr-canvas); }
+[data-lr-theme] :focus-visible { outline: 3px solid var(--lr-label); outline-offset: 5px; }
+@media (forced-colors: active) { [data-lr-theme] :focus-visible { outline-color: Highlight; } }
