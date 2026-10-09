@@ -27,7 +27,7 @@ try {
    assert.equal(await page.locator('.digital-world-controls button[aria-pressed=true]').count(),1);
    const link=page.locator('.digital-world-copy .button'); const b=await link.boundingBox();
    assert.ok(b.y>=0&&b.y+b.height<=(await page.locator(".command-dock").boundingBox()).y-8,`selected CTA outside viewport ${width}x${height} ${name}: ${JSON.stringify(b)}`);
-   assert.equal(await page.locator('.digital-world-preview .digital-instrument').getAttribute('data-world'),id);
+   assert.equal(await page.locator('.digital-world-preview .signature-sculpture').getAttribute('data-world'),id);
    if(name==='Vitalis') await page.screenshot({path:`artifacts/public-experience/digital-selector-${width}-${height}.png`});
   }
   await page.getByRole('button',{name:'Do I have to visit Sanctum?',exact:true}).click();
