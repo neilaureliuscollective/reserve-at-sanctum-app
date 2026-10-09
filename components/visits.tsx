@@ -4,15 +4,18 @@ import { useEffect, useState, useRef } from "react";
 import { DateTime } from "luxon";
 import { ArrowUpRight, CalendarDays, Check, LogOut, List } from "lucide-react";
 import { hasCapability } from "@/lib/studio-permissions";
+import type { BookingIdentity } from "@/lib/fix-it-booking";
 import type { Actor, Appointment } from "@/lib/booking";
 export function Visits({
   actor,
   studio = false,
   preview = false,
+  identity,
 }: {
   actor: Actor;
   studio?: boolean;
   preview?: boolean;
+  identity?: BookingIdentity;
 }) {
   const [rows, setRows] = useState<Appointment[]>([]),
     [loading, setLoading] = useState(true),
@@ -55,6 +58,7 @@ export function Visits({
   async function load() {
     const sequence = ++loadSequence.current;
     const params = new URLSearchParams({ page: String(page) });
+    if (identity) params.set("provider", identity.providerId);
     if (studio) {
       params.set("studio", "true");
       params.set("date", filter);
@@ -151,7 +155,7 @@ export function Visits({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "signout" }),
     });
-    location.assign("/signin");
+    location.assign(identity?.signin || "/signin");
   }
   const active = rows
     .filter(
@@ -167,7 +171,11 @@ export function Visits({
         <div className="workspace-heading">
           <div>
             <p className="eyebrow">
-              {studio ? "FIX IT SHOP · STUDIO" : "YOUR LEGACY RESERVE"}
+              {studio
+                ? "FIX IT SHOP · STUDIO"
+                : identity
+                  ? "FIX IT SHOP · YOUR APPOINTMENTS"
+                  : "YOUR LEGACY RESERVE"}
             </p>
             <h1>{studio ? "A considered day." : "Your next chapter."}</h1>
             <p>
@@ -208,17 +216,17 @@ export function Visits({
                 Chair check-ins <ArrowUpRight size={16} />
               </a>
             )}
-          {!studio && (
+          {!studio && !identity && (
             <Link prefetch={false} className="text-link" href="/profile">
               Your profile <ArrowUpRight size={16} />
             </Link>
           )}
-          {!studio && actor.role !== "client" && (
+          {!studio && !identity && actor.role !== "client" && (
             <Link prefetch={false} className="text-link" href="/studio">
               Studio <ArrowUpRight size={16} />
             </Link>
           )}
-          <Link href="/book" className="button button-gold">
+          <Link href={identity?.book || "/book"} className="button button-gold">
             {studio ? "Client booking" : "Book a visit"}{" "}
             <ArrowUpRight size={16} />
           </Link>
@@ -388,7 +396,7 @@ export function Visits({
                 ? "No appointments on this day."
                 : "Appointments will appear here once booked."}
             </p>
-            <Link href="/book" className="text-link">
+            <Link href={identity?.book || "/book"} className="text-link">
               Find a moment <ArrowUpRight size={17} />
             </Link>
           </div>
@@ -407,7 +415,7 @@ export function Visits({
                     <small>{dt.toFormat("ccc")}</small>
                   </div>
                   <div className="appointment-content">
-                    {!studio && (
+                    {!studio && !identity && (
                       <Link
                         prefetch={false}
                         href={`/my-visit?visit=${encodeURIComponent(a.id)}`}
@@ -504,10 +512,10 @@ export function Visits({
                           Create follow-up task ↗
                         </Link>
                       )}
-                    {a.status !== "confirmed" && !studio && (
+                    {(a.status !== "confirmed" || identity) && !studio && (
                       <Link
                         className="text-link"
-                        href={`/book?service=${a.service_id}&provider=${a.provider_id}&location=${a.location_id || "eunice"}`}
+                        href={`${identity?.book || "/book"}?service=${a.service_id}&provider=${a.provider_id}&location=${a.location_id || "eunice"}`}
                       >
                         Book again <ArrowUpRight size={14} />
                       </Link>

@@ -69,7 +69,7 @@ export const config = {
     "/sanctum-mirror",
     "/mirror",
     "/profile",
-    "/fix-it-shop",
+    "/fix-it-shop/:path*",
     "/enter",
     "/account/:path*",
     "/chair",
