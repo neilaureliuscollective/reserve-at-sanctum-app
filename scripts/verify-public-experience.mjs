@@ -57,8 +57,8 @@ try {
   });
   assert.ok(contrasts.every(ratio=>ratio>=4.5),'reading text must contrast with dark signature surfaces: '+contrasts);
   for(const image of await page.locator('main img').all()){
-   await image.scrollIntoViewIfNeeded();
-   await expect.poll(()=>image.evaluate(i=>i.complete && i.naturalWidth>0),{message:'flagship image failed to load'}).toBe(true);
+   await image.evaluate(el=>el.parentElement.scrollIntoView({block:'center',behavior:'instant'}));
+   await expect.poll(()=>image.evaluate(i=>i.complete && i.naturalWidth>0),{message:'flagship image failed to load: '+await image.getAttribute('src'),timeout:15000}).toBe(true);
    await image.evaluate(i=>i.decode());
   }
   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
@@ -68,8 +68,19 @@ try {
  console.log('Checking motion and route regressions');
  await page.setViewportSize({width:1440,height:1000});await page.goto(base+'/discover');
  const heroImage=page.locator('main img').first();
- const steelLight=page.locator('[data-lr-flagship] figure').first().locator('span[aria-hidden=true]');
- await expect(page.locator('main[data-lr-flagship]')).toHaveAttribute('data-lr-release','imperial-steel-cinematic-20261009');
+ const film=page.locator('[data-hero-film]');
+ const video=film.locator('video');
+ await page.getByRole('button',{name:/Play hero film|Pause hero film|Replay hero film/}).click();
+ if(await video.evaluate(el=>el.paused))await page.getByRole('button',{name:/Play hero film|Replay hero film/}).click();
+ await expect(film).toHaveAttribute('data-film-state','playing');
+ await page.getByRole('button',{name:'Pause hero film'}).click();
+ await expect.poll(()=>video.evaluate(el=>el.paused)).toBe(true);
+ await page.getByRole('button',{name:'Play hero film'}).click();
+ await expect(film).toHaveAttribute('data-film-state','ended',{timeout:10000});
+ await page.getByRole('button',{name:'Replay hero film'}).click();
+ await expect(film).toHaveAttribute('data-film-state','playing');
+ await page.reload();
+ await expect(page.locator('main[data-lr-flagship]')).toHaveAttribute('data-lr-release','imperial-core-film-20261009');
  await expect(page.locator('main[data-lr-flagship]')).toHaveAttribute('data-lr-motion','ready');
  const chapter=page.locator('#pathways > div').first();
  await expect(chapter).toHaveAttribute('data-lr-arrival','waiting');
@@ -83,11 +94,13 @@ try {
  await page.getByLabel('Open navigation menu').click();await page.getByRole('button',{name:'Pause environment motion'}).click();
  await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
  await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).animationName)).toBe('none');
- await expect.poll(()=>steelLight.evaluate(el=>getComputedStyle(el,'::before').animationName)).toBe('none');
+ await expect.poll(()=>video.evaluate(el=>el.paused)).toBe(true);
  await page.reload();await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
+ await expect(video).not.toHaveAttribute('src',/./);
  await page.getByLabel('Open navigation menu').click();await page.getByRole('button',{name:'Enable environment motion'}).click();await page.keyboard.press('Escape');
  await page.emulateMedia({reducedMotion:'reduce'});await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
- await expect.poll(()=>steelLight.evaluate(el=>getComputedStyle(el,'::before').animationName)).toBe('none');
+ await expect.poll(()=>video.evaluate(el=>el.paused)).toBe(true);
+ await page.reload();await expect(video).not.toHaveAttribute('src',/./);
  await page.getByRole('group',{name:'Choose your Reserve direction'}).getByRole('button',{name:'Performance',exact:true}).focus();await page.keyboard.press('Enter');
  assert.equal(await page.locator('[aria-live=polite] a').getAttribute('href'),'/pathways?priority=performance');
  await page.getByRole('link',{name:'Explore Virelis',exact:true}).click();await page.waitForURL('**/shop/vitalis');await page.locator('main h1').filter({hasNotText:'Opening Legacy Reserve.'}).waitFor();
