@@ -16,27 +16,46 @@ try {
  for(const [width,height] of (process.env.VERIFY_PUBLIC_REMAINING==='true' ? [] : widths)){
   await page.setViewportSize({width,height});await page.goto(base+'/discover',{waitUntil:'domcontentloaded'});
   await page.getByRole('heading',{name:'Built for Presence.'}).waitFor();
+  for(const action of await page.locator('[aria-labelledby="flagship-title"] a').all()){
+   const box=await action.boundingBox();assert.ok(box && box.height>=44,'hero actions must remain comfortable touch targets');
+   if(width<=760 && !(await action.getAttribute('href')).startsWith('#'))assert.ok(box.y>=76 && box.y+box.height<=height,'primary hero actions must be visible on short phones');
+  }
   assert.equal(await page.locator('.command-dock').count(),0,'flagship uses public navigation, not the member dock');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow ${width}`);
   await page.locator('main img').first().evaluate(i=>i.decode());
   await page.screenshot({path:`artifacts/public-experience/flagship-${width}-${height}.png`});
   const directions=page.getByRole('group',{name:'Choose your Reserve direction'});
-  const sceneTones=new Set();
+  const sceneTones=new Set(),sceneShapes=new Set();
   for(const [name,href] of [['Presence','/pathways?priority=presence'],['Performance','/pathways?priority=performance'],['Vitalis','/vitalis/journey']]){
    if(width<=760)await directions.evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));
    await directions.getByRole('button',{name,exact:true}).click();
    assert.equal(await directions.locator('button[aria-pressed=true]').count(),1);
    await expect(page.locator('[data-direction]')).toHaveAttribute('data-direction',name.toLowerCase());
    sceneTones.add(await page.locator('[data-direction]').evaluate(el=>getComputedStyle(el).getPropertyValue('--instrument-light')));
+   const instrument=page.locator('[data-direction] [aria-hidden="true"] > span').first();
+   await expect.poll(()=>instrument.evaluate(el=>getComputedStyle(el).borderRadius)).toBe(name==='Performance'?'18%':'50%');
+   sceneShapes.add(await instrument.evaluate(el=>getComputedStyle(el).transform));
    const result=page.locator('[aria-live=polite]');const link=result.getByRole('link');assert.equal(await link.getAttribute('href'),href);
    if(width>760)await directions.evaluate(el=>el.scrollIntoView({block:'start',behavior:'instant'}));
    await expect.poll(async()=>{const box=await link.boundingBox();return !!box && box.y>=76 && box.y+box.height<=height;},{message:`direction CTA clipped ${width}x${height} ${name}`}).toBe(true);
   }
   assert.equal(sceneTones.size,3,'each direction visibly changes its scene material');
+  assert.equal(sceneShapes.size,3,'each direction changes its instrument geometry');
   const menu=page.getByLabel('Open navigation menu');await menu.click();
   assert.ok(await page.getByRole('navigation',{name:'All public destinations'}).isVisible());
   await page.keyboard.press('Escape');assert.equal(await page.locator('details[open]').count(),0);
   assert.equal(await menu.evaluate(el=>document.activeElement===el),true);
+  const contrasts=await page.evaluate(()=>{
+   const luminance=(channels)=>channels.map(value=>value/255).map(value=>value<=.04045?value/12.92:((value+.055)/1.055)**2.4).reduce((sum,value,index)=>sum+value*[.2126,.7152,.0722][index],0);
+   const compare=(foreground,background)=>{
+    const rgb=value=>value.startsWith('#')?[1,3,5].map(index=>parseInt(value.slice(index,index+2),16)):value.match(/[\d.]+/g).slice(0,3).map(Number);
+    const [dark,light]=[luminance(rgb(foreground)),luminance(rgb(background))].sort((a,b)=>a-b);return (light+.05)/(dark+.05);
+   };
+   const standard=document.querySelector('[aria-label="The Reserve standard"]');
+   const direction=document.querySelector('[data-direction]');
+   return [compare(getComputedStyle(standard.querySelector('p')).color,getComputedStyle(standard).backgroundColor),compare(getComputedStyle(direction.querySelector('[aria-live] > p:not([class])')).color,getComputedStyle(direction).getPropertyValue('--instrument-light').trim())];
+  });
+  assert.ok(contrasts.every(ratio=>ratio>=4.5),'reading text must contrast with dark signature surfaces: '+contrasts);
   for(const image of await page.locator('main img').all()){
    await image.scrollIntoViewIfNeeded();
    await expect.poll(()=>image.evaluate(i=>i.complete && i.naturalWidth>0),{message:'flagship image failed to load'}).toBe(true);
@@ -54,6 +73,12 @@ try {
   const before=await heroImage.evaluate(i=>getComputedStyle(i).transform);
   await page.evaluate(()=>window.scrollTo({top:300,behavior:'instant'}));
   await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).transform)).not.toBe(before);
+  const wellness=page.locator('[aria-labelledby="wellness-title"]');
+  const meridian=wellness.locator('[aria-hidden="true"] > span').first();
+  await wellness.scrollIntoViewIfNeeded();
+  const meridianBefore=await meridian.evaluate(el=>getComputedStyle(el).transform);
+  await page.evaluate(()=>window.scrollBy({top:150,behavior:'instant'}));
+  await expect.poll(()=>meridian.evaluate(el=>getComputedStyle(el).transform)).not.toBe(meridianBefore);
  }
  await page.getByLabel('Open navigation menu').click();await page.getByRole('button',{name:'Pause environment motion'}).click();
  await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
