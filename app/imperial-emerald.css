@@ -9,11 +9,11 @@
   --imperial-champagne: var(--reserve-gold-light);
   --imperial-ivory: var(--reserve-text-primary);
   --imperial-muted: var(--reserve-text-muted);
-  --imperial-edge: color-mix(in srgb, var(--imperial-gold) 34%, transparent);
+  --imperial-edge: color-mix(in srgb, var(--lr-steel-light) 45%, transparent);
   --imperial-light: color-mix(in srgb, var(--imperial-ivory) 13%, transparent);
   --imperial-halo: color-mix(in srgb, var(--imperial-jade) 48%, transparent);
-  --imperial-material: linear-gradient(145deg, var(--imperial-emerald), var(--imperial-midnight) 68%, var(--imperial-obsidian));
-  --imperial-glass: linear-gradient(145deg, color-mix(in srgb, var(--imperial-jade) 84%, transparent), color-mix(in srgb, var(--imperial-midnight) 96%, transparent) 58%, var(--imperial-obsidian));
+  --imperial-material: var(--reserve-material);
+  --imperial-glass: var(--lr-brushed-grain), linear-gradient(145deg, color-mix(in srgb, var(--lr-steel-shadow) 94%, transparent), var(--lr-carbon-shadow) 78%);
   --imperial-metal: linear-gradient(115deg, var(--imperial-gold), var(--imperial-champagne) 44%, var(--imperial-gold) 90%);
   --imperial-elevation: inset 0 1px 0 var(--imperial-light), inset 0 -1px 0 #0008, 0 16px 36px #0005;
   --imperial-float: inset 0 1px 0 var(--imperial-light), inset 1px 0 0 var(--imperial-edge), 0 28px 64px #0008, 0 4px 10px #0005;

@@ -47,7 +47,9 @@ const reserveSerif = localFont({
   display: "swap",
   adjustFontFallback: "Times New Roman",
 });
+import "./legacy-material-tokens.css";
 import "./globals.css";
+import "./cinematic-arrivals.css";
 import "./editorial.css";
 import "./brand-worlds.css";
 import "./gent-ascend.css";
@@ -66,6 +68,7 @@ import "./digital-reserve.css";
 import "./command-shell.css";
 import "./imperial-emerald.css";
 import "./design-system-v2.css";
+import "./app-materials.css";
 import { StatusRibbon } from "@/components/experience/status-ribbon";
 import { Footer } from "@/components/footer";
 import { configured, isPreview } from "@/lib/db";

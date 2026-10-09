@@ -1,0 +1,23 @@
+/* Motion is opt-in after hydration. Foreground arrives once; imagery has a separate camera. */
+[data-lr-arrival] { --lr-travel: 46px; --lr-side: 42px; --lr-delay: 0ms; }
+[data-lr-beat="1"] { --lr-delay: 90ms; }
+[data-lr-beat="2"] { --lr-delay: 180ms; }
+[data-lr-arrival="waiting"] { opacity: 0; transform: translate3d(0,var(--lr-travel),0); }
+[data-lr-arrival="arriving"] { animation: lr-copy-arrive 950ms cubic-bezier(.16,1,.3,1) var(--lr-delay) both; }
+[data-lr-kind="panel"][data-lr-arrival="waiting"] { transform: perspective(1200px) translate3d(var(--lr-side),24px,0) rotateY(-4deg) scale(.97); }
+[data-lr-kind="panel"][data-lr-arrival="arriving"] { animation-name: lr-panel-arrive; animation-duration: 1100ms; }
+[data-lr-kind="image"][data-lr-arrival="waiting"] { opacity:.15; transform: translate3d(0,34px,0) scale(.96); }
+[data-lr-kind="image"][data-lr-arrival="arriving"] { animation-name: lr-image-arrive; animation-duration: 1200ms; }
+img[data-lr-depth="true"] { --lr-image-scale:1.07; transform: scale(var(--lr-image-scale)) translate3d(0,calc(var(--lr-camera,0) * 18px),0); }
+@keyframes lr-copy-arrive { from { opacity:0;transform:translate3d(0,var(--lr-travel),0); } to { opacity:1;transform:none; } }
+@keyframes lr-panel-arrive { from { opacity:0;transform:perspective(1200px) translate3d(var(--lr-side),24px,0) rotateY(-4deg) scale(.97); } to { opacity:1;transform:none; } }
+@keyframes lr-image-arrive { from { opacity:.15;transform:translate3d(0,34px,0) scale(.96); } to { opacity:1;transform:none; } }
+@media (max-width:760px) {
+ [data-lr-arrival] { --lr-travel:32px; --lr-side:20px; }
+ [data-lr-kind="panel"][data-lr-arrival="arriving"] { animation-name:lr-image-arrive; }
+ img[data-lr-depth="true"] { --lr-image-scale:1.05; transform:scale(var(--lr-image-scale)) translate3d(0,calc(var(--lr-camera,0) * 12px),0); }
+}
+html[data-reserve-still="true"] [data-lr-arrival], html[data-reserve-still="true"] img[data-lr-depth] { opacity:1!important;transform:none!important;animation:none!important; }
+@media (prefers-reduced-motion:reduce),(forced-colors:active) {
+ [data-lr-arrival], img[data-lr-depth] { opacity:1!important;transform:none!important;animation:none!important; }
+}

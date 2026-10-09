@@ -37,7 +37,7 @@
   width: 100%;
   height: 300px;
   object-fit: contain;
-  background: #0b1610;
+  background: var(--reserve-surface-raised);
 }
 .collection-product h2,
 .collection-product p {
@@ -54,7 +54,7 @@
   min-height: 220px;
   display: grid;
   place-items: center;
-  background: #0b1610;
+  background: var(--reserve-surface-raised);
   font-size: 10px;
   letter-spacing: 0.2em;
   color: var(--reserve-text-muted);

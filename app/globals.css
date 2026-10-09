@@ -1,24 +1,24 @@
 /* Legacy Reserve owns heritage green. Partner brand worlds retain their own identity. */
 :root {
-  --reserve-petrol: #12382D;
-  --reserve-petrol-deep: #0D211B;
-  --reserve-petrol-muted: #205443;
-  --reserve-heritage: #12382D;
-  --reserve-heritage-deep: #0D211B;
-  --reserve-obsidian: #080D0B;
-  --reserve-surface: #0D211B;
-  --reserve-surface-raised: #12382D;
-  --reserve-surface-glass: rgba(13,33,27,.94);
-  --reserve-gold: #C4912F;
-  --reserve-gold-light: #E4BD70;
+  --reserve-petrol: var(--lr-imperial-green);
+  --reserve-petrol-deep: var(--lr-green-shadow);
+  --reserve-petrol-muted: var(--lr-green-light);
+  --reserve-heritage: var(--lr-imperial-green);
+  --reserve-heritage-deep: var(--lr-green-shadow);
+  --reserve-obsidian: var(--lr-obsidian);
+  --reserve-surface: var(--lr-carbon-shadow);
+  --reserve-surface-raised: var(--lr-steel-shadow);
+  --reserve-surface-glass: color-mix(in srgb, var(--lr-carbon-shadow) 96%, transparent);
+  --reserve-gold: var(--lr-reserve-gold);
+  --reserve-gold-light: var(--lr-champagne);
   --reserve-gold-dark: #8F6D32;
   --reserve-stone: #D7D1C5;
-  --reserve-text-primary: #F2EEE4;
-  --reserve-text-secondary: #D7D1C5;
-  --reserve-text-muted: #B6C9BD;
+  --reserve-text-primary: var(--lr-architectural-ivory);
+  --reserve-text-secondary: var(--lr-dark-muted);
+  --reserve-text-muted: var(--lr-dark-muted);
   --reserve-border: rgba(167,181,179,.25);
   --reserve-border-premium: rgba(217,181,104,.38);
-  --reserve-border-control: #6B8280;
+  --reserve-border-control: var(--lr-steel-light);
   --reserve-success: #98C9AE;
   --reserve-warning: #E5BE78;
   --reserve-danger: #F1A7A2;
@@ -26,7 +26,7 @@
   --reserve-warning-surface: #302819;
   --reserve-danger-surface: #321D20;
   --reserve-metal: linear-gradient(112deg, var(--reserve-gold) 0%, var(--reserve-gold-light) 34%, #E9D4A3 47%, var(--reserve-gold-light) 58%, var(--reserve-gold) 100%);
-  --reserve-material: linear-gradient(145deg, var(--reserve-surface-raised), var(--reserve-surface) 72%);
+  --reserve-material: var(--lr-brushed-grain), linear-gradient(145deg, var(--reserve-surface-raised), var(--reserve-surface) 72%);
   --reserve-material-petrol: linear-gradient(145deg, var(--reserve-petrol), var(--reserve-petrol-deep) 78%);
   --reserve-shadow: 0 20px 54px rgba(0,0,0,.32);
   --reserve-highlight: inset 0 1px rgba(242,239,232,.07);

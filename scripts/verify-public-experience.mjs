@@ -87,10 +87,10 @@ try {
  const chapterY=await chapter.evaluate(el=>el.getBoundingClientRect().top+scrollY);
  await page.evaluate(y=>scrollTo({top:y-innerHeight*.8,behavior:'instant'}),chapterY);
  await expect(chapter).toHaveAttribute('data-lr-arrival','arriving');
- await page.waitForTimeout(850);
+ await expect(chapter).toHaveAttribute('data-lr-arrival','settled');
  assert.equal(await chapter.evaluate(el=>getComputedStyle(el).opacity),'1');
  await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
- assert.equal(await chapter.getAttribute('data-lr-arrival'),'arriving','chapter must not replay');
+ assert.equal(await chapter.getAttribute('data-lr-arrival'),'settled','chapter must not replay');
  await page.getByLabel('Open navigation menu').click();await page.getByRole('button',{name:'Pause environment motion'}).click();
  await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
  await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).animationName)).toBe('none');
@@ -110,6 +110,28 @@ try {
   assert.equal(await page.locator('[data-lr-theme=mineral]').count(),0,`theme leaked into ${path}`);
   for(const width of [320,390,884,1440]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${path} overflow ${width}`);}
  }
+ console.log('Checking shared public choreography on mobile and desktop');
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ for(const width of [320,390,1440]) {
+  await page.setViewportSize({width,height:900});
+  for(const path of ['/discover','/founder/legacy-reserve','/founder/aethelios-technologies','/fix-it-shop','/discover/membership']) {
+   await page.goto(base+path);await expect(page.locator('main')).toHaveAttribute('data-lr-motion','ready');
+   const next=page.locator('[data-lr-arrival="waiting"]').first();
+   assert.ok(await next.count(),`${path} needs an upcoming chapter`);
+   const y=await next.evaluate(el=>el.getBoundingClientRect().top+scrollY);
+   const target=await next.elementHandle();
+   await page.evaluate(y=>scrollTo({top:y-innerHeight*.8,behavior:'instant'}),y);
+   await expect.poll(()=>target.evaluate(el=>el.dataset.lrArrival)).toBe('arriving');
+   await expect.poll(()=>target.evaluate(el=>el.dataset.lrArrival)).toBe('settled');
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${path} animated overflow ${width}`);
+   await page.screenshot({path:`artifacts/public-experience/materials-${path.replaceAll('/','-')}-${width}.png`});
+  }
+ }
+ await page.goto(base+'/home?explore=1');
+ const opening=page.locator('.member-opening');
+ await expect(opening).toHaveCSS('background-color','rgb(245, 241, 232)');
+ await expect(opening.locator('h1')).toHaveCSS('color','rgb(18, 56, 45)');
+ await expect(page.locator('.command-dock')).toHaveCSS('border-top-color','rgb(136, 149, 141)');
  console.log('Checking no-JavaScript navigation');
  const noJs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});const staticPage=await noJs.newPage();staticPage.setDefaultTimeout(15000);await staticPage.goto(base+'/discover',{waitUntil:'domcontentloaded'});
  await writeFile('artifacts/public-experience/no-js.html',await staticPage.content());await staticPage.screenshot({path:'artifacts/public-experience/no-js.png',fullPage:true});

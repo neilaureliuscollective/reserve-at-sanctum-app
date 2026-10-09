@@ -25,7 +25,7 @@ body { background: var(--reserve-obsidian); }
 }
 .studio-nav a { min-height: 48px; min-width: 44px; border-radius: 6px; }
 :is(.reserve-room,.reserve-account-entrance,.studio-shell) {
-  background: radial-gradient(ellipse at 85% 0%,color-mix(in srgb,var(--reserve-petrol) 55%,transparent),transparent 58%),var(--reserve-obsidian);
+  background: var(--lr-brushed-grain),radial-gradient(ellipse at 85% 0%,color-mix(in srgb,var(--reserve-surface-raised) 55%,transparent),transparent 58%),var(--reserve-obsidian);
 }
 :is(.signin-panel,.booking-summary,.stat-grid>div,.sanctum-dashboard-grid article,.studio-work-dialog) {
   background: var(--reserve-material);

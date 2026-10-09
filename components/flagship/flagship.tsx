@@ -1,5 +1,4 @@
 import { HeroFilm } from "./hero-film";
-import { ArrivalMotion } from "./arrival-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -12,7 +11,6 @@ import materials from "./materials.module.css";
 export function Flagship() {
  const signature=productConcepts[0];
  return <>
- <ArrivalMotion/>
  <noscript><style>{`body:has(main[data-lr-flagship]) div[hidden]:has(> main[data-lr-flagship]) { display: block; } body:has(main[data-lr-flagship]) :is(.imperial-loading, .reserve-no-script, [data-lr-directions]) { display: none; }`}</style></noscript>
  <main id="main" data-lr-flagship data-lr-release="imperial-core-film-20261009" className={`${styles.main} ${materials.tokens}`}>
   <section className={styles.hero} aria-labelledby="flagship-title">
