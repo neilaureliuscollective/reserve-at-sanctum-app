@@ -1,0 +1,14 @@
+/* Opt-in materials: never change the member, Katie or Studio themes. */
+.tokens {
+ --lr-imperial-steel:#4a5450;--lr-steel-shadow:#26312c;--lr-steel-light:#88958d;
+ --lr-carbon-shadow:#121417;--lr-obsidian:#080d0b;--lr-imperial-green:#12382d;
+ --lr-reserve-gold:#c4912f;--lr-architectural-ivory:#f5f1e8;
+ --lr-brushed-grain:repeating-linear-gradient(112deg,#ffffff08 0 1px,transparent 1px 4px);
+ --lr-brushed-steel:var(--lr-brushed-grain),linear-gradient(118deg,var(--lr-steel-shadow) 0%,var(--lr-imperial-steel) 23%,var(--lr-steel-light) 38%,var(--lr-imperial-steel) 48%,var(--lr-steel-shadow) 75%,var(--lr-carbon-shadow) 100%);
+ --lr-signature-gradient:var(--lr-brushed-grain),radial-gradient(ellipse at 88% 0%,#c4912f18,transparent 38%),linear-gradient(118deg,#121417,#26312c 34%,#12382d 76%,#0d211b);
+ --lr-green-depth:radial-gradient(ellipse at 80% 10%,#20544355,transparent 65%),linear-gradient(135deg,#121417,#0d211b 65%,#12382d);
+ --lr-edge-reflection:linear-gradient(112deg,transparent 28%,#e4bd7040 45%,#f5f1e84d 49%,transparent 58%);
+}
+.edgeLight { position:absolute;inset:0;z-index:2;padding:var(--lr-metal-rim);border-radius:inherit;pointer-events:none;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude; }
+.edgeLight::before { content:"";position:absolute;inset:-40%;background:var(--lr-edge-reflection);transform:translateX(-18%); }
+@supports not (mask-composite:exclude) { .edgeLight { display:none; } }

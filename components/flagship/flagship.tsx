@@ -6,14 +6,15 @@ import { Action } from "./action";
 import { Direction } from "./direction";
 import { PublicFooter } from "./public-footer";
 import styles from "./flagship.module.css";
+import materials from "./materials.module.css";
 export function Flagship() {
  const signature=productConcepts[0];
  return <>
  <noscript><style>{`body:has(main[data-lr-flagship]) div[hidden]:has(> main[data-lr-flagship]) { display: block; } body:has(main[data-lr-flagship]) :is(.imperial-loading, .reserve-no-script, [data-lr-directions]) { display: none; }`}</style></noscript>
- <main id="main" data-lr-flagship className={styles.main}>
+ <main id="main" data-lr-flagship data-lr-release="imperial-steel-20261009" className={`${styles.main} ${materials.tokens}`}>
   <section className={styles.hero} aria-labelledby="flagship-title">
    <div className={styles.heroCopy}><p className={styles.eyebrow}>THE LEGACY RESERVE STANDARD</p><h1 id="flagship-title">Built for<br/><span>Presence.</span></h1><p className={styles.heroLead}>Refined essentials for a more intentional life.</p><p className={styles.heroDescription}>Personal routines. Everyday wellbeing. Your Reserve, wherever you are.</p><div className={styles.actions}><Action href="/shop">Explore the Collection</Action><Action href="/enter" secondary>Enter Your Reserve</Action></div><p className={styles.heroFoot}>A PERSONAL ECOSYSTEM. WHEREVER YOU ARE.</p></div>
-   <figure className={styles.heroScene}><Image src="/images/neil/ritual-plinth.webp" alt="Illustrative green and gold Legacy Reserve architectural environment" fill preload sizes="(max-width: 760px) 100vw, 48vw"/><div className={styles.heroSceneType} aria-hidden="true"><span>THE ART OF</span><strong>the daily ritual.</strong><i/></div><figcaption>ILLUSTRATIVE BRAND ENVIRONMENT</figcaption></figure>
+   <figure className={styles.heroScene}><span aria-hidden="true" className={`${materials.edgeLight} ${styles.materialLight}`}/><div className={styles.heroImage}><Image src="/images/neil/ritual-plinth.webp" alt="Illustrative green and gold Legacy Reserve architectural environment" fill preload sizes="(max-width: 760px) 100vw, 48vw"/></div><div className={styles.heroSceneType} aria-hidden="true"><span>THE ART OF</span><strong>the daily ritual.</strong><i/></div><figcaption>ILLUSTRATIVE BRAND ENVIRONMENT</figcaption></figure>
    <a className={styles.chapterLink} href="#pathways"><span>01 / FIND YOUR DIRECTION</span><span aria-hidden="true">↓</span></a>
   </section>
   <section className={styles.standard} aria-label="The Reserve standard">{[{n:"01",name:"Presence",text:"Care in how you show up."},{n:"02",name:"Discipline",text:"Purpose in what you repeat."},{n:"03",name:"Perspective",text:"A longer view of who you become."}].map(item=><div key={item.n}><span>{item.n}</span><h2>{item.name}</h2><p>{item.text}</p></div>)}</section>

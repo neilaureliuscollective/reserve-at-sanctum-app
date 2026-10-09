@@ -6,12 +6,13 @@ import { Menu, ArrowUpRight } from "lucide-react";
 import { brand } from "@/lib/brand";
 import { MotionMode } from "@/components/experience/motion-mode";
 import styles from "./flagship.module.css";
+import materials from "./materials.module.css";
 const links = [{href:"/shop",label:"Collection"},{href:"/discover#pathways",label:"Your Reserve"},{href:"/vitalis",label:"Vitalis"},{href:"/discover/membership",label:"Membership"}];
 export function PublicNavigation() {
   const menu = useRef<HTMLDetailsElement>(null);
   return <>
     <a href="#main" className={styles.skip}>Skip to content</a>
-    <header className={styles.header}>
+    <header className={`${styles.header} ${materials.tokens}`}>
       <Link prefetch={false} href="/discover" className={styles.brand} aria-label="Legacy Reserve home"><Image src={brand.mark} alt="" width={40} height={40}/><span>LEGACY RESERVE<small>A STANDARD TO RETURN TO</small></span></Link>
       <nav className={styles.desktopNav} aria-label="Public navigation">{links.map(link => <Link prefetch={false} key={link.href} href={link.href}>{link.label}</Link>)}</nav>
       <div className={styles.navActions}><Link prefetch={false} href="/enter" className={styles.entrance}>Enter <ArrowUpRight size={16} aria-hidden="true"/></Link>

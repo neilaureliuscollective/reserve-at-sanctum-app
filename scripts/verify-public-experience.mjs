@@ -68,11 +68,15 @@ try {
  console.log('Checking motion and route regressions');
  await page.setViewportSize({width:1440,height:1000});await page.goto(base+'/discover');
  const heroImage=page.locator('main img').first();
+ const steelLight=page.locator('[data-lr-flagship] figure').first().locator('span[aria-hidden=true]');
+ await expect(page.locator('main[data-lr-flagship]')).toHaveAttribute('data-lr-release','imperial-steel-20261009');
  if(await page.evaluate(()=>CSS.supports('animation-timeline','view()'))){
   await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).transform!=='none')).toBe(true);
+  const steelBefore=await steelLight.evaluate(el=>getComputedStyle(el,'::before').transform);
   const before=await heroImage.evaluate(i=>getComputedStyle(i).transform);
   await page.evaluate(()=>window.scrollTo({top:300,behavior:'instant'}));
   await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).transform)).not.toBe(before);
+  await expect.poll(()=>steelLight.evaluate(el=>getComputedStyle(el,'::before').transform)).not.toBe(steelBefore);
   const wellness=page.locator('[aria-labelledby="wellness-title"]');
   const meridian=wellness.locator('[aria-hidden="true"] > span').first();
   await wellness.scrollIntoViewIfNeeded();
@@ -83,9 +87,11 @@ try {
  await page.getByLabel('Open navigation menu').click();await page.getByRole('button',{name:'Pause environment motion'}).click();
  await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
  await expect.poll(()=>heroImage.evaluate(i=>getComputedStyle(i).animationName)).toBe('none');
+ await expect.poll(()=>steelLight.evaluate(el=>getComputedStyle(el,'::before').animationName)).toBe('none');
  await page.reload();await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
  await page.getByLabel('Open navigation menu').click();await page.getByRole('button',{name:'Enable environment motion'}).click();await page.keyboard.press('Escape');
  await page.emulateMedia({reducedMotion:'reduce'});await expect(page.locator('html')).toHaveAttribute('data-reserve-still','true');
+ await expect.poll(()=>steelLight.evaluate(el=>getComputedStyle(el,'::before').animationName)).toBe('none');
  await page.getByRole('group',{name:'Choose your Reserve direction'}).getByRole('button',{name:'Performance',exact:true}).focus();await page.keyboard.press('Enter');
  assert.equal(await page.locator('[aria-live=polite] a').getAttribute('href'),'/pathways?priority=performance');
  await page.getByRole('link',{name:'Explore Virelis',exact:true}).click();await page.waitForURL('**/shop/vitalis');await page.locator('main h1').filter({hasNotText:'Opening Legacy Reserve.'}).waitFor();
