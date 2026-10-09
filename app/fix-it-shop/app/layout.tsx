@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from "next";
 import { fixItBooking as brand } from "@/lib/fix-it-booking";
 import "./booking.css";
 import "../sanctum-steel.css";
+import "./customer-steel.css";
 export const metadata: Metadata = {
   title: {
     default: "Fix It Shop · Katie Guidry",

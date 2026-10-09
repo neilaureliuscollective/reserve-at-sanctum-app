@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { bookingRequest } from "@/lib/booking-request";
 import { useEffect, useState, useRef } from "react";
 import { DateTime } from "luxon";
 import { ArrowUpRight, CalendarDays, Check, LogOut, List } from "lucide-react";
@@ -28,6 +29,7 @@ export function Visits({
     [cancelId, setCancelId] = useState(""),
     [date, setDate] = useState(""),
     [slots, setSlots] = useState<{ start: string; label: string }[]>([]),
+    [slotsLoading, setSlotsLoading] = useState(false),
     [selected, setSelected] = useState(""),
     [busy, setBusy] = useState(false),
     [view, setView] = useState<"visits" | "calendar">(
@@ -61,35 +63,41 @@ export function Visits({
         .catch(() => {});
   }, [studio]);
   const loadSequence = useRef(0);
+  const loadController = useRef<AbortController | null>(null);
   async function load() {
     const sequence = ++loadSequence.current;
+    loadController.current?.abort();
+    const controller = new AbortController();
+    loadController.current = controller;
+    setLoading(true);
+    setError("");
     const params = new URLSearchParams({ page: String(page) });
     if (identity) params.set("provider", identity.providerId);
     if (studio) {
-      params.set("studio", "true");
-      params.set("date", filter);
-      params.set("days", String(days));
-      params.set("provider", provider);
+      params.set("studio", "true"); params.set("date", filter);
+      params.set("days", String(days)); params.set("provider", provider);
       params.set("location", locationId);
     }
-    const r = await fetch("/api/appointments?" + params, { cache: "no-store" });
-    const d = await r.json();
-    if (sequence !== loadSequence.current) return;
-    if (!r.ok) throw new Error(d.error);
-    setRows(d.visits);
-    setHasMore(!!d.hasMore);
+    try {
+      const d = await bookingRequest<{ visits: Appointment[]; hasMore: boolean }>("/api/appointments?" + params, { signal: controller.signal });
+      if (sequence !== loadSequence.current) return false;
+      setRows(d.visits); setHasMore(!!d.hasMore);
+      return true;
+    } catch (e) {
+      if (sequence !== loadSequence.current) return false;
+      setRows([]); setHasMore(false);
+      setError(e instanceof Error && ! ["AbortError", "TimeoutError", "TypeError"].includes(e.name) ? e.message : "Your visits could not load. Reconnect and try again.");
+      return false;
+    } finally {
+      if (sequence === loadSequence.current) setLoading(false);
+    }
   }
   useEffect(() => {
-    setLoading(true);
-    load()
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+    void load();
+    return () => { ++loadSequence.current; loadController.current?.abort(); };
   }, [filter, page, days, provider, locationId]);
   useEffect(() => {
-    const refresh = () => {
-      if (document.visibilityState === "visible")
-        void load().catch((e) => setError(e.message));
-    };
+    const refresh = () => { if (document.visibilityState === "visible") void load(); };
     window.addEventListener("focus", refresh);
     document.addEventListener("visibilitychange", refresh);
     window.addEventListener("booking-updated", refresh);
@@ -102,22 +110,23 @@ export function Visits({
   useEffect(() => {
     if (!editing || !date) return;
     const c = new AbortController();
-    setSlots([]);
-    fetch(
+    let active = true;
+    setSlots([]); setSelected(""); setSlotsLoading(true);
+    bookingRequest<{ slots?: { start: string; label: string }[]; error?: string }>(
       `${studio ? "/api/studio/pilot/appointments" : "/api/availability"}?service=${editing.service_id}&date=${date}&provider=${encodeURIComponent(editing.provider_id)}&location=${encodeURIComponent(editing.location_id || "eunice")}`,
       {
         signal: c.signal,
       },
     )
-      .then((r) => r.json())
       .then((d) => {
+        if (!active) return;
         if (d.error) setError(d.error);
         setSlots(d.slots || []);
       })
       .catch((e) => {
-        if (e.name !== "AbortError") setError("Unable to load times.");
-      });
-    return () => c.abort();
+        if (active) setError("Unable to load times. Try another date.");
+      }).finally(() => { if (active) setSlotsLoading(false); });
+    return () => { active = false; c.abort(); };
   }, [editing, date, studio]);
   async function update(
     a: Appointment,
@@ -127,7 +136,7 @@ export function Visits({
     setError("");
     setMessage("");
     try {
-      const r = await fetch(`/api/appointments/${a.id}`, {
+      await bookingRequest(`/api/appointments/${a.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -136,8 +145,6 @@ export function Visits({
           ...(action === "reschedule" ? { start: selected } : {}),
         }),
       });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error);
       setEditing(null);
       setCancelId("");
       await load();
@@ -150,18 +157,19 @@ export function Visits({
             : "Your visit has been rescheduled.",
       );
     } catch (e) {
-      setError((e as Error).message);
+      setError(e instanceof Error && ! ["AbortError", "TimeoutError", "TypeError"].includes(e.name) ? e.message : "The change did not finish. Reload your visits before trying again; it may already be saved.");
     } finally {
       setBusy(false);
     }
   }
   async function logout() {
-    await fetch("/api/auth", {
+    try { await bookingRequest("/api/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "signout" }),
     });
     location.assign(identity?.signin || "/signin");
+    } catch { setError("Unable to sign out. Reconnect and try again."); }
   }
   const active = rows
     .filter(
@@ -410,11 +418,7 @@ export function Visits({
         )}
         <span className="muted small">Page {page + 1}</span>
       </div>
-      {error && (
-        <p role="alert" className="error-message">
-          {error}
-        </p>
-      )}
+      {error && <div className="visit-recovery"><p role="alert" className="error-message">{error}</p><button className="button button-outline" disabled={loading} onClick={() => void load()}>Reload visits</button></div>}
       {message && (
         <p role="status" className="inline-note">
           <Check size={16} /> {message}
@@ -624,11 +628,12 @@ export function Visits({
                         />
                       </label>
                       <div className="time-grid compact">
-                        {slots.length ? (
+                        {slotsLoading ? <p role="status">Loading available times…</p> : slots.length ? (
                           slots.map((s) => (
                             <button
                               key={s.start}
                               className={selected === s.start ? "selected" : ""}
+                              aria-pressed={selected === s.start}
                               onClick={() => setSelected(s.start)}
                             >
                               {s.label}
@@ -648,7 +653,7 @@ export function Visits({
                         </button>
                         <button
                           className="button button-gold"
-                          disabled={busy || !selected}
+                          disabled={busy || slotsLoading || !selected || !slots.some(slot => slot.start === selected)}
                           onClick={() => update(a, "reschedule")}
                         >
                           {busy ? "Saving…" : "Confirm new time"}

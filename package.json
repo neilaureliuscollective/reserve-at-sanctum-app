@@ -33,7 +33,10 @@
     "verify:digital-member": "node scripts/verify-digital-member.mjs",
     "verify:living-crest": "node scripts/verify-living-crest.mjs",
     "verify:sculptures": "node scripts/verify-signature-sculptures.mjs",
-    "verify:provider-brands": "node scripts/verify-provider-brands.mjs"
+    "verify:provider-brands": "node scripts/verify-provider-brands.mjs",
+    "build:fix-it": "npm --prefix apps/fix-it-shop run build",
+    "typecheck:fix-it": "tsc --noEmit -p apps/fix-it-shop/tsconfig.json",
+    "verify:fix-it-independent": "node scripts/verify-fix-it-independent.mjs"
   },
   "dependencies": {
     "@aethelios/concierge-core": "file:vendor/aethelios-concierge-core",

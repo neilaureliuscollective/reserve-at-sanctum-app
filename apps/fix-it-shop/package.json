@@ -1,0 +1,14 @@
+{
+  "name": "fix-it-shop",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "prepare:app": "node ../../scripts/prepare-fix-it-app.mjs",
+    "build": "npm run prepare:app && next build",
+    "dev": "npm run prepare:app && next dev --hostname 127.0.0.1",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": { "next": "16.3.5", "react": "19.2.0", "react-dom": "19.2.0" }
+}

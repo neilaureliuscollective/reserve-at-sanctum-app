@@ -29,7 +29,8 @@ export function ProviderDayHome({
     [location, setLocation] = useState(""),
     [service, setService] = useState(""),
     [error, setError] = useState(""),
-    [loading, setLoading] = useState(true);
+    [loading, setLoading] = useState(true),
+    [refreshedAt, setRefreshedAt] = useState("");
   const sequence = useRef(0),
     abort = useRef<AbortController | null>(null);
   const load = useCallback(async () => {
@@ -52,6 +53,7 @@ export function ProviderDayHome({
       if (id !== sequence.current) return;
       if (!r.ok) throw Error(d.error || "Your day couldn’t refresh.");
       setData(d);
+      setRefreshedAt(DateTime.now().setZone(d.location?.timezone || "America/Chicago").toFormat("h:mm a ZZZZ"));
     } catch (e) {
       if (!c.signal.aborted && id === sequence.current) {
         setData(null);
@@ -143,6 +145,7 @@ export function ProviderDayHome({
             value={location || data?.location?.id || ""}
             onChange={(e) => {
               setLocation(e.target.value);
+              setService("");
               setDate("");
             }}
           >
@@ -169,6 +172,11 @@ export function ProviderDayHome({
           Refresh
         </button>
       </div>
+      <div className="provider-day-navigation" aria-label="Browse working days">
+        <button className="button button-outline" disabled={loading} onClick={() => setDate(DateTime.fromISO(selected, { zone }).minus({ days: 1 }).toISODate()!)}>Previous day</button>
+        <button className="button button-outline" disabled={loading} onClick={() => setDate(DateTime.fromISO(selected, { zone }).plus({ days: 1 }).toISODate()!)}>Next day</button>
+      </div>
+      {refreshedAt && !error && <p className="provider-day-freshness" role="status">{loading ? "Refreshing appointments…" : `Last refreshed ${refreshedAt}. Updates every 45 seconds while open.`}</p>}
       {error ? (
         <section className="provider-day-empty" role="alert">
           <h2>Your day couldn’t load.</h2>

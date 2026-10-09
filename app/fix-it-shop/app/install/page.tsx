@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { isFixItApp } from "@/lib/app-edition";
 import Link from "next/link";
 import { FixItInstall } from "@/components/fix-it-install";
 import { fixItBooking as brand } from "@/lib/fix-it-booking";
@@ -21,7 +22,7 @@ export default function Page() {
       </h1>
       <p>
         Open this link directly in your phone’s browser. Check that the
-        suggested name is Fix It Shop and the icon matches the crest above.
+        suggested name is Fix It Shop and the icon matches the symbol above.
       </p>
       <FixItInstall />
       <section>
@@ -36,20 +37,15 @@ export default function Page() {
           Install app or Add to home screen. The wording and available options
           vary.
         </p>
-        <h2>If Legacy Reserve is already installed</h2>
-        <p>
-          Your browser may show no separate install prompt or may open the
-          existing app. Use the manual browser-menu option and confirm the Fix
-          It Shop name and icon. A separate installation is not guaranteed on
-          every browser.
-        </p>
-        <h2>Your account</h2>
-        <p>
-          The website uses the same Legacy Reserve account. An installed app may
-          need a fresh sign-in. Signing out in this browser also signs you out
-          of the shared Reserve session. Booking and appointments require an
-          internet connection.
-        </p>
+        {isFixItApp() ? <>
+          <h2>Your independent app</h2>
+          <p>Install from this Fix It Shop address. Sign in with your existing account; this app has its own browser session. Katie’s assigned staff account opens her working day. Booking and private records require an internet connection.</p>
+        </> : <>
+          <h2>If Legacy Reserve is already installed</h2>
+          <p>Your browser may open the existing app. Use the browser menu and confirm the Fix It Shop name and icon. A separate installation is not guaranteed on this shared address.</p>
+          <h2>Your account</h2>
+          <p>An installed app may need a fresh sign-in. Signing out on this shared address also ends the Reserve session in this browser. Booking and appointments require an internet connection.</p>
+        </>}
       </section>
       <Link className="button button-gold" href={brand.base}>
         Open Fix It Shop

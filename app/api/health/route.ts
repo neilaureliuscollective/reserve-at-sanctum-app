@@ -1,4 +1,5 @@
 import { database } from "@/lib/db";
+import { isFixItApp, fixItRelease } from "@/lib/app-edition";
 import { reserveRelease } from "@/lib/experience/release";
 export const dynamic = "force-dynamic";
 export async function GET() {
@@ -8,12 +9,12 @@ export async function GET() {
     const db = await database();
     await db.query("SELECT id FROM reserve_locations LIMIT 1");
     await db.query("SELECT id FROM reserve_users LIMIT 1");
-    return Response.json({ status: "ready", release: reserveRelease }, {
+    return Response.json({ status: "ready", release: isFixItApp() ? fixItRelease : reserveRelease }, {
       headers: { "Cache-Control": "no-store" },
     });
   } catch {
     console.error("Reserve database readiness check failed");
-    return Response.json({ status: "unavailable", release: reserveRelease }, {
+    return Response.json({ status: "unavailable", release: isFixItApp() ? fixItRelease : reserveRelease }, {
       status: 503, headers: { "Cache-Control": "no-store" },
     });
   }

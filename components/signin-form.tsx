@@ -1,4 +1,5 @@
 "use client";
+import { isFixItApp } from "@/lib/app-edition";
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight, ShieldCheck } from "lucide-react";
@@ -123,8 +124,7 @@ export function SigninForm({
       ) : (
         !preview && (
           <p>
-            Account setup is temporarily unavailable. The Legacy Reserve team is
-            connecting secure sign-in and the private workspace.
+            Account setup is temporarily unavailable. Please try again after secure sign-in is connected.
           </p>
         )
       )}
@@ -156,6 +156,7 @@ export function SigninForm({
             },
           ]
             .filter((x) => !clientOnly || x.id === "preview-client")
+            .filter((x) => !isFixItApp() || x.id !== "preview-neil")
             .map((x) => (
               <button
                 key={x.id}
