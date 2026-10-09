@@ -158,7 +158,21 @@ try {
       .getAttribute("href"),
     id = ics.split("/").at(-2);
   assert.equal((await context.request.get(origin + ics)).status(), 200);
-  await page.getByRole("link", { name: /Manage my visits/ }).click();
+  await visit(base);
+  await page
+    .getByRole("heading", { name: "Your next visit.", exact: true })
+    .waitFor();
+  assert.equal(
+    await page.locator('.fix-it-nav [aria-current="page"]').innerText(),
+    "Home",
+  );
+  await page.getByRole("link", { name: /Manage this visit/ }).click();
+  await page.waitForLoadState("networkidle");
+  await visit(base + "/book");
+  await page
+    .getByRole("link", { name: /My visits/ })
+    .first()
+    .click();
   await page.waitForLoadState("networkidle");
   const ref = id.slice(0, 8).toUpperCase();
   let card = page.locator(".appointment").filter({ hasText: ref });

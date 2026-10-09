@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FixItCustomerNav } from "@/components/fix-it-customer";
 import type { CSSProperties, ReactNode } from "react";
 import type { BookingIdentity } from "@/lib/booking-identity";
 import { brandAsset, logoFor, type BrandProfile } from "@/lib/provider-brands";
@@ -24,7 +25,10 @@ export function ProviderWorld({
   const logo = logoFor(p, b.providerId, 192, preview);
   return (
     <FixItInstallCapture>
-      <div className="fix-it-app provider-app" style={brandStyle(p)}>
+      <div
+        className={`fix-it-app provider-app${b.providerId === "katie" ? " fix-it-premium" : ""}`}
+        style={brandStyle(p)}
+      >
         <a className="skip" href="#main">
           Skip to content
         </a>
@@ -53,7 +57,8 @@ export function ProviderWorld({
           <Link href="/privacy">Privacy</Link>
           <Link href="/discover">Powered by Legacy Reserve ↗</Link>
         </footer>
-        {!preview && (
+        {!preview && b.providerId === "katie" && <FixItCustomerNav />}
+        {!preview && b.providerId !== "katie" && (
           <nav className="fix-it-nav" aria-label={p.name}>
             <Link href={b.base}>Home</Link>
             <Link href={b.book}>Book</Link>
