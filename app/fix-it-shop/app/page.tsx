@@ -24,7 +24,7 @@ export default async function Page() {
   return <main id="main" className="fix-it-home">
     {isPreview() && <p className="fis-preview" role="note">Development preview · services, prices and accounts are illustrative.</p>}
     <section className="fis-entrance" aria-labelledby="fis-title">
-      <div className="fis-entrance__environment"><Image src={cover} alt="" fill preload sizes="100vw" /><div className="fis-entrance__shade" /></div>
+      <div className="fis-entrance__environment"><Image src={cover} alt="" fill preload sizes="100vw" unoptimized={Boolean(profile.cover)} /><div className="fis-entrance__shade" /></div>
       <div className="fis-entrance__copy">
         <p className="fis-kicker">KATIE GUIDRY’S INDEPENDENT MEN’S SALON</p>
         <h1 id="fis-title">A little time.<br /><em>A lot of care.</em></h1>
@@ -36,7 +36,7 @@ export default async function Page() {
     </section>
     {actor && <div className="fis-account">{actor.provider_id === "katie" && hasCapability(actor, "studio.read") ? <section className="fix-it-next"><div><p className="eyebrow">YOUR PRIVATE FIX IT SHOP STUDIO</p><h2>Your working day, ready.</h2><p>Open your calendar, client history, and availability.</p></div><Link className="button button-gold" href="/studio/today">Open my Studio ↗</Link></section> : <FixItNextVisit />}</div>}
     <section id="katie" className="fis-founder fis-wrap" aria-labelledby="fis-founder-title">
-      <div className="fis-founder__identity"><div className="fis-founder__halo" aria-hidden="true" /><Image src={profile.logo ? brandAsset(profile.logo) : "/images/approved/fix-it-shop.webp"} alt="Fix It Shop’s blue and gold crest" width={460} height={460} sizes="(max-width:700px) 70vw, 35vw" /><span>KATIE GUIDRY / FOUNDER & OWNER</span></div>
+      <div className="fis-founder__identity"><div className="fis-founder__halo" aria-hidden="true" /><Image src={profile.logo ? brandAsset(profile.logo) : "/images/approved/fix-it-shop.webp"} alt="Fix It Shop’s blue and gold crest" width={460} height={460} sizes="(max-width:700px) 70vw, 35vw" unoptimized={Boolean(profile.logo)} /><span>KATIE GUIDRY / FOUNDER & OWNER</span></div>
       <div className="fis-founder__copy"><p className="fis-kicker">01 / THE PERSON BEHIND THE CHAIR</p><h2 id="fis-founder-title">Her name.<br /><em>Her standard.</em></h2><p className="fis-lead">{profile.bio}</p><p>Fix It Shop is Katie Guidry’s independent men’s salon brand. Her approach starts with listening: the way you wear your hair, the way you spend your days, and what you want from your time in the chair.</p><p>Personal attention gives the details a purpose. Shape. Texture. A finish that feels like you.</p><div className="fis-founder__signoff"><span>Katie Guidry</span><small>FOUNDER OF FIX IT SHOP</small></div></div>
     </section>
     <section className="fis-standard fis-wrap" aria-label="Katie’s approach"><p className="fis-kicker">THE CARE BEHIND THE VISIT</p><div>{[
