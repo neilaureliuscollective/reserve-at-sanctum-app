@@ -129,3 +129,32 @@ html[data-reserve-still="true"] .signature-sculpture__poster {
     border-color: ButtonText;
   }
 }
+
+/* Photographic material detail remains visible when motion is enabled. */
+.signature-sculpture[data-artwork] .signature-sculpture__poster {
+  opacity: 1;
+  padding: 6%;
+  box-sizing: border-box;
+  filter: drop-shadow(0 16px 18px #0006);
+  animation: reserve-emblem-breathe 10s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.signature-sculpture[data-artwork][data-sculpture-state="active"] .signature-sculpture__poster {
+  animation-play-state: running;
+}
+.signature-sculpture[data-world="performance"] .signature-sculpture__poster { animation-duration: 12s; }
+.signature-sculpture[data-world="wellness"] .signature-sculpture__poster { animation-duration: 8s; }
+.signature-sculpture[data-artwork] .signature-sculpture__caption { margin-top: 0; }
+@keyframes reserve-emblem-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@media (max-width: 700px) {
+  .digital-world-preview > .signature-sculpture[data-artwork] { width: 280px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .signature-sculpture[data-artwork] .signature-sculpture__poster { animation: none; }
+}
+html[data-reserve-still="true"] .signature-sculpture[data-artwork] .signature-sculpture__poster {
+  animation-play-state: paused;
+}

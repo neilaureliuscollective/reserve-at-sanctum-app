@@ -175,3 +175,27 @@ html[data-reserve-still="true"] .living-crest__poster {
     transform: none;
   }
 }
+
+/* Generated artwork is the finished surface in both still and motion modes. */
+.living-crest[data-artwork] .living-crest__poster {
+  opacity: 1;
+  transform: none;
+  animation: reserve-crest-breathe 9s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.living-crest[data-artwork][data-crest-state="active"] .living-crest__poster {
+  animation-play-state: running;
+}
+@keyframes reserve-crest-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@media (max-width: 700px) {
+  .living-crest[data-artwork] { width: 260px; margin: 28px auto 50px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .living-crest[data-artwork] .living-crest__poster { animation: none; }
+}
+html[data-reserve-still="true"] .living-crest[data-artwork] .living-crest__poster {
+  animation-play-state: paused;
+}
