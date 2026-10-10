@@ -39,8 +39,9 @@ are not a reason to activate billing, replace main or import unreviewed changes.
 Deployment: Next 16.3.5; existing noindex/security/no-store headers retained;
 GitHub Actions runs tests, TypeScript and build. No local `.vercel` linkage or
 ready runtime secrets/outbound identity supplied by the cloud environment.
-Existing docs mention prior Vercel releases; current authenticated hosted
-booking acceptance is not inferable from those reports. Historical domain and
+Connected Vercel project `reserve-at-sanctum-app` was verified. Draft PR #62
+creates an automatic review preview; GitHub CI passed the first review commit.
+Authenticated live booking acceptance is not inferable from a successful build. Historical domain and
 Supabase PKCE/cookie refresh architecture remain unchanged. Migrations are
 preserved byte-for-byte; no schema work is necessary for this presentation phase.
 
@@ -157,9 +158,10 @@ web.dev touch targets/sign-in forms and motion accessibility. Installed Next 16.
 redirect and metadata/icon guidance reviewed. React component review applied:
 no new private-data fetches, no role authorization in presentation, accessible
 landmarks/links, scoped CSS, existing async checks and reduced-motion behavior.
-No Supabase feature/schema/adapter change is introduced; prior October 9 changelog
-research is recorded in the existing Studio and provider releases. Network access
-to fresh external documentation is not available through the executor proxy.
+No Supabase feature/schema/adapter change is introduced. Fresh Supabase October 8
+changelog, September 25 Postgres patch notice, SSR authentication guidance and
+web.dev multiple-PWA guidance were retrieved in the isolated validation sandbox.
+These do not justify changing database versions or authentication in this phase.
 
 ## Future CRM / Concierge contracts (design only)
 
@@ -185,8 +187,24 @@ retention and integration-specific consent before implementing.
 
 ## Validation and release gates
 
-Results and screenshot links are recorded after the final tested tree. Local
-synthetic tests do not establish live hosted acceptance. No live changes occur.
+Validation uses synthetic PGlite records and preview identities in an isolated
+Vercel Sandbox; it does not establish live hosted acceptance. All 179 unit tests
+passed, including booking concurrency, revision/idempotency, ownership and provider
+authorization. TypeScript and production build passed. Four behavioral browser
+suites passed: Fix It Shop booking (reserve/reschedule/cancel/ownership), booking
+pilot (staff operations/calendar/history/import/insights), The Chair (consent,
+private notes, revocation and deletion), and provider brands (closed onboarding,
+publish/unpublish and professional isolation). The transformation browser suite
+checks role-aware launch, 15 pages at 320/390/1440 pixels, retained routes and
+unauthorized staff API denial. All 15 automated WCAG A/AA audits passed after
+correcting light-background service text contrast. Automated checks do not replace
+manual assistive-technology or physical-device acceptance.
+
+Review: [draft PR #62](https://github.com/neilaureliuscollective/reserve-at-sanctum-app/pull/62).
+[Screenshot gallery](previews/fix-it-phase-one/README.md) includes customer home,
+services/time selection, account, Chair, Katie’s dashboard, scheduling and install
+setup. Screenshots contain synthetic data; preview prices are not approved prices.
+No production deployment, merge, domain, database or payment change was made.
 
 Before merge/release: founder reviews this exact PR and remaining permission
 tradeoffs. Before real bookings: verify intended Supabase project/database,

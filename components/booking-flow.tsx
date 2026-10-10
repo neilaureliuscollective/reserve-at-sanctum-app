@@ -246,7 +246,7 @@ export function BookingFlow({
         <p className="eyebrow">
           {identity
             ? `${identity.name} · ${identity.founder}`.toUpperCase()
-            : `LEGACY RESERVE SANCTUM — ${houseName.toUpperCase()}`}
+            : `FIX IT SHOP — ${houseName.toUpperCase()}`}
         </p>
         <h1>
           Make time <em>for yourself.</em>
@@ -471,7 +471,7 @@ export function BookingFlow({
                         {busy
                           ? "Saving your visit…"
                           : preview
-                            ? "Preview visit"
+                            ? "Reserve preview visit"
                             : "Confirm appointment"}{" "}
                         <ArrowUpRight size={18} />
                       </button>

@@ -2,17 +2,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Home, CalendarPlus, CalendarDays, Smartphone } from "lucide-react";
+import { Home, CalendarPlus, CalendarDays, Smartphone, Scissors } from "lucide-react";
 import type { Appointment } from "@/lib/booking";
 const base = "/fix-it-shop/app";
 const items = [
   [base, "Home", Home],
   [base + "/book", "Book", CalendarPlus],
   [base + "/appointments", "My visits", CalendarDays],
+  ["/chair", "The Chair", Scissors],
   [base + "/install", "Phone setup", Smartphone],
 ] as const;
 export function FixItCustomerNav() {
-  const path = usePathname();
+  const currentPath = usePathname();
+  const path = ["/account", "/my-visit"].includes(currentPath) ? base + "/appointments" : ["/book", "/visit"].includes(currentPath) ? base + "/book" : currentPath;
   return (
     <nav className="fix-it-nav" aria-label="Fix It Shop">
       {items.map(([href, label, Icon]) => (

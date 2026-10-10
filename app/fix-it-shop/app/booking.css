@@ -563,3 +563,6 @@
     padding: 20px;
   }
 }
+
+/* Katie’s fifth destination keeps The Chair beside booking and visits. */
+.fix-it-premium .fix-it-nav { grid-template-columns:repeat(5,minmax(0,1fr)); }

@@ -32,3 +32,8 @@
  .fix-it-service-shell .fix-it-masthead { align-items:flex-start; }
  .fix-it-service-shell .fix-it-masthead>a:last-child { max-width:100px; }
 }
+
+.aethelios-booking-studio .studio-canvas { max-width:1280px; margin:auto; }
+.aethelios-booking-studio .studio-nav a { min-height:54px; min-width:54px; }
+.aethelios-booking-studio input,.aethelios-booking-studio select,.aethelios-booking-studio textarea { font-size:16px; min-height:48px; }
+.aethelios-booking-studio .button { min-height:48px; }

@@ -1,4 +1,5 @@
 "use client";
+import { serviceLocationLabel } from "@/lib/experience/locations";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DateTime } from "luxon";
@@ -149,7 +150,7 @@ export function ProviderDayHome({
             <option value="">Choose location</option>
             {data?.locations.map((l) => (
               <option key={l.id} value={l.id}>
-                {l.name}
+                {serviceLocationLabel(l.name)}
               </option>
             ))}
           </select>

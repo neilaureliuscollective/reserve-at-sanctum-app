@@ -1,4 +1,5 @@
 "use client";
+import { serviceLocationLabel } from "@/lib/experience/locations";
 import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { DateTime } from "luxon";
@@ -288,7 +289,7 @@ export function PilotAppointmentForm({
                   )
                   .map((l) => (
                     <option key={l.id} value={l.id}>
-                      {l.name}
+                      {serviceLocationLabel(l.name)}
                     </option>
                   ))}
               </select>
@@ -741,7 +742,7 @@ export function PilotReadiness() {
                     <select name="id">
                       {data.locations.map((l) => (
                         <option key={l.id} value={l.id}>
-                          {l.name}
+                          {serviceLocationLabel(l.name)}
                         </option>
                       ))}
                     </select>
