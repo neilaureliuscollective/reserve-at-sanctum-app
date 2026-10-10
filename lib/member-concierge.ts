@@ -14,6 +14,7 @@ import { listLocations } from "./experience/locations";
 import { membershipDesk, membershipState } from "./membership";
 import { membershipPrivileges } from "./membership-operations";
 import { readCollection } from "./collection";
+import { productDetail, productGuidance } from "./product-universe";
 import { productConcepts } from "./product-concepts";
 import { readRoutine, requireMember } from "./personal-reserve";
 import {
@@ -29,6 +30,7 @@ export const conciergeInput = z
     locationId: z.string().min(1).max(80).optional(),
     serviceId: z.string().min(1).max(80).optional(),
     date: z.iso.date().optional(),
+    productHandle: z.string().regex(/^[a-z0-9][a-z0-9_-]{0,199}$/).optional(),
     priority: z.enum(["presence", "performance", "wellness"]).optional(),
   })
   .strict();
@@ -172,6 +174,16 @@ export async function memberConcierge(
       links: [{ label: "Explore Vitalis", href: "/vitalis" }],
       mode: "verified",
     };
+  if (i.productHandle) {
+    const collection = await readCollection(fetcher);
+    const product = collection.items.find(p => p.handle === i.productHandle);
+    if (!product) return { text: "This product could not be verified in the published Collection. Please refresh before purchasing.", links: [{ label: "Open Collection", href: "/shop" }], mode: "verified" };
+    const detail = await productDetail(product, undefined, fetcher);
+    return { text: productGuidance(product, detail, i.message), links: [{ label: "Review product options", href: product.href }, ...detail.editorial.complementaryHandles.flatMap(handle => {
+      const companion = collection.items.find(p => p.handle === handle && p.handle !== product.handle);
+      return companion ? [{ label: companion.name, href: companion.href }] : [];
+    })], mode: "verified" };
+  }
   const intent = classifyIntent(i.message);
   if (intent === "wellness")
     return {
