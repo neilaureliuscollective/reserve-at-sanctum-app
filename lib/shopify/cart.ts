@@ -17,10 +17,10 @@ const fields = `id checkoutUrl totalQuantity cost { totalAmount { amount currenc
 export type StoreCart = z.infer<typeof cartSchema>;
 export type PublicCart = Omit<StoreCart, "id" | "checkoutUrl">;
 export const cartAction = z.discriminatedUnion("action", [
- z.object({ action:z.literal("add"), variantId:z.string().regex(/^gid:\/\/shopify\/ProductVariant\/\d+$/), quantity:z.number().int().min(1).max(5) }).strict(),
+ z.object({ action:z.literal("add"), variantId:z.string().regex(/^gid:\/\/shopify\/ProductVariant\/\d+$/), quantity:z.number().int().min(1).max(5), source:z.literal("aethelios").optional() }).strict(),
  z.object({ action:z.literal("update"), lineId:z.string().min(1).max(1000), quantity:z.number().int().min(1).max(5) }).strict(),
  z.object({ action:z.literal("remove"), lineId:z.string().min(1).max(1000) }).strict(),
- z.object({ action:z.literal("checkout") }).strict(),
+ z.object({ action:z.literal("checkout"), source:z.literal("aethelios").optional() }).strict(),
 ]);
 export function publicCart(cart: StoreCart): PublicCart {
  return { totalQuantity:cart.totalQuantity, cost:cart.cost, lines:cart.lines };
@@ -42,6 +42,8 @@ export async function changeCart(config: ShopifyConfig, id: string | undefined, 
  if (action.action === "checkout") {
   if (!existing?.totalQuantity) throw new BookingError("Your cart is empty.",409);
   if (existing.lines.nodes.some(l=>!l.merchandise.availableForSale)) throw new BookingError("A cart item is no longer available. Please remove it before checkout.",409);
+  const approved = new Set((await shopifyCollection(config,fetcher)).flatMap(p=>p.variants.filter(v=>v.availableForSale).map(v=>v.id)));
+  if (existing.lines.nodes.some(l=>!approved.has(l.merchandise.id))) throw new BookingError("A cart item is no longer available in the approved Collection. Please remove it before checkout.",409);
   return existing;
  }
  if (action.action === "add") {

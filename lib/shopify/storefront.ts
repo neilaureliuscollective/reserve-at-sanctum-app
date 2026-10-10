@@ -20,6 +20,9 @@ export type ShopProduct = {
   image: { url: string; alt: string } | null;
   variants: ShopVariant[];
   href: string;
+  productType?: string;
+  category?: string;
+  attributes?: Partial<Record<"ingredients" | "benefits" | "concerns" | "finish" | "hold", string>>;
 };
 export type PreparedCheckout = {
   url: string;
@@ -82,9 +85,11 @@ export async function storefront<T>(
     throw failure();
   }
 }
+const intelligenceFields = `productType category { name }
+ metafields(identifiers:[{namespace:"reserve",key:"ingredients"},{namespace:"reserve",key:"benefits"},{namespace:"reserve",key:"concerns"},{namespace:"reserve",key:"finish"},{namespace:"reserve",key:"hold"}]) { key value type }`;
 const collectionQuery = `query ReserveCollection($handle:String!,$after:String) @inContext(country:US) {
  collection(handle:$handle) { handle products(first:40,after:$after) {
-  pageInfo { hasNextPage endCursor } nodes { id handle title description requiresSellingPlan
+  pageInfo { hasNextPage endCursor } nodes { id handle title description requiresSellingPlan ${intelligenceFields}
    featuredImage { url altText }
    variants(first:20) { pageInfo { hasNextPage } nodes { id title availableForSale price { amount currencyCode } } }
   }
@@ -104,6 +109,9 @@ const collectionData = z.object({
               title: z.string().min(1).max(200),
               description: z.string().max(20000),
               requiresSellingPlan: z.boolean(),
+              productType: z.string().max(300).optional(),
+              category: z.object({ name: z.string().max(300) }).nullable().optional(),
+              metafields: z.array(z.object({ key: z.string(), value: z.string().max(6000), type: z.string() }).nullable()).max(5).optional(),
               featuredImage: z
                 .object({ url: z.string(), altText: z.string().nullable() })
                 .nullable(),
@@ -129,7 +137,7 @@ export async function shopifyCollection(
     if (page >= 100) throw failure();
     const query = config.collection ? collectionQuery : `query ReserveProducts($after:String) @inContext(country:US) {
       products(first:40,after:$after) { pageInfo { hasNextPage endCursor } nodes {
-        id handle title description requiresSellingPlan featuredImage { url altText }
+        id handle title description requiresSellingPlan ${intelligenceFields} featuredImage { url altText }
         variants(first:20) { pageInfo { hasNextPage } nodes { id title availableForSale price { amount currencyCode } } }
       } }
     }`;
@@ -178,6 +186,19 @@ export async function shopifyCollection(
         image,
         variants: p.variants.nodes,
         href: `/shop/products/${p.handle}`,
+        productType: p.productType ?? "",
+        category: p.category?.name ?? "",
+        attributes: Object.fromEntries((p.metafields ?? []).flatMap(field => {
+          if (!field || !["ingredients", "benefits", "concerns", "finish", "hold"].includes(field.key)) return [];
+          if (["single_line_text_field", "multi_line_text_field"].includes(field.type)) return [[field.key, field.value.slice(0, 2000)]];
+          if (field.type === "list.single_line_text_field") {
+            try {
+              const values = z.array(z.string().max(500)).max(30).parse(JSON.parse(field.value));
+              return [[field.key, values.join(", ").slice(0, 2000)]];
+            } catch { /* Unsupported attributes never become product facts. */ }
+          }
+          return [];
+        })),
       };
     });
 }

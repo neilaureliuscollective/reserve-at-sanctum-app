@@ -15,6 +15,7 @@ export default async function Shop() {
       title="A standard you can carry."
       intro="Considered essentials for your everyday presence. Explore the collection, with a clear distinction between published products and concepts."
     >
+      <p><Link href="/aethelios" className="button button-gold">Find your essentials with Aethelios ↗</Link></p>
       <p><Link href="/shop/cart" className="button button-gold">Your cart ↗</Link></p>
       <section
         className="collection-status"
