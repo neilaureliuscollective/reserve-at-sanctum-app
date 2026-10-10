@@ -182,7 +182,7 @@ export function Visits({
                 ? "FIX IT SHOP · STUDIO"
                 : identity
                   ? "FIX IT SHOP · YOUR APPOINTMENTS"
-                  : "YOUR LEGACY RESERVE"}
+                  : "YOUR FIX IT SHOP VISITS"}
             </p>
             <h1>{studio ? "A considered day." : "Your next chapter."}</h1>
             <p>
