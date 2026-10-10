@@ -1,6 +1,6 @@
 import type { Actor } from '../booking';
 export function entryDestination(actor: Actor | null) {
-  return actor?.role === 'owner' || actor?.role === 'operator' || actor?.role === 'staff' ? '/studio' : '/home';
+  return actor?.role === 'owner' || actor?.role === 'operator' || actor?.role === 'staff' ? '/studio' : '/fix-it-shop/app';
 }
 export function safeDestination(value?: string | null) {
   if (!value || !/^\/(?!\/)/.test(value) || /[\\\u0000-\u0020]/.test(value)) return '/enter';

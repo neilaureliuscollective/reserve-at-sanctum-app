@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <main id="main" className="inner-page section booking-page">
       <p className="experience-kicker booking-channel">
-        LEGACY RESERVE · APPOINTMENTS
+        FIX IT SHOP · APPOINTMENTS
       </p>
       <BookingFlow preview={isPreview()} />
     </main>

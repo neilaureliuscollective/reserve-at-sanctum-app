@@ -69,7 +69,7 @@ try {
     await context.request.get(origin + "/manifest.webmanifest")
   ).json();
   assert.equal(master.id, "/");
-  assert.equal(master.name, "Legacy Reserve");
+  assert.equal(master.name, "Fix It Shop");
   await visit(base);
   assert.equal(await page.locator(".reserve-app-shell").count(), 0);
   assert.equal(await page.locator('link[rel="manifest"]').count(), 1);

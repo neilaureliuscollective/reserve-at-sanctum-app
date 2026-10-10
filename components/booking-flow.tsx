@@ -220,8 +220,8 @@ export function BookingFlow({
             {identity ? "Manage my visits" : "Prepare your visit"}{" "}
             <ArrowUpRight size={18} />
           </Link>
-          <Link href={identity?.base || "/home"} className="text-link">
-            {identity ? `Back to ${identity.name}` : "Back to the Reserve"}
+          <Link href={identity?.base || "/fix-it-shop/app"} className="text-link">
+            {identity ? `Back to ${identity.name}` : "Back to Fix It Shop"}
           </Link>
         </div>
         <p className="small muted">
@@ -240,7 +240,7 @@ export function BookingFlow({
       >
         {identity
           ? `← ${identity.name}`
-          : "← Choose your professional in Sanctum"}
+          : "← Choose your professional"}
       </Link>
       <div className="booking-heading">
         <p className="eyebrow">
@@ -471,7 +471,7 @@ export function BookingFlow({
                         {busy
                           ? "Saving your visit…"
                           : preview
-                            ? "Reserve preview visit"
+                            ? "Preview visit"
                             : "Confirm appointment"}{" "}
                         <ArrowUpRight size={18} />
                       </button>

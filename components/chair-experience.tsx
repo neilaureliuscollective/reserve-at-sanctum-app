@@ -114,7 +114,7 @@ export function ChairExperience({
         setStep("summary");
         setExisting(Boolean(profile));
         setMessage(
-          "Review what you want to keep, then save it to your Reserve account.",
+          "Review what you want to keep, then save it to your account.",
         );
         if (user) trackChair("auth_returned");
       } else if (profile) {
@@ -152,7 +152,7 @@ export function ChairExperience({
     heading.current?.focus({ preventScroll: true });
   }, [step, ready]);
   useEffect(() => {
-    document.title = `${step === "summary" ? "Your Chair" : `${index + 1} of ${steps.length} · The Chair`} · Legacy Reserve`;
+    document.title = `${step === "summary" ? "Your Chair" : `${index + 1} of ${steps.length} · The Chair`} · Fix It Shop`;
   }, [step, ready, index, steps.length]);
   function go(next: Step) {
     setError("");
@@ -173,7 +173,7 @@ export function ChairExperience({
     if (!user) {
       if (!hosted && !preview) {
         setError(
-          "Saving opens when Reserve accounts are connected. You can still use this summary in the chair.",
+          "Saving opens when accounts are connected. You can still use this summary in the chair.",
         );
         setBusy(false);
         return;
@@ -229,7 +229,7 @@ export function ChairExperience({
       setMessage(
         draft.share_with_katie
           ? "Saved. Katie can open your check-in in her studio."
-          : "Saved privately to your Reserve account.",
+          : "Saved privately to your account.",
       );
       try {
         sessionStorage.removeItem(CHAIR_DRAFT_KEY);
@@ -259,7 +259,7 @@ export function ChairExperience({
       setExisting(false);
       setConfirmDelete(false);
       setMessage(
-        "Your Chair data and attached service notes were deleted. Your other Reserve information stays in place.",
+        "Your Chair data and attached service notes were deleted. Your other account information stays in place.",
       );
     } catch (e) {
       setError((e as Error).message);
@@ -416,8 +416,8 @@ export function ChairExperience({
                     }}
                   />
                   <span>
-                    Share this check-in with Katie and the authorized Reserve
-                    owner.
+                    Share this check-in with Katie and the authorized platform
+                    administrator.
                   </span>
                 </label>
                 {draft.life && draft.share_with_katie && (
@@ -444,7 +444,7 @@ export function ChairExperience({
             {saved && (
               <p className="chair-small">
                 {draft.share_with_katie
-                  ? "Shared with Katie and the authorized Reserve owner."
+                  ? "Shared with Katie and the authorized platform administrator."
                   : "Private to your account. Katie cannot see this check-in."}{" "}
                 {draft.life
                   ? "Life context expires 7 days after saving."
@@ -462,7 +462,7 @@ export function ChairExperience({
                     ? "Saving…"
                     : draft.share_with_katie
                       ? "Save this for Katie"
-                      : "Save to my Reserve"}
+                      : "Save to my account"}
                   <ArrowRight size={18} />
                 </button>
               ) : (
@@ -474,8 +474,8 @@ export function ChairExperience({
                   >
                     Return to your visit <ArrowRight size={18} />
                   </Link>
-                  <Link prefetch={false} href="/my-sanctum" className="text-link">
-                    My Reserve profile
+                  <Link prefetch={false} href="/account" className="text-link">
+                    My appointment history
                   </Link>
                 </>
               )}
@@ -502,8 +502,7 @@ export function ChairExperience({
             </div>
             {!user && (
               <p className="chair-small">
-                One Reserve account for Katie’s Chair, Neil’s Mirror, and your
-                visits.{" "}
+                Your existing account keeps your Chair preferences and visits together.{" "}
                 {hosted
                   ? "Google and Apple sign-in are available on the next screen."
                   : preview

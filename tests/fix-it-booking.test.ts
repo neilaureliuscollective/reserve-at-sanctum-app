@@ -7,7 +7,7 @@ import {
   accountEntranceFor,
 } from "../lib/fix-it-booking";
 import reserveManifest from "../app/manifest";
-test("Fix It Shop has a stable distinct identity without replacing Legacy Reserve", () => {
+test("Fix It Shop has a stable distinct identity while existing root installation updates to the same business", () => {
   const fix = fixItManifest(),
     reserve = reserveManifest();
   assert.notEqual(fix.id, reserve.id);

@@ -21,7 +21,7 @@ export default function Page() {
       </h1>
       <p>
         Open this link directly in your phone’s browser. Check that the
-        suggested name is Fix It Shop and the icon matches the crest above.
+        suggested name is Fix It Shop and the icon matches the symbol above.
       </p>
       <FixItInstall />
       <section>
@@ -43,11 +43,15 @@ export default function Page() {
           It Shop name and icon. A separate installation is not guaranteed on
           every browser.
         </p>
+        <h2>Katie’s working day</h2>
+        <p>Reopen the installed app to reach your working day when signed in with an authorized staff account. Signing up does not grant staff access.</p>
+        <h2>Updates</h2>
+        <p>Reopen or reload while online for the current application. An old name or icon may require removing and reinstalling the home-screen shortcut. Removing a shortcut does not delete your saved appointments.</p>
         <h2>Your account</h2>
         <p>
-          The website uses the same Legacy Reserve account. An installed app may
+          Use your existing account. An installed app may
           need a fresh sign-in. Signing out in this browser also signs you out
-          of the shared Reserve session. Booking and appointments require an
+          of this website’s shared session. Booking and appointments require an
           internet connection.
         </p>
       </section>

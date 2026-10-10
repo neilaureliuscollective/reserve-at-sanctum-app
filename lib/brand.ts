@@ -26,5 +26,5 @@ export const brand = {
 } as const;
 
 export function locationLabel(city: string) {
-  return `Legacy Reserve Sanctum — ${city}`;
+  return `Fix It Shop — ${city}`;
 }

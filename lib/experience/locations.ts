@@ -94,7 +94,7 @@ export function getLocation(id: string | null | undefined) {
 
 export function locationDisplayName(id: string | null | undefined) {
   const location = getLocation(id);
-  return `Legacy Reserve Sanctum — ${location.short_name}`;
+  return `Fix It Shop — ${location.short_name}`;
 }
 
 function withPresentation(rows: ReserveLocation[]) {
