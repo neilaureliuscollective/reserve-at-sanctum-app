@@ -3,7 +3,7 @@ import { memberRead } from "@/lib/experience/member";
 import { sanctumDirectory } from "@/lib/experience/sanctum-directory";
 import { SanctumHub } from "@/components/experience/sanctum-hub";
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Sanctum · Legacy Reserve" };
+export const metadata = { title: "Services & professionals · Fix It Shop" };
 export default async function Page({ searchParams }: { searchParams: Promise<{ location?: string }> }) {
   const { location } = await searchParams;
   const state = await memberRead(async () => sanctumDirectory(await database()));

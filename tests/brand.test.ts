@@ -13,10 +13,10 @@ test("public identity is Legacy Reserve", () => {
   assert.equal(brand.shortName, "Legacy Reserve");
   assert.match(brand.description, /lifestyle ecosystem/i);
   assert.doesNotMatch(brand.description, /barber|unisex|salon website/i);
-  assert.equal(locationLabel("Eunice"), "Legacy Reserve Sanctum — Eunice");
+  assert.equal(locationLabel("Eunice"), "Fix It Shop — Eunice");
   assert.equal(
     locationDisplayName("eunice"),
-    "Legacy Reserve Sanctum — Eunice",
+    "Fix It Shop — Eunice",
   );
   assert.equal(primaryLocation.id, "eunice");
   assert.equal(primaryLocation.status, "planned");
@@ -73,11 +73,11 @@ test("customer metadata and manifest no longer use Reserve at Sanctum", () => {
   for (const source of [layout, manifest, chrome]) {
     assert.doesNotMatch(source, /The Reserve at Sanctum/);
     assert.doesNotMatch(source, /THE RESERVE AT SANCTUM/);
-    assert.match(source, /Legacy Reserve|brand\./);
+    assert.match(source, /Legacy Reserve|fixItManifest|Fix It Shop/);
   }
-  assert.match(layout, /brand\.themeColor|themeColor: brand/);
-  assert.match(manifest, /brand\.appIcon192/);
-  assert.match(manifest, /brand\.appIconMaskable/);
+  assert.match(layout, /themeColor: fixItBooking.theme/);
+  assert.match(manifest, /fixItManifest/);
+  assert.match(manifest, /id: "\/"/);
   assert.equal(brand.themeColor, "#12382D");
   assert.doesNotMatch(brand.themeColor, /#12373A|#0[Bb]1[Ff]2/i);
 });

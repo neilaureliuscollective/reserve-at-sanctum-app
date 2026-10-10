@@ -52,10 +52,10 @@ export function ProviderWorld({
             {p.name} · {p.professional}
           </span>
           {b.providerId === "katie" && (
-            <Link href="/fix-it-shop">Meet Katie</Link>
+            <><Link href="/fix-it-shop">Meet Katie</Link><Link href="/chair">The Chair</Link><Link href="/account">Full appointment history</Link></>
           )}
           <Link href="/privacy">Privacy</Link>
-          <Link href="/discover">Powered by Legacy Reserve ↗</Link>
+          <Link href="/booking-technology">Powered by Aethelios Booking ↗</Link>
         </footer>
         {!preview && b.providerId === "katie" && <FixItCustomerNav />}
         {!preview && b.providerId !== "katie" && (
@@ -180,7 +180,7 @@ export function ProviderHome({
       <section className="fix-it-return">
         <h2>A simple return.</h2>
         <p>
-          Sign in with your existing Legacy Reserve account to manage these
+          Sign in with your existing account to manage these
           visits or book again.
         </p>
         <Link className="button button-outline" href={b.visits}>
@@ -229,7 +229,7 @@ export function ProviderInstall({
         </p>
         <h2>Your account</h2>
         <p>
-          Use your existing Legacy Reserve account. An installed app may need a
+          Use your existing account. An installed app may need a
           fresh sign-in. Signing out in this browser also signs out the shared
           Reserve session. Booking and appointments require an internet
           connection.

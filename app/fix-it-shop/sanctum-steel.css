@@ -34,6 +34,9 @@
 .sanctum-steel .katie-founder-mark {background:var(--steel-material);border:1px solid var(--steel-edge);box-shadow:inset 0 1px #fff3,0 24px 50px #0004}
 .sanctum-steel .katie-services {background:var(--steel-white);color:var(--steel-ink)}
 .sanctum-steel .katie-services h2,.sanctum-steel .katie-services h3,.sanctum-steel .katie-services p {color:var(--steel-ink)}
+.sanctum-steel .katie-services h2 em,.sanctum-steel .katie-service-location-heading>span,.sanctum-steel .katie-service-menu span {color:#69501e}
+.sanctum-steel .katie-services header>p:not(.katie-kicker) {color:var(--steel-ink)}
+.sanctum-steel .katie-service-preparation {background:var(--steel-white);border-color:#39464e40}
 .sanctum-steel .katie-services .katie-kicker,.sanctum-steel .katie-services .katie-link {color:#69501e}
 .sanctum-steel .katie-services a {color:var(--steel-ink)}
 .sanctum-steel .katie-service-menu>a {border-color:#39464e40;background:transparent;box-shadow:none;border-radius:0}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Compass, HeartPulse, Sparkles, Landmark, ShoppingBag, UserRound, ArrowUpRight } from "lucide-react";
 import { brand } from "@/lib/brand";
+import { ServiceChrome } from "@/components/service-chrome";
 import { customerPrimary, commandWorld } from "@/lib/experience/customer-os";
 import { PublicNavigation } from "@/components/flagship/public-navigation";
 import { MotionMode } from "./motion-mode";
@@ -33,7 +34,8 @@ export function ExperienceChrome({ children, footer, status }: {
     window.addEventListener("focusout", update);
     return () => { viewport?.removeEventListener("resize", update); window.removeEventListener("focusout", update); };
   }, []);
-  if (path.startsWith("/providers/") || path === "/fix-it-shop/app" || path.startsWith("/fix-it-shop/app/")) return <>{children}</>;
+  if (path === "/fix-it-shop" || path.startsWith("/providers/") || path === "/fix-it-shop/app" || path.startsWith("/fix-it-shop/app/")) return <>{children}</>;
+  if (["/book", "/account", "/signin", "/forgot-password", "/reset-password", "/chair", "/my-visit", "/visit", "/privacy", "/terms", "/booking-technology"].includes(path)) return <ServiceChrome>{children}</ServiceChrome>;
   if (path.startsWith("/studio")) return <>{children}{status}</>;
   if (path === "/discover") return <div data-lr-theme="mineral"><ArrivalMotion /><PublicNavigation />{children}</div>;
   if (path === "/") return <><ArrivalMotion /><MotionMode />{children}</>;

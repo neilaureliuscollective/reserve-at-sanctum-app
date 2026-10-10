@@ -341,7 +341,7 @@ export async function studioOverview(db: Queryable, actor: Actor) {
     financeConnected: false,
     location: {
       id: "eunice",
-      label: "Legacy Reserve — Eunice",
+      label: "Fix It Shop — Eunice",
     },
   };
 }

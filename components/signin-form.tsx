@@ -123,7 +123,7 @@ export function SigninForm({
       ) : (
         !preview && (
           <p>
-            Account setup is temporarily unavailable. The Legacy Reserve team is
+            Account setup is temporarily unavailable. The team is
             connecting secure sign-in and the private workspace.
           </p>
         )

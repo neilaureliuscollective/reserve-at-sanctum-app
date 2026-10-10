@@ -38,7 +38,7 @@ export default async function Schedule({
         </h1>
         <p>
           {actor.role === "owner"
-            ? "The Reserve appointment book."
+            ? "The shared appointment book, powered by Aethelios Booking."
             : "Your provider schedule and the clients you’re here to serve."}
         </p>
       </header>

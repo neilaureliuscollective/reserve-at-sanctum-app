@@ -21,7 +21,7 @@ const rooms = [
   ["/studio/vitalis", "Vitalis", Settings2],
   ["/studio/commerce", "Commerce", Settings2],
   ["/studio/operations", "Operations", Settings2],
-  ["/studio/brands", "Brands", PenLine],
+  ["/studio/brands", "Team & brands", PenLine],
 ] as const;
 export function StudioNav({
   owner,
@@ -42,7 +42,7 @@ export function StudioNav({
   return (
     <nav ref={nav} className="studio-nav" aria-label="Studio rooms">
       {owner && (
-        <Link href="/discover">
+        <Link href="/fix-it-shop/app">
           <span>View public website ↗</span>
         </Link>
       )}

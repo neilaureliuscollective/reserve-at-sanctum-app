@@ -325,7 +325,7 @@ try {
     .click();
   await page.getByRole("checkbox", { name: /Share this check-in/ }).uncheck();
   await page
-    .getByRole("button", { name: "Save to my Reserve", exact: true })
+    .getByRole("button", { name: "Save to my account", exact: true })
     .click();
   await page
     .getByRole("status")

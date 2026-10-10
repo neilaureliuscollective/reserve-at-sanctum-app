@@ -1,4 +1,5 @@
 "use client";
+import { serviceLocationLabel } from "@/lib/experience/locations";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { DateTime } from "luxon";
@@ -181,7 +182,7 @@ export function Visits({
                 ? "FIX IT SHOP · STUDIO"
                 : identity
                   ? "FIX IT SHOP · YOUR APPOINTMENTS"
-                  : "YOUR LEGACY RESERVE"}
+                  : "YOUR FIX IT SHOP VISITS"}
             </p>
             <h1>{studio ? "A considered day." : "Your next chapter."}</h1>
             <p>
@@ -380,7 +381,7 @@ export function Visits({
             >
               {locations.map((l) => (
                 <option key={l.id} value={l.id}>
-                  {l.name}
+                  {serviceLocationLabel(l.name)}
                 </option>
               ))}
             </select>

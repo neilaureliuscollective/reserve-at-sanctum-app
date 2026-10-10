@@ -1,12 +1,44 @@
-# Legacy Reserve
+# Fix It Shop × Aethelios Booking
 
-**Legacy Reserve is a digital personal ecosystem. Sanctum is its optional physical destination.**
+**Fix It Shop is Katie’s independent men’s service business. Aethelios Booking
+is the technology powering it. Legacy Reserve is a separate product brand
+within Aethelios Lifestyle.**
 
-The public master brand is **Legacy Reserve**. Reserve at Sanctum is retired from
-customer-facing identity. The house uses heritage green `#14291E`, deep green
-`#08140E`, obsidian `#070908`, and dimensional gold `#C4912F` / `#D9B568`.
-Katie's and Neil's independent visual worlds remain intact. The first operating
-location is Legacy Reserve — Eunice; the platform is built for more houses.
+Canonical repository: `neilaureliuscollective/reserve-at-sanctum-app`.
+The historical repository name, database identifiers and production domain remain
+unchanged. One application preserves the existing booking/authentication/Studio
+infrastructure. `/` opens Fix It Shop; `/enter` and the installed launch resolve
+verified team roles to Studio. No hosted activation is implied by this branch.
+
+Read [Phase One audit, route migration, architecture and release gates](docs/FIX-IT-AETHELIOS-PHASE-ONE.md).
+Katie’s approved customer identity remains independent; private operator surfaces
+carry Aethelios Booking. Existing customer accounts, full appointment history,
+The Chair and product commerce routes remain accessible. No prices, payment
+processors, database migrations or role grants change in this phase.
+
+## Run and validate
+
+Node.js 22+; `npm ci`, then use the existing `.env.example` for an isolated local
+preview. `npm run dev`. Never use real client information in synthetic mode.
+
+```sh
+npm test
+npm run typecheck
+npm run build
+CHROMIUM_PATH=/usr/bin/chromium npm run verify:fix-it-booking
+CHROMIUM_PATH=/usr/bin/chromium npm run verify:booking-pilot
+CHROMIUM_PATH=/usr/bin/chromium npm run verify:chair
+```
+
+Tests use local synthetic accounts/PGlite. They do not prove live Supabase OAuth,
+hosted Postgres concurrency, Katie’s role assignment or physical-phone installation.
+Read the Phase One release gates before inviting real customers.
+
+## Historical implementation record
+
+The following describes prior releases. Its former master-brand, physical-house,
+payment-provider and release instructions are historical and do not supersede
+the Phase One architecture or the founder’s current approval requirements.
 
 ## Digital transformation — October 8, 2026
 

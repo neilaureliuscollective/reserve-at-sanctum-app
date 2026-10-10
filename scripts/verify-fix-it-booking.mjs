@@ -69,7 +69,14 @@ try {
     await context.request.get(origin + "/manifest.webmanifest")
   ).json();
   assert.equal(master.id, "/");
-  assert.equal(master.name, "Legacy Reserve");
+  assert.equal(master.name, "Fix It Shop");
+  assert.equal(master.scope, "/");
+  assert.equal(master.start_url, "/enter");
+  assert.ok(master.icons.some(icon => icon.purpose === "maskable"));
+  await visit("/");
+  await page.waitForURL("**/fix-it-shop/app");
+  await visit("/setup?help=1");
+  await page.waitForURL("**/fix-it-shop/app/install");
   await visit(base);
   assert.equal(await page.locator(".reserve-app-shell").count(), 0);
   assert.equal(await page.locator('link[rel="manifest"]').count(), 1);
@@ -109,6 +116,19 @@ try {
     });
   }
   await page.setViewportSize({ width: 390, height: 844 });
+  await visit(base + "/book");
+  await page.locator(".service-option").first().waitFor();
+  await page.screenshot({ path: "artifacts/fix-it-booking/services-mobile.png", fullPage: true });
+  await page.locator(".service-option").first().click();
+  await page.getByRole("button", { name: "Find a time", exact: false }).click();
+  await page.locator(".date-strip").waitFor();
+  let selectionDay = DateTime.now().setZone("America/Chicago").plus({ days: 1 });
+  while (![2, 3, 4, 5, 6].includes(selectionDay.weekday)) selectionDay = selectionDay.plus({ days: 1 });
+  await page.locator('input[type="date"]').fill(selectionDay.toISODate());
+  await page.locator(".time-grid button").first().waitFor();
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "time selection mobile overflow");
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: "artifacts/fix-it-booking/selection-mobile.png", fullPage: false });
   await visit(base + "/appointments");
   await page.waitForURL("**/fix-it-shop/app/signin?**");
   assert.equal(await page.locator(".reserve-app-shell").count(), 0);
@@ -214,7 +234,14 @@ try {
     .getByRole("link", { name: /Book again/ })
     .getAttribute("href");
   assert.ok(rebook.startsWith(base + "/book?"));
+  await visit("/account");
+  await page.locator(".appointment").filter({ hasText: ref }).waitFor();
+  assert.equal(await page.locator(".reserve-app-shell").count(), 0);
+  await page.screenshot({ path: "artifacts/fix-it-booking/account-mobile.png", fullPage: true });
   await login("preview-katie");
+  await visit(base + "/launch");
+  await page.waitForURL("**/studio/today");
+  assert.equal(await page.locator(".studio-wordmark").innerText().then(t => t.includes("AETHELIOS BOOKING")), true);
   const staffRows = await (
     await context.request.get(
       origin + "/api/appointments?studio=true&date=" + next.toISODate(),
@@ -241,6 +268,7 @@ try {
     .getByText("Your visit has been cancelled.", { exact: true })
     .waitFor();
   await visit(base + "/install");
+  await page.screenshot({ path: "artifacts/fix-it-booking/install-mobile.png", fullPage: true });
   assert.equal(
     await page
       .getByRole("button", { name: "Install Fix It Shop", exact: true })

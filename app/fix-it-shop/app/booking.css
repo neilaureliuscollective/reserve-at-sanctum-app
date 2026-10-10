@@ -198,6 +198,8 @@
   background: #0b1b2a;
   border-color: var(--line);
 }
+.fix-it-app .booking-main {min-width:0;max-width:100%}
+.fix-it-app .date-strip {max-width:100%}
 .fix-it-app .workspace-toolbar,
 .fix-it-app .workspace-links,
 .fix-it-app .appointment-actions {
@@ -502,6 +504,8 @@
   background: #234360;
   box-shadow: inset 0 0 0 1px var(--gold);
 }
+.fix-it-premium .date-button.selected span,
+.fix-it-premium .date-button.selected small {color:#f4efe6}
 .fix-it-premium .fix-it-install > img {
   box-shadow: 0 14px 40px #0007;
   border: 1px solid var(--line);
@@ -563,3 +567,6 @@
     padding: 20px;
   }
 }
+
+/* Katie’s fifth destination keeps The Chair beside booking and visits. */
+.fix-it-premium .fix-it-nav { grid-template-columns:repeat(5,minmax(0,1fr)); }

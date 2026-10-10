@@ -23,13 +23,13 @@ export function StudioCommandHome({
       <header className="command-heading">
         <p className="eyebrow">
           {owner
-            ? `${data.location?.label ?? "LEGACY RESERVE — EUNICE"} · FOUNDER’S OFFICE`
+            ? "AETHELIOS BOOKING · OPERATIONS"
             : "FIX IT SHOP · YOUR WORKING WORLD"}
         </p>
         <h1>
           {owner ? (
             <>
-              Legacy <em>Command.</em>
+              Booking <em>Command.</em>
             </>
           ) : operator ? (
             <>

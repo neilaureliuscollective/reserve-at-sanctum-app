@@ -115,7 +115,7 @@ try {
     .locator(".provider-agenda")
     .getByRole("link", { name: name + " ↗", exact: true })
     .waitFor();
-  assert.equal(await page.locator(".fix-it-studio").count(), 1);
+  assert.equal(await page.locator(".aethelios-booking-studio").count(), 1);
   assert.ok(
     !(await page.locator(".provider-day").textContent()).includes(
       "Keep the finish natural.",

@@ -220,8 +220,8 @@ export function BookingFlow({
             {identity ? "Manage my visits" : "Prepare your visit"}{" "}
             <ArrowUpRight size={18} />
           </Link>
-          <Link href={identity?.base || "/home"} className="text-link">
-            {identity ? `Back to ${identity.name}` : "Back to the Reserve"}
+          <Link href={identity?.base || "/fix-it-shop/app"} className="text-link">
+            {identity ? `Back to ${identity.name}` : "Back to Fix It Shop"}
           </Link>
         </div>
         <p className="small muted">
@@ -240,13 +240,13 @@ export function BookingFlow({
       >
         {identity
           ? `← ${identity.name}`
-          : "← Choose your professional in Sanctum"}
+          : "← Choose your professional"}
       </Link>
       <div className="booking-heading">
         <p className="eyebrow">
           {identity
             ? `${identity.name} · ${identity.founder}`.toUpperCase()
-            : `LEGACY RESERVE SANCTUM — ${houseName.toUpperCase()}`}
+            : `FIX IT SHOP — ${houseName.toUpperCase()}`}
         </p>
         <h1>
           Make time <em>for yourself.</em>

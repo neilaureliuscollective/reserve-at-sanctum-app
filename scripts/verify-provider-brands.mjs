@@ -340,7 +340,7 @@ try {
   const master = await (
     await ctx.request.get(origin + "/manifest.webmanifest")
   ).json();
-  assert.equal(master.name, "Legacy Reserve");
+  assert.equal(master.name, "Fix It Shop");
   assert.equal(master.id, "/");
   assert.deepEqual(errors, []);
   console.log(

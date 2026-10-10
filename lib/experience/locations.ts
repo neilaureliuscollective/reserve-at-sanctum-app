@@ -94,7 +94,12 @@ export function getLocation(id: string | null | undefined) {
 
 export function locationDisplayName(id: string | null | undefined) {
   const location = getLocation(id);
-  return `Legacy Reserve Sanctum — ${location.short_name}`;
+  return `Fix It Shop — ${location.short_name}`;
+}
+
+/** Display historical location labels without changing stored IDs or records. */
+export function serviceLocationLabel(name: string) {
+  return name.replace(/^Legacy Reserve(?: at Sanctum)?/i, "Fix It Shop");
 }
 
 function withPresentation(rows: ReserveLocation[]) {

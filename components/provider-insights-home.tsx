@@ -1,4 +1,5 @@
 "use client";
+import { serviceLocationLabel } from "@/lib/experience/locations";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DateTime } from "luxon";
@@ -127,7 +128,7 @@ export function ProviderInsightsHome({
             <option value="">Assigned location</option>
             {data?.locations.map((l) => (
               <option key={l.id} value={l.id}>
-                {l.name}
+                {serviceLocationLabel(l.name)}
               </option>
             ))}
           </select>
@@ -157,7 +158,7 @@ export function ProviderInsightsHome({
         data && (
           <>
             <p className="insights-period">
-              {data.location.name} · {data.from} through {date(data.asOf)} ·
+              {serviceLocationLabel(data.location.name)} · {data.from} through {date(data.asOf)} ·
               Updated{" "}
               {DateTime.fromISO(data.asOf)
                 .setZone(data.location.timezone)

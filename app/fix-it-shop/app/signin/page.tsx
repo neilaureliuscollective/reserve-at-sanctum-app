@@ -31,7 +31,7 @@ export default async function Page({
         Welcome <em>back.</em>
       </h1>
       <p>
-        Use your existing Legacy Reserve account. Your appointments with Katie
+        Use your existing account. Your appointments with Katie
         stay here.
       </p>
       <SigninForm

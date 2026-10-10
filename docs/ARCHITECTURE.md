@@ -1,16 +1,20 @@
 # Architecture
 
-## Boundaries
+## Current business and software boundaries — October 10, 2026
 
-Legacy Reserve is the digital personal ecosystem; Sanctum is its optional physical destination.
-Next.js App Router hosts its public introduction, account-owned personal routines,
-Vitalis wellness pilot, membership, concierge, booking, and private staff operations.
-The public worlds use server-rendered pages and optimized local imagery. Only
-the hero, navigation, sign-in, booking, and appointment interactions are client
-components. Three.js loads after the initial content and is isolated from forms.
-Fonts are self-hosted. There is no third-party tracking or payment SDK. Private Studio has bounded Aethelios drafting as described in the Phase 2 section below.
+Fix It Shop is Katie’s independent service business and the primary customer
+entrance. Aethelios Booking, developed by Aethelios Technologies, names the
+shared scheduling and operations layer. Legacy Reserve product commerce belongs
+to the founder’s Aethelios Lifestyle business; its historical routes/records remain
+here temporarily. See [the current route matrix, permission gaps and future
+integration contracts](FIX-IT-AETHELIOS-PHASE-ONE.md).
 
-Fix It Shop is Katie’s men’s salon world. Neil’s public presence is now the founder gateway `/founder` and two distinct founder worlds: `/founder/legacy-reserve` and `/founder/aethelios-technologies`. Legacy `/gent-ascend` and `/aurelius` entrances permanently redirect to his Legacy Reserve founder world. The technology world describes the company vision and connects to the existing Reserve concierge; it introduces no independent technology backend. See [Founder worlds](FOUNDER-WORLDS-PHASE-1.md).
+Customer branding does not grant database authority or alter revenue ownership.
+Provider presentation is distinct from server-assigned staff roles. Existing
+Supabase identity, private SQL tables and transactional booking are preserved.
+This is one business-focused phase; unrelated-business tenant isolation is neither
+implemented nor claimed. Earlier sections below are retained as technical history;
+the current Phase One document overrides retired brand and launch instructions.
 
 ## Data and authority
 

@@ -101,7 +101,7 @@ export function StudioAssistant({
           <h2>Let’s shape the work.</h2>
           <p>
             {connected
-              ? "Your Reserve coworker. Think it through. Make it clear."
+              ? "Your drafting workspace. Think it through. Make it clear."
               : "Connection pending. You can keep writing and saving in Content Studio."}
           </p>
         </div>
@@ -113,7 +113,7 @@ export function StudioAssistant({
             onChange={(e) => setPrompt(e.target.value)}
             maxLength={2000}
             rows={3}
-            placeholder="Draft an introduction for Legacy Reserve…"
+            placeholder="Draft an introduction for Fix It Shop…"
           />
           {request.current.draft ? (
             <small>The current draft will be included with this request.</small>
