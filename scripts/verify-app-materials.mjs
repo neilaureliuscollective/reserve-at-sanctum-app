@@ -1,4 +1,4 @@
-import { chromium } from '@playwright/test';
+import { chromium, expect } from '@playwright/test';
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 
@@ -8,8 +8,10 @@ assert.ok(/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(base), 'Local synthetic
 await mkdir('artifacts/app-materials', { recursive: true });
 const browser = await chromium.launch({ args: ['--no-sandbox', '--disable-dev-shm-usage'] });
 const results = [];
+const selected = process.env.VERIFY_APP_IDENTITIES?.split(',');
 try {
   for (const identity of ['preview-client', 'preview-neil', 'preview-katie']) {
+    if (selected && !selected.includes(identity)) continue;
     const context = await browser.newContext();
     const page = await context.newPage();
     page.setDefaultTimeout(30000);
@@ -32,6 +34,10 @@ try {
           response = await page.goto(base + route, { waitUntil: 'domcontentloaded' });
         }
         assert.ok(response.status() < 400, `${identity} ${route}: ${response.status()}`);
+        if (identity === 'preview-neil' && route === '/home') {
+          await page.waitForURL('**/studio');
+          await page.locator('.command-heading h1').waitFor();
+        }
         await page.locator('main h1:visible, main h2:visible').first().waitFor();
         const info = await page.evaluate(() => {
           const theme = document.querySelector('.legacy-app-theme');
@@ -42,6 +48,7 @@ try {
         if (info.themed) assert.equal(info.canvas, 'rgb(245, 241, 232)', `Ivory canvas ${identity} ${route}`);
         if (info.themed && (route === '/home')) {
           const feature = page.locator(identity === 'preview-neil' ? '.command-center' : '.member-priority-stage');
+          await expect.poll(() => feature.evaluate(el => getComputedStyle(el).backgroundImage), { message: `Steel feature ${identity}` }).toContain('rgb(38, 49, 44)');
           const colors = await feature.evaluate(el => ({ background: getComputedStyle(el).backgroundImage, foreground: getComputedStyle(el.querySelector('h2')).color }));
           assert.ok(colors.background.includes('rgb(38, 49, 44)'), `Steel feature ${identity}`);
           assert.equal(colors.foreground, 'rgb(245, 241, 232)', `Ivory feature heading ${identity}`);
