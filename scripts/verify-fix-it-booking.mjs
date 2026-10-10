@@ -126,6 +126,8 @@ try {
   while (![2, 3, 4, 5, 6].includes(selectionDay.weekday)) selectionDay = selectionDay.plus({ days: 1 });
   await page.locator('input[type="date"]').fill(selectionDay.toISODate());
   await page.locator(".time-grid button").first().waitFor();
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "time selection mobile overflow");
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: "artifacts/fix-it-booking/selection-mobile.png", fullPage: false });
   await visit(base + "/appointments");
   await page.waitForURL("**/fix-it-shop/app/signin?**");

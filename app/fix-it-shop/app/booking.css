@@ -198,6 +198,8 @@
   background: #0b1b2a;
   border-color: var(--line);
 }
+.fix-it-app .booking-main {min-width:0;max-width:100%}
+.fix-it-app .date-strip {max-width:100%}
 .fix-it-app .workspace-toolbar,
 .fix-it-app .workspace-links,
 .fix-it-app .appointment-actions {
