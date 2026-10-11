@@ -222,3 +222,11 @@ Katie's focused customer app is at `/fix-it-shop/app`, sharing the existing book
 [Implementation, research, permissions and release checks](docs/PROVIDER-BRANDING-PHASE-3.md).
 Owner onboarding and scoped drafts live at `/studio/brands`. Published provider apps
 reuse the shared booking engine; Fix It Shop keeps its existing entrance.
+
+## Aethelios commerce intelligence — Phase 1
+
+The member concierge now uses Shopify-backed product cards, conservative structured
+matching, session-only follow-ups and explicit cart handoffs. Optional semantic
+interpretation shares the existing model budgets. See [implementation, official
+research, verification limitations and launch gates](docs/AETHELIOS-COMMERCE-PHASE-1.md).
+Use `npm run verify:concierge-commerce` only in an isolated synthetic local preview.
