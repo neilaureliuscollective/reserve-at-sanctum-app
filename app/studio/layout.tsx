@@ -1,4 +1,5 @@
 import { bookingBrand } from "@/lib/booking-brand";
+import { operatorIdentity } from "@/lib/booking-operator-identity";
 import Link from "next/link";
 import { AccountEntrance } from "@/components/experience/account-entrance";
 import { currentUser } from "@/lib/auth";
@@ -32,6 +33,7 @@ export default async function StudioLayout({
       </main>
     );
   const katie = actor.role !== "owner" && actor.provider_id === "katie";
+  const identity = operatorIdentity(actor);
   return (
     <div>
     <StudioAssistant connected={Boolean(process.env.OPENAI_API_KEY)}>
@@ -44,9 +46,7 @@ export default async function StudioLayout({
             <span>
               {bookingBrand.wordmark}
               <small>
-                {katie
-                  ? "FIX IT SHOP · KATIE’S STUDIO"
-                  : "FIX IT SHOP · OPERATIONS"}
+                {identity.affiliation}
               </small>
             </span>
           </Link>
@@ -55,7 +55,7 @@ export default async function StudioLayout({
               className="studio-public-entrance"
               href="/fix-it-shop/app"
             >
-              {katie ? "View your customer app" : "View public website"} ↗
+              {identity.customerLabel} ↗
             </Link>
             <span>{actor.name.split(" ·")[0]}</span>
             <small>
@@ -82,8 +82,8 @@ export default async function StudioLayout({
               ? "FIX IT SHOP · POWERED BY AETHELIOS BOOKING"
               : "AETHELIOS BOOKING"}
           </span>
-          <Link href="/fix-it-shop/app/install">Phone setup</Link>
-          <Link href="/fix-it-shop/app">View public website</Link>
+          <Link href="/fix-it-shop/app/install">Fix It Shop phone setup</Link>
+          <Link href="/fix-it-shop/app">View Fix It Shop</Link>
           <Link href="/account">Account</Link>
         </footer>
       </div>
