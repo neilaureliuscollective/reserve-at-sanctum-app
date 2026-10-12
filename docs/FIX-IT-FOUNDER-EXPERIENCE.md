@@ -54,3 +54,21 @@ Local restricted executor: TypeScript passes, production compilation succeeds;
 Next's TypeScript subprocess fails to parse showConfig. 32/35 test files pass;
 three subprocess/network tests and Chromium/server sockets are sandbox-blocked.
 These failures require independent unrestricted checks, not disabling validation.
+
+## Independent validation — October 12, 2026
+
+An isolated Vercel sandbox on the exact changed source passed all 179 tests,
+TypeScript and the full production build. GitHub quality CI also passed the first
+review commit; Vercel preview completed READY. Rendered screenshots were inspected
+for the founder opening, homepage feature, book composition and corrected steel
+chapter. The creative review corrected a global heading-color collision and an
+awkward book-title line break before release.
+
+Axe WCAG A/AA audits at 320, 390 and 1440px reported zero violations after the fix.
+Unthrottled sandbox observations were LCP 144–208ms and CLS 0–0.067; these are local
+lab observations, not real-user or mobile-network performance claims. The browser
+harness covers six widths, links, booking handoff, keyboard, reduced/manual motion,
+canonical/schema and no-JavaScript chapter availability. No real booking was made.
+For the production build default canonical, set
+`FOUNDER_CANONICAL_ORIGIN=https://www.reserveatsanctum.app` when running locally.
+There is no lint command or lint configuration in the repository.
