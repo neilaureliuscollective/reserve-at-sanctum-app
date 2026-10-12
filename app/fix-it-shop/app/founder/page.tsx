@@ -8,6 +8,7 @@ import { FounderMotion } from "@/components/founder-motion";
 import styles from "@/components/founder-story.module.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(f.seo.canonicalOrigin),
   title: f.seo.title, description: f.seo.description,
   alternates: { canonical: f.storyHref },
   openGraph: { title: f.seo.title, description: f.seo.description, url: f.storyHref, type: "profile", firstName: "Katie", lastName: "Guidry", images: [{ url: f.portrait?.src ?? f.seo.socialImage, alt: f.portrait?.alt ?? "Fix It Shop’s approved emblem" }] },
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 };
 export default function FounderPage() {
   const [intro, name, standard, service, invitation] = f.chapters;
-  const origin = process.env.APP_ORIGIN || "https://www.reserveatsanctum.app";
+  const origin = f.seo.canonicalOrigin;
   const schema = { "@context": "https://schema.org", "@type": "ProfilePage", url: new URL(f.storyHref, origin).href, mainEntity: { "@type": "Person", name: f.name, jobTitle: f.title, description: f.biography, ...(f.portrait ? { image: new URL(f.portrait.src, origin).href } : {}), worksFor: { "@type": "Organization", name: "Fix It Shop", url: new URL("/fix-it-shop/app", origin).href } } };
   return <main id="main" className={`${styles.world} ${styles.story}`}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}/>
