@@ -72,3 +72,24 @@ canonical/schema and no-JavaScript chapter availability. No real booking was mad
 For the production build default canonical, set
 `FOUNDER_CANONICAL_ORIGIN=https://www.reserveatsanctum.app` when running locally.
 There is no lint command or lint configuration in the repository.
+
+## Approved founder portrait — October 12, 2026
+
+The user supplied `2258.jpg` and explicitly authorized live publication. The
+optimized WebP preserves the supplied composition; no likeness or background was
+regenerated. The image is described as an approved founder portrait, without
+asserting that its setting documents the finished physical shop.
+
+Placement: homepage founder feature and founder-story opening, plus social sharing
+and Person structured data. These are the relevant introductions to Katie, rather
+than decorative repetition throughout booking/account screens. Text occupies a
+separate column or mobile block. The crop centers Katie at 36% horizontally,
+protecting her face in the existing taller portrait composition. The story image
+is preloaded; the below-fold homepage feature stays lazy-loaded. The family-book
+photo reservation remains unchanged.
+
+Research: Nielsen Norman Group's Photos as Web Content
+(https://www.nngroup.com/articles/photos-as-web-content/) supports purposeful
+person imagery; web.dev's responsive-image guidance
+(https://web.dev/learn/design/responsive-images) supports responsive sizing,
+reserved space and preserved image proportions.
