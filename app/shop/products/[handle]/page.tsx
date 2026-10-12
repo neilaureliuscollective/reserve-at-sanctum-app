@@ -37,6 +37,7 @@ export default async function Product({
         "Review current options and Shopify pricing before purchasing."
       }
     >
+      <p><Link href={`/aethelios?product=${encodeURIComponent(product.handle)}`} className="button button-gold">Ask Aethelios about this product ↗</Link></p>
       <div className="collection-product-detail">
         {product.image && (
           <Image

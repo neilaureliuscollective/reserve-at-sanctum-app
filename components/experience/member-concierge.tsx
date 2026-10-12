@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ConciergeProductCard, trackConcierge } from "./concierge-product-card";
 import type { ConciergeReply } from "@/lib/member-concierge";
 type Turn = {
   id: number;
@@ -9,7 +10,7 @@ type Turn = {
   reply?: ConciergeReply;
   error?: string;
 };
-export function MemberConcierge() {
+export function MemberConcierge({ productHandle }: { productHandle?: string }) {
   const [turns, setTurns] = useState<Turn[]>([]),
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false);
@@ -17,6 +18,7 @@ export function MemberConcierge() {
     [service, setService] = useState(""),
     [date, setDate] = useState("");
   const path = usePathname();
+  useEffect(() => { trackConcierge("concierge_opened"); }, []);
   useEffect(() => {
     if (path !== "/aethelios") {
       setTurns([]);
@@ -56,13 +58,17 @@ export function MemberConcierge() {
       const res = await fetch("/api/aethelios/member", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, ...fields }),
+        body: JSON.stringify({ message: text, context: {
+          messages: turns.filter(t=>t.reply).slice(-3).map(t=>t.question.slice(0,500)),
+          ...(productHandle ? { productHandle } : {}),
+        }, ...fields }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Please try again.");
       setTurns((t) =>
         t.map((turn) => (turn.id === id ? { ...turn, reply: data } : turn)),
       );
+      if (data.booking?.date) setDate(data.booking.date);
       if (data.booking?.locations.length) {
         setLocation(data.booking.locations[0].id);
         setService(
@@ -96,21 +102,22 @@ export function MemberConcierge() {
           AETHELIOS · YOUR LEGACY RESERVE CONCIERGE
         </p>
         <h1>A considered next step.</h1>
-        <p>Your membership. Your routine. Your time at Sanctum.</p>
+        <p>Find the right essentials. Explore your membership. Plan your time.</p>
         <small>
           This conversation stays in this page session and is cleared when you
           leave or reload. Saved routines are managed separately in Pathways.
-          When general AI conversation is enabled, your message and saved
-          routine may be sent to the AI provider. Avoid sharing sensitive health
+          When AI conversation or shopping interpretation is enabled, your
+          messages or saved routine may be sent to the AI provider. Avoid sharing sensitive health
           information.
         </small>
       </header>
       <div className="concierge-suggestions" aria-label="Conversation starters">
         {[
+          ...(productHandle ? ["Tell me about this product"] : []),
           "What benefits do I have?",
           "Find an appointment",
           "Help me build a workout routine",
-          "Explore grooming products",
+          "My beard is dry. What would help?",
         ].map((s) => (
           <button key={s} disabled={busy} onClick={() => void send(s)}>
             {s} ↗
@@ -130,15 +137,16 @@ export function MemberConcierge() {
             </p>
             {t.reply ? (
               <div className="concierge-answer">
-                <span>
-                  Aethelios ·{" "}
-                  {t.reply.mode === "verified"
-                    ? "Verified tools"
-                    : t.reply.mode === "education"
-                      ? "Education"
-                      : "General guidance"}
-                </span>
+<span>Aethelios</span>
                 <p>{t.reply.text}</p>
+                {t.reply.shopping && <>
+                  <div className="concierge-product-grid" aria-label="Shopify product recommendations">
+                    {t.reply.shopping.products.map(r=><ConciergeProductCard key={r.product.id} recommendation={r} checkout={t.reply!.shopping!.checkout} />)}
+                  </div>
+                  {t.reply.shopping.suggestions.length > 0 && <div className="concierge-suggestions" aria-label={t.reply.shopping.question || "Shopping preferences"}>
+                    {t.reply.shopping.suggestions.map(q=><button key={q} disabled={busy} onClick={()=>void send(q)}>{q} ↗</button>)}
+                  </div>}
+                </>}
                 {t.reply.routine && (
                   <ol>
                     {t.reply.routine.steps.map((s) => (

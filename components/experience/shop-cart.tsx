@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { PublicCart } from "@/lib/shopify/cart";
-export function ShopCart() {
+export function ShopCart({source}:{source?:"aethelios"}) {
  const [cart,setCart]=useState<PublicCart|null>(null),[busy,setBusy]=useState(true),[notice,setNotice]=useState("");
  async function refresh() {
   setBusy(true);setNotice("");
@@ -27,7 +27,7 @@ export function ShopCart() {
  {[...new Set([1,2,3,4,5,line.quantity])].sort((a,b)=>a-b).map(n=><option key={n} value={n}>{n}</option>)}</select></label>
  <button className="text-link" disabled={busy} onClick={()=>void change({action:"remove",lineId:line.id})}>Remove {line.merchandise.product.title}</button>
  </article>)}
- {cart?.totalQuantity ? <><p className="collection-price">Estimated total: {money(cart.cost.totalAmount)}</p><p>Shipping, taxes and final pricing are confirmed at checkout.</p><button className="button button-gold" disabled={busy||cart.lines.nodes.some(l=>!l.merchandise.availableForSale)} onClick={()=>void change({action:"checkout"})}>Continue to Shopify checkout ↗</button></> : !busy && !notice && <p>Your cart is empty.</p>}
+ {cart?.totalQuantity ? <><p className="collection-price">Estimated total: {money(cart.cost.totalAmount)}</p><p>Shipping, taxes and final pricing are confirmed at checkout.</p><button className="button button-gold" disabled={busy||cart.lines.nodes.some(l=>!l.merchandise.availableForSale)} onClick={()=>void change({action:"checkout",...(source?{source}:{})})}>Continue to Shopify checkout ↗</button></> : !busy && !notice && <p>Your cart is empty.</p>}
  <p><Link href="/shop" className="text-link">Continue shopping ↗</Link></p>
  </section>;
 }
