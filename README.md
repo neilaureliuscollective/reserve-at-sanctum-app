@@ -11,6 +11,9 @@ infrastructure. `/` opens Fix It Shop; `/enter` and the installed launch resolve
 verified team roles to Studio. No hosted activation is implied by this branch.
 
 Read [Phase One audit, route migration, architecture and release gates](docs/FIX-IT-AETHELIOS-PHASE-ONE.md).
+Read [the current platform audit, proposed domains/PWA identities, business authority
+design and minimal roadmap](docs/AETHELIOS-BOOKING-PLATFORM-FOUNDATION.md) before
+extending provider isolation into independent business operations.
 Katie’s approved customer identity remains independent; private operator surfaces
 carry Aethelios Booking. Existing customer accounts, full appointment history,
 The Chair and product commerce routes remain accessible. No prices, payment

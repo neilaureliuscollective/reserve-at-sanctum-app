@@ -16,6 +16,11 @@ This is one business-focused phase; unrelated-business tenant isolation is neith
 implemented nor claimed. Earlier sections below are retained as technical history;
 the current Phase One document overrides retired brand and launch instructions.
 
+The [October 12 platform foundation](AETHELIOS-BOOKING-PLATFORM-FOUNDATION.md)
+records the verified main/Vercel baseline, future origin strategy and business
+membership boundaries. These are proposed contracts; no business schema or
+independent operator PWA is activated by that document.
+
 ## Data and authority
 
 `lib/db.ts` exposes parameterized queries and transactions through two adapters:
