@@ -47,7 +47,7 @@ export async function providerDay(
       date: now.toISODate()!,
       visits: [],
       hasMore: false,
-      counts: { confirmed: 0, completed: 0, cancelled: 0 },
+      counts: { confirmed: 0, completed: 0, cancelled: 0, arrived: 0, no_show: 0 },
       services: [],
       service: null,
       slots: [],
@@ -69,8 +69,10 @@ export async function providerDay(
       starts_at: Date | string;
       ends_at: Date | string;
       status: string;
+      revision: number;
+      arrived_at: Date | string | null;
     }>(
-      `SELECT a.id,a.client_id,a.crm_client_id,COALESCE(c.name,u.name,'Client') AS client_name,s.name AS service_name,a.starts_at,a.ends_at,a.status FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id LEFT JOIN reserve_clients c ON c.id=a.crm_client_id LEFT JOIN reserve_users u ON u.id=a.client_id WHERE a.provider_id=$1 AND COALESCE(a.location_id,$5)=$2 AND a.starts_at >= $3 AND a.starts_at < $4 ORDER BY a.starts_at,a.id LIMIT 101`,
+      `SELECT a.id,a.client_id,a.crm_client_id,COALESCE(c.name,u.name,'Client') AS client_name,s.name AS service_name,a.starts_at,a.ends_at,a.status,a.revision,a.arrived_at FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id LEFT JOIN reserve_clients c ON c.id=a.crm_client_id LEFT JOIN reserve_users u ON u.id=a.client_id WHERE a.provider_id=$1 AND COALESCE(a.location_id,$5)=$2 AND a.starts_at >= $3 AND a.starts_at < $4 ORDER BY a.starts_at,a.id LIMIT 101`,
       [
         provider,
         location.id,
@@ -117,6 +119,7 @@ export async function providerDay(
       ...v,
       starts_at: new Date(v.starts_at).toISOString(),
       ends_at: new Date(v.ends_at).toISOString(),
+      arrived_at: v.arrived_at ? new Date(v.arrived_at).toISOString() : null,
       clientHref:
         hasCapability(actor, "clients.read") && (v.crm_client_id || v.client_id)
           ? `/studio/clients/${encodeURIComponent(v.crm_client_id || v.client_id!)}`
@@ -124,6 +127,8 @@ export async function providerDay(
     })),
     hasMore: rows.length > 100,
     counts: {
+      arrived: list.filter(v => v.status === "confirmed" && v.arrived_at).length,
+      no_show: list.filter(v => v.status === "no_show").length,
       confirmed: list.filter((v) => v.status === "confirmed").length,
       completed: list.filter((v) => v.status === "completed").length,
       cancelled: list.filter((v) => v.status === "cancelled").length,

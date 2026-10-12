@@ -1,6 +1,6 @@
 # Aethelios Booking production readiness — October 12, 2026
 
-This is a reviewable reliability increment, not production acceptance. Fix It Shop
+This is the PR #65 baseline inventory. The [next pilot-operations increment](AETHELIOS-BOOKING-PILOT-OPERATIONS.md) completes attendance/receipt code and records newer hosted evidence; its commissioning gates supersede the missing-code items below. Neither increment constitutes production acceptance. Fix It Shop
 is Katie Guidry’s independent business; Aethelios Booking is its operating
 technology from Aethelios Technologies. GlossGenius remains the operational fallback.
 No public activation, hosted data writes, real communications, customer migration,

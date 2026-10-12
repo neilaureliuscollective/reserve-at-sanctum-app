@@ -4,7 +4,7 @@ import { database } from "@/lib/db";
 import { BookingError } from "@/lib/booking";
 import { failure, mutationOrigin } from "@/lib/http";
 import { readChairJson } from "@/lib/chair-http";
-import { bookingMessages, confirmManualMessage } from "@/lib/booking-pilot";
+import { bookingMessages, confirmManualMessage, bookingDeliveryHistory } from "@/lib/booking-pilot";
 export const dynamic = "force-dynamic";
 async function actor() {
   const a = await currentUser();
@@ -13,8 +13,10 @@ async function actor() {
 }
 export async function GET() {
   try {
+    const user = await actor(), db = await database();
+    const [messages, delivery] = await Promise.all([bookingMessages(db,user),bookingDeliveryHistory(db,user)]);
     return Response.json(
-      { messages: await bookingMessages(await database(), await actor()) },
+      { messages, delivery },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (e) {

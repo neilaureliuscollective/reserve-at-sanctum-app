@@ -30,7 +30,9 @@ export function ProviderDayHome({
     [location, setLocation] = useState(""),
     [service, setService] = useState(""),
     [error, setError] = useState(""),
-    [loading, setLoading] = useState(true);
+    [loading, setLoading] = useState(true),
+    [saving, setSaving] = useState(""),
+    [actionError, setActionError] = useState("");
   const sequence = useRef(0),
     abort = useRef<AbortController | null>(null);
   const load = useCallback(async () => {
@@ -83,6 +85,22 @@ export function ProviderDayHome({
       window.removeEventListener("booking-updated", refresh);
     };
   }, [load]);
+  async function attendance(v: NonNullable<ProviderDay["visits"]>[number], action: "arrive" | "undo_arrival" | "no_show" | "undo_no_show") {
+    if (saving) return;
+    if (action === "no_show" && !window.confirm(`Mark ${v.client_name} as a no-show? This does not cancel other visits or charge a fee.`)) return;
+    setSaving(v.id); setActionError("");
+    try {
+      const response = await fetch(`/api/appointments/${v.id}`, {
+        method: "PATCH", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({action,revision:v.revision}), signal: AbortSignal.timeout(12000),
+      });
+      const result = await response.json();
+      if (!response.ok) throw Error(result.error || "The visit could not update. Refresh and try again.");
+      window.dispatchEvent(new Event("booking-updated"));
+    } catch (e) {
+      setActionError(["TimeoutError","TypeError"].includes((e as Error).name) ? "The visit may have updated. Refresh before trying again." : (e as Error).message); await load();
+    } finally { setSaving(""); }
+  }
   const zone = data?.location?.timezone || "America/Chicago",
     selected = date || data?.date || DateTime.now().setZone(zone).toISODate()!;
   const schedule =
@@ -170,6 +188,8 @@ export function ProviderDayHome({
           Refresh
         </button>
       </div>
+      {actionError && <p role="alert">{actionError}</p>}
+      {saving && <p role="status">Saving attendance…</p>}
       {error ? (
         <section className="provider-day-empty" role="alert">
           <h2>Your day couldn’t load.</h2>
@@ -178,7 +198,7 @@ export function ProviderDayHome({
             Try again
           </button>
         </section>
-      ) : loading ? (
+      ) : loading && !data ? (
         <p role="status" className="provider-day-empty">
           Opening your working day…
         </p>
@@ -194,6 +214,8 @@ export function ProviderDayHome({
                 <span>Completed</span>
                 <strong>{data.counts.completed}</strong>
               </div>
+              <div><span>Arrived</span><strong>{data.counts.arrived}</strong></div>
+              <div><span>No-shows</span><strong>{data.counts.no_show}</strong></div>
               <div>
                 <span>Cancelled</span>
                 <strong>{data.counts.cancelled}</strong>
@@ -207,9 +229,7 @@ export function ProviderDayHome({
             )}
             <section className="provider-next">
               <p className="eyebrow">
-                {next && new Date(next.starts_at).getTime() <= Date.now()
-                  ? "IN THE CHAIR"
-                  : "NEXT ON THIS DAY"}
+                {next?.arrived_at ? "CLIENT ARRIVED" : next && new Date(next.starts_at).getTime() <= Date.now() ? "SCHEDULED NOW" : "NEXT ON THIS DAY"}
               </p>
               <h2>{next?.client_name || "A little room to breathe."}</h2>
               <p>
@@ -257,7 +277,15 @@ export function ProviderDayHome({
                           <strong>{v.client_name}</strong>
                         )}
                         <p>{v.service_name}</p>
-                        <span className={`status ${v.status}`}>{v.status}</span>
+                        <span className={`status ${v.status}`}>{v.status === "no_show" ? "No-show" : v.arrived_at && v.status === "confirmed" ? "Arrived" : v.status}</span>
+                        {canManage && (
+                          <div className="appointment-actions">
+                            {v.status === "confirmed" && !v.arrived_at && selected === DateTime.now().setZone(zone).toISODate() && new Date(v.ends_at).getTime() > Date.now() && <button className="text-link" disabled={!!saving} onClick={() => void attendance(v,"arrive")}>Mark arrived</button>}
+                            {v.status === "confirmed" && v.arrived_at && <button className="text-link" disabled={!!saving} onClick={() => void attendance(v,"undo_arrival")}>Undo arrival</button>}
+                            {v.status === "confirmed" && !v.arrived_at && new Date(v.ends_at).getTime() <= Date.now() && <button className="text-link" disabled={!!saving} onClick={() => void attendance(v,"no_show")}>Mark no-show</button>}
+                            {v.status === "no_show" && <button className="text-link" disabled={!!saving} onClick={() => void attendance(v,"undo_no_show")}>Undo no-show</button>}
+                          </div>
+                        )}
                       </div>
                       <Link
                         href={schedule + "#schedule"}

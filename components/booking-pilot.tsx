@@ -787,6 +787,7 @@ export function PilotMessages() {
         client_name: string;
         kind: string;
         state: string;
+        delivery_status: string | null;
         timezone: string;
         phone: string;
         email: string;
@@ -794,10 +795,12 @@ export function PilotMessages() {
         starts_at: string;
       }[]
     >([]),
-    [error, setError] = useState("");
+    [error, setError] = useState(""),
+    [delivery,setDelivery] = useState<{id:string;client_name:string;kind:string;delivery_status:string}[]>([]);
   async function load() {
     const d = await request("/api/studio/pilot/messages");
     setRows(d.messages);
+    setDelivery(d.delivery || []);
   }
   useEffect(() => {
     void load().catch((e) => setError(e.message));
@@ -828,6 +831,7 @@ export function PilotMessages() {
               .toFormat("LLL d, h:mm a")}{" "}
             · {r.phone || r.email || "Use existing client contact"}
           </span>
+          {r.delivery_status && <span>Email {r.delivery_status === "accepted" ? "accepted · delivery unconfirmed" : r.delivery_status}</span>}
           {r.state === "failed" && <span>Email pending · follow up if needed</span>}
           <button
             className="button"
@@ -848,6 +852,11 @@ export function PilotMessages() {
           </button>
         </article>
       ))}
+      {!!delivery.length && <details>
+        <summary>Recent email updates</summary>
+        <p>Accepted means the email provider received it. Delivered means the provider reported delivery; it does not prove the client read it.</p>
+        {delivery.map(d => <p key={d.id}>{d.client_name} · {d.kind} · {d.delivery_status === "accepted" ? "Delivery unconfirmed" : d.delivery_status}</p>)}
+      </details>}
     </details>
   );
 }
