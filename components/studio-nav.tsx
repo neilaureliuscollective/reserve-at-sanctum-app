@@ -84,7 +84,9 @@ export function StudioNav({
                 ? "Calendar"
                 : !owner && href === "/studio/operations"
                   ? "Availability"
-                  : label}
+                  : owner && href === "/studio"
+                    ? "Founder"
+                    : label}
             </span>
           </Link>
         ))}

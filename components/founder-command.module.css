@@ -1,0 +1,254 @@
+.world {
+  --gold:#C4912F;
+  --muted:#b4c4bb;
+  color:#f1f2e9;
+  max-width:1180px;
+  margin:auto;
+  padding:clamp(14px,3vw,40px);
+  background:radial-gradient(ellipse at top right,#173c2b55,transparent 55%),#080e0c;
+  border-radius:22px;
+  overflow-wrap:anywhere
+}
+.heading {
+  padding:28px 0 34px;
+  border-bottom:1px solid #65857444
+}
+.eyebrow {
+  font-size:.72rem!important;
+  letter-spacing:.16em;
+  color:#dcc087!important;
+  font-weight:600
+}
+.heading h1 {
+  font-family:var(--font-cormorant),Georgia,serif;
+  font-size:clamp(2.8rem,6vw,5.7rem);
+  line-height:1.06;
+  margin:18px 0
+}
+.heading h1 em {
+  color:#dfb65d;
+  font-weight:400
+}
+.world p {
+  font-size:1rem;
+  line-height:1.7;
+  color:var(--muted);
+  max-width:850px
+}
+.sections,.links {
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  margin-top:24px
+}
+.world a {
+  color:#ecd196;
+  text-underline-offset:5px
+}
+.sections a {
+  padding:8px 0
+}
+.focus,.panel {
+  padding:32px 0;
+  border-bottom:1px solid #65857444;
+  scroll-margin-top:30px
+}
+.focus h2,.panel h2 {
+  font-size:clamp(1.5rem,3vw,2.3rem);
+  line-height:1.2;
+  margin:10px 0 16px
+}
+.signals,.facts {
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px 40px;
+  padding:12px 0
+}
+.signals div,.facts div {
+  min-width:140px
+}
+.signals dt,.facts dt,.configuration dt {
+  color:var(--muted);
+  font-size:.84rem;
+  line-height:1.5
+}
+.signals dd,.facts dd {
+  margin:4px 0 0;
+  font-size:1.75rem;
+  color:#f3dfae
+}
+.signals .small {
+  font-size:1rem
+}
+.configuration {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px 30px;
+  margin:24px 0
+}
+.configuration div {
+  border-left:2px solid #426b52;
+  padding-left:14px
+}
+.configuration dd {
+  margin:6px 0;
+  line-height:1.5
+}
+.provider {
+  padding:24px 0;
+  border-top:1px solid #65857444
+}
+.row {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap
+}
+.row h3 {
+  font-size:1.45rem;
+  margin:0
+}
+.badge {
+  color:#f3dfae;
+  border:1px solid #a7864255;
+  border-radius:30px;
+  padding:6px 12px;
+  font-size:.8rem
+}
+.provider li {
+  line-height:1.7;
+  color:#d8c395
+}
+.empty,.notice {
+  padding:18px 20px;
+  background:#18392855;
+  border-left:2px solid #C4912F
+}
+.world details {
+  padding:18px 0;
+  border-top:1px solid #65857444
+}
+.world summary {
+  cursor:pointer;
+  color:#ecd196;
+  line-height:1.5;
+  padding:5px 0
+}
+.history {
+  padding:0;
+  list-style:none
+}
+.history li {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:14px 0;
+  border-bottom:1px solid #65857433
+}
+.history span,.history small,.meta {
+  color:var(--muted)
+}
+.templates {
+  margin-top:28px;
+  padding-top:24px;
+  border-top:1px solid #65857444
+}
+.templates h3 {
+  font-size:1.4rem
+}
+.controls {
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap
+}
+.controls label {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  font-size:.85rem;
+  flex:1;
+  min-width:min(100%,200px)
+}
+.controls select {
+  width:100%;
+  background:#11251c;
+  color:#f1f2e9;
+  border:1px solid #6e8a76;
+  border-radius:8px;
+  padding:12px;
+  min-height:44px
+}
+.preview {
+  margin:24px 0;
+  background:#101c15;
+  border:1px solid #54746266;
+  border-radius:14px;
+  padding:20px
+}
+.preview pre {
+  font:inherit;
+  line-height:1.75;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  color:#e1e6dc
+}
+.checklist {
+  padding-left:24px
+}
+.checklist li {
+  padding:12px 0 18px 6px;
+  line-height:1.7
+}
+.checklist strong,.checklist span {
+  display:block
+}
+.checklist span {
+  color:var(--muted);
+  margin-top:7px
+}
+.world :is(a,button,select,summary):focus-visible {
+  outline:2px solid #f3dfae;
+  outline-offset:5px
+}
+.world button {
+  min-height:44px
+}
+.world :global(.button) {
+  white-space:normal;
+  text-align:center
+}
+.world :global(.button-gold) {
+  color:#10130e
+}
+.meta {
+  font-size:.8rem!important
+}
+@media(max-width:540px) {
+  .configuration {
+    grid-template-columns:1fr
+  }
+  .signals,.facts {
+    gap:20px
+  }
+  .signals div,.facts div {
+    flex:1;
+    min-width:120px
+  }
+  .world {
+    border-radius:12px
+  }
+  .preview {
+    padding:14px
+  }
+  .heading {
+    padding-top:10px
+  }
+  .focus,.panel {
+    padding:26px 0
+  }
+  .links {
+    flex-direction:column;
+    gap:18px
+  }
+}

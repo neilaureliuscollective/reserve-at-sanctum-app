@@ -6,8 +6,7 @@ import { consentFiltered, type ChairProfile, type ChairCard } from "./chair";
 import { z } from "zod";
 
 export const canReadChairStudio = (actor: Actor) =>
-  actor.role === "owner" ||
-  (hasCapability(actor, "chair.read") && actor.provider_id === "katie");
+  hasCapability(actor, "chair.read") && actor.provider_id === "katie";
 const selection = `p.*, COALESCE(c.life,'') AS life, COALESCE(c.load,'') AS load, c.expires_at AS life_expires_at`;
 const contextJoin = `LEFT JOIN reserve_chair_context c ON c.user_id=p.user_id AND c.expires_at>now() AND p.share_with_katie=true`;
 async function purgeExpired(db: Database) {

@@ -177,3 +177,15 @@ Public `/discover`, `/discover/membership`, and `/discover/aethelios` are sessio
 and actor/revision events. Owner publication exposes only a reviewed snapshot; staff
 can edit only their assigned brand. URLs, manifests and phone icons reuse the shared
 booking/auth engine and provider boundaries. New providers and locations start closed.
+
+## Founder Command — October 12, 2026 review
+
+[Founder operations increment](AETHELIOS-FOUNDER-COMMAND.md) replaces the platform
+owner's home with safe persisted diagnostics and shared transactional-template
+previews. The legacy `owner` identifier denotes platform administration, not
+independent business ownership. It no longer grants Chair read/note capabilities;
+Katie-provider operational access still requires explicit client sharing. Older
+owner/Chair scope descriptions above are superseded by this restriction.
+The console creates no tenancy or migration. Business memberships, verified
+ownership, revocation and cross-business relational scopes must be implemented
+and tested together before a second independent business can activate.

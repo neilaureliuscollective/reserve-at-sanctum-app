@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <section className="studio-section" role="status">
-      <p className="eyebrow">LEGACY RESERVE STUDIO</p>
+      <p className="eyebrow">AETHELIOS BOOKING · OPERATIONS</p>
       <h2>Bringing your work into focus…</h2>
       <p>
         If this room does not open, request a fresh page. Your existing records

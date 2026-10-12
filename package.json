@@ -35,7 +35,8 @@
     "verify:sculptures": "node scripts/verify-signature-sculptures.mjs",
     "verify:provider-brands": "node scripts/verify-provider-brands.mjs",
     "verify:booking-readiness": "node --env-file-if-exists=.env.local --import tsx scripts/check-booking-readiness.ts",
-    "verify:booking-operations": "node scripts/verify-booking-operations.mjs"
+    "verify:booking-operations": "node scripts/verify-booking-operations.mjs",
+    "verify:founder-command": "node scripts/verify-founder-command.mjs"
   },
   "dependencies": {
     "@aethelios/concierge-core": "file:vendor/aethelios-concierge-core",

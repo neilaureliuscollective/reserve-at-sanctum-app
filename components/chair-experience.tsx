@@ -416,8 +416,7 @@ export function ChairExperience({
                     }}
                   />
                   <span>
-                    Share this check-in with Katie and the authorized platform
-                    administrator.
+                    Share this check-in with Katie and her authorized service team.
                   </span>
                 </label>
                 {draft.life && draft.share_with_katie && (
@@ -444,7 +443,7 @@ export function ChairExperience({
             {saved && (
               <p className="chair-small">
                 {draft.share_with_katie
-                  ? "Shared with Katie and the authorized platform administrator."
+                  ? "Shared with Katie and her authorized service team."
                   : "Private to your account. Katie cannot see this check-in."}{" "}
                 {draft.life
                   ? "Life context expires 7 days after saving."
