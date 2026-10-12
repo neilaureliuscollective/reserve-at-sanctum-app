@@ -13,6 +13,7 @@ import { sanctumDirectory } from "@/lib/experience/sanctum-directory";
 import { katieVisitPresentation } from "@/lib/experience/katie-world";
 import { fixItBooking as brand } from "@/lib/fix-it-booking";
 import "./home.css";
+import { FounderFeature } from "@/components/founder-feature";
 
 export const dynamic = "force-dynamic";
 export default async function Page() {
@@ -35,10 +36,7 @@ export default async function Page() {
       <div className="fis-entrance__bottom"><a href="#katie">Step inside <ArrowDown size={15} /></a><small>{profile.cover ? "FIX IT SHOP" : "ILLUSTRATIVE SETTING · NOT THE FINISHED LOCATION"}</small></div>
     </section>
     {actor && <div className="fis-account">{actor.provider_id === "katie" && hasCapability(actor, "studio.read") ? <section className="fix-it-next"><div><p className="eyebrow">YOUR PRIVATE FIX IT SHOP STUDIO</p><h2>Your working day, ready.</h2><p>Open your calendar, client history, and availability.</p></div><Link className="button button-gold" href="/studio/today">Open my Studio ↗</Link></section> : <FixItNextVisit />}</div>}
-    <section id="katie" className="fis-founder fis-wrap" aria-labelledby="fis-founder-title">
-      <div className="fis-founder__identity"><div className="fis-founder__halo" aria-hidden="true" /><Image src={profile.logo ? brandAsset(profile.logo) : "/images/approved/fix-it-shop.webp"} alt="Fix It Shop’s blue and gold crest" width={460} height={460} sizes="(max-width:700px) 70vw, 35vw" unoptimized={Boolean(profile.logo)} /><span>KATIE GUIDRY / FOUNDER & OWNER</span></div>
-      <div className="fis-founder__copy"><p className="fis-kicker">01 / THE PERSON BEHIND THE CHAIR</p><h2 id="fis-founder-title">Her name.<br /><em>Her standard.</em></h2><p className="fis-lead">{profile.bio}</p><p>Fix It Shop is Katie Guidry’s independent men’s salon brand. Her approach starts with listening: the way you wear your hair, the way you spend your days, and what you want from your time in the chair.</p><p>Personal attention gives the details a purpose. Shape. Texture. A finish that feels like you.</p><div className="fis-founder__signoff"><span>Katie Guidry</span><small>FOUNDER OF FIX IT SHOP</small></div></div>
-    </section>
+    <FounderFeature />
     <section className="fis-standard fis-wrap" aria-label="Katie’s approach"><p className="fis-kicker">THE CARE BEHIND THE VISIT</p><div>{[
       ["01", "Listen first.", "A direction begins with you. What you like, what you would change, and how your hair fits into your life."],
       ["02", "Work with care.", "Attention to shape, texture and the details that make a look feel considered."],

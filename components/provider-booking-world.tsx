@@ -52,7 +52,7 @@ export function ProviderWorld({
             {p.name} · {p.professional}
           </span>
           {b.providerId === "katie" && (
-            <><Link href="/fix-it-shop">Meet Katie</Link><Link href="/chair">The Chair</Link><Link href="/account">Full appointment history</Link></>
+            <><Link href="/fix-it-shop/app/founder">Katie’s story</Link><Link href="/chair">The Chair</Link><Link href="/account">Full appointment history</Link></>
           )}
           <Link href="/privacy">Privacy</Link>
           <Link href="/booking-technology">Powered by Aethelios Booking ↗</Link>
