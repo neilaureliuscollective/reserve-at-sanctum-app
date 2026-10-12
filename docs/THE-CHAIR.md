@@ -20,7 +20,7 @@ and studio. No new authentication service or artificial personality analysis.
    expires after seven days, and is never reused as today's emotional state.
    Provide edit, revoke sharing, and delete. Staff notes stay in a separate table.
 5. Add a compact protected Chair mode to Katie's existing studio. Enforce
-   client ownership and Katie-provider/owner scope on every server operation.
+   client ownership and Katie-provider scope on every server operation.
 6. Verify existing booking/Mirror, Chair branching, saving, ownership, role
    isolation, expiry, deletion, responsive widths, motion, console, and build.
 
@@ -75,7 +75,7 @@ explicitly includes the migrations for Vercel. No new production dependency.
   can use `DELETE FROM reserve_chair_context WHERE expires_at <= now()` if the
   deployment needs physical cleanup even while the app has no traffic.
 - `reserve_chair_notes`: grooming-only staff notes, independent from client
-  answers. Katie-provider staff and the Reserve owner can access shared check-ins.
+  answers. Katie-provider staff can access shared check-ins. Platform founder/owner authority alone cannot read or write private Chair information.
   Clients never receive note fields. Revoking sharing hides check-ins and notes;
   deleting Chair data cascades to the notes and optional life context.
 - `reserve_chair_funnel`: daily event counts only, without user/session IDs,

@@ -44,7 +44,8 @@ export function capabilityScope(
   capability: Capability,
 ): CapabilityOverride["scope"] | null {
   if (!capabilities.includes(capability) || !isTeam(actor)) return null;
-  if (actor.role === "owner") return "company";
+  // Platform administration alone never grants private Chair access.
+  if (actor.role === "owner") return capability.startsWith("chair.") ? null : "company";
   if (
     [
       "workspace.approve",

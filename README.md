@@ -230,3 +230,15 @@ Katie's focused customer app is at `/fix-it-shop/app`, sharing the existing book
 [Implementation, research, permissions and release checks](docs/PROVIDER-BRANDING-PHASE-3.md).
 Owner onboarding and scoped drafts live at `/studio/brands`. Published provider apps
 reuse the shared booking engine; Fix It Shop keeps its existing entrance.
+
+## Founder operations — review increment
+
+[Founder Command and controlled commissioning](docs/AETHELIOS-FOUNDER-COMMAND.md)
+adds a private evidence-based `/studio` home for the existing platform administrator,
+provider readiness, booking communications health and shared synthetic template
+previews. It reuses existing approvals and delivery infrastructure. Platform
+administration no longer grants private Chair access; Katie's scoped sharing remains.
+Independent business memberships and public multi-business activation are still
+unimplemented. `npm run verify:founder-command` runs only in an isolated synthetic
+environment. [Commercial decision research](docs/AETHELIOS-BOOKING-COMMERCIAL-READINESS.md)
+is documentation only; no billing, emails or production activation is enabled.

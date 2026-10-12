@@ -1,5 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
-import { DateTime } from "luxon";
+import { renderBookingEmail } from "./booking-email-template";
 import { reconcileReceipt, reconcilePendingReceipts } from "./booking-receipts";
 import type { Database, Row } from "./db";
 
@@ -25,18 +25,11 @@ type Message = Row & {
 };
 export type Sender = (message: Message, config: DeliveryConfig) => Promise<string | void>;
 export async function sendBookingEmail(message: Message, config: DeliveryConfig, transport: typeof fetch = fetch) {
-  const when = DateTime.fromJSDate(new Date(message.starts_at)).setZone(message.timezone);
-  if (!when.isValid) throw Error("Invalid appointment timezone.");
-  const title = ({ booked: "Appointment confirmed", reschedule: "Appointment rescheduled", cancel: "Appointment cancelled", reminder: "Appointment reminder" } as Record<string, string>)[message.kind];
-  const text = [title, `Fix It Shop · ${message.provider_name}`, message.service_name,
-    when.toFormat("cccc, LLLL d, yyyy 'at' h:mm a ZZZZ"),
-    `${Math.round((new Date(message.ends_at).getTime() - new Date(message.starts_at).getTime()) / 60000)} minutes · $${(message.price / 100).toFixed(2)}`,
-    message.address, message.client_id ? `View your appointments: ${config.origin}/fix-it-shop/app/appointments` : `For changes, contact ${message.provider_name} using your usual contact method.`,
-    "Powered by Aethelios Booking"].filter(Boolean).join("\n");
+  const content = renderBookingEmail({...message, accountLinked: Boolean(message.client_id)}, config.origin);
   const response = await transport("https://api.resend.com/emails", {
     method: "POST", signal: AbortSignal.timeout(5000),
     headers: { Authorization: `Bearer ${config.key}`, "Content-Type": "application/json", "Idempotency-Key": `booking/${message.id}` },
-    body: JSON.stringify({ from: config.from, to: [message.email], subject: `Fix It Shop — ${title}`, text }),
+    body: JSON.stringify({ from: config.from, to: [message.email], ...content }),
   });
   // Never log provider bodies (which can contain contacts or credentials).
   if (!response.ok) throw Error("Email provider rejected the request.");
