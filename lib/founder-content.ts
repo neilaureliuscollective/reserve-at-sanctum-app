@@ -9,7 +9,7 @@ export const founderContent = {
   service: "United States Marine Corps Veteran",
   location: "Eunice, Louisiana",
   biography: "Straightforward, warm, and attentive to the details. Katie brings technical care and a personal connection to an experience made for men.",
-  portrait: null as FounderAsset | null, // /images/founder/katie-guidry.webp; position: "50% 30%"
+  portrait: { src: "/images/founder/katie-guidry.webp", alt: "Katie Guidry in a blue outfit beside the Fix It Shop emblem in her approved founder portrait", position: "36% 30%" } as FounderAsset | null,
   alternativePortraits: [] as FounderAsset[],
   bookPhotograph: null as FounderAsset | null, // /images/founder/katies-family-book.webp — actual family copy only
   militaryPhotograph: null as FounderAsset | null,
@@ -24,5 +24,5 @@ export const founderContent = {
     { id: "service", label: "Service", headline: "Service. Standards. Purpose.", paragraphs: ["Katie is a United States Marine Corps veteran. Her service is a meaningful part of who she is, alongside her role as the founder and owner of Fix It Shop.", "At Fix It Shop, respect, precision, and pride in the work have a place in every visit. It is a personal standard: give people your attention, and give the work your care."] },
     { id: "invitation", label: "Your invitation", headline: "Come as you are. Leave with confidence.", paragraphs: ["Bring an idea, a question, or simply yourself. There is room for conversation, a little humor, or a quiet moment. Katie’s purpose is a better grooming experience for the man in her chair."] },
   ],
-  seo: { canonicalOrigin: "https://www.reserveatsanctum.app", title: "Katie Guidry — The Story Behind Fix It Shop", description: "Meet Katie Guidry, Fix It Shop founder and United States Marine Corps veteran in Eunice, Louisiana. Discover the family book and the care behind the name.", socialImage: "/images/approved/fix-it-shop.webp" },
+  seo: { canonicalOrigin: "https://www.reserveatsanctum.app", title: "Katie Guidry — The Story Behind Fix It Shop", description: "Meet Katie Guidry, Fix It Shop founder and United States Marine Corps veteran in Eunice, Louisiana. Discover the family book and the care behind the name.", socialImage: "/images/founder/katie-guidry.webp" },
 };
