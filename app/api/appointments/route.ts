@@ -3,6 +3,8 @@ import { currentUser } from "@/lib/auth";
 import { database } from "@/lib/db";
 import { book, visits, BookingError } from "@/lib/booking";
 import { mutationOrigin, failure } from "@/lib/http";
+import { bookingNotification } from "@/lib/booking-recovery";
+import { katieNativeBooking } from "@/lib/katie-launch";
 export const dynamic = "force-dynamic";
 export async function GET(req: Request) {
   try {
@@ -54,8 +56,13 @@ export async function POST(req: Request) {
         requestKey: z.uuid(),
       })
       .parse(await req.json());
+    const db = await database();
+    const [provider] = await db.query<{provider_id:string}>("SELECT provider_id FROM reserve_services WHERE id=$1", [input.serviceId]);
+    if (provider?.provider_id === "katie" && !katieNativeBooking())
+      throw new BookingError("Native booking with Katie is not open. Use her existing GlossGenius calendar.", 503);
+    const appointment = await book(db, actor, input);
     return Response.json(
-      { appointment: await book(await database(), actor, input) },
+      { appointment, notification: await bookingNotification(db, appointment.id) },
       { status: 201 },
     );
   } catch (e) {

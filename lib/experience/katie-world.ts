@@ -1,9 +1,10 @@
+import { katieExternalBooking } from "../katie-launch";
 import type { SanctumDestination } from "./sanctum-directory";
 import { primaryLocation } from "./locations";
 
 /** Public presentation only. Booking still validates publication and availability. */
-export function katieVisitPresentation(destinations: SanctumDestination[], unavailable = false) {
-  const published = destinations.filter(destination => destination.enabled && destination.booking_enabled)
+export function katieVisitPresentation(destinations: SanctumDestination[], unavailable = false, nativeCalendar = true) {
+  const published = destinations.filter(destination => nativeCalendar && destination.enabled && destination.booking_enabled)
     .flatMap(destination => {
       const professional = destination.professionals.find(person => person.id === "katie");
       return professional?.services.length ? [{ destination, services: professional.services }] : [];
@@ -21,8 +22,8 @@ export function katieVisitPresentation(destinations: SanctumDestination[], unava
     locationLabel: unavailable ? "Location details could not refresh" : `${fallback?.city ?? primaryLocation.city}, ${fallback?.region ?? primaryLocation.region}`,
     primary: state === "open"
       ? { label: "Book with Katie", href: `/fix-it-shop/app/book?location=${encodeURIComponent(published[0].destination.id)}&provider=katie` }
-      : { label: state === "unavailable" ? "Check visit details" : "Explore Katie’s services", href: "#services" },
-    status: state === "open" ? "Katie’s service menu is published. Choose a service to find a time."
+      : nativeCalendar ? { label: "Check booking status", href: "/fix-it-shop/app/book" } : { label: "Book on GlossGenius", href: katieExternalBooking },
+    status: !nativeCalendar ? "GlossGenius is Katie’s current booking calendar. Native booking here is not open." : state === "open" ? "Katie’s service menu is published. Choose a service to find a time."
       : state === "unavailable" ? "Booking details could not refresh. Check again before planning your visit."
         : "Booking is in preparation. Katie’s published services and appointment times will appear here when available.",
   };

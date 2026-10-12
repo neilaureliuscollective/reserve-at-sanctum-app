@@ -1,0 +1,169 @@
+{
+  "candidate": "codex/katie-first-booking-readiness",
+  "base": "fed033356b87b5213056275a423cee3739cb2667",
+  "evidenceScope": "Isolated local synthetic PGlite and Chromium; no hosted database, inbox, real Auth or physical phone acceptance.",
+  "precommitChecks": {
+    "npm test": "passed: 227 tests, 0 failures",
+    "npm run typecheck": "passed",
+    "npm run build": "passed",
+    "browser": [
+      "verify:fix-it-booking",
+      "verify:booking-pilot",
+      "verify:chair",
+      "verify:provider-brands",
+      "verify:founder-command",
+      "verify:booking-operations",
+      "verify:operations",
+      "verify:katie-launch",
+      "verify:katie-closed"
+    ]
+  },
+  "finalCommitEvidence": "The draft PR records the exact final head and a fresh full test/typecheck/build and applicable browser run on that commit. Local run logs are artifacts/katie-final-verification.json and artifacts/katie-final/.",
+  "launchJourneys": {
+    "checks": [
+      "Lost committed response, double click, reload and same-key retry produce one real synthetic appointment; no draft in storage",
+      "Pre-commit interruption retires old key, rejects late POST, and permits reviewed changed intent",
+      "Reload during an interrupted POST recovers exact 70-minute committed appointment",
+      "Offline submission becomes bounded unknown state, blocks another submission, and safely recovers on reconnect",
+      "Expired session and switched account never lose or settle another account's pointer; original account can resume",
+      "12-second recovery timeout leaves explicit uncertainty and a usable retry, never indefinite loading or false failure",
+      "Closed native catalog shows exact GlossGenius destination and no parallel native menu (synthetic response fixture)",
+      "Native calendar outage provides recovery/contact guidance without reopening competing GlossGenius availability (synthetic response fixture)",
+      "Public previews, private routes and robots remain excluded from indexing; no preview canonical",
+      "Actual synthetic sessions preserve founder Chair denial and Katie's scoped access; delivery worker remains closed"
+    ],
+    "audits": [
+      {
+        "page": "book",
+        "width": 320,
+        "violations": 0
+      },
+      {
+        "page": "book",
+        "width": 390,
+        "violations": 0
+      },
+      {
+        "page": "book",
+        "width": 540,
+        "violations": 0
+      },
+      {
+        "page": "book",
+        "width": 768,
+        "violations": 0
+      },
+      {
+        "page": "book",
+        "width": 884,
+        "violations": 0
+      },
+      {
+        "page": "book",
+        "width": 1440,
+        "violations": 0
+      },
+      {
+        "page": "closed-fallback",
+        "width": 320,
+        "violations": 0
+      },
+      {
+        "page": "closed-fallback",
+        "width": 390,
+        "violations": 0
+      },
+      {
+        "page": "closed-fallback",
+        "width": 540,
+        "violations": 0
+      },
+      {
+        "page": "closed-fallback",
+        "width": 768,
+        "violations": 0
+      },
+      {
+        "page": "closed-fallback",
+        "width": 884,
+        "violations": 0
+      },
+      {
+        "page": "closed-fallback",
+        "width": 1440,
+        "violations": 0
+      }
+    ],
+    "evidence": "isolated synthetic PGlite/browser; fallback response mocked; no hosted, inbox or physical device acceptance"
+  },
+  "actualUnconfiguredFallback": {
+    "state": "unconfigured",
+    "fixtures": "none",
+    "nativeBooking": false,
+    "email": false,
+    "scheduler": false,
+    "audits": [
+      {
+        "width": 320,
+        "violations": 0
+      },
+      {
+        "width": 390,
+        "violations": 0
+      },
+      {
+        "width": 540,
+        "violations": 0
+      },
+      {
+        "width": 768,
+        "violations": 0
+      },
+      {
+        "width": 884,
+        "violations": 0
+      },
+      {
+        "width": 1440,
+        "violations": 0
+      }
+    ]
+  },
+  "otherAccessibility": {
+    "founderCommand": {
+      "audits": 6,
+      "violations": 0
+    },
+    "bookingOperations": {
+      "audits": 4,
+      "violations": 0,
+      "limitation": "Attendance API responses are mocked in this browser script. Lifecycle persistence is covered separately by domain and booking-pilot tests."
+    }
+  },
+  "screenshots": [
+    "katie-saved-mobile.png",
+    "katie-uncertain-mobile.png",
+    "katie-closed-mobile.png",
+    "katie-chair-privacy-mobile.png"
+  ],
+  "resolvedPreflightFailures": [
+    "npm cache was read-only; dependency install succeeded using /tmp/katie-npm-cache.",
+    "First operations browser attempt encountered a transient local dev route 404; retry reached a stale heading assertion. Updated the assertion to the existing Founder Command heading; the operations journey passed.",
+    "verify:browser targeted historical arrival/room UI and failed its root heading expectation after the existing Fix It Shop routing. Redirected this alias to the current verify:fix-it-booking journey; the historical script remains unchanged.",
+    "Visual inspection found inherited flex layout compressing fallback copy. Scoped booking-status layout was corrected and verified with readable-width, overflow and accessibility assertions."
+  ],
+  "blocked": [
+    "Library Markdown materialization: library file transfer failed: download failed, including the one supported local retry; no readable bytes.",
+    "Runtime Vercel/database mapping and schema baseline are not proven. Connected RAS was not queried or written.",
+    "Katie scoped Auth account, actual catalog/hours/buffers/address/policies and calendar reconciliation need verification and approval."
+  ],
+  "notRun": [
+    "Hosted migrations, backup or restore; real Postgres multi-session acceptance",
+    "Live Supabase Auth and Katie account acceptance",
+    "Real email sender/inbox/webhook and scheduler acceptance",
+    "Physical iPhone/Android/Fold installation and phone acceptance",
+    "Production booking/indexing activation, deploy, promotion or dependency merge"
+  ],
+  "syntheticRestore": "PGlite dump restored into a separate isolated database; exact appointment snapshots and retired-request rejection verified.",
+  "controls": "No hosted controls changed; default Katie calendar is GlossGenius; email and scheduler stayed disabled; indexing stays noindex/disallow-all."
+}

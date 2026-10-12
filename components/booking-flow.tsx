@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { DateTime } from "luxon";
 import {
@@ -12,6 +12,10 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import type { BookingIdentity } from "@/lib/fix-it-booking";
+import { useBookingSubmission } from "./use-booking-submission";
+import { bookingNotificationCopy } from "@/lib/booking-confirmation";
+import { fixItBooking } from "@/lib/fix-it-booking";
+import { FixItBookingFallback } from "./fix-it-booking-fallback";
 import type { Service, Actor } from "@/lib/booking";
 
 const money = (c: number) =>
@@ -24,11 +28,14 @@ type Slot = { start: string; label: string };
 export function BookingFlow({
   preview = false,
   identity,
+  nativeKatieCalendar = false,
 }: {
   preview?: boolean;
   identity?: BookingIdentity;
+  nativeKatieCalendar?: boolean;
 }) {
   const bookPath = identity?.book || "/book";
+  const [nativeCalendar, setNativeCalendar] = useState(nativeKatieCalendar);
   const [zone, setZone] = useState("America/Chicago");
   const [house, setHouse] = useState("eunice");
   const [provider, setProvider] = useState("");
@@ -44,11 +51,14 @@ export function BookingFlow({
     [error, setError] = useState(""),
     [note, setNote] = useState(""),
     [actor, setActor] = useState<Actor | null>(null),
-    [busy, setBusy] = useState(false),
-    [confirmed, setConfirmed] = useState("");
-  const requestKey = useRef("");
+    [catalogUnavailable, setCatalogUnavailable] = useState(false),
+    [availabilityUnavailable, setAvailabilityUnavailable] = useState(false);
+  const submission = useBookingSubmission(actor, !loading);
+  const busy = submission.phase !== "ready";
+  const saved = submission.outcome?.appointment;
+  const confirmed = saved?.id;
+  const katieJourney = identity?.providerId === fixItBooking.providerId || provider === "katie" || (!identity && !provider);
   useEffect(() => {
-    requestKey.current = crypto.randomUUID();
     const u = new URL(location.href);
     const locationId = u.searchParams.get("location") || "eunice";
     setHouse(locationId);
@@ -78,6 +88,8 @@ export function BookingFlow({
           (row: Service) => !providerId || row.provider_id === providerId,
         );
         setServices(visible);
+        if (typeof c.katieNativeCalendar === "boolean") setNativeCalendar(c.katieNativeCalendar);
+        setCatalogUnavailable(Boolean(c.error || c.setupRequired || !visible.length));
         const requested = visible.find(
           (row) => row.id === u.searchParams.get("service"),
         );
@@ -98,8 +110,10 @@ export function BookingFlow({
           );
       })
       .catch((e) => {
-        if (active)
+        if (active) {
+          setCatalogUnavailable(true);
           setError("Unable to load the service menu. Refresh to try again.");
+        }
       })
       .finally(() => {
         clearTimeout(timeout);
@@ -117,6 +131,7 @@ export function BookingFlow({
     let active = true;
     const timeout = setTimeout(() => controller.abort(), 12000);
     setLoadingSlots(true);
+    setAvailabilityUnavailable(false);
     setSlots([]);
     setError("");
     fetch(
@@ -127,10 +142,10 @@ export function BookingFlow({
       .then((d) => {
         if (!active) return;
         setSlots(d.slots || []);
-        if (d.error) setError(d.error);
+        if (d.error) { setError(d.error); setAvailabilityUnavailable(true); }
       })
       .catch((e) => {
-        if (active) setError("Unable to load availability. Try another date.");
+        if (active) { setError("Unable to load availability. Try another date."); setAvailabilityUnavailable(true); }
       })
       .finally(() => {
         clearTimeout(timeout);
@@ -150,28 +165,8 @@ export function BookingFlow({
   );
   async function reserve() {
     if (!service || !start) return;
-    setBusy(true);
     setError("");
-    try {
-      const r = await fetch("/api/appointments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          locationId: house,
-          serviceId: selected,
-          start,
-          note,
-          requestKey: requestKey.current,
-        }),
-      });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error);
-      setConfirmed(d.appointment.id);
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      setBusy(false);
-    }
+    await submission.submit({locationId:house, serviceId:selected, start, note});
   }
   const returnPath = `${bookPath}?location=${encodeURIComponent(house)}&provider=${encodeURIComponent(provider)}&service=${selected}&date=${date}&start=${encodeURIComponent(start)}`;
   if (confirmed)
@@ -181,25 +176,26 @@ export function BookingFlow({
           <Check size={32} />
         </div>
         <p className="eyebrow">
-          {preview ? "PREVIEW VISIT RESERVED" : "APPOINTMENT RESERVED"}
+          {saved?.status === "confirmed" ? (preview ? "PREVIEW VISIT RESERVED" : "APPOINTMENT RESERVED") : "SAVED VISIT · " + saved?.status.toUpperCase()}
         </p>
         <h1>
-          Time set aside.
-          <br />
-          <em>Just for you.</em>
+          {saved?.status === "confirmed" ? <>Time set aside.<br /><em>Just for you.</em></> : <>Your saved visit.<br /><em>Current status: {saved?.status}.</em></>}
         </h1>
         <p>
-          {service?.name} with {service?.provider_name}
+          {saved?.service_name || service?.name} with {saved?.provider_name || service?.provider_name}
         </p>
+        <p className="muted">{Math.round((new Date(saved!.ends_at).getTime() - new Date(saved!.starts_at).getTime()) / 60000)} minutes · {money(saved!.price)}</p>
         <p className="success-time">
-          {DateTime.fromISO(start)
-            .setZone(zone)
-            .toFormat("cccc, LLLL d · h:mm a")}{" "}
-          CT
+          {DateTime.fromISO(String(saved?.starts_at || start))
+            .setZone(saved?.timezone || zone)
+            .toFormat("cccc, LLLL d · h:mm a ZZZZ")}
         </p>
         <p className="muted">
           {preview ? "Your test appointment" : "Your appointment"} is saved. No
-          payment was taken and no notification was sent.
+          payment was taken online. {identity?.providerId === "katie" || service?.provider_id === "katie" ? "Payment is arranged separately after your visit." : "Payment arrangements are separate."}
+        </p>
+        <p className="muted" data-notification-status={submission.outcome?.notification}>
+          {bookingNotificationCopy(submission.outcome?.notification)}
         </p>
         <div className="hero-actions">
           <a
@@ -227,6 +223,9 @@ export function BookingFlow({
         <p className="small muted">
           Reference {confirmed.slice(0, 8).toUpperCase()}
         </p>
+        <p>
+          <button className="text-link" onClick={() => { submission.newBooking(); setSelected(""); setStart(""); setNote(""); setStep(1); }}>Book another visit</button>
+        </p>
       </section>
     );
   return (
@@ -253,8 +252,16 @@ export function BookingFlow({
         </h1>
         <p>A few thoughtful details. A visit that feels like yours.</p>
       </div>
-      <div className="booking-layout">
-        <div className="booking-main">
+      {submission.phase !== "ready" && !loading && <section className="inline-note booking-status-panel" aria-label="Booking request recovery">
+        <p role="status">{submission.phase === "checking" ? "Checking your booking request…" : submission.phase === "signin" ? "Your session expired. Sign in to check whether your appointment was saved before booking again." : submission.phase === "different-account" ? "A booking request belongs to a different signed-in account. Return to that account to check it before booking again." : "Your booking outcome is still unknown."}</p>
+        {submission.phase !== "checking" && <button className="button button-outline" onClick={() => void submission.recover()}>Check booking request</button>}
+        {["signin", "different-account"].includes(submission.phase) && <a className="button button-gold" href={`${identity?.signin || "/signin"}?next=${encodeURIComponent(bookPath)}`}>Sign in to recover booking</a>}
+        <Link className="text-link" href={identity?.visits || "/account"}>Check my appointments</Link>
+      </section>}
+      {submission.message && <p role="status" className="inline-note">{submission.message}</p>}
+      {!loading && (catalogUnavailable || availabilityUnavailable) && submission.phase === "ready" && (katieJourney ? <FixItBookingFallback nativeCalendar={nativeCalendar} /> : <p role="status" className="inline-note">Booking is temporarily unavailable. Check your appointments or contact your professional before trying again.</p>)}
+      {(!catalogUnavailable || busy) && <div className="booking-layout">
+        <fieldset disabled={busy} className="booking-main" style={{border:0, padding:0, margin:0, minWidth:0}}>
           <ol className="steps" aria-label="Booking progress">
             {["Your service", "Your time", "Your visit"].map((label, i) => (
               <li
@@ -297,7 +304,6 @@ export function BookingFlow({
                         onClick={() => {
                           setSelected(s.id);
                           setStart("");
-                          requestKey.current = crypto.randomUUID();
                         }}
                         key={s.id}
                       >
@@ -380,7 +386,6 @@ export function BookingFlow({
                           className={start === s.start ? "selected" : ""}
                           onClick={() => {
                             setStart(s.start);
-                            requestKey.current = crypto.randomUUID();
                           }}
                         >
                           {s.label}
@@ -448,7 +453,6 @@ export function BookingFlow({
                         value={note}
                         onChange={(e) => {
                           setNote(e.target.value);
-                          requestKey.current = crypto.randomUUID();
                         }}
                         maxLength={600}
                         placeholder="Your preferred finish, a style you have in mind, or how you wear your hair…"
@@ -464,12 +468,13 @@ export function BookingFlow({
                         No deposit or payment will be collected online.
                       </div>
                       <button
+                        data-booking-submit
                         className="button button-gold next-button"
                         disabled={busy || !service || !start}
                         onClick={reserve}
                       >
                         {busy
-                          ? "Saving your visit…"
+                          ? submission.phase === "checking" ? "Checking your visit…" : "Resolve your booking request above"
                           : preview
                             ? "Reserve preview visit"
                             : "Confirm appointment"}{" "}
@@ -501,7 +506,7 @@ export function BookingFlow({
               {error}
             </p>
           )}
-        </div>
+        </fieldset>
         <aside className="booking-summary">
           <p className="eyebrow">
             {identity
@@ -546,7 +551,7 @@ export function BookingFlow({
             {houseName.toUpperCase()}
           </p>
         </aside>
-      </div>
+      </div>}
     </>
   );
 }

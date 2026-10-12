@@ -112,7 +112,9 @@ export async function service(db: Queryable, id: string, lock = false) {
 }
 export function units(start: DateTime, count: number) {
   return Array.from(
-    { length: count / 15 },
+    // Starts remain on the existing quarter-hour grid. Claim the final partial
+    // unit too; the appointment's exact end/buffer snapshots are never rounded.
+    { length: Math.ceil(count / 15) },
     (_, i) =>
       start
         .plus({ minutes: i * 15 })
@@ -256,6 +258,9 @@ export async function book(
 ) {
   try {
     return await db.transaction(async (tx) => {
+      // Recovery uses this same account lock to retire a request before a
+      // delayed submission can commit. Never infer failure from a missing row.
+      await tx.query("SELECT id FROM reserve_users WHERE id=$1 FOR UPDATE", [actor.id]);
       const [prior] = await tx.query<AccountAppointment>(
         "SELECT * FROM reserve_appointments WHERE client_id=$1 AND request_key=$2 AND source='online'",
         [actor.id, input.requestKey],
@@ -274,6 +279,9 @@ export async function book(
           );
         return prior;
       }
+      const retired = await tx.query("SELECT request_key FROM reserve_booking_request_fences WHERE client_id=$1 AND request_key=$2", [actor.id, input.requestKey]);
+      if (retired.length)
+        throw new BookingError("This request was safely closed. Review the details and start a new booking.", 409);
       const s = await serviceLocation(
           tx,
           await service(tx, input.serviceId, true),

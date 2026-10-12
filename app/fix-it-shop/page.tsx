@@ -7,13 +7,18 @@ import { KatieBookingShortcut } from "@/components/katie-booking-shortcut";
 import { database, configured } from "@/lib/db";
 import { memberRead } from "@/lib/experience/member";
 import { sanctumDirectory } from "@/lib/experience/sanctum-directory";
+import { katieNativeBooking } from "@/lib/katie-launch";
+import { FixItBookingFallback } from "@/components/fix-it-booking-fallback";
 import { katieVisitPresentation } from "@/lib/experience/katie-world";
 import "./katie-cinema.css";
 import "./sanctum-steel.css";
 
+import { fixItSearchMetadata } from "@/lib/fix-it-search";
+
 export const dynamic = "force-dynamic";
 
 export const metadata = {
+  ...fixItSearchMetadata("/fix-it-shop"),
   title: "Katie Guidry · Founder & Owner of Fix It Shop",
   description: "Meet Katie Guidry, founder and owner of Fix It Shop. Explore her approach to men’s hair, published services, and a visit shaped around you.",
 };
@@ -26,7 +31,7 @@ const chapters = [
 
 export default async function Page() {
   const directory = configured() ? await memberRead(async () => sanctumDirectory(await database()), 1800) : { state: "ready" as const, data: [] };
-  const visit = katieVisitPresentation(directory.data ?? [], directory.state === "unavailable");
+  const visit = katieVisitPresentation(directory.data ?? [], directory.state === "unavailable", katieNativeBooking());
   const money = (cents: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(cents / 100);
   return <main id="main" className="brand-page katie-cinema sanctum-steel">
     <nav className="steel-public-nav" aria-label="Fix It Shop destinations"><Link href="/fix-it-shop/app">FIX IT SHOP</Link><div><a href="#services">Services</a><Link href="/fix-it-shop/app/appointments">My visits</Link><Link className="button button-gold" href="/fix-it-shop/app/book">Find a time <ArrowUpRight size={16}/></Link></div></nav>
@@ -47,6 +52,7 @@ export default async function Page() {
       <span className="katie-hero__rail" aria-hidden="true">SCROLL TO ENTER / 01</span>
     </section>
 
+    {visit.state !== "open" && <FixItBookingFallback nativeCalendar={katieNativeBooking()} />}
     <KatieDirector />
     <KatieBookingShortcut {...visit.primary}/>
     <section id="founder" className="katie-founder" aria-labelledby="katie-founder-title"><div className="katie-founder-mark"><Image src="/images/approved/fix-it-shop.webp" alt="Fix It Shop’s gold and sapphire crest" width={480} height={480} sizes="(max-width: 700px) 65vw, 30vw" unoptimized/><span>AN INDEPENDENT BRAND / A PERSONAL STANDARD</span></div><div><p className="katie-kicker">01 / THE WOMAN BEHIND FIX IT SHOP</p><h2 id="katie-founder-title">Her business.<br/><em>Her way of caring.</em></h2><p>Fix It Shop is Katie Guidry’s independent men’s salon brand. As its founder and owner, she sets the standard for the experience: listen to the person, give the details their attention, and make the time feel personal.</p><div className="katie-founder-principles"><span>Listen first.</span><span>Work with care.</span><span>Leave ready.</span></div><Link href="/fix-it-shop/app/founder" className="katie-link">Discover her story <ArrowUpRight size={16}/></Link></div></section>

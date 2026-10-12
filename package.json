@@ -36,7 +36,9 @@
     "verify:provider-brands": "node scripts/verify-provider-brands.mjs",
     "verify:booking-readiness": "node --env-file-if-exists=.env.local --import tsx scripts/check-booking-readiness.ts",
     "verify:booking-operations": "node scripts/verify-booking-operations.mjs",
-    "verify:founder-command": "node scripts/verify-founder-command.mjs"
+    "verify:founder-command": "node scripts/verify-founder-command.mjs",
+    "verify:katie-launch": "node scripts/verify-katie-launch.mjs",
+    "verify:katie-closed": "node scripts/verify-katie-closed.mjs"
   },
   "dependencies": {
     "@aethelios/concierge-core": "file:vendor/aethelios-concierge-core",

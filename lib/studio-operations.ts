@@ -45,8 +45,8 @@ export const operationInput = z
         service_id: z.string().min(1).max(100).optional(),
         name: z.string().trim().min(1).max(90),
         description: z.string().trim().min(1).max(600),
-        minutes: z.number().int().min(15).max(480).multipleOf(15),
-        buffer: z.number().int().min(0).max(120).multipleOf(15),
+        minutes: z.number().int().min(5).max(480).multipleOf(5),
+        buffer: z.number().int().min(0).max(120).multipleOf(5),
         price: z.number().int().min(0).max(1000000),
       })
       .strict(),

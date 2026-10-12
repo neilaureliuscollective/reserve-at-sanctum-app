@@ -2,8 +2,8 @@ import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import assert from "node:assert/strict";
-if (process.env.DATABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL)
-  throw Error("Local synthetic verification only.");
+import { assertSyntheticVerification } from "./synthetic-verification.mjs";
+assertSyntheticVerification();
 const origin = "http://localhost:3002",
   server = spawn(
     process.execPath,
@@ -20,6 +20,8 @@ const origin = "http://localhost:3002",
         ...process.env,
         RESERVE_DEV_PREVIEW: "true",
         APP_ORIGIN: origin,
+        RESERVE_BOOKING_EMAIL_ENABLED: "false",
+        RESERVE_BOOKING_CRON_ENABLED: "false",
         NEXT_TELEMETRY_DISABLED: "1",
         NODE_OPTIONS:
           "--require=" + process.cwd() + "/scripts/local-browser-offline.cjs",
@@ -87,8 +89,8 @@ try {
   await page
     .getByLabel("Service description")
     .fill("Synthetic local service proposal.");
-  await page.getByLabel("Duration (minutes)").fill("45");
-  await page.getByLabel("Buffer (minutes)").fill("15");
+  await page.getByLabel("Duration (minutes)").fill("25");
+  await page.getByLabel("Buffer (minutes)").fill("5");
   await page.getByLabel("Service price (USD)").fill("55.50");
   await page
     .getByRole("button", { name: "Save proposal", exact: true })
@@ -112,7 +114,7 @@ try {
   await login("preview-neil");
   await page.goto(origin + "/studio");
   await page
-    .getByText("operating changes for review", { exact: false })
+    .getByRole("heading", { name: "Founder Command." })
     .waitFor();
   await page.goto(origin + "/studio/operations?view=review");
   const article = page
@@ -128,6 +130,8 @@ try {
     (await overview()).services.find((s) => s.name === title).price,
     5550,
   );
+  assert.equal((await overview()).services.find((s) => s.name === title).minutes, 25);
+  assert.equal((await overview()).services.find((s) => s.name === title).buffer, 5);
   await page.getByRole("button", { name: "Availability", exact: true }).click();
   await page
     .getByRole("button", { name: "Propose provider setup", exact: true })
