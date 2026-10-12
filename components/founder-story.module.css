@@ -6,3 +6,4 @@
 @media(prefers-reduced-motion:reduce){.world *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 .world[data-still="true"] *{animation:none!important;transition:none!important}
 .world .biography{font-size:13px;line-height:1.8;max-width:365px;margin-top:20px}.closingPortrait{width:min(420px,90%);height:480px;margin:0 auto 55px}.sectionHeading h2{max-width:1000px;margin-inline:auto}
+.world .standard h2,.world .standard h3{color:#122639}
