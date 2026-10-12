@@ -122,7 +122,7 @@ export function Visits({
   }, [editing, date, studio]);
   async function update(
     a: Appointment,
-    action: "cancel" | "reschedule" | "complete",
+    action: "cancel" | "reschedule" | "complete" | "arrive" | "undo_arrival" | "no_show" | "undo_no_show",
   ) {
     setBusy(true);
     setError("");
@@ -130,6 +130,7 @@ export function Visits({
     try {
       const r = await fetch(`/api/appointments/${a.id}`, {
         method: "PATCH",
+        signal: AbortSignal.timeout(12000),
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action,
@@ -144,14 +145,17 @@ export function Visits({
       await load();
       window.dispatchEvent(new Event("booking-updated"));
       setMessage(
-        action === "complete"
+        ["arrive", "undo_arrival", "no_show", "undo_no_show"].includes(action)
+          ? "Attendance updated. No payment or fee was recorded."
+          : action === "complete"
           ? "Visit marked complete. No payment has been recorded."
           : action === "cancel"
             ? "Your visit has been cancelled."
             : "Your visit has been rescheduled.",
       );
     } catch (e) {
-      setError((e as Error).message);
+      setError(["TimeoutError","TypeError"].includes((e as Error).name) ? "The visit may have updated. Refresh before trying again." : (e as Error).message);
+      await load();
     } finally {
       setBusy(false);
     }
@@ -483,7 +487,7 @@ export function Visits({
                     )}
                     <div className="appointment-top">
                       <h3>{a.service_name}</h3>
-                      <span className={`status ${a.status}`}>{a.status}</span>
+                      <span className={`status ${a.status}`}>{a.status === "no_show" ? "No-show" : a.status}</span>
                     </div>
                     <p>
                       {studio
@@ -501,6 +505,7 @@ export function Visits({
                         <p>{a.note}</p>
                       </details>
                     )}
+                    {a.arrived_at && <span className="status">Arrival recorded</span>}
                     <span className="appointment-ref">
                       REF {a.id.slice(0, 8).toUpperCase()} · REV {a.revision}
                     </span>
@@ -544,6 +549,14 @@ export function Visits({
                         >
                           Cancel visit
                         </button>
+                      </>
+                    )}
+                    {studio && hasCapability(actor, "appointments.manage") && (
+                      <>
+                        {a.status === "confirmed" && !a.arrived_at && dt.toISODate() === DateTime.now().setZone(a.timezone || zone).toISODate() && new Date(a.ends_at).getTime() > Date.now() && <button className="text-link" disabled={busy} onClick={() => update(a,"arrive")}>Mark arrived</button>}
+                        {a.status === "confirmed" && a.arrived_at && <button className="text-link" disabled={busy} onClick={() => update(a,"undo_arrival")}>Undo arrival</button>}
+                        {a.status === "confirmed" && !a.arrived_at && new Date(a.ends_at).getTime() <= Date.now() && <button className="text-link" disabled={busy} onClick={() => { if (window.confirm("Mark this appointment as a no-show? No fee will be recorded.")) void update(a,"no_show"); }}>Mark no-show</button>}
+                        {a.status === "no_show" && <button className="text-link" disabled={busy} onClick={() => update(a,"undo_no_show")}>Undo no-show</button>}
                       </>
                     )}
                     {studio &&

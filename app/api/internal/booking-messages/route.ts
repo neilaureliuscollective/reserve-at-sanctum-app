@@ -15,3 +15,11 @@ export async function POST(request: Request) {
     return Response.json({ error: "Processing unavailable" }, { status: 503, headers });
   }
 }
+
+// Vercel native cron invokes GET. Separate gate prevents an installed schedule
+// from activating email during preview or before founder-approved acceptance.
+export async function GET(request: Request) {
+  if (process.env.RESERVE_BOOKING_CRON_ENABLED !== "true")
+    return Response.json({status:"disabled"},{status:503,headers:{"Cache-Control":"no-store"}});
+  return POST(request);
+}

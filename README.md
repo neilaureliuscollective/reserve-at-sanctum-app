@@ -36,7 +36,7 @@ Read the Phase One release gates before inviting real customers.
 
 ## Production booking readiness
 
-See [the current readiness inventory and pilot acceptance process](docs/AETHELIOS-BOOKING-PRODUCTION-READINESS.md).
+See [the current pilot operations, hosted evidence and commissioning gates](docs/AETHELIOS-BOOKING-PILOT-OPERATIONS.md) and [the initial readiness inventory](docs/AETHELIOS-BOOKING-PRODUCTION-READINESS.md).
 Booking email is disabled until approved sender, scheduler and delivery acceptance.
 `npm run db:migrate` now prints a checksum plan without contacting a database;
 explicit reviewed application uses a separate admin migration connection.

@@ -1,14 +1,10 @@
+import { assertSyntheticVerification } from "./synthetic-verification.mjs";
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { DateTime } from "luxon";
-if (
-  process.env.DATABASE_URL ||
-  process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  process.env.NODE_ENV === "production"
-)
-  throw Error("Synthetic local environment only.");
+assertSyntheticVerification();
 await mkdir("artifacts", { recursive: true });
 const origin = "http://localhost:3000";
 const server = spawn(
@@ -22,7 +18,7 @@ const server = spawn(
     "3000",
   ],
   {
-    env: { ...process.env, RESERVE_DEV_PREVIEW: "true", APP_ORIGIN: origin },
+    env: { ...process.env, RESERVE_DEV_PREVIEW: "true", APP_ORIGIN: origin, RESERVE_BOOKING_EMAIL_ENABLED: "false", RESERVE_BOOKING_CRON_ENABLED: "false" },
     stdio: ["ignore", "pipe", "pipe"],
   },
 );
@@ -144,7 +140,7 @@ try {
     );
     await page.screenshot({
       path: `artifacts/katie-studio-day-${width}.png`,
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
   }
   await page
@@ -223,7 +219,7 @@ try {
     await page.setViewportSize({ width, height: 900 });
     await page.screenshot({
       path: "artifacts/booking-pilot-" + width + ".png",
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
     const overflow = await page.evaluate(() =>
       [...document.querySelectorAll("body *")]
@@ -245,7 +241,7 @@ try {
     );
     await page.screenshot({
       path: "artifacts/booking-pilot-" + width + ".png",
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
   }
   const stored = (
@@ -374,7 +370,7 @@ try {
     );
     await page.screenshot({
       path: `artifacts/katie-insights-${width}.png`,
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
   }
   // Isolated synthetic transport exercises queue links and pagination even when the local book has no past visits.
@@ -415,7 +411,7 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({
     path: "artifacts/katie-insights-queue-390.png",
-    fullPage: true,
+    fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
   });
   const nextPage = page.waitForRequest(
     (r) =>

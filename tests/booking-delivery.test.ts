@@ -126,3 +126,17 @@ test("activation cutoff never automatically sends historical queued updates", as
   await deliverBookingMessages(db,future,async () => { sends++; });
   assert.equal(sends,0); assert.equal((await messages())[0].attempts,0);
 });
+test("Fix It Shop transport leaves other providers manual and does not promise account management for guest bookings",async()=>{
+ const a=await book(db,client,input());
+ await db.query("INSERT INTO reserve_providers(id,name) VALUES('email-other','Other professional') ON CONFLICT DO NOTHING");
+ await db.query("INSERT INTO reserve_services(id,provider_id,name,description,minutes,buffer,price) VALUES('email-other-service','email-other','Other service','',45,15,4500) ON CONFLICT DO NOTHING");
+ await db.query("UPDATE reserve_appointments SET provider_id='email-other',service_id='email-other-service',crm_client_id=NULL WHERE id=$1",[a.id]);
+ let sends=0;await deliverBookingMessages(db,config,async()=>{sends++;});assert.equal(sends,0);assert.equal((await messages())[0].attempts,0);
+ // Explicitly linked CRM guest, not an inferred or manufactured login.
+ const [crm]=await db.query<{id:string}>("SELECT id FROM reserve_clients WHERE user_id=$1 AND provider_id='katie'",[client.id]);
+ await db.query("UPDATE reserve_appointments SET provider_id='katie',service_id='signature',client_id=NULL,crm_client_id=$2 WHERE id=$1",[a.id,crm.id]);
+ await deliverBookingMessages(db,config,async(m,c)=>sendBookingEmail(m,c,async(_url,options)=>{
+  const body=JSON.parse(options!.body as string);assert.match(body.text,/For changes, contact Katie/);assert.doesNotMatch(body.text,/View your appointments/);
+  return Response.json({id:"guest-provider-id"});
+ }));
+});
