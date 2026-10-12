@@ -786,6 +786,8 @@ export function PilotMessages() {
         id: string;
         client_name: string;
         kind: string;
+        state: string;
+        timezone: string;
         phone: string;
         email: string;
         service_name: string;
@@ -805,11 +807,14 @@ export function PilotMessages() {
   }, []);
   return (
     <details className="pilot-panel">
-      <summary>Client confirmations · {rows.length} to handle</summary>
+      <summary>Client updates · {rows.length} to handle</summary>
       <p>
         Contact the client yourself, then record that you confirmed the update.
-        This button sends no message.
+        Recording contact stops further email retries for that update.
       </p>
+      <button className="button button--outline" onClick={() => void load().catch((e) => setError(e.message))}>
+        Refresh client updates
+      </button>
       {error && <p role="alert">{error}</p>}
       {rows.map((r) => (
         <article className="pilot-client" key={r.id}>
@@ -819,10 +824,11 @@ export function PilotMessages() {
           <span>
             {r.service_name} ·{" "}
             {DateTime.fromISO(r.starts_at)
-              .setZone("America/Chicago")
+              .setZone(r.timezone || "America/Chicago")
               .toFormat("LLL d, h:mm a")}{" "}
             · {r.phone || r.email || "Use existing client contact"}
           </span>
+          {r.state === "failed" && <span>Email pending · follow up if needed</span>}
           <button
             className="button"
             onClick={async () => {

@@ -538,7 +538,7 @@ export async function queueBookingMessage(
     "INSERT INTO reserve_booking_messages(id,appointment_id,revision,kind) VALUES($1,$2,$3,$4) ON CONFLICT(appointment_id,revision,kind) DO NOTHING",
     [randomUUID(), appointment.id, appointment.revision, kind],
   );
-  if (kind !== "cancel")
+  if (kind !== "cancel" && new Date(appointment.starts_at).getTime() > Date.now() + 86400000)
     await tx.query(
       "INSERT INTO reserve_booking_messages(id,appointment_id,revision,kind,available_at) VALUES($1,$2,$3,'reminder',$4) ON CONFLICT(appointment_id,revision,kind) DO NOTHING",
       [
