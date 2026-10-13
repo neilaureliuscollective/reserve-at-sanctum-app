@@ -1,0 +1,533 @@
+{
+  "checkedDate": "2026-10-13",
+  "repository": "neilaureliuscollective/reserve-at-sanctum-app",
+  "main": "e533089b1b283240d46ce4847d631354ded860a9",
+  "production": {
+    "sha": "e533089b1b283240d46ce4847d631354ded860a9",
+    "deployment": "dpl_HttBfcdJqM7d6wV7fE18BQ2km5Bv",
+    "project": "prj_GKN7RVVFAiQfWdTpHT63e0wNydgn",
+    "url": "https://www.reserveatsanctum.app"
+  },
+  "supabase": {
+    "project": "wffmdiszikhmkmoiorac",
+    "name": "RAS App",
+    "state": "ACTIVE_HEALTHY",
+    "publicAuthMappingMatches": true,
+    "runtimeDatabaseMapping": "unverified",
+    "providers": 0,
+    "services": 0,
+    "appointments": 0,
+    "providerLocations": 0,
+    "hostedLedger": "{\"migrations\":[{\"version\":\"20261004183350\",\"name\":\"001_core\"},{\"version\":\"20261004183400\",\"name\":\"002_chair\"},{\"version\":\"20261004183407\",\"name\":\"003_studio_blocks\"},{\"version\":\"20261004183415\",\"name\":\"004_command_center\"},{\"version\":\"20261004183657\",\"name\":\"restrict_auto_rls_function_execution\"},{\"version\":\"20261005164931\",\"name\":\"reserve_studio_foundation\"},{\"version\":\"20261005175639\",\"name\":\"reserve_studio_content\"},{\"version\":\"20261005181847\",\"name\":\"reserve_operations\"},{\"version\":\"20261006041721\",\"name\":\"legacy_reserve_foundation\"},{\"version\":\"20261007181650\",\"name\":\"legacy_reserve_member_environment\"},{\"version\":\"20261007190425\",\"name\":\"legacy_reserve_membership_operations\"},{\"version\":\"20261008020436\",\"name\":\"legacy_reserve_personal_reserve_and_collection\"},{\"version\":\"20261008123441\",\"name\":\"vitalis_foundation\"},{\"version\":\"20261008133322\",\"name\":\"vitalis_revenue_forecasts\"},{\"version\":\"20261008142616\",\"name\":\"vitalis_member_pilot_and_launch_reviews\"},{\"version\":\"20261009020508\",\"name\":\"booking_provider_pilot\"},{\"version\":\"20261009020518\",\"name\":\"booking_pilot_browser_lockdown\"},{\"version\":\"20261009032048\",\"name\":\"provider_branding_studio\"}]}"
+  },
+  "environmentPresence": [
+    {
+      "key": "APP_ORIGIN",
+      "type": "plain",
+      "target": [
+        "preview"
+      ],
+      "branch": "codex/product-universe-phase-one"
+    },
+    {
+      "key": "SHOPIFY_CHECKOUT_ENABLED",
+      "type": "plain",
+      "target": [
+        "preview"
+      ],
+      "branch": "codex/product-universe-phase-one"
+    },
+    {
+      "key": "SHOPIFY_API_VERSION",
+      "type": "plain",
+      "target": [
+        "preview"
+      ],
+      "branch": "codex/product-universe-phase-one"
+    },
+    {
+      "key": "SHOPIFY_STORE_DOMAIN",
+      "type": "plain",
+      "target": [
+        "preview"
+      ],
+      "branch": "codex/product-universe-phase-one"
+    },
+    {
+      "key": "RESERVE_COMMERCE_PROVIDER",
+      "type": "plain",
+      "target": [
+        "preview"
+      ],
+      "branch": "codex/product-universe-phase-one"
+    },
+    {
+      "key": "SHOPIFY_CHECKOUT_ENABLED",
+      "type": "plain",
+      "target": [
+        "preview"
+      ],
+      "branch": "feat/aethelios-commerce-phase-1"
+    },
+    {
+      "key": "RESERVE_CONCIERGE_SEMANTIC_ENABLED",
+      "type": "plain",
+      "target": [
+        "preview"
+      ],
+      "branch": "feat/aethelios-commerce-phase-1"
+    },
+    {
+      "key": "RESERVE_CONCIERGE_MODEL",
+      "type": "plain",
+      "target": [
+        "preview"
+      ],
+      "branch": "feat/aethelios-commerce-phase-1"
+    },
+    {
+      "key": "DATABASE_URL",
+      "type": "plain",
+      "target": [
+        "preview"
+      ],
+      "branch": "feat/aethelios-commerce-phase-1"
+    },
+    {
+      "key": "RESERVE_COMMERCE_PROVIDER",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "branch": null
+    },
+    {
+      "key": "SHOPIFY_STORE_DOMAIN",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "branch": null
+    },
+    {
+      "key": "SHOPIFY_API_VERSION",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "branch": null
+    },
+    {
+      "key": "SHOPIFY_CHECKOUT_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "branch": null
+    },
+    {
+      "key": "SHOPIFY_STOREFRONT_ACCESS_TOKEN",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "APP_ORIGIN",
+      "type": "plain",
+      "target": [
+        "production"
+      ],
+      "branch": null
+    },
+    {
+      "key": "SUPABASE_SECRET_KEY",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ],
+      "branch": null
+    },
+    {
+      "key": "OPENAI_API_KEY",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "OPENAI_MODEL",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "SUPABASE_URL",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "SUPABASE_ANON_KEY",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "AETHELIOS_OWNER_ID",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "AETHELIOS_OWNER_EMAIL",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "APP_ORIGIN",
+      "type": "sensitive",
+      "target": [
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "RESERVE_DEV_PREVIEW",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "DATABASE_URL",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    },
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_URL",
+      "type": "plain",
+      "target": [
+        "production",
+        "preview",
+        "development"
+      ],
+      "branch": null
+    },
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+      "type": "plain",
+      "target": [
+        "production",
+        "preview",
+        "development"
+      ],
+      "branch": null
+    },
+    {
+      "key": "NEXT_PUBLIC_AURELIUS_URL",
+      "type": "sensitive",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "branch": null
+    }
+  ],
+  "prs": [
+    {
+      "pr": 65,
+      "title": "Harden Aethelios Booking notifications and migration safeguards",
+      "head": "4ca705c3a68ac1ca5e8cfe6bea14741abffdace9",
+      "base": "main",
+      "merged": false,
+      "comparison": {
+        "status": "ahead",
+        "ahead": 1,
+        "behind": 0,
+        "mergeBase": "e533089b1b283240d46ce4847d631354ded860a9"
+      }
+    },
+    {
+      "pr": 66,
+      "title": "Define Aethelios Booking platform boundaries and Fix It Shop launch plan",
+      "head": "248c4450b895b7ee773657eb8c3d195566c80baa",
+      "base": "main",
+      "merged": false,
+      "comparison": null
+    },
+    {
+      "pr": 67,
+      "title": "Complete booking receipts, staff attendance and pilot commissioning safeguards",
+      "head": "c82ae4682c114e0b8bdf4584078f7e1e1ccf94df",
+      "base": "codex/aethelios-booking-production-readiness",
+      "merged": false,
+      "comparison": {
+        "status": "ahead",
+        "ahead": 1,
+        "behind": 0,
+        "mergeBase": "4ca705c3a68ac1ca5e8cfe6bea14741abffdace9"
+      }
+    },
+    {
+      "pr": 68,
+      "title": "Build Founder Command communications and business readiness evidence",
+      "head": "fed033356b87b5213056275a423cee3739cb2667",
+      "base": "codex/booking-pilot-operations",
+      "merged": false,
+      "comparison": {
+        "status": "ahead",
+        "ahead": 1,
+        "behind": 0,
+        "mergeBase": "c82ae4682c114e0b8bdf4584078f7e1e1ccf94df"
+      }
+    },
+    {
+      "pr": 69,
+      "title": "Prepare Katie’s first booking with exact durations and safe recovery",
+      "head": "5a83d304fec0b6543ef235160719b1a962383778",
+      "base": "codex/founder-communications-readiness",
+      "merged": false,
+      "comparison": {
+        "status": "ahead",
+        "ahead": 3,
+        "behind": 0,
+        "mergeBase": "fed033356b87b5213056275a423cee3739cb2667"
+      }
+    },
+    {
+      "pr": 5,
+      "title": "Add organization #001 foundation under the Reserve experience",
+      "head": "fadea69499e6c3f135ad7d3504a9a4001588faad",
+      "base": "main",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 88,
+        "behind": 1,
+        "mergeBase": "1810dbf9062c63d3f3e3339e3a5a7796eaffbeb8"
+      }
+    },
+    {
+      "pr": 6,
+      "title": "Clarify Reserve as location #001 and Gent Ascend handoff",
+      "head": "cf1cef2e2f12aa32b47f46d6df6a23adf4d32f5d",
+      "base": "main",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 88,
+        "behind": 1,
+        "mergeBase": "1810dbf9062c63d3f3e3339e3a5a7796eaffbeb8"
+      }
+    },
+    {
+      "pr": 7,
+      "title": "Prepare Reserve booking for shared Gent identity and isolated database access",
+      "head": "bc5f6b7eed0124b63a0a12efc14ab52c1e9a014a",
+      "base": "feature/reserve-location-brand-boundaries",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 88,
+        "behind": 2,
+        "mergeBase": "1810dbf9062c63d3f3e3339e3a5a7796eaffbeb8"
+      }
+    },
+    {
+      "pr": 10,
+      "title": "Build Katie's private cinematic Fix It Shop world",
+      "head": "0aefc8de7b578e7a5b2426838a97934c5395f746",
+      "base": "codex/reserve-cinematic-rebuild-v2",
+      "merged": false,
+      "comparison": {
+        "status": "ahead",
+        "ahead": 84,
+        "behind": 0,
+        "mergeBase": "0aefc8de7b578e7a5b2426838a97934c5395f746"
+      }
+    },
+    {
+      "pr": 11,
+      "title": "Build Neil's cinematic GENT Ascend world",
+      "head": "bff2269798f79f1eb44b0fb97d81e2f26cf15736",
+      "base": "codex/fix-it-cinematic-world",
+      "merged": false,
+      "comparison": {
+        "status": "ahead",
+        "ahead": 82,
+        "behind": 0,
+        "mergeBase": "bff2269798f79f1eb44b0fb97d81e2f26cf15736"
+      }
+    },
+    {
+      "pr": 12,
+      "title": "Reserve Phase 1: multi-location operating foundation",
+      "head": "80da42dbf5f23198b2e99a3a1c276242103e5d53",
+      "base": "main",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 87,
+        "behind": 1,
+        "mergeBase": "e2cf00e7bc3e75e02b290cf29bc9eea441c7d190"
+      }
+    },
+    {
+      "pr": 13,
+      "title": "Build Reserve threshold, personalized home and installed entry",
+      "head": "a5126124d22c5f7e75130bd8e095fc6088787a3a",
+      "base": "codex/gent-ascend-cinematic-world",
+      "merged": false,
+      "comparison": {
+        "status": "ahead",
+        "ahead": 81,
+        "behind": 0,
+        "mergeBase": "a5126124d22c5f7e75130bd8e095fc6088787a3a"
+      }
+    },
+    {
+      "pr": 14,
+      "title": "Phase 2: provider worlds, private visit continuity and explicit Blueprint saving",
+      "head": "4c4f956f4c1583ecc20b582f907fe0d205e2877a",
+      "base": "codex/reserve-threshold-home",
+      "merged": false,
+      "comparison": {
+        "status": "ahead",
+        "ahead": 80,
+        "behind": 0,
+        "mergeBase": "4c4f956f4c1583ecc20b582f907fe0d205e2877a"
+      }
+    },
+    {
+      "pr": 15,
+      "title": "Phase 2: location commerce and Legacy Reserve retail",
+      "head": "d9f09d5532e76cbf5aee4749a18c309279832f82",
+      "base": "codex/reserve-phase-one",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 87,
+        "behind": 2,
+        "mergeBase": "e2cf00e7bc3e75e02b290cf29bc9eea441c7d190"
+      }
+    },
+    {
+      "pr": 16,
+      "title": "Make Shopify POS Reserve’s commerce authority",
+      "head": "e3665b64546a3c3d22c76c2cce75dbc512110563",
+      "base": "codex/reserve-phase-two",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 87,
+        "behind": 3,
+        "mergeBase": "e2cf00e7bc3e75e02b290cf29bc9eea441c7d190"
+      }
+    },
+    {
+      "pr": 17,
+      "title": "Complete Reserve arrival fallbacks and mobile home verification",
+      "head": "328825e0742a31e574d027150e3bf07e2f347e0f",
+      "base": "codex/reserve-threshold-home",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 81,
+        "behind": 1,
+        "mergeBase": "a5126124d22c5f7e75130bd8e095fc6088787a3a"
+      }
+    },
+    {
+      "pr": 22,
+      "title": "Build Reserve Command and Katie’s workspace with scoped Aethelios conversations",
+      "head": "ec790c281ffc19e8e2aaf6f8a85ed260de727b12",
+      "base": "main",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 72,
+        "behind": 1,
+        "mergeBase": "a68ae25628f80a76714f173c9ebf522c74ec219d"
+      }
+    },
+    {
+      "pr": 52,
+      "title": "Connect professional schedules and reviewed Fix It Shop copy to Public Aethelios",
+      "head": "25695cb19985d5c61309ae18c4e287a29d8c5928",
+      "base": "main",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 21,
+        "behind": 1,
+        "mergeBase": "6809c369d77d9178e78538912dab09999bb90c8d"
+      }
+    },
+    {
+      "pr": 59,
+      "title": "Establish independent Fix It Shop PWA and Katie’s operating experience",
+      "head": "c3126518ab28c41061b49a0dbc8e6f2410fdad4d",
+      "base": "main",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 5,
+        "behind": 1,
+        "mergeBase": "2add29cc541606cc851e4cf43d6630905aa04323"
+      }
+    },
+    {
+      "pr": 60,
+      "title": "Build verified Aethelios shopping concierge on Shopify",
+      "head": "6b6e8c8548827b4ec9b1c7644f567e9f42867d06",
+      "base": "main",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 5,
+        "behind": 1,
+        "mergeBase": "2add29cc541606cc851e4cf43d6630905aa04323"
+      }
+    },
+    {
+      "pr": 61,
+      "title": "Build the Legacy Reserve Product Universe foundation",
+      "head": "b654152eba72012d4d8e6a33d2d21c9adf6f6cda",
+      "base": "main",
+      "merged": false,
+      "comparison": {
+        "status": "diverged",
+        "ahead": 3,
+        "behind": 1,
+        "mergeBase": "b152276baefe6012a544e12befea52c05a97d904"
+      }
+    }
+  ]
+}

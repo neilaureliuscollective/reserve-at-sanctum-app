@@ -466,7 +466,7 @@ export async function configurePilotLocation(
 export async function bookingMessages(db: Queryable, actor: Actor) {
   requireCapability(actor, "appointments.read");
   return db.query(
-    "SELECT m.*,COALESCE(c.name,u.name) AS client_name,c.phone,COALESCE(NULLIF(c.email,''),u.email) AS email,a.provider_id,a.starts_at,s.name AS service_name FROM reserve_booking_messages m JOIN reserve_appointments a ON a.id=m.appointment_id JOIN reserve_services s ON s.id=a.service_id LEFT JOIN reserve_clients c ON c.id=a.crm_client_id LEFT JOIN reserve_users u ON u.id=a.client_id WHERE m.state='manual_required' AND m.available_at<=now() " +
+    "SELECT m.*,COALESCE(c.name,u.name) AS client_name,c.phone,COALESCE(NULLIF(c.email,''),u.email) AS email,a.provider_id,a.starts_at,COALESCE(l.timezone,'America/Chicago') AS timezone,s.name AS service_name FROM reserve_booking_messages m JOIN reserve_appointments a ON a.id=m.appointment_id JOIN reserve_services s ON s.id=a.service_id LEFT JOIN reserve_clients c ON c.id=a.crm_client_id LEFT JOIN reserve_users u ON u.id=a.client_id LEFT JOIN reserve_locations l ON l.id=a.location_id WHERE (m.state IN ('manual_required','failed') OR (m.state='sent' AND m.delivery_status IN ('delayed','bounced','complained','failed','suppressed') AND m.delivery_handled_at IS NULL)) AND (m.state IN ('failed','sent') OR m.available_at<=now()) AND m.revision=a.revision AND (CASE WHEN m.kind='cancel' THEN a.status='cancelled' ELSE a.status='confirmed' END) AND (m.kind<>'reminder' OR a.starts_at>now()) " +
       (actor.role === "owner" ? "" : "AND a.provider_id=$1") +
       " ORDER BY m.created_at LIMIT 50",
     actor.role === "owner" ? [] : [actor.provider_id],
@@ -479,7 +479,7 @@ export async function confirmManualMessage(
 ) {
   requireCapability(actor, "appointments.manage");
   const rows = await db.query(
-    "UPDATE reserve_booking_messages m SET state='confirmed_manual',handled_by=$1,handled_at=now() FROM reserve_appointments a WHERE m.id=$2 AND a.id=m.appointment_id AND m.state='manual_required' " +
+    "UPDATE reserve_booking_messages m SET state=CASE WHEN m.state='sent' THEN 'sent' ELSE 'confirmed_manual' END,handled_by=CASE WHEN m.state='sent' THEN m.handled_by ELSE $1 END,handled_at=CASE WHEN m.state='sent' THEN m.handled_at ELSE now() END,delivery_handled_by=$1,delivery_handled_at=now() FROM reserve_appointments a WHERE m.id=$2 AND a.id=m.appointment_id AND (m.state IN ('manual_required','failed') OR (m.state='sent' AND m.delivery_status IN ('delayed','bounced','complained','failed','suppressed') AND m.delivery_handled_at IS NULL)) AND m.revision=a.revision " +
       (actor.role === "owner" ? "" : "AND a.provider_id=$3") +
       " RETURNING m.id",
     actor.role === "owner" ? [actor.id, id] : [actor.id, id, actor.provider_id],
@@ -546,4 +546,11 @@ export async function configurePilotStaff(
       [actor.id, "provider:" + input.provider],
     );
   });
+}
+
+export async function bookingDeliveryHistory(db: Queryable, actor: Actor) {
+  requireCapability(actor,"appointments.read");
+  return db.query(
+    "SELECT m.id,m.kind,m.delivery_status,m.accepted_at,m.delivery_updated_at,COALESCE(c.name,u.name,'Client') AS client_name,s.name AS service_name FROM reserve_booking_messages m JOIN reserve_appointments a ON a.id=m.appointment_id JOIN reserve_services s ON s.id=a.service_id LEFT JOIN reserve_clients c ON c.id=a.crm_client_id LEFT JOIN reserve_users u ON u.id=a.client_id WHERE m.provider_message_id IS NOT NULL " +
+    (actor.role === "owner" ? "" : "AND a.provider_id=$1 ") + "ORDER BY m.accepted_at DESC,m.id LIMIT 50", actor.role === "owner" ? [] : [actor.provider_id]);
 }

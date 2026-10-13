@@ -34,6 +34,18 @@ Tests use local synthetic accounts/PGlite. They do not prove live Supabase OAuth
 hosted Postgres concurrency, Katie’s role assignment or physical-phone installation.
 Read the Phase One release gates before inviting real customers.
 
+## Production booking readiness
+
+See [Katie’s first-booking commissioning packet](docs/KATIE-FIRST-BOOKING-COMMISSIONING.md)
+for the exact review stack, calendar gate, duration/recovery behavior and remaining
+hosted, account, inbox and phone acceptance. This candidate does not open bookings.
+
+See [the current pilot operations, hosted evidence and commissioning gates](docs/AETHELIOS-BOOKING-PILOT-OPERATIONS.md) and [the initial readiness inventory](docs/AETHELIOS-BOOKING-PRODUCTION-READINESS.md).
+Booking email is disabled until approved sender, scheduler and delivery acceptance.
+`npm run db:migrate` now prints a checksum plan without contacting a database;
+explicit reviewed application uses a separate admin migration connection.
+No public booking activation or production data change is authorized by a build.
+
 ## Historical implementation record
 
 The following describes prior releases. Its former master-brand, physical-house,
@@ -222,3 +234,15 @@ Katie's focused customer app is at `/fix-it-shop/app`, sharing the existing book
 [Implementation, research, permissions and release checks](docs/PROVIDER-BRANDING-PHASE-3.md).
 Owner onboarding and scoped drafts live at `/studio/brands`. Published provider apps
 reuse the shared booking engine; Fix It Shop keeps its existing entrance.
+
+## Founder operations — review increment
+
+[Founder Command and controlled commissioning](docs/AETHELIOS-FOUNDER-COMMAND.md)
+adds a private evidence-based `/studio` home for the existing platform administrator,
+provider readiness, booking communications health and shared synthetic template
+previews. It reuses existing approvals and delivery infrastructure. Platform
+administration no longer grants private Chair access; Katie's scoped sharing remains.
+Independent business memberships and public multi-business activation are still
+unimplemented. `npm run verify:founder-command` runs only in an isolated synthetic
+environment. [Commercial decision research](docs/AETHELIOS-BOOKING-COMMERCIAL-READINESS.md)
+is documentation only; no billing, emails or production activation is enabled.

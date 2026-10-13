@@ -1,0 +1,126 @@
+{
+  "date": "2026-10-12",
+  "scope": "Founder Command communications/readiness and platform-founder Chair restriction",
+  "baselineMain": "e533089b1b283240d46ce4847d631354ded860a9",
+  "parentPR": 67,
+  "parentCommit": "c82ae4682c114e0b8bdf4584078f7e1e1ccf94df",
+  "environment": {
+    "type": "isolated Vercel Sandbox",
+    "memoryMB": 8192,
+    "node": "24.21.0",
+    "next": "16.3.8",
+    "database": "synthetic local PGlite",
+    "outboundNetwork": "denied",
+    "hostedCredentials": "none",
+    "emailEnabled": false,
+    "schedulerEnabled": false
+  },
+  "commands": {
+    "npm test": {
+      "status": "passed",
+      "tests": 215,
+      "failed": 0,
+      "skipped": 0
+    },
+    "npm run typecheck": {
+      "status": "passed"
+    },
+    "npm run build": {
+      "status": "passed",
+      "mode": "normal production build"
+    },
+    "npm run verify:founder-command": {
+      "status": "passed",
+      "widths": [
+        320,
+        390,
+        540,
+        768,
+        884,
+        1440
+      ],
+      "keyboard": true,
+      "sessionReload": true,
+      "founderChairRouteDenied": true,
+      "pageErrors": 0
+    },
+    "npm run verify:booking-pilot": {
+      "status": "passed"
+    },
+    "npm run verify:provider-brands": {
+      "status": "passed"
+    },
+    "npm run verify:chair": {
+      "status": "passed"
+    },
+    "npm run verify:fix-it-booking": {
+      "status": "passed"
+    }
+  },
+  "accessibility": {
+    "tool": "axe-core 4.10.3, isolated test-only bundle",
+    "tags": [
+      "wcag2a",
+      "wcag2aa",
+      "wcag21a",
+      "wcag21aa"
+    ],
+    "widths": [
+      320,
+      390,
+      540,
+      768,
+      884,
+      1440
+    ],
+    "violations": 0,
+    "physicalDevices": "unverified"
+  },
+  "security": {
+    "founderQueriesContainCustomerDetails": false,
+    "founderChairReadWrite": "denied",
+    "katieChairConsentRevocation": "existing tests/browser passed",
+    "providerIsolation": "domain and two-provider browser tested",
+    "independentBusinessTenancy": "not implemented; expansion blocked",
+    "authDiagnosticGrantExpansion": "none"
+  },
+  "screenshots": [
+    "docs/verification/founder-mobile.webp",
+    "docs/verification/founder-desktop.webp"
+  ],
+  "initialFailuresResolved": [
+    "negative authorization test expected one error string rather than status403",
+    "select label exact-match ambiguity fixed with explicit accessible labels",
+    "customer-route test corrected to existing access-denied screen",
+    "long mobile founder navigation label shortened after visual review"
+  ],
+  "productionObservation": {
+    "deployment": "dpl_HttBfcdJqM7d6wV7fE18BQ2km5Bv",
+    "state": "READY",
+    "commit": "e533089b1b283240d46ce4847d631354ded860a9",
+    "runtimeDatabaseMapping": "unverified"
+  },
+  "notVerified": [
+    "hosted migration/grants/restore",
+    "Katie confirmed account and actual catalog/configuration",
+    "real hosted booking collisions and Auth/session/recovery",
+    "Resend domain verification and actual inbox delivery",
+    "live scheduler configuration",
+    "iPhone/Android/Fold devices",
+    "independent business memberships/ownership/revocation"
+  ],
+  "productionActions": {
+    "migrations": false,
+    "dataChanges": false,
+    "privilegedAssignments": false,
+    "realBookings": false,
+    "externalEmail": false,
+    "publicActivation": false,
+    "productionDeployment": false,
+    "merge": false
+  },
+  "verifiedSource": {
+    "changedCodeFiles": 18,
+    "sha256MatchesBetweenWorkspaceAndTestSandbox": true
+  }
+}

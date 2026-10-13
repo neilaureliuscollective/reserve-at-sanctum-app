@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { currentUser } from "@/lib/auth";
 import { database } from "@/lib/db";
+import { readChairJson } from "@/lib/chair-http";
 import { change, BookingError } from "@/lib/booking";
 import { mutationOrigin, failure } from "@/lib/http";
 export async function PATCH(
@@ -15,11 +16,12 @@ export async function PATCH(
     z.uuid().parse(id);
     const input = z
       .object({
-        action: z.enum(["cancel", "reschedule", "complete"]),
+        action: z.enum(["cancel", "reschedule", "complete", "arrive", "undo_arrival", "no_show", "undo_no_show"]),
         start: z.iso.datetime().optional(),
         revision: z.number().int().positive(),
       })
-      .parse(await req.json());
+      .strict()
+      .parse(await readChairJson(req));
     return Response.json({
       appointment: await change(await database(), actor, id, input),
     });

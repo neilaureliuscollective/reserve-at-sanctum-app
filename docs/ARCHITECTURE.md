@@ -63,8 +63,10 @@ policies to make an integration work.
 
 Times are interpreted in `America/Chicago`, including daylight saving. Local
 preview hours are Tue–Sat 9–5, with a two-hour minimum notice and 45-day horizon.
-Durations/buffers must be multiples of 15 minutes. Availability is advisory;
-the transaction is authoritative. All occupied 15-minute units are inserted
+Durations/buffers use exact five-minute steps after the reviewed Katie launch
+migration. Starts remain on the 15-minute grid. Availability is advisory;
+the transaction is authoritative. All touched 15-minute units, including a
+partial final unit of service plus buffer, are inserted
 against a unique database key so competing reservations cannot both commit.
 
 Creating a booking captures the server's service price and stores a client-bound
@@ -73,7 +75,11 @@ and moves occupancy in the same transaction. If the new slot conflicts, the
 original reservation remains intact. Cancellation releases occupancy while
 preserving the record and audit trail. Existing visits retain their original
 duration, buffer, and price. Same-request sequential retries return the saved
-visit; simultaneous retries may receive a conflict and can reload the account.
+visit. Initial submission retains only a tab-lived opaque request/account pointer.
+Recovery and booking serialize on the account row: a committed request returns
+its saved visit; an absent request is retired in `reserve_booking_request_fences`
+so a delayed original cannot commit after the customer starts a new intent.
+No note, contact details or booking draft are written to browser storage.
 
 Schedule blocks share the same occupancy ledger. The studio supports one-day block creation and removal in 15-minute steps,
 using private reserve_blocks and the same atomic occupancy ledger. The first studio calendar is an
@@ -177,3 +183,15 @@ Public `/discover`, `/discover/membership`, and `/discover/aethelios` are sessio
 and actor/revision events. Owner publication exposes only a reviewed snapshot; staff
 can edit only their assigned brand. URLs, manifests and phone icons reuse the shared
 booking/auth engine and provider boundaries. New providers and locations start closed.
+
+## Founder Command — October 12, 2026 review
+
+[Founder operations increment](AETHELIOS-FOUNDER-COMMAND.md) replaces the platform
+owner's home with safe persisted diagnostics and shared transactional-template
+previews. The legacy `owner` identifier denotes platform administration, not
+independent business ownership. It no longer grants Chair read/note capabilities;
+Katie-provider operational access still requires explicit client sharing. Older
+owner/Chair scope descriptions above are superseded by this restriction.
+The console creates no tenancy or migration. Business memberships, verified
+ownership, revocation and cross-business relational scopes must be implemented
+and tested together before a second independent business can activate.

@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-12",
+  "review_branch": "codex/booking-pilot-operations",
+  "base_main": "e533089b1b283240d46ce4847d631354ded860a9",
+  "stacked_on_pr": 65,
+  "base_review_commit": "4ca705c3a68ac1ca5e8cfe6bea14741abffdace9",
+  "environment": "isolated Vercel Sandbox, 4 vCPU / 8 GB; synthetic PGlite and preview identities; no hosted credentials; outbound network denied during final verification",
+  "versions": {
+    "next": "16.3.8",
+    "sharp": "0.35.5",
+    "source_map_js": "1.2.2",
+    "axe_core": "4.10.3 (verification only)"
+  },
+  "results": {
+    "customer-browser": 0,
+    "pilot-browser": 0,
+    "operations-browser": 0,
+    "tests": 0,
+    "types": 0,
+    "build": 0,
+    "counts": [
+      "ℹ tests 206",
+      "ℹ pass 206",
+      "ℹ fail 0"
+    ],
+    "axe": [
+      {
+        "width": 320,
+        "violations": 0
+      },
+      {
+        "width": 390,
+        "violations": 0
+      },
+      {
+        "width": 768,
+        "violations": 0
+      },
+      {
+        "width": 1440,
+        "violations": 0
+      }
+    ],
+    "audit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "limits": [
+    "No production deployment, activation, hosted migration or real communications.",
+    "New attendance UI mutations were mocked; domain tests prove persisted/scoped transitions.",
+    "Existing customer/staff browser suites use real local synthetic API/DB mutations.",
+    "Physical devices, real Supabase Auth/session/concurrency, sender/inbox and native scheduler commissioning remain unverified.",
+    "Connected RAS App has zero providers/services/provider-location assignments; new columns are not applied.",
+    "Supabase advisor reports leaked-password protection disabled."
+  ]
+}
