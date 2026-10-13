@@ -1,6 +1,6 @@
 import { fixItBooking } from "./fix-it-booking";
 
-export type FounderAsset = { src: string; alt: string; position?: string };
+export type FounderAsset = { src: string; alt: string; width: number; height: number; position?: string };
 // Only install approved Katie photographs. Null intentionally renders a labeled
 // editorial reservation, never a synthetic likeness or a substitute person.
 export const founderContent = {
@@ -9,7 +9,7 @@ export const founderContent = {
   service: "United States Marine Corps Veteran",
   location: "Eunice, Louisiana",
   biography: "Straightforward, warm, and attentive to the details. Katie brings technical care and a personal connection to an experience made for men.",
-  portrait: { src: "/images/founder/katie-guidry.webp", alt: "Katie Guidry in a blue outfit beside the Fix It Shop emblem in her approved founder portrait", position: "36% 30%" } as FounderAsset | null,
+  portrait: { src: "/images/founder/katie-guidry.webp", alt: "Katie Guidry in blue, with the complete black-and-gold interior and Fix It Shop emblem in her approved founder image", width: 1280, height: 720 } as FounderAsset | null,
   alternativePortraits: [] as FounderAsset[],
   bookPhotograph: null as FounderAsset | null, // /images/founder/katies-family-book.webp — actual family copy only
   militaryPhotograph: null as FounderAsset | null,
