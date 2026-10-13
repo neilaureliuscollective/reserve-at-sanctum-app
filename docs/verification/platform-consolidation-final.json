@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-13",
+  "repository": "neilaureliuscollective/reserve-at-sanctum-app",
+  "production": {
+    "sha": "2ab51dac9d26afa8e544fafafd816c1ecbcfb763",
+    "deployment": "dpl_Bu5nfQMFufJvTupZmorstrA6rpdd",
+    "url": "https://www.reserveatsanctum.app/studio",
+    "mergedPR": 71,
+    "testedHead": "6f1f3da38f3e2129da14e67d7ec4d5fccf176d0c",
+    "sameTreeAsTested": true,
+    "tests": 191,
+    "unitTypecheckBuild": "passed",
+    "browserSuites": 5,
+    "browserResult": "passed",
+    "run": 38370490063,
+    "liveSmoke": "Studio/customer/health GET 200; matching deployment ID"
+  },
+  "integratedCandidate": {
+    "sha": "1c605aeda0b39f46ae755ce5abfd456e0c2e1e0e",
+    "deployment": "dpl_8X1DEX6pGsjbm56zUsohqPwkhAY2",
+    "preview": "https://reserve-at-sanctum-app-git-codex-platform-d2f21f-stutes-legacy.vercel.app/studio",
+    "pr": 70,
+    "tests": 239,
+    "failures": 0,
+    "skipped": 0,
+    "typecheck": "passed",
+    "build": "passed",
+    "postgresConcurrencyAndRecovery": "passed in disposable local Postgres container on GitHub runner",
+    "browserSuites": [
+      "browser",
+      "booking-pilot",
+      "chair",
+      "provider-brands",
+      "founder-command",
+      "founder-foundation",
+      "booking-operations",
+      "operations",
+      "katie-launch",
+      "katie-closed",
+      "katie-calendar-gate"
+    ],
+    "browserResult": "all passed",
+    "run": 38372331917,
+    "artifact": 11799538904
+  },
+  "evidenceScope": {
+    "unit": "synthetic PGlite and mocked delivery; isolated database roles",
+    "postgres": "independent sessions; deadlock regression, recovery orderings and partial-slot collision",
+    "browser": "actual local synthetic APIs; booking-operations attendance mutations mocked, launch outages selectively intercepted; no hosted synthetic writes",
+    "realAuthInboxPhones": "unverified"
+  },
+  "hostedChanges": {
+    "databaseMigrations": 0,
+    "roleGrants": 0,
+    "customerMigrations": 0,
+    "realBookings": 0,
+    "realEmails": 0,
+    "newSchedules": 0,
+    "payments": 0
+  },
+  "supabase": {
+    "connectedProject": "wffmdiszikhmkmoiorac",
+    "name": "RAS App",
+    "hostedMigrationCount": 18,
+    "latestHostedMigration": "20261009032048_provider_branding_studio",
+    "runtimeDatabaseMapping": "unverified"
+  },
+  "remaining": {
+    "activation": [
+      "runtime/database/Auth mapping",
+      "hosted/local ledger and delta review",
+      "backup/restore rehearsal",
+      "confirmed Katie operator and business ownership",
+      "approved menu/prices/durations/buffers/hours/address/policies",
+      "hosted collision/Auth acceptance",
+      "approved inbox/sender/receipt/scheduler acceptance",
+      "physical phones and single-calendar cutover"
+    ],
+    "software": [
+      "persisted editorial template management and approved test-send/resend workflow",
+      "all legacy operating paths adopting membership authority before multi-business launch",
+      "full business/staff/location commissioning UI"
+    ],
+    "liveOperations": "disabled/uncommissioned"
+  }
+}

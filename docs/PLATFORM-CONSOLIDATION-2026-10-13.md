@@ -153,6 +153,26 @@ requested data arrives. A delayed real API transport regression retains the
 exact time-prefill assertion. Full final-tree acceptance must run again; the
 failed browser run is recorded as failed, not credited as complete.
 
+Final implementation verification succeeds at
+`1c605aeda0b39f46ae755ce5abfd456e0c2e1e0e`: GitHub run 38372331917 passes
+239 tests with no failures/skips, TypeScript, normal build, disposable PostgreSQL
+concurrency/recovery and all 11 browser suites. Artifact 11799538904 contains
+the logs, synthetic screenshots, axe results and PostgreSQL evidence. The delayed
+day-filter regression passes without weakening its exact selected-time assertion.
+Preview deployment `dpl_8X1DEX6pGsjbm56zUsohqPwkhAY2` is READY for that SHA;
+the stable developer entrance is
+https://reserve-at-sanctum-app-git-codex-platform-d2f21f-stutes-legacy.vercel.app/studio.
+Subsequent evidence-only commits do not change that verified implementation.
+
+Production remains `2ab51dac9d26afa8e544fafafd816c1ecbcfb763`; the connected
+hosted ledger is still 18 migrations through 20261009032048. No hosted migration,
+grant, import, real booking/message, scheduled operation or charge was performed.
+The remaining schema/runtime/real-business acceptance gates and unfinished
+template-management/all-route membership work above remain open. This is a
+verified Founder release and integrated review candidate, not completed live
+booking or unrestricted SaaS commissioning. Machine-readable final evidence:
+`verification/platform-consolidation-final.json`.
+
 Katie's remaining commissioning: exact runtime/database/Auth mapping; migration
 baseline and tested restore; verified Katie scoped login; approved provider,
 location/address, menu/prices/durations/buffers/hours/cancellation rules; hosted
