@@ -13,3 +13,35 @@ jobs:
       - run: npm test
       - run: npm run typecheck
       - run: npm run build
+  booking-acceptance:
+    if: github.event_name == 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      RESERVE_DEV_PREVIEW: 'true'
+      RESERVE_BOOKING_EMAIL_ENABLED: 'false'
+      RESERVE_BOOKING_CRON_ENABLED: 'false'
+      APP_ORIGIN: http://localhost:3000
+      AXE_CORE_PATH: /tmp/aethelios-a11y/node_modules/axe-core/axe.min.js
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.19.0
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm install --prefix /tmp/aethelios-a11y --no-save --package-lock=false axe-core@4.11.0
+      - name: Isolated booking, staff, privacy and founder browsers
+        run: |
+          set -e
+          for suite in fix-it-booking booking-pilot chair provider-brands founder-foundation; do
+            npm run "verify:$suite"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: booking-acceptance-${{ github.sha }}
+          path: artifacts/
+          retention-days: 7

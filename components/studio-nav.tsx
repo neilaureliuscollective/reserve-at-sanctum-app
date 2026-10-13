@@ -13,6 +13,8 @@ import {
 const rooms = [
   ["/studio/today", "Today", CalendarDays],
   ["/studio", "Command", Compass],
+  ["/studio/businesses", "Businesses", UsersRound],
+  ["/studio/support", "Support", Settings2],
   ["/studio/schedule", "Schedule", CalendarDays],
   ["/studio/content", "Content", PenLine],
   ["/studio/build", "Build Room", Hammer],
@@ -84,7 +86,9 @@ export function StudioNav({
                 ? "Calendar"
                 : !owner && href === "/studio/operations"
                   ? "Availability"
-                  : label}
+                  : owner && href === "/studio"
+                    ? "Founder"
+                    : label}
             </span>
           </Link>
         ))}

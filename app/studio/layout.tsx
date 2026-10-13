@@ -1,3 +1,4 @@
+import { operatorIdentity } from "@/lib/booking-operator-identity";
 import { bookingBrand } from "@/lib/booking-brand";
 import Link from "next/link";
 import { AccountEntrance } from "@/components/experience/account-entrance";
@@ -31,6 +32,7 @@ export default async function StudioLayout({
         </Link>
       </main>
     );
+  const identity = operatorIdentity(actor);
   const katie = actor.role !== "owner" && actor.provider_id === "katie";
   return (
     <div>
@@ -44,9 +46,7 @@ export default async function StudioLayout({
             <span>
               {bookingBrand.wordmark}
               <small>
-                {katie
-                  ? "FIX IT SHOP · KATIE’S STUDIO"
-                  : "FIX IT SHOP · OPERATIONS"}
+                {identity.affiliation}
               </small>
             </span>
           </Link>
@@ -55,7 +55,7 @@ export default async function StudioLayout({
               className="studio-public-entrance"
               href="/fix-it-shop/app"
             >
-              {katie ? "View your customer app" : "View public website"} ↗
+              {identity.customerLabel} ↗
             </Link>
             <span>{actor.name.split(" ·")[0]}</span>
             <small>
