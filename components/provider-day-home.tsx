@@ -103,6 +103,12 @@ export function ProviderDayHome({
   }
   const zone = data?.location?.timezone || "America/Chicago",
     selected = date || data?.date || DateTime.now().setZone(zone).toISODate()!;
+  // A filter change renders before its request finishes. Never combine old
+  // available starts with the newly selected day/location/service in a link.
+  const matchesFilters = !!data && data.provider.id === providerId &&
+    (!date || data.date === date) &&
+    (!location || data.location?.id === location) &&
+    (!service || data.service?.id === service);
   const schedule =
     "/studio/schedule?" +
     new URLSearchParams({
@@ -198,7 +204,7 @@ export function ProviderDayHome({
             Try again
           </button>
         </section>
-      ) : loading && !data ? (
+      ) : (loading && !data) || !matchesFilters ? (
         <p role="status" className="provider-day-empty">
           Opening your working day…
         </p>

@@ -134,6 +134,25 @@ and labels absent receipt/business tables unavailable. It includes no automatic
 database migration or new live operations. Its tested SHA/deployment must be
 verified independently before production merge/promotion.
 
+The compatible subset shipped through PR 71 to main/production
+`2ab51dac9d26afa8e544fafafd816c1ecbcfb763`, deployment
+`dpl_Bu5nfQMFufJvTupZmorstrA6rpdd`, https://www.reserveatsanctum.app/studio.
+Its tree is identical to tested head `6f1f3da38f3e2129da14e67d7ec4d5fccf176d0c`:
+GitHub run 38370490063 passes 191 tests, TypeScript/build and all five isolated
+customer/staff/Chair/provider/Founder browsers. The new Founder browser includes
+nine axe audits at 320/390/1440px, keyboard creation and reduced-motion capture.
+Production Studio/customer pages and health GETs return 200 with the verified
+production deployment ID. No authenticated real-owner browser or live booking
+acceptance is claimed. No hosted schema/grants or operation gates changed.
+
+Full candidate `0a6f7b1ef1b91432577eebd8916e17270f9b44d1` passes 239 tests,
+typecheck/build and disposable PostgreSQL concurrency/recovery. Its browser run
+caught stale-day availability links when the day filter changed before the next
+response. The new fix hides mismatched day/location/service evidence until the
+requested data arrives. A delayed real API transport regression retains the
+exact time-prefill assertion. Full final-tree acceptance must run again; the
+failed browser run is recorded as failed, not credited as complete.
+
 Katie's remaining commissioning: exact runtime/database/Auth mapping; migration
 baseline and tested restore; verified Katie scoped login; approved provider,
 location/address, menu/prices/durations/buffers/hours/cancellation rules; hosted

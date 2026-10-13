@@ -106,7 +106,19 @@ try {
     .click();
   await page.getByText(/Appointment saved. Reference/).waitFor();
   await visit(origin + "/studio/today");
+  const previousDay = day.plus({ days: 7 }).toISODate();
+  await page.getByLabel("Working day", { exact: true }).fill(previousDay);
+  await page.waitForFunction(value => [...document.querySelectorAll(".provider-slot-list a")].some(link =>
+    new URL(link.href).searchParams.get("time")?.startsWith(value)), previousDay);
+  // Real availability, delayed transport: old-day links must disappear while
+  // the new day's response is pending, then prefill the returned start exactly.
+  await page.route("**/api/studio/day?*", async route => {
+    if (new URL(route.request().url()).searchParams.get("date") === day.toISODate())
+      await new Promise(resolve => setTimeout(resolve, 350));
+    await route.continue();
+  });
   await page.getByLabel("Working day", { exact: true }).fill(day.toISODate());
+  await page.waitForFunction(() => !document.querySelector(".provider-slot-list a"));
   await page
     .locator(".provider-agenda")
     .getByRole("link", { name: name + " ↗", exact: true })
@@ -162,6 +174,7 @@ try {
     day.toISODate(),
   );
   const chosen = new URL(slotHref, origin).searchParams.get("time");
+  assert.equal(DateTime.fromISO(chosen).setZone("America/Chicago").toISODate(), day.toISODate());
   await page.waitForFunction(
     (value) =>
       document.querySelector("#manual-booking select") &&
