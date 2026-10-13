@@ -31,7 +31,7 @@ approved personal quote. Null photo values deliberately produce labeled editoria
 reservations using the approved emblem; no invented person or replica family book.
 
 Install Katie’s approved portrait at `/images/founder/katie-guidry.webp` and set
-`portrait` to `{src, alt, position: "50% 30%"}`. Install a genuine photo of her
+`portrait` to `{src, alt, width, height}` using intrinsic dimensions. Install a genuine photo of her
 preserved copy at `/images/founder/katies-family-book.webp`, then set
 `bookPhotograph`. Optional alternate/military photos and quotes require Katie's
 approval. No rank, deployment, years of experience, family member or personal
@@ -74,6 +74,10 @@ For the production build default canonical, set
 There is no lint command or lint configuration in the repository.
 
 ## Approved founder portrait — October 12, 2026
+
+The original crop described below is superseded by the
+[complete-image layout correction](KATIE-FULL-IMAGE.md), which preserves the full
+composition and embedded logo on phones, Fold/tablets and desktop.
 
 The user supplied `2258.jpg` and explicitly authorized live publication. The
 optimized WebP preserves the supplied composition; no likeness or background was
