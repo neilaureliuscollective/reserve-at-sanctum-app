@@ -1,6 +1,7 @@
 import {before,after,test} from "node:test";
 import assert from "node:assert/strict";
 import {PGlite} from "@electric-sql/pglite";
+import {readFile} from "node:fs/promises";
 import {schema,seed,wrapPglite,type Database} from "../lib/db";
 import type {Actor} from "../lib/booking";
 import {businessAppointments,revokeBusinessMembership,requireBusinessAccess} from "../lib/business-authority";
@@ -63,4 +64,22 @@ test("Square association is disabled by default, seller-scoped, deduplicated and
  assert.equal((await db.query("SELECT * FROM reserve_appointment_payment_links")).length,1);
  assert.equal((await db.query("SELECT * FROM reserve_business_subscription_entitlements")).length,0);
  const [visit]=await db.query("SELECT price,status FROM reserve_appointments WHERE id='visit-a'");assert.equal(visit.price,4500);assert.equal(visit.status,"completed");
+});
+test("business foundations preserve historical appointment snapshots and deny browser table access",async()=>{
+ const before=await db.query("SELECT * FROM reserve_appointments WHERE id='visit-a'");
+ for(const file of ["20261013090000_business_authority_and_support.sql","20261013091000_business_payment_associations.sql"]){
+  const source=await readFile(`migrations/${file}`,"utf8");
+  for(const statement of source.split(";").map(s=>s.trim()).filter(Boolean))await db.query(statement);
+ }
+ assert.deepEqual(await db.query("SELECT * FROM reserve_appointments WHERE id='visit-a'"),before);
+ await db.query("CREATE ROLE synthetic_business_browser");
+ await db.query("GRANT USAGE ON SCHEMA public TO synthetic_business_browser");
+ await db.query("GRANT SELECT,INSERT,UPDATE,DELETE ON reserve_businesses,reserve_business_memberships,reserve_support_cases,reserve_appointment_payment_links TO synthetic_business_browser");
+ try{
+  await db.query("SET ROLE synthetic_business_browser");
+  for(const table of ["reserve_businesses","reserve_business_memberships","reserve_support_cases","reserve_appointment_payment_links"]){
+   assert.equal((await db.query(`SELECT * FROM ${table}`)).length,0);
+  }
+  await assert.rejects(db.query("INSERT INTO reserve_businesses(id,slug,display_name,created_by) VALUES('forged','forged-browser','Forged','preview-client')"),/row.level security/);
+ }finally{await db.query("RESET ROLE");}
 });

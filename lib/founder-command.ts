@@ -1,7 +1,7 @@
 import { BookingError,type Actor } from "./booking";
 import type { Queryable } from "./db";
 import { requireCapability } from "./studio-permissions";
-import { deliveryConfig } from "./booking-delivery";
+import { deliveryConfig } from "./booking-delivery-config";
 export function requireFounder(actor: Actor) {
   requireCapability(actor,"studio.read");
   if(actor.role!=="owner")

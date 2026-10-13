@@ -115,6 +115,25 @@ and failed at server startup. No new local browser success is claimed.
 Previous PR verification JSON is historical, not fresh verification of this tree.
 Hosted CI/deployment results will be appended after inspection.
 
+Fresh hosted verification for `d074b595bc4c44d7cb8c534c10ec13c18129a334`:
+GitHub Actions run 38367391149/job 115195686523 passes npm ci, **237 tests,
+0 failures**, TypeScript and normal Next 16.3.8 production build. Vercel preview
+`dpl_Ads3qzzSdQcKzq2EepsGd6WWYW5h` is READY for that exact SHA at
+https://reserve-at-sanctum-bnfehy9ym-stutes-legacy.vercel.app/studio. Non-destructive
+Studio sign-in, customer book and health GETs return 200 with that deployment ID;
+these are HTTP smoke checks, not authenticated browser acceptance. Preview-only
+activation gates are explicitly false and Katie calendar is glossgenius. Exact
+branch alias is configured as APP_ORIGIN for subsequent builds. No secret values
+were read or printed. An explicit deployment API attempt using target=preview
+was rejected; the successful deployment was the verified Git-triggered preview.
+
+The release adds fresh isolated browser/Postgres CI so hosted build success is
+not mistaken for booking acceptance. A smaller compatible Founder application
+release is prepared separately: it preserves production's scheduling/schema paths
+and labels absent receipt/business tables unavailable. It includes no automatic
+database migration or new live operations. Its tested SHA/deployment must be
+verified independently before production merge/promotion.
+
 Katie's remaining commissioning: exact runtime/database/Auth mapping; migration
 baseline and tested restore; verified Katie scoped login; approved provider,
 location/address, menu/prices/durations/buffers/hours/cancellation rules; hosted
