@@ -32,6 +32,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - name: Select the installed Chromium executable
+        run: node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log("CHROMIUM_PATH="+chromium.executablePath())' >> "$GITHUB_ENV"
       - run: npm install --prefix /tmp/aethelios-a11y --no-save --package-lock=false axe-core@4.11.0
       - name: Isolated booking, staff, privacy and founder browsers
         run: |
