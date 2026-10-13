@@ -15,7 +15,8 @@
       "verify:booking-operations",
       "verify:operations",
       "verify:katie-launch",
-      "verify:katie-closed"
+      "verify:katie-closed",
+      "verify:katie-calendar-gate"
     ]
   },
   "finalCommitEvidence": "The draft PR records the exact final head and a fresh full test/typecheck/build and applicable browser run on that commit. Local run logs are artifacts/katie-final-verification.json and artifacts/katie-final/.",
@@ -26,6 +27,7 @@
       "Reload during an interrupted POST recovers exact 70-minute committed appointment",
       "Offline submission becomes bounded unknown state, blocks another submission, and safely recovers on reconnect",
       "Expired session and switched account never lose or settle another account's pointer; original account can resume",
+      "Cookie switches A to B between pointer persistence and POST; lost mismatch response recovers without a hidden booking under either account",
       "12-second recovery timeout leaves explicit uncertainty and a usable retry, never indefinite loading or false failure",
       "Closed native catalog shows exact GlossGenius destination and no parallel native menu (synthetic response fixture)",
       "Native calendar outage provides recovery/contact guidance without reopening competing GlossGenius availability (synthetic response fixture)",
@@ -165,5 +167,61 @@
     "Production booking/indexing activation, deploy, promotion or dependency merge"
   ],
   "syntheticRestore": "PGlite dump restored into a separate isolated database; exact appointment snapshots and retired-request rejection verified.",
-  "controls": "No hosted controls changed; default Katie calendar is GlossGenius; email and scheduler stayed disabled; indexing stays noindex/disallow-all."
+  "controls": "No hosted controls changed; default Katie calendar is GlossGenius; email and scheduler stayed disabled; indexing stays noindex/disallow-all.",
+  "calendarGate": {
+    "calendar": "glossgenius",
+    "fixture": "enabled synthetic catalog and linked CRM client",
+    "publicCreate": 503,
+    "staffCreate": 503,
+    "staffAvailability": 503,
+    "calendarSlots": [],
+    "history": "preserved",
+    "existingCancellation": "passed",
+    "hosted": false
+  },
+  "localPostgres": {
+    "engine": "PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+    "target": "disposable loopback PostgreSQL on port 55439",
+    "hosted": false,
+    "evidence": [
+      {
+        "check": "old-lock linked CRM cycle",
+        "result": [
+          "committed",
+          "40P01"
+        ]
+      },
+      {
+        "check": "corrected online/manual interleaving",
+        "result": [
+          "committed",
+          "committed"
+        ]
+      },
+      {
+        "check": "book-first request serialization",
+        "result": {
+          "blocked": true,
+          "appointments": 1
+        }
+      },
+      {
+        "check": "recover-first request serialization",
+        "result": {
+          "blocked": true,
+          "appointments": 0
+        }
+      },
+      {
+        "check": "independent-account partial-slot collision",
+        "result": "exactly one appointment"
+      }
+    ],
+    "timing": "Preflight against correction working tree; exact final-commit rerun is recorded in the PR."
+  },
+  "resolvedReviewFindings": [
+    "Create requests now bind to the durable pointer actor; a real cookie switch before POST followed by response loss creates no appointment under either account.",
+    "GlossGenius mode closes staff manual creation and availability even with enabled catalog rows, while history/cancellation remain available.",
+    "Real PostgreSQL reproduced the former user/provider/FK lock deadlock; both request mutexes now use FOR NO KEY UPDATE and pass concurrent manual/online and recovery ordering checks."
+  ]
 }

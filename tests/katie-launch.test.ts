@@ -119,6 +119,7 @@ test("Katie diagnostics do not count other providers, addresses or merely UUID-s
 test("calendar cutover fails closed; previews and private metadata cannot be indexed",()=>{
   assert.equal(katieNativeBooking({}),false);
   assert.equal(katieNativeBooking({NODE_ENV:"production",RESERVE_DEV_PREVIEW:"true"}),false);
+  assert.equal(katieNativeBooking({NODE_ENV:"development",RESERVE_DEV_PREVIEW:"true",RESERVE_KATIE_CALENDAR:"glossgenius"}),false);
   assert.equal(katieNativeBooking({NODE_ENV:"development",RESERVE_DEV_PREVIEW:"true",DATABASE_URL:"present"}),false);
   assert.equal(katieNativeBooking({RESERVE_KATIE_CALENDAR:"native"}),true);
   for(const VERCEL_ENV of ["preview","development",undefined]) assert.equal(fixItSearchMetadata("/fix-it-shop/app",{VERCEL_ENV,RESERVE_PUBLIC_CANONICAL_ORIGIN:"https://approved.example"}).alternates?.canonical,undefined);

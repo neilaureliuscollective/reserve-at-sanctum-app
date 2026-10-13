@@ -260,7 +260,9 @@ export async function book(
     return await db.transaction(async (tx) => {
       // Recovery uses this same account lock to retire a request before a
       // delayed submission can commit. Never infer failure from a missing row.
-      await tx.query("SELECT id FROM reserve_users WHERE id=$1 FOR UPDATE", [actor.id]);
+      // NO KEY UPDATE still serializes recovery/creation, while permitting the
+      // user FK's KEY SHARE during a concurrent provider-locked manual booking.
+      await tx.query("SELECT id FROM reserve_users WHERE id=$1 FOR NO KEY UPDATE", [actor.id]);
       const [prior] = await tx.query<AccountAppointment>(
         "SELECT * FROM reserve_appointments WHERE client_id=$1 AND request_key=$2 AND source='online'",
         [actor.id, input.requestKey],

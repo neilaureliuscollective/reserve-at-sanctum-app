@@ -30,7 +30,7 @@ export async function bookingNotification(db: Queryable, appointmentId: string):
  * Retain fences: deleting one would make an old client request valid again. */
 export async function recoverBooking(db: Database, actor: Actor, requestKey: string) {
   const appointment = await db.transaction(async tx => {
-    await tx.query("SELECT id FROM reserve_users WHERE id=$1 FOR UPDATE", [actor.id]);
+    await tx.query("SELECT id FROM reserve_users WHERE id=$1 FOR NO KEY UPDATE", [actor.id]);
     const [saved] = await tx.query<SavedBooking>(`SELECT a.id,a.starts_at,a.ends_at,a.price,a.status,
       s.name AS service_name,p.name AS provider_name,COALESCE(l.timezone,'America/Chicago') AS timezone
       FROM reserve_appointments a JOIN reserve_services s ON s.id=a.service_id

@@ -90,7 +90,9 @@ export function useBookingSubmission(actor: Actor | null, sessionLoaded: boolean
     setPhase("checking");
     setMessage("");
     try {
-      const { response, data } = await request("/api/appointments", {...intent, requestKey:next.requestKey});
+      // Cookies can change in another tab after this pointer is persisted. The
+      // server must match this expected identity before creating anything.
+      const { response, data } = await request("/api/appointments", {...intent, ...next});
       if (response.ok && data.appointment?.id) {
         setOutcome(data);
         setPhase("ready");

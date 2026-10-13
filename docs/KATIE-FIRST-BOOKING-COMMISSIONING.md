@@ -46,7 +46,10 @@ fixture or client pilot, confirm appropriate preview access controls separately.
   submission with a clear explanation. Closing the tab loses the local pointer;
   account history remains the recovery destination before another booking.
 - Recovery authenticates the same account and serializes with creation on its
-  user row. A saved request returns its current snapshot, even after reschedule
+  user row using `FOR NO KEY UPDATE`. Creation includes the pointer’s expected
+  account ID and rejects a changed session before booking; the ID never grants
+  authority. Legacy API callers without a recovery pointer remain compatible.
+  A saved request returns its current snapshot, even after reschedule
   or cancellation. An absent request is durably retired; late original requests
   cannot commit. Only then can the client use a fresh key for changed intent.
   The retired-key table is private under RLS, contains no draft, and must not be
@@ -66,7 +69,9 @@ fixture or client pilot, confirm appropriate preview access controls separately.
 - `RESERVE_KATIE_CALENDAR=glossgenius` is the default hosted calendar decision.
   Public entry and closed booking, including legacy `/book` links, point to
   `https://fixitshop.glossgenius.com/`. Other professionals keep their own scope.
-  Native creation/availability are gated; no dual native menu is presented.
+  Public and staff manual creation/availability are gated, including Studio
+  calendar openings; no dual native menu is presented. Existing history and
+  cancellation remain accessible. No reconciliation/import bypass was added.
   After an approved `native` cutover, an outage offers existing-visit recovery
   and contact guidance, not a second availability claim. Do not reopen GlossGenius
   booking while native appointments remain unreconciled.
@@ -120,6 +125,35 @@ protection. This is **not** a hosted backup restore. Hosted recovery gate requir
 No hosted migration, backup, restore, data reset, test fixture or privilege grant
 has been performed by this task. Supabase CLI was used only to generate the local
 migration filename. No payment processor or Square Bookings migration is included.
+
+### Independent local PostgreSQL concurrency evidence
+
+The added `verify:katie-postgres` script uses only a disposable PostgreSQL 17
+container on `127.0.0.1:55439`, with tmpfs data and a unique database per run. It
+checks the local Docker socket, image, loopback port and tmpfs before connecting;
+it cannot accept a hosted connection string. It removes its database afterward.
+It calls the real booking/manual/recovery functions with a linked CRM client.
+
+The prior `FOR UPDATE` user mutex was reproduced as a real `40P01` deadlock:
+online held user A then waited on provider P; manual held provider P then waited
+for its appointment FK key-share on user A. The corrected `FOR NO KEY UPDATE`
+mutex allows that FK lock while remaining exclusive against another request
+mutex, as described in [PostgreSQL’s row-lock compatibility rules](https://www.postgresql.org/docs/current/explicit-locking.html).
+Both real transactions now commit. Separate sessions and `pg_blocking_pids`
+verify book-first and recovery-first serialization (one appointment or a retired
+key with zero appointments), plus an independent-account partial-slot collision.
+This is stronger than serialized PGlite evidence but does not certify the hosted
+runtime, pooler, role grants or backup restoration.
+
+Reproduce in an isolated executor, never against the connected RAS database:
+
+```sh
+docker run --detach --name katie-first-booking-postgres \
+  --publish 127.0.0.1:55439:5432 --env POSTGRES_HOST_AUTH_METHOD=trust \
+  --env POSTGRES_DB=katie_isolated --tmpfs /var/lib/postgresql/data postgres:17
+npm run verify:katie-postgres
+docker rm --force katie-first-booking-postgres
+```
 
 ## Katie’s scoped account and catalog decisions
 

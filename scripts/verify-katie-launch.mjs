@@ -85,6 +85,37 @@ try {
  assert.equal(await page.locator("[data-booking-submit]").isDisabled(),true);
  await login("preview-client");await page.getByRole("button",{name:"Check booking request"}).click();await page.getByText(/No appointment was saved for this request/).waitFor();
  checks.push("Expired session and switched account never lose or settle another account's pointer; original account can resume");
+ // Change the real cookie after the pointer is written but BEFORE fetch creates
+ // the network request. This is distinct from switching after a 401 response.
+ const switchedStart=await select();
+ await page.exposeFunction("switchBookingAccountForTest",()=>login("preview-other"));
+ await page.evaluate(()=>{
+   const originalFetch=window.fetch;let once=true;
+   window.fetch=async(...args)=>{
+     if(once && args[0]==="/api/appointments"){
+       once=false;await window.switchBookingAccountForTest();
+       window.fetch=originalFetch;
+     }
+     return originalFetch(...args);
+   };
+ });
+ let switchedCreate, switchedStatus;
+ await page.route("**/api/appointments",async route=>{
+   switchedCreate=route.request().postDataJSON();
+   const response=await route.fetch();switchedStatus=response.status();
+   await route.abort("failed"); // Lose even the mismatch response.
+ });
+ await reserve().click();await page.getByText(/A booking request belongs to a different/).waitFor();
+ assert.equal(switchedStatus,403);assert.equal(switchedCreate.actorId,"preview-client");
+ assert.equal(JSON.parse(await page.evaluate(()=>sessionStorage.getItem("reserve.booking-request.v1"))).actorId,"preview-client");
+ assert.equal(await page.locator("[data-booking-submit]").isDisabled(),true);
+ await page.unroute("**/api/appointments");
+ assert.equal((await api("/api/appointments","POST",switchedCreate)).status(),403,"B cannot create A's request");
+ assert.equal((await (await api("/api/appointments")).json()).visits.filter(v=>v.starts_at===switchedStart).length,0,"No hidden B appointment");
+ await login("preview-client");await page.getByRole("button",{name:"Check booking request"}).click();await page.getByText(/No appointment was saved for this request/).waitFor();
+ assert.equal((await (await api("/api/appointments")).json()).visits.filter(v=>v.starts_at===switchedStart).length,0,"No A appointment");
+ assert.equal((await api("/api/appointments","POST",switchedCreate)).status(),409,"A's now-retired request stays closed");
+ checks.push("Cookie switches A to B between pointer persistence and POST; lost mismatch response recovers without a hidden booking under either account");
  // A timeout must release loading while retaining the unresolved key.
  let releaseRecovery;
  const stalled=new Promise(resolve=>releaseRecovery=resolve);

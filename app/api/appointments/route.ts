@@ -54,8 +54,13 @@ export async function POST(req: Request) {
         start: z.iso.datetime(),
         note: z.string().max(600).default(""),
         requestKey: z.uuid(),
+        // Older API callers have no durable recovery pointer. New clients bind
+        // creation and recovery to the same expected (never authoritative) ID.
+        actorId: z.string().min(1).max(100).optional(),
       })
       .parse(await req.json());
+    if (input.actorId && input.actorId !== actor.id)
+      throw new BookingError("Return to the account that started this booking request.", 403);
     const db = await database();
     const [provider] = await db.query<{provider_id:string}>("SELECT provider_id FROM reserve_services WHERE id=$1", [input.serviceId]);
     if (provider?.provider_id === "katie" && !katieNativeBooking())
