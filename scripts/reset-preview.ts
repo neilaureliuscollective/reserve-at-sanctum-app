@@ -1,6 +1,7 @@
 import { PGlite } from "@electric-sql/pglite";
 import path from "node:path";
 import { existsSync } from "node:fs";
+async function main() {
 if (process.env.NODE_ENV === "production" || process.env.DATABASE_URL || process.env.RESERVE_DEV_PREVIEW !== "true")
   throw new Error("Reset is restricted to the explicitly enabled local synthetic preview.");
 const location=path.resolve(".data/reserve");
@@ -19,3 +20,5 @@ else {
   console.log("Local synthetic appointments, messages and sessions cleared. Catalog, accounts and profiles preserved.");
  }finally{await pg.close();}
 }
+}
+main().catch(error => { console.error(error instanceof Error ? error.message : "Preview reset failed."); process.exitCode=1; });

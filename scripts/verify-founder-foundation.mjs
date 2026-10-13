@@ -31,7 +31,7 @@ try{
    if(process.env.AXE_CORE_PATH){await page.addScriptTag({path:process.env.AXE_CORE_PATH});const audit=await page.evaluate(async()=>window.axe.run(document,{runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa"]}}));await writeFile(`${artifacts}/axe-${route.replaceAll("/","-")}-${width}.json`,JSON.stringify(audit));assert.deepEqual(audit.violations.map(v=>v.id),[]);}
   }
  }
- await page.emulateMedia({reducedMotion:"reduce"});await page.goto(origin+"/studio/businesses");await page.screenshot({path:`${artifacts}/business-mobile.png`});
+ await page.setViewportSize({width:390,height:844});await page.emulateMedia({reducedMotion:"reduce"});await page.goto(origin+"/studio/businesses");await page.screenshot({path:`${artifacts}/business-mobile.png`});
  for(const identity of ["preview-katie","preview-client"]){await login(identity);assert.equal(await page.evaluate(async()=>(await fetch("/api/studio/businesses")).status),403);}
  assert.deepEqual(errors,[]);console.log("PASS real synthetic Founder overview, keyboard business draft creation, closed controls, unauthorized reads, mobile widths and optional axe audits.");
 }finally{await browser?.close();server.kill("SIGTERM");await writeFile(`${artifacts}/server.log`,logs);}
