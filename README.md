@@ -36,6 +36,10 @@ Read the Phase One release gates before inviting real customers.
 
 ## Production booking readiness
 
+See [Katie’s first-booking commissioning packet](docs/KATIE-FIRST-BOOKING-COMMISSIONING.md)
+for the exact review stack, calendar gate, duration/recovery behavior and remaining
+hosted, account, inbox and phone acceptance. This candidate does not open bookings.
+
 See [the current pilot operations, hosted evidence and commissioning gates](docs/AETHELIOS-BOOKING-PILOT-OPERATIONS.md) and [the initial readiness inventory](docs/AETHELIOS-BOOKING-PRODUCTION-READINESS.md).
 Booking email is disabled until approved sender, scheduler and delivery acceptance.
 `npm run db:migrate` now prints a checksum plan without contacting a database;

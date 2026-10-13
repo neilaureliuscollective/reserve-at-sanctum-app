@@ -576,9 +576,9 @@ export function StudioOperations({
                       type="number"
                       name="minutes"
                       required
-                      min={15}
+                      min={5}
                       max={480}
-                      step={15}
+                      step={5}
                       defaultValue={service?.minutes}
                       disabled={busy}
                     />
@@ -591,7 +591,7 @@ export function StudioOperations({
                       required
                       min={0}
                       max={120}
-                      step={15}
+                      step={5}
                       defaultValue={service?.buffer}
                       disabled={busy}
                     />
@@ -613,8 +613,9 @@ export function StudioOperations({
                   />
                 </label>
                 <p className="studio-muted">
-                  Duration and buffer use 15-minute steps. The full appointment
-                  plus buffer must fit inside working hours.
+                  Duration and buffer use exact 5-minute steps. Starts stay on the
+                  15-minute grid; the full visit and buffer must fit inside hours.
+                  A partial final grid unit is protected from overlapping bookings.
                 </p>
               </>
             ) : (

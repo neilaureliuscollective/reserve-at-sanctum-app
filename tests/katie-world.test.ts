@@ -6,7 +6,7 @@ const service={id:'cut',name:'Published service',description:'Approved descripti
 const destination=(overrides:Partial<SanctumDestination>={}):SanctumDestination=>({id:'eunice',name:'Eunice',short_name:'Eunice',city:'Eunice',region:'Louisiana',timezone:'America/Chicago',address:'Verified address',enabled:true,booking_enabled:true,status:'operating',poster:'',crest:'',professionals:[{id:'katie',name:'Katie',services:[service]}],...overrides});
 test('Katie’s public menu requires both a published destination and her own services',()=>{
  for(const house of [destination({enabled:false}),destination({booking_enabled:false}),destination({professionals:[{id:'another',name:'Other professional',services:[service]}]}),destination({professionals:[{id:'katie',name:'Katie',services:[]} ]})]){
-  const state=katieVisitPresentation([house]);assert.equal(state.state,'preparing');assert.deepEqual(state.locations,[]);assert.equal(state.primary.href,'#services');
+  const state=katieVisitPresentation([house]);assert.equal(state.state,'preparing');assert.deepEqual(state.locations,[]);assert.equal(state.primary.href,'/fix-it-shop/app/book');
  }
  assert.equal(katieVisitPresentation([]).state,'preparing');
 });
@@ -19,5 +19,10 @@ test('Katie’s handoff preserves provider, destination and service without expo
  assert.equal(state.locations[0].services[0].price,3200);
 });
 test('A failed read suppresses stale services and booking invitations',()=>{
- const state=katieVisitPresentation([destination()],true);assert.equal(state.state,'unavailable');assert.deepEqual(state.locations,[]);assert.equal(state.primary.href,'#services');assert.ok(!state.primary.label.includes('Book with'));
+ const state=katieVisitPresentation([destination()],true);assert.equal(state.state,'unavailable');assert.deepEqual(state.locations,[]);assert.equal(state.primary.href,'/fix-it-shop/app/book');assert.ok(!state.primary.label.includes('Book with'));
+});
+
+test('GlossGenius calendar keeps native availability hidden even if provider rows are enabled',()=>{
+ const state=katieVisitPresentation([destination()],false,false);assert.equal(state.state,'preparing');assert.deepEqual(state.locations,[]);assert.equal(state.primary.href,'https://fixitshop.glossgenius.com/');assert.match(state.status,/current booking calendar/);
+ const failed=katieVisitPresentation([],true,false);assert.equal(failed.primary.href,state.primary.href);
 });

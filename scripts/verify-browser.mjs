@@ -1,3 +1,3 @@
-// Current end-to-end entry, provider, Mirror, visit and booking journeys.
-// Replaces the obsolete canvas/automatic-Blueprint-save assertions.
-import "./verify-visit-continuity.mjs";
+// Current Fix It Shop entry, customer, team and booking journeys.
+// Historical visit-continuity assertions target the retired arrival/room UI.
+import "./verify-fix-it-booking.mjs";

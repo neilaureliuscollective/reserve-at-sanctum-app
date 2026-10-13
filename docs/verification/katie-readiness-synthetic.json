@@ -1,0 +1,55 @@
+{
+  "evidence": "isolated PGlite, no hosted account or configuration acceptance",
+  "closed": {
+    "scope": {
+      "providerId": "katie",
+      "locationId": "eunice",
+      "expectedAccountProvided": false
+    },
+    "accountConfirmed": null,
+    "schema": {
+      "missingColumns": [],
+      "exactDurationsSupported": true
+    },
+    "configuration": {
+      "booking_locations": 0,
+      "enabled_providers": 0,
+      "enabled_services": 0,
+      "assigned_providers": 0,
+      "scoped_staff": 0
+    },
+    "privacy": {
+      "private_tables": 6,
+      "rls_enabled": 6
+    },
+    "occupancyProtected": true,
+    "configurationPrerequisitesMet": false,
+    "liveAcceptance": "unverified"
+  },
+  "synthetic": {
+    "scope": {
+      "providerId": "katie",
+      "locationId": "eunice",
+      "expectedAccountProvided": false
+    },
+    "accountConfirmed": null,
+    "schema": {
+      "missingColumns": [],
+      "exactDurationsSupported": true
+    },
+    "configuration": {
+      "booking_locations": 0,
+      "enabled_providers": 1,
+      "enabled_services": 3,
+      "assigned_providers": 1,
+      "scoped_staff": 0
+    },
+    "privacy": {
+      "private_tables": 6,
+      "rls_enabled": 6
+    },
+    "occupancyProtected": true,
+    "configurationPrerequisitesMet": false,
+    "liveAcceptance": "unverified"
+  }
+}

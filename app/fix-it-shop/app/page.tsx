@@ -10,16 +10,21 @@ import { FixItVisitFilm, FixItAtmosphere } from "@/components/fix-it-home-scenes
 import { configured, database, isPreview } from "@/lib/db";
 import { memberRead } from "@/lib/experience/member";
 import { sanctumDirectory } from "@/lib/experience/sanctum-directory";
+import { katieNativeBooking } from "@/lib/katie-launch";
+import { FixItBookingFallback } from "@/components/fix-it-booking-fallback";
 import { katieVisitPresentation } from "@/lib/experience/katie-world";
 import { fixItBooking as brand } from "@/lib/fix-it-booking";
 import "./home.css";
 import { FounderFeature } from "@/components/founder-feature";
 
+import { fixItSearchMetadata } from "@/lib/fix-it-search";
+export const metadata = { ...fixItSearchMetadata("/fix-it-shop/app"), title: "Fix It Shop · Katie Guidry", description: "Katie Guidry’s independent men’s salon. Explore Fix It Shop and find the current booking calendar." };
+
 export const dynamic = "force-dynamic";
 export default async function Page() {
   const [profile, actor] = await Promise.all([katieBranding(), publicUser()]);
   const directory = configured() ? await memberRead(async () => sanctumDirectory(await database()), 2500) : { state: "ready" as const, data: [] };
-  const visit = katieVisitPresentation(directory.data ?? [], directory.state === "unavailable");
+  const visit = katieVisitPresentation(directory.data ?? [], directory.state === "unavailable", katieNativeBooking());
   const money = (cents: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(cents / 100);
   const cover = profile.cover ? brandAsset(profile.cover) : "/images/katie/private-chair.webp";
   return <main id="main" className="fix-it-home">
@@ -30,7 +35,7 @@ export default async function Page() {
         <p className="fis-kicker">KATIE GUIDRY’S INDEPENDENT MEN’S SALON</p>
         <h1 id="fis-title">A little time.<br /><em>A lot of care.</em></h1>
         <p className="fis-lead">More than a place in your calendar. A visit with Katie, shaped around the person in her chair.</p>
-        <div className="fis-actions"><Link className="button button-gold" href={brand.book}>{visit.state === "open" ? "Book with Katie" : "View booking status"}<ArrowUpRight size={17} /></Link><a className="fis-link" href="#services">Explore services <ArrowDown size={15} /></a></div>
+        <div className="fis-actions"><Link className="button button-gold" href={visit.primary.href}>{visit.primary.label}<ArrowUpRight size={17} /></Link><a className="fis-link" href="#services">Explore services <ArrowDown size={15} /></a></div>
         <div className="fis-entrance__signature"><span>FIX IT SHOP</span><span>HER BUSINESS. HER STANDARD.</span></div>
       </div>
       <div className="fis-entrance__bottom"><a href="#katie">Step inside <ArrowDown size={15} /></a><small>{profile.cover ? "FIX IT SHOP" : "ILLUSTRATIVE SETTING · NOT THE FINISHED LOCATION"}</small></div>
@@ -46,7 +51,7 @@ export default async function Page() {
     <section id="services" className="fis-services" aria-labelledby="menu-title" data-booking-state={visit.state}>
       <div className="fis-wrap"><header><div><p className="fis-kicker">03 / MAKE TIME FOR YOURSELF</p><h2 id="menu-title">Your visit.<br /><em>With Katie.</em></h2></div><p role="status">{visit.status}</p></header>
       {visit.locations.map(location => <div className="fis-location" key={location.id}><div className="fis-location__heading"><h3>{location.city}, {location.region}</h3><span>WITH KATIE GUIDRY</span></div><div className="fis-service-menu">{location.services.map((service, index) => <Link className="fix-it-service fis-service" key={service.id} href={brand.book + "?" + new URLSearchParams({ location: location.id, service: service.id })}><span className="fis-service__number">{String(index + 1).padStart(2, "0")}</span><div><h3>{service.name}</h3><p>{service.description}</p><span>{service.minutes} minutes · Personal time with Katie</span></div><strong>{money(service.price)}<small>Find a time <ArrowUpRight size={16} /></small></strong></Link>)}</div><p className="fis-location__details">{location.address || "Location details are being prepared."} · Appointment times use {location.timezone}.</p></div>)}
-      {visit.state !== "open" && <div className="fis-menu-state"><span className="fis-kicker">{visit.state === "unavailable" ? "DETAILS COULDN’T REFRESH" : "THE MENU IS TAKING SHAPE"}</span><h3>{visit.state === "unavailable" ? "Check again before making plans." : "A personal visit. Thoughtfully prepared."}</h3><p>{visit.state === "unavailable" ? "Service and availability information is temporarily unavailable. Open booking to try again." : "Approved services, durations, prices and times will appear here when published."}</p><Link className="fis-link" href={brand.book}>View booking status <ArrowUpRight size={16} /></Link></div>}
+      {visit.state !== "open" && <FixItBookingFallback nativeCalendar={katieNativeBooking()} />}
       {visit.state === "open" && <p className="fis-menu-note">Choose a service to explore available times. Your appointment is reserved only after you confirm.</p>}</div>
     </section>
     <section className="fis-personal fis-wrap" aria-labelledby="fis-personal-title"><div><p className="fis-kicker">04 / ROOM TO BE YOURSELF</p><h2 id="fis-personal-title">Your time.<br /><em>Your pace.</em></h2><p>A conversation, a quiet moment, or a little of both. Explore how you would like your visit to feel.</p><p>The Chair lets you save your preferences and choose what to share with Katie.</p><Link href="/chair" className="fis-link">Prepare my visit in The Chair <ArrowUpRight size={16} /></Link></div><FixItAtmosphere /></section>
