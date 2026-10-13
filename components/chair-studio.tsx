@@ -187,7 +187,7 @@ function ChairNote({
       <label className="chair-field">
         Private service note
         <span>
-          Katie and authorized owner only. This is separate from the client’s
+          Katie and her authorized service team only. This is separate from the client’s
           check-in.
         </span>
         <textarea
