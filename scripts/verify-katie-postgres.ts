@@ -76,9 +76,13 @@ try{
    if(!blocked)await new Promise(r=>setTimeout(r,10));
   }
   release.resolve();const results=await Promise.all([firstRun,secondRun]);assert.equal(blocked,true,"Competing transaction must wait for the request mutex");
+  assert.equal(results[0].ok,true,"The first transaction must commit successfully");
   const recovered=await recoverBooking(db,clientActor,intent.requestKey);
   assert.equal(Boolean(recovered.appointment),first==="book");
-  if(first==="recover")assert.equal(results[1].ok,false);
+  if(first==="recover"){
+   assert.equal(results[1].ok,false);
+   assert.ok("status" in results[1]&&results[1].status===409,"Only the explicit retired-request rejection is valid");
+  }else assert.equal(results[1].ok,true,"Recovery must return the committed booking");
   const count=await db.query<{n:number}>("SELECT count(*)::int AS n FROM reserve_appointments WHERE client_id=$1 AND request_key=$2",[clientActor.id,intent.requestKey]);
   assert.equal(count[0].n,first==="book"?1:0);
   evidence.push({check:`${first}-first request serialization`,result:{blocked,appointments:count[0].n}});

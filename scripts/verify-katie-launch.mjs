@@ -38,7 +38,7 @@ try {
  const reserve=()=>page.getByRole("button",{name:"Reserve preview visit"});
  const saved=()=>page.getByRole("heading",{name:/Time set aside/});
  await login("preview-client");await page.goto(origin+base+"/book");await clearPointer();
- const start=await select();await page.getByLabel("Anything you’d like your provider to know?").fill("Synthetic private draft canary");
+ await select();await page.getByLabel("Anything you’d like your provider to know?").fill("Synthetic private draft canary");
  let original, posts=0;
  await page.route("**/api/appointments",async route=>{
    if(route.request().method()!=="POST")return route.continue();
@@ -51,7 +51,7 @@ try {
  assert.doesNotMatch(pointer,/private draft|launch-25|starts_at|note/);
  await page.reload();await saved().waitFor();assert.equal(posts,1);
  const retry=await api("/api/appointments","POST",original);assert.equal(retry.status(),201);
- const owned=await (await api("/api/appointments")).json();assert.equal(owned.visits.filter(v=>v.starts_at===start).length,1);
+ const owned=await (await api("/api/appointments?date="+DateTime.fromISO(original.start).setZone("America/Chicago").toISODate())).json();assert.equal(owned.visits.filter(v=>v.request_key===original.requestKey).length,1);
  checks.push("Lost committed response, double click, reload and same-key retry produce one real synthetic appointment; no draft in storage");
  await page.screenshot({path:`${artifacts}/saved-mobile.png`,fullPage:true});
  await page.unroute("**/api/appointments");
@@ -87,7 +87,7 @@ try {
  checks.push("Expired session and switched account never lose or settle another account's pointer; original account can resume");
  // Change the real cookie after the pointer is written but BEFORE fetch creates
  // the network request. This is distinct from switching after a 401 response.
- const switchedStart=await select();
+ await select();
  await page.exposeFunction("switchBookingAccountForTest",()=>login("preview-other"));
  await page.evaluate(()=>{
    const originalFetch=window.fetch;let once=true;
@@ -111,9 +111,10 @@ try {
  assert.equal(await page.locator("[data-booking-submit]").isDisabled(),true);
  await page.unroute("**/api/appointments");
  assert.equal((await api("/api/appointments","POST",switchedCreate)).status(),403,"B cannot create A's request");
- assert.equal((await (await api("/api/appointments")).json()).visits.filter(v=>v.starts_at===switchedStart).length,0,"No hidden B appointment");
+ const bRecovery=await api("/api/appointments/recover","POST",{actorId:"preview-other",requestKey:switchedCreate.requestKey});
+ assert.equal(bRecovery.status(),200);assert.equal((await bRecovery.json()).appointment,null,"No hidden B appointment for this request key");
  await login("preview-client");await page.getByRole("button",{name:"Check booking request"}).click();await page.getByText(/No appointment was saved for this request/).waitFor();
- assert.equal((await (await api("/api/appointments")).json()).visits.filter(v=>v.starts_at===switchedStart).length,0,"No A appointment");
+ assert.equal((await (await api("/api/appointments")).json()).visits.filter(v=>v.request_key===switchedCreate.requestKey).length,0,"No A appointment for this request key");
  assert.equal((await api("/api/appointments","POST",switchedCreate)).status(),409,"A's now-retired request stays closed");
  checks.push("Cookie switches A to B between pointer persistence and POST; lost mismatch response recovers without a hidden booking under either account");
  // A timeout must release loading while retaining the unresolved key.

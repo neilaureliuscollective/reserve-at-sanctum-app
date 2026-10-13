@@ -152,7 +152,8 @@
     "npm cache was read-only; dependency install succeeded using /tmp/katie-npm-cache.",
     "First operations browser attempt encountered a transient local dev route 404; retry reached a stale heading assertion. Updated the assertion to the existing Founder Command heading; the operations journey passed.",
     "verify:browser targeted historical arrival/room UI and failed its root heading expectation after the existing Fix It Shop routing. Redirected this alias to the current verify:fix-it-booking journey; the historical script remains unchanged.",
-    "Visual inspection found inherited flex layout compressing fallback copy. Scoped booking-status layout was corrected and verified with readable-width, overflow and accessibility assertions."
+    "Visual inspection found inherited flex layout compressing fallback copy. Scoped booking-status layout was corrected and verified with readable-width, overflow and accessibility assertions.",
+    "An account-switch browser assertion counted historic cancelled synthetic visits at a reused time. It now checks the unique request key and uses owned server recovery to rule out a hidden second-account booking. PostgreSQL race assertions also require explicit commit success or the expected retired-key 409."
   ],
   "blocked": [
     "Library Markdown materialization: library file transfer failed: download failed, including the one supported local retry; no readable bytes.",
