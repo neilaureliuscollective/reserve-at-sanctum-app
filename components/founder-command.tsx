@@ -3,8 +3,9 @@ import type { FounderCommandData } from "@/lib/founder-command";
 import { FounderTemplates } from "./founder-templates";
 import styles from "./founder-command.module.css";
 const date=(value: Date|string) => new Date(value).toISOString().replace("T"," · ").slice(0,22)+" UTC";
-export function FounderCommand({ data }: {
+export function FounderCommand({ data, overview }: {
   data: FounderCommandData|null;
+  overview?: React.ReactNode;
 }) {
   return <div className={styles.world}>
     <header className={styles.heading}>
@@ -13,11 +14,13 @@ export function FounderCommand({ data }: {
       </h1>
       <p>One clear view of what is configured, what needs attention, and what still needs proof.</p>
       <nav className={styles.sections} aria-label="Founder Command sections">
+        <a href="#overview">Executive overview</a>
         <a href="#businesses">Business readiness</a>
         <a href="#communications">Communications</a>
         <a href="#commissioning">Katie’s pilot</a>
       </nav>
     </header>
+    {overview}
     {!data? <section className={styles.panel} role="alert">
       <h2>Operational evidence is unavailable.</h2>
       <p>The database could not be read. No readiness result has been inferred.</p>
@@ -27,7 +30,7 @@ export function FounderCommand({ data }: {
         <div>
           <p className={styles.eyebrow}>RELEASE POSITION</p>
           <h2 id="attention-title">Configuration is not acceptance.</h2>
-          <p>Hosted pilot verification and founder approval are still required. Business ownership and independent memberships are not yet implemented.</p>
+          <p>Hosted pilot verification is still required. Independent business authority is prepared behind a disabled commissioning gate; existing provider operations remain the compatibility path.</p>
         </div>
         <dl className={styles.signals}>
           <div>
@@ -46,6 +49,8 @@ export function FounderCommand({ data }: {
         <div className={styles.links}>
           <Link href="/studio/operations">Review existing configuration →</Link>
           <Link href="/studio/build">Open review work →</Link>
+          <Link href="/studio/businesses">Business management →</Link>
+          <Link href="/studio/support">Platform support →</Link>
         </div>
       </section>
       <section id="businesses" className={styles.panel} aria-labelledby="business-title">

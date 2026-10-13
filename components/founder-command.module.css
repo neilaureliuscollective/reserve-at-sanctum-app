@@ -170,7 +170,7 @@
   flex:1;
   min-width:min(100%,200px)
 }
-.controls select {
+.controls select,.controls input {
   width:100%;
   background:#11251c;
   color:#f1f2e9;

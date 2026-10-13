@@ -13,6 +13,8 @@ import {
 const rooms = [
   ["/studio/today", "Today", CalendarDays],
   ["/studio", "Command", Compass],
+  ["/studio/businesses", "Businesses", UsersRound],
+  ["/studio/support", "Support", Settings2],
   ["/studio/schedule", "Schedule", CalendarDays],
   ["/studio/content", "Content", PenLine],
   ["/studio/build", "Build Room", Hammer],
