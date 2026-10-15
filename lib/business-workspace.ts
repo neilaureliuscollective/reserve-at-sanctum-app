@@ -1,3 +1,4 @@
+import { featureSchemaReady, requireFeatureSchema } from "./feature-readiness";
 import { z } from "zod";
 import { DateTime } from "luxon";
 import { BookingError, change, type Actor } from "./booking";
@@ -30,8 +31,14 @@ const operator = (actor: Actor, provider: string): Actor => ({
 export async function suppressBusinessLegacyAccess(
   db: Queryable,
   actor: Actor,
+  env: Record<string, string | undefined> = process.env,
 ): Promise<Actor> {
   if (actor.role === "owner") return actor; // Separate platform Founder authority.
+  if (!businessAuthorityEnabled(env)) return actor;
+  // Without the schema we cannot distinguish migrated/revoked members from
+  // legacy operators. Keep identity but fail closed for every legacy privilege.
+  if (!await featureSchemaReady(db, "business"))
+    return { ...actor, role: "client", provider_id: null, capability_overrides: [] };
   const rows = await db.query(
     "SELECT 1 FROM reserve_business_memberships WHERE user_id=$1 LIMIT 1",
     [actor.id],
@@ -42,6 +49,7 @@ export async function suppressBusinessLegacyAccess(
 }
 export async function businessEntrance(db: Queryable, actor: Actor | null) {
   if (!actor || !businessAuthorityEnabled()) return null;
+  if (!await featureSchemaReady(db, "business")) return null;
   const rows = await db.query(
     `SELECT b.id FROM reserve_businesses b JOIN reserve_business_memberships m ON m.business_id=b.id
     WHERE b.slug='fix-it-shop' AND b.state<>'archived' AND m.user_id=$1 AND m.revoked_at IS NULL AND m.verified_at IS NOT NULL`,
@@ -50,6 +58,7 @@ export async function businessEntrance(db: Queryable, actor: Actor | null) {
   return rows.length ? "/fix-it-shop/manage" : null;
 }
 export async function fixItBusiness(db: Queryable) {
+  await requireFeatureSchema(db, "business");
   const [b] = await db.query<{ id: string }>(
     "SELECT id FROM reserve_businesses WHERE slug='fix-it-shop'",
   );

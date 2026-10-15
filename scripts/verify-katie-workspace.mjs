@@ -1,7 +1,8 @@
+import { waitForApplication } from "./wait-for-application.mjs";
 import { assertSyntheticVerification } from "./synthetic-verification.mjs";
 import { chromium } from "@playwright/test";
 import { spawn, execFileSync } from "node:child_process";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { DateTime } from "luxon";
 import { randomUUID } from "node:crypto";
 import assert from "node:assert/strict";
@@ -31,6 +32,8 @@ let logs = "",
   browser,
   server;
 const checks = [];
+const revocationToken = randomUUID();
+const fixtureRoute = "app/api/synthetic-live-revocation";
 async function start() {
   server = spawn(
     process.execPath,
@@ -38,6 +41,7 @@ async function start() {
     {
       env: {
         ...process.env,
+        SYNTHETIC_REVOCATION_TOKEN: revocationToken,
         RESERVE_DEV_PREVIEW: "true",
         RESERVE_BUSINESS_AUTHORITY_ENABLED: "true",
         APP_ORIGIN: origin,
@@ -64,7 +68,10 @@ async function stop() {
   }
 }
 try {
+  await mkdir(fixtureRoute);
+  await writeFile(fixtureRoute + "/route.ts", await readFile("scripts/fixtures/live-revocation-route.txt"));
   await start();
+  await waitForApplication(origin);
   browser = await chromium.launch({
     executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
     args: ["--no-sandbox", "--disable-dev-shm-usage"],
@@ -249,11 +256,12 @@ try {
   checks.push(
     "Scoped reschedule and cancellation through real management HTTP actions",
   );
-  await stop();
-  fixture(
-    "UPDATE reserve_business_memberships SET revoked_at=now() WHERE business_id='synthetic-workspace'",
-  );
-  await start();
+  const cookiesBeforeRevocation = await owner.cookies();
+  assert.equal((await owner.request.post(origin + "/api/synthetic-live-revocation", {
+    headers: {"x-synthetic-token": revocationToken},
+  })).status(), 200);
+  assert.deepEqual(await owner.cookies(), cookiesBeforeRevocation);
+  assert.equal(server.exitCode, null);
   assert.equal(
     (
       await api(owner, "/api/fix-it-management?date=" + day.toISODate())
@@ -261,12 +269,16 @@ try {
     403,
   );
   assert.equal((await api(owner, "/api/studio/day")).status(), 403);
+  assert.equal((await api(owner, "/api/fix-it-management", "POST", {
+    action: "appointment", id: appointment.id, revision: changed.revision + 1,
+    change: "cancel",
+  })).status(), 403);
   await page.goto(origin + "/fix-it-shop/manage");
   await page
     .getByRole("heading", { name: "Management access is not ready" })
     .waitFor();
   checks.push(
-    "Existing session denied management and legacy Studio after membership revocation",
+    "Uninterrupted server and unchanged session denied management and legacy Studio after membership revocation",
   );
   assert.deepEqual(errors, []);
   await writeFile(
@@ -281,6 +293,7 @@ try {
 } finally {
   await browser?.close();
   await stop();
+  await rm(fixtureRoute, {recursive: true, force: true});
   await writeFile(dir + "/server.log", logs);
   fixture(
     "DELETE FROM reserve_business_memberships WHERE business_id='synthetic-workspace'",

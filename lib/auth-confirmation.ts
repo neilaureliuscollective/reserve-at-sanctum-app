@@ -1,3 +1,4 @@
+import { requireFeatureSchema } from "./feature-readiness";
 import { createHash } from "node:crypto";
 import type { Database } from "./db";
 import { BookingError } from "./booking-error";
@@ -44,6 +45,7 @@ export function confirmationRedirect(
 /** Atomic shared budget: one request/address/minute and a global cap. Supabase
  * also enforces project/IP limits. Do not trust client-supplied forwarding IPs. */
 export async function reserveAuthDelivery(db: Database, email: string) {
+  await requireFeatureSchema(db, "authDelivery");
   return db.transaction(async (tx) => {
     await tx.query(
       "DELETE FROM reserve_auth_delivery_limits WHERE window_start<now()-interval '1 day'",

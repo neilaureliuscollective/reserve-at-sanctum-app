@@ -84,11 +84,11 @@ No new payment or billing engine is introduced.
    manually mark her confirmed as a workaround.
 5. **Business provisioning**: approve the existing business ID, provider `katie`,
    approved location IDs and all join mappings. If absent, prepare closed
-   provider/business/location records with approved values first. Run the
-   reviewed [provisioning template](commissioning/katie-owner-provisioning.sql)
+   provider/business/location records with approved values first. Review the
+   rollback-only [provisioning template](commissioning/katie-owner-provisioning.sql)
    only after its UUIDs and mapping have been reviewed. It verifies confirmed
    Auth identity and Founder authority, normalizes legacy role to customer,
-   inserts a business-owner membership and **rolls back by default**. Replacing
+   inserts a business-owner membership and **always rolls back as supplied**. Replacing
    ROLLBACK with COMMIT is a separately approved live authority change. Do not
    grant global `owner`, staff/katie or private Chair access. Enable business
    authority only on the reviewed runtime after schema/provisioning validation.
@@ -160,3 +160,70 @@ configuration must match business location mappings even when the caller omits
 The preserved PR72 image harness passed all seven phone/Fold/desktop widths
 against a local production build, including original image bytes/proportions,
 no crop/shading/overlay, reduced motion and no-JavaScript rendering.
+
+## Code-first rollout repair and exact preflight
+
+This continuation has **not verified production**. Keep business authority off
+while installing code on an old schema: existing sign-in skips business tables.
+With authority on and business schema absent/partial, non-Founder identities lose
+legacy staff capabilities and management returns a readiness denial. Memberships
+(including revoked records) are read afresh on subsequent requests when ready.
+Founder identity remains separate. Signup/resend require the durable throttle
+schema and return an intentional 503 if absent; no email transport runs and no
+unlimited fallback is permitted. Database permission/connection errors propagate.
+The runtime guard checks required columns, not grants, constraints or real data.
+
+Ordered prerequisites, each separately reviewed before activation:
+
+1. Verify intended Auth project, database target and application role; approved
+   backup/restore evidence and full migration manifest/baseline reconciliation.
+2. Review/apply the baseline and additive schema only under separate authorization,
+   including business mappings and auth delivery budgets; verify constraints,
+   private RLS and application/browser grants. No hosted migration is authorized here.
+3. Verify runtime Auth URL/key mapping, HTTPS `APP_ORIGIN`, callback allowlist,
+   confirmation templates and approved mail transport. Retain GlossGenius and
+   disabled outbound booking mail/cron. No secrets/settings changed by this repair.
+4. Verify existing confirmed Katie UUID and separate Founder UUID; approve/create
+   business, provider, location and all mapping records. These are prerequisites
+   to the rollback-only membership template, not work performed by that template.
+5. Review membership normalization/grant separately. The provisioning SQL is a
+   **rollback-only review template**, not executable completed commissioning. It
+   assumes mappings and contains no real service/catalog/hours provisioning.
+6. Obtain Katie's approved catalog, durations, buffers, prices, hours, address,
+   timezone and policies; provision and validate them only under separate approval.
+7. Run approved hosted Auth/booking/revocation/device acceptance before enabling
+   business authority; native-calendar cutover requires its own reconciliation
+   and approval. Local synthetic tests do not satisfy these gates.
+
+Exact read-only schema preflight (authorized operator supplies an already verified
+connection through normal psql environment; do not paste secrets into commands):
+
+```sh
+psql -X --set=ON_ERROR_STOP=1 --file=docs/commissioning/katie-read-only-preflight.sql
+```
+
+It uses `BEGIN READ ONLY` and catalog SELECTs, tolerates absent additive tables,
+prints no client records, and must be compared against the full migration files.
+Stop on missing schema, wrong target, unexpected grants or differences; do not
+run `db:migrate` as a preflight. After schema verification, independently inspect
+approved identity confirmation and exact business/provider/location/member data
+with the authorized operator; this catalog preflight does not certify those data.
+
+Telephone/walk-in audit: legacy Studio has manual appointment entry through
+`/api/studio/pilot/appointments` and `lib/booking-pilot.ts:manualAppointment`.
+The scoped Katie management UI/mutation union has no creation action; normalized
+business owners cannot use legacy Studio. Manual entry is therefore absent from
+her new workspace. No speculative booking feature was added in this repair.
+
+After the catalog check succeeds, the existing read-only application preflight
+uses the adapter's effective connection and approved identity/location scope:
+
+```sh
+RESERVE_READINESS_KATIE_ACCOUNT_ID='<independently-verified-uuid>' \
+RESERVE_READINESS_LOCATION_ID='<approved-location-id>' \
+npm run verify:booking-readiness -- --expected-project-ref=<reviewed-20-letter-ref>
+```
+
+Review target rewriting described above first. This reports scoped prerequisite
+counts, not proof of email delivery or production acceptance; do not run fixture,
+reset, migration or mutation-test commands against that target.

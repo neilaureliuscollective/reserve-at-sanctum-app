@@ -1,0 +1,9 @@
+// Generated only by the isolated browser harness, removed in finally.
+import { database, isPreview } from "@/lib/db";
+export async function POST(req: Request) {
+  if (!isPreview() || process.env.DATABASE_URL || process.env.NODE_ENV === "production" ||
+      req.headers.get("x-synthetic-token") !== process.env.SYNTHETIC_REVOCATION_TOKEN)
+    return new Response(null, {status: 403});
+  await (await database()).query("UPDATE reserve_business_memberships SET revoked_at=now() WHERE business_id='synthetic-workspace' AND user_id='preview-katie'");
+  return Response.json({ok: true});
+}
