@@ -1,0 +1,81 @@
+.business-workspace {
+  max-width: 1100px;
+  margin: auto;
+  padding: 100px 24px 60px;
+  color: #e7eef5;
+  background: linear-gradient(145deg, #122b40, #0a1722);
+  min-height: 100vh;
+}
+.business-workspace h1 {
+  font-size: clamp(36px, 6vw, 62px);
+  color: #e5c77c;
+}
+.business-workspace h2 {
+  font-size: 30px;
+  color: #e5c77c;
+}
+.business-workspace section,
+.business-workspace details {
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid #6b8293;
+  border-radius: 12px;
+}
+.business-workspace label {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+}
+.business-workspace input,
+.business-workspace select,
+.business-workspace textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  background: #142e43;
+  color: #fff;
+  border: 1px solid #8194a2;
+  border-radius: 6px;
+}
+.business-workspace input[type="checkbox"] {
+  width: 24px;
+  min-height: 24px;
+}
+.business-workspace button,
+.business-workspace summary {
+  min-height: 44px;
+  cursor: pointer;
+}
+.business-workspace button {
+  padding: 10px 16px;
+  border: 1px solid #d8bd80;
+  border-radius: 6px;
+  background: #d8bd80;
+  color: #122b40;
+  margin: 6px 8px 6px 0;
+}
+.business-workspace button:disabled {
+  opacity: 0.55;
+}
+.business-workspace :focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+.business-workspace article {
+  padding: 16px 0;
+  border-bottom: 1px solid #607588;
+}
+.business-workspace .workspace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: 20px;
+}
+.business-workspace a {
+  color: #edcf83;
+}
+.business-workspace .error-message {
+  color: #ffb7b7;
+}
+.business-workspace p {
+  overflow-wrap: anywhere;
+}

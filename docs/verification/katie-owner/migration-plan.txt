@@ -1,0 +1,98 @@
+{
+  "mode": "plan-only",
+  "migrations": [
+    {
+      "file": "001_core.sql",
+      "sha256": "ba336db04e47a752e68c990150c56fa44332745c15b13425d1eada775bdb5f54"
+    },
+    {
+      "file": "002_chair.sql",
+      "sha256": "743e225dc8a4904e4cace057ff42f96eb82abb2cad89443d5b8f50a60219efda"
+    },
+    {
+      "file": "003_studio_blocks.sql",
+      "sha256": "fc3063c1f26d5c70e774d64cd569a9931c396a89125827d0810f044d3f56a892"
+    },
+    {
+      "file": "004_command_center.sql",
+      "sha256": "4c91c21701ed26533cb700ac888a4317624f142a839f45b329a77fa0ae157f03"
+    },
+    {
+      "file": "005_reserve_studio.sql",
+      "sha256": "dfb2faf89d18b0c7060bbdc29e2a8406e91756bd08913e25118505918f98e5a7"
+    },
+    {
+      "file": "006_legacy_reserve_foundations.sql",
+      "sha256": "a860455f24a05c09c8d82b00314ba8ea62a594cb4f1e7c16fd06506d68bd3eb1"
+    },
+    {
+      "file": "007_square_mappings.sql",
+      "sha256": "f8c9eb1b349a56dd2dbf9b4d724c88daa2d971fd580ec86fd09787f6470ad31d"
+    },
+    {
+      "file": "20261005175639_reserve_studio_content.sql",
+      "sha256": "b3d5147046a4339c98d6b55febcf0d3351ada10f7af1144face3ef5305ab54ae"
+    },
+    {
+      "file": "20261005181004_reserve_operations.sql",
+      "sha256": "69b48b9a1c07b68038d17581659ea878b04958df0d2b9b3b00edc75b062a5ad3"
+    },
+    {
+      "file": "20261007180354_member_environment.sql",
+      "sha256": "ed035f6955023034102b16e74211fc2395286237ce8f954966d7822b8b508700"
+    },
+    {
+      "file": "20261007183346_membership_operations.sql",
+      "sha256": "1140c3f9c4507499cf6d148ccbe077cbc99efa01ff36215db6463a433d3a7d1e"
+    },
+    {
+      "file": "20261007230000_personal_reserve.sql",
+      "sha256": "70bc036632f7710b385d3b94638e755b638eb4466c6bf2b667d54415bccdaa2b"
+    },
+    {
+      "file": "20261008000000_collection_checkout.sql",
+      "sha256": "feb90608e048fbd1440439df5d6b625d84e037fdbed7bc98689c5625bb4e2548"
+    },
+    {
+      "file": "20261008120000_vitalis_foundation.sql",
+      "sha256": "4e436290fcbd06f19bf8689ebcd1200356677a6f53f2aba97c16018eab68c79c"
+    },
+    {
+      "file": "20261008131000_vitalis_revenue.sql",
+      "sha256": "f68ce7abfd4532a7e02a95ff9a09e47519738b365c186fd0a1ec26f34b201d8e"
+    },
+    {
+      "file": "20261008141500_vitalis_pilot.sql",
+      "sha256": "e03f3fcb3aa11846b201676f292dbf001c2b24faf6ac6ecb1ee447c4fc21b77f"
+    },
+    {
+      "file": "20261009014619_booking_provider_pilot.sql",
+      "sha256": "580ee2428aef68dc61af6837a2f761b822c60fcd2be5b5bd02f3381d0687b11c"
+    },
+    {
+      "file": "20261009025131_provider_branding_studio.sql",
+      "sha256": "2ed00bb311b2a1023252169607c979f3d14012d1ea813f2292109e2eea957da9"
+    },
+    {
+      "file": "20261012155107_booking_delivery_and_visit_lifecycle.sql",
+      "sha256": "bbcba0826bc2583a347965467692c7cc9f0da4e3ff1924ba5e91926c6897691c"
+    },
+    {
+      "file": "20261012232737_katie_booking_duration_and_recovery.sql",
+      "sha256": "64bef523e2f3303221cdfe6e43bcad450858b096e5b6e331421cbb83a35ea4a1"
+    },
+    {
+      "file": "20261013090000_business_authority_and_support.sql",
+      "sha256": "97d8f73e14b40b30e116b508f3b45cb6f568f17ed40876dab10d32105459a49f"
+    },
+    {
+      "file": "20261013091000_business_payment_associations.sql",
+      "sha256": "8bab665bb12cdae8a91e9e63e76fc8c5929273a3aa0727673a31a237b973a09a"
+    },
+    {
+      "file": "20261015123000_auth_confirmation_throttle.sql",
+      "sha256": "e52b37792b757df2b5bebb6c93acf0f0a011fddd190fa68af75eeeb568f13216"
+    }
+  ]
+}
+No database was contacted. Reconcile hosted history and restore backup before founder-approved application.

@@ -1,3 +1,4 @@
+import { suppressBusinessLegacyAccess } from "./business-workspace";
 import { cookies } from "next/headers";
 import { cache } from "react";
 import { createServerClient } from "@supabase/ssr";
@@ -43,13 +44,14 @@ export const currentUser = cache(
           user.email || `${user.id}@private.reserve`,
         ],
       );
-      return (
+      return suppressBusinessLegacyAccess(
+        db,
         (
           await db.query<Actor>(
             "SELECT u.*, COALESCE((SELECT jsonb_agg(jsonb_build_object('capability',c.capability,'decision',c.decision,'scope',c.scope)) FROM reserve_user_capabilities c WHERE c.user_id=u.id),'[]'::jsonb) AS capability_overrides FROM reserve_users u WHERE u.id=$1",
             [user.id],
           )
-        )[0] || null
+        )[0],
       );
     }
     if (!isPreview()) return null;
@@ -57,14 +59,14 @@ export const currentUser = cache(
     if (!token) return null;
     const db = await database();
     const hash = createHash("sha256").update(token).digest("hex");
-    return (
+    const actor =
       (
         await db.query<Actor>(
           "SELECT u.*, COALESCE((SELECT jsonb_agg(jsonb_build_object('capability',c.capability,'decision',c.decision,'scope',c.scope)) FROM reserve_user_capabilities c WHERE c.user_id=u.id),'[]'::jsonb) AS capability_overrides FROM reserve_users u JOIN reserve_sessions s ON s.user_id=u.id WHERE s.token_hash=$1 AND s.expires_at>now()",
           [hash],
         )
-      )[0] || null
-    );
+      )[0] || null;
+    return actor ? suppressBusinessLegacyAccess(db, actor) : null;
   },
 );
 export async function previewLogin(identity: string) {

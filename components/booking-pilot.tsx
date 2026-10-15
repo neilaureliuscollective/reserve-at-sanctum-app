@@ -786,16 +786,21 @@ export function PilotMessages() {
         id: string;
         client_name: string;
         kind: string;
+        state: string;
+        delivery_status: string | null;
+        timezone: string;
         phone: string;
         email: string;
         service_name: string;
         starts_at: string;
       }[]
     >([]),
-    [error, setError] = useState("");
+    [error, setError] = useState(""),
+    [delivery,setDelivery] = useState<{id:string;client_name:string;kind:string;delivery_status:string}[]>([]);
   async function load() {
     const d = await request("/api/studio/pilot/messages");
     setRows(d.messages);
+    setDelivery(d.delivery || []);
   }
   useEffect(() => {
     void load().catch((e) => setError(e.message));
@@ -805,11 +810,14 @@ export function PilotMessages() {
   }, []);
   return (
     <details className="pilot-panel">
-      <summary>Client confirmations · {rows.length} to handle</summary>
+      <summary>Client updates · {rows.length} to handle</summary>
       <p>
         Contact the client yourself, then record that you confirmed the update.
-        This button sends no message.
+        Recording contact stops further email retries for that update.
       </p>
+      <button className="button button--outline" onClick={() => void load().catch((e) => setError(e.message))}>
+        Refresh client updates
+      </button>
       {error && <p role="alert">{error}</p>}
       {rows.map((r) => (
         <article className="pilot-client" key={r.id}>
@@ -819,10 +827,12 @@ export function PilotMessages() {
           <span>
             {r.service_name} ·{" "}
             {DateTime.fromISO(r.starts_at)
-              .setZone("America/Chicago")
+              .setZone(r.timezone || "America/Chicago")
               .toFormat("LLL d, h:mm a")}{" "}
             · {r.phone || r.email || "Use existing client contact"}
           </span>
+          {r.delivery_status && <span>Email {r.delivery_status === "accepted" ? "accepted · delivery unconfirmed" : r.delivery_status}</span>}
+          {r.state === "failed" && <span>Email pending · follow up if needed</span>}
           <button
             className="button"
             onClick={async () => {
@@ -842,6 +852,11 @@ export function PilotMessages() {
           </button>
         </article>
       ))}
+      {!!delivery.length && <details>
+        <summary>Recent email updates</summary>
+        <p>Accepted means the email provider received it. Delivered means the provider reported delivery; it does not prove the client read it.</p>
+        {delivery.map(d => <p key={d.id}>{d.client_name} · {d.kind} · {d.delivery_status === "accepted" ? "Delivery unconfirmed" : d.delivery_status}</p>)}
+      </details>}
     </details>
   );
 }

@@ -34,7 +34,15 @@
     "verify:living-crest": "node scripts/verify-living-crest.mjs",
     "verify:sculptures": "node scripts/verify-signature-sculptures.mjs",
     "verify:provider-brands": "node scripts/verify-provider-brands.mjs",
-    "verify:founder-foundation": "node scripts/verify-founder-foundation.mjs"
+    "verify:booking-readiness": "node --env-file-if-exists=.env.local --import tsx scripts/check-booking-readiness.ts",
+    "verify:booking-operations": "node scripts/verify-booking-operations.mjs",
+    "verify:founder-command": "node scripts/verify-founder-command.mjs",
+    "verify:katie-launch": "node scripts/verify-katie-launch.mjs",
+    "verify:katie-closed": "node scripts/verify-katie-closed.mjs",
+    "verify:katie-calendar-gate": "node scripts/verify-katie-calendar-gate.mjs",
+    "verify:katie-postgres": "node --import tsx scripts/verify-katie-postgres.ts",
+    "verify:founder-foundation": "node scripts/verify-founder-foundation.mjs",
+    "verify:katie-workspace": "node scripts/verify-katie-workspace.mjs"
   },
   "dependencies": {
     "@aethelios/concierge-core": "file:vendor/aethelios-concierge-core",

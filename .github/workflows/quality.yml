@@ -35,10 +35,21 @@ jobs:
       - name: Select the installed Chromium executable
         run: node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log("CHROMIUM_PATH="+chromium.executablePath())' >> "$GITHUB_ENV"
       - run: npm install --prefix /tmp/aethelios-a11y --no-save --package-lock=false axe-core@4.11.0
+      - name: Disposable PostgreSQL concurrency acceptance
+        run: |
+          set -e
+          docker run --name katie-first-booking-postgres --tmpfs /var/lib/postgresql/data -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=katie_isolated -p 127.0.0.1:55439:5432 -d postgres:17
+          trap 'docker rm -f katie-first-booking-postgres' EXIT
+          for attempt in $(seq 1 30); do
+            if docker exec katie-first-booking-postgres pg_isready -U postgres -d katie_isolated; then break; fi
+            sleep 1
+          done
+          npm run verify:katie-postgres
       - name: Isolated booking, staff, privacy and founder browsers
         run: |
           set -e
-          for suite in fix-it-booking booking-pilot chair provider-brands founder-foundation; do
+          for suite in browser booking-pilot chair provider-brands founder-command founder-foundation booking-operations operations katie-launch katie-closed katie-calendar-gate katie-workspace; do
+            npm run preview:reset
             npm run "verify:$suite"
           done
       - uses: actions/upload-artifact@v4

@@ -43,7 +43,7 @@ export async function GET(
       "DTEND:" + stamp(a.ends_at),
       "SUMMARY:" + escape(a.service_name || "Legacy Reserve appointment"),
       "LOCATION:" + escape(a.address || ""),
-      "STATUS:" + (a.status === "cancelled" ? "CANCELLED" : "CONFIRMED"),
+      "STATUS:" + (["cancelled","no_show"].includes(a.status) ? "CANCELLED" : "CONFIRMED"),
       "END:VEVENT",
       "END:VCALENDAR",
       "",

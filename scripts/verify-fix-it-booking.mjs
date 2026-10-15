@@ -1,14 +1,10 @@
+import { assertSyntheticVerification } from "./synthetic-verification.mjs";
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import { DateTime } from "luxon";
 import assert from "node:assert/strict";
-if (
-  process.env.DATABASE_URL ||
-  process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  process.env.NODE_ENV === "production"
-)
-  throw Error("Isolated synthetic preview only.");
+assertSyntheticVerification();
 await mkdir("artifacts/fix-it-booking", { recursive: true });
 const origin = "http://localhost:3000",
   base = "/fix-it-shop/app";
@@ -23,7 +19,7 @@ const server = spawn(
     "3000",
   ],
   {
-    env: { ...process.env, RESERVE_DEV_PREVIEW: "true", APP_ORIGIN: origin },
+    env: { ...process.env, RESERVE_DEV_PREVIEW: "true", APP_ORIGIN: origin, RESERVE_BOOKING_EMAIL_ENABLED: "false", RESERVE_BOOKING_CRON_ENABLED: "false" },
     stdio: ["ignore", "pipe", "pipe"],
   },
 );
@@ -112,13 +108,13 @@ try {
     );
     await page.screenshot({
       path: "artifacts/fix-it-booking/home-" + width + ".png",
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
   }
   await page.setViewportSize({ width: 390, height: 844 });
   await visit(base + "/book");
   await page.locator(".service-option").first().waitFor();
-  await page.screenshot({ path: "artifacts/fix-it-booking/services-mobile.png", fullPage: true });
+  await page.screenshot({ path: "artifacts/fix-it-booking/services-mobile.png", fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true" });
   await page.locator(".service-option").first().click();
   await page.getByRole("button", { name: "Find a time", exact: false }).click();
   await page.locator(".date-strip").waitFor();
@@ -227,7 +223,7 @@ try {
     );
     await page.screenshot({
       path: "artifacts/fix-it-booking/visits-" + width + ".png",
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
   }
   const rebook = await card
@@ -237,7 +233,7 @@ try {
   await visit("/account");
   await page.locator(".appointment").filter({ hasText: ref }).waitFor();
   assert.equal(await page.locator(".reserve-app-shell").count(), 0);
-  await page.screenshot({ path: "artifacts/fix-it-booking/account-mobile.png", fullPage: true });
+  await page.screenshot({ path: "artifacts/fix-it-booking/account-mobile.png", fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true" });
   await login("preview-katie");
   await visit(base + "/launch");
   await page.waitForURL("**/studio/today");
@@ -268,7 +264,7 @@ try {
     .getByText("Your visit has been cancelled.", { exact: true })
     .waitFor();
   await visit(base + "/install");
-  await page.screenshot({ path: "artifacts/fix-it-booking/install-mobile.png", fullPage: true });
+  await page.screenshot({ path: "artifacts/fix-it-booking/install-mobile.png", fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true" });
   assert.equal(
     await page
       .getByRole("button", { name: "Install Fix It Shop", exact: true })
@@ -304,17 +300,20 @@ try {
     "/auth/callback?next=" + encodeURIComponent(base + "/appointments"),
   );
   await page.waitForURL("**/fix-it-shop/app/signin?**");
-  await page.getByText(/That sign-in did not finish/).waitFor();
+  await page.getByText(/That sign-in link could not finish/).waitFor();
   assert.deepEqual(errors, []);
   console.log(
     "PASS Fix It Shop: separate manifest/icons and shell, six mobile widths, provider-fixed booking with sign-in return, shared persistence and staff calendar, rebooking/reschedule/cancel, ownership denial and honest install fallback.",
   );
 } catch (e) {
   await writeFile("artifacts/fix-it-booking/server.log", logs);
+  const diagnostics = await page?.evaluate(() => ({url:location.href,alerts:[...document.querySelectorAll('[role="alert"],.inline-note')].map(e=>e.textContent),buttons:[...document.querySelectorAll('.appointment-edit button')].map(e=>({text:e.textContent,disabled:e.disabled}))})).catch(() => null);
+  await writeFile("artifacts/fix-it-booking/diagnostics.json",JSON.stringify(diagnostics ?? null));
   await page?.screenshot({
     path: "artifacts/fix-it-booking/failure.png",
-    fullPage: true,
-  });
+    fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
+    timeout: 5000,
+  }).catch(() => {});
   throw e;
 } finally {
   await browser?.close();

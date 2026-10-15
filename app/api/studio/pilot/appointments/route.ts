@@ -4,7 +4,9 @@ import { database } from "@/lib/db";
 import { BookingError, availability } from "@/lib/booking";
 import { failure, mutationOrigin } from "@/lib/http";
 import { readChairJson } from "@/lib/chair-http";
-import { manualAppointment, providerScope } from "@/lib/booking-pilot";
+import { manualAppointment, manualInput, providerScope } from "@/lib/booking-pilot";
+import { katieNativeBooking } from "@/lib/katie-launch";
+import { requireCapability } from "@/lib/studio-permissions";
 export const dynamic = "force-dynamic";
 async function actor() {
   const a = await currentUser();
@@ -23,6 +25,8 @@ export async function GET(req: Request) {
     );
     if (s?.provider_id !== provider)
       throw new BookingError("Service unavailable.", 404);
+    if (provider === "katie" && !katieNativeBooking())
+      throw new BookingError("Katie’s calendar is on GlossGenius. Native new-visit availability is closed.", 503);
     return Response.json(
       {
         slots: await availability(
@@ -43,12 +47,17 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     mutationOrigin(req);
+    const a = await actor(), input = manualInput.parse(await readChairJson(req));
+    requireCapability(a, "appointments.manage");
+    const provider = providerScope(a, input.provider);
+    if (provider === "katie" && !katieNativeBooking())
+      throw new BookingError("Katie’s calendar is on GlossGenius. Record new visits there until an approved native cutover.", 503);
     return Response.json(
       {
         appointment: await manualAppointment(
           await database(),
-          await actor(),
-          await readChairJson(req),
+          a,
+          input,
         ),
       },
       { status: 201 },

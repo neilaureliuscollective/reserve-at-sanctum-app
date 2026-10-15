@@ -18,7 +18,9 @@ export function SigninForm({
   clientOnly?: boolean;
   recoveryHref?: string;
 }) {
-  const [busy, setBusy] = useState(false),
+  const [email, setEmail] = useState(""),
+    [cooldown, setCooldown] = useState(false),
+    [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
     [signup, setSignup] = useState(false),
     [message, setMessage] = useState("");
@@ -34,9 +36,15 @@ export function SigninForm({
       });
       const d = await r.json();
       if (!r.ok) throw new Error(d.error);
+      if (d.confirmation) {
+        setMessage(d.message);
+        setCooldown(true);
+        setTimeout(() => setCooldown(false), 60000);
+        return;
+      }
       if (d.verify) {
         setMessage(
-          "Check your email to confirm your account, then return here to sign in.",
+          "If confirmation is needed, check your email and open the latest link in this same browser.",
         );
         setSignup(false);
         return;
@@ -81,6 +89,8 @@ export function SigninForm({
                 Email
                 <input
                   name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   autoComplete="email"
                   required
@@ -106,6 +116,16 @@ export function SigninForm({
                 <ArrowRight size={18} />
               </button>
             </form>
+            <button
+              type="button"
+              className="text-link"
+              disabled={busy || cooldown || !email}
+              onClick={() => submit({ action: "resend", email, next })}
+            >
+              {cooldown
+                ? "Confirmation requested · wait one minute"
+                : "Resend confirmation email"}
+            </button>
             <Link className="text-link" href={recoveryHref}>
               Forgot password?
             </Link>
@@ -123,8 +143,8 @@ export function SigninForm({
       ) : (
         !preview && (
           <p>
-            Account setup is temporarily unavailable. The team is
-            connecting secure sign-in and the private workspace.
+            Account setup is temporarily unavailable. The team is connecting
+            secure sign-in and the private workspace.
           </p>
         )
       )}
@@ -186,8 +206,8 @@ export function SigninForm({
       )}
       {oauthError && !error && (
         <p className="error-message" role="alert">
-          That sign-in did not finish. Your work is still here—try Google or
-          Apple again.
+          That sign-in link could not finish. Open the latest link in the
+          browser where you requested it, or request another confirmation email.
         </p>
       )}
       {message && (

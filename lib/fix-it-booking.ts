@@ -16,13 +16,13 @@ export type { BookingIdentity } from "./booking-identity";
 export function fixItDestination(value?: string | null) {
   const safeUrl = new URL(safeDestination(value), "https://reserve.invalid");
   const safe = safeUrl.pathname + safeUrl.search + safeUrl.hash;
-  return safeUrl.pathname === fixItBooking.base ||
+  return safeUrl.pathname === "/fix-it-shop/manage" || safeUrl.pathname === fixItBooking.base ||
     safeUrl.pathname.startsWith(fixItBooking.base + "/")
     ? safe
     : fixItBooking.visits;
 }
 export function accountEntranceFor(next: string) {
-  return next === fixItBooking.base || next.startsWith(fixItBooking.base + "/")
+  return next === "/fix-it-shop/manage" || next === fixItBooking.base || next.startsWith(fixItBooking.base + "/")
     ? fixItBooking.signin
     : providerEntrance(next) || "/signin";
 }

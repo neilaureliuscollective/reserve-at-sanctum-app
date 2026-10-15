@@ -7,11 +7,15 @@ import { FounderPortrait } from "@/components/founder-feature";
 import { FounderMotion } from "@/components/founder-motion";
 import styles from "@/components/founder-story.module.css";
 
+import { fixItSearchMetadata } from "@/lib/fix-it-search";
+const search = fixItSearchMetadata("/fix-it-shop/app/founder");
+
 export const metadata: Metadata = {
   metadataBase: new URL(f.seo.canonicalOrigin),
   title: f.seo.title, description: f.seo.description,
-  alternates: { canonical: f.storyHref },
-  openGraph: { title: f.seo.title, description: f.seo.description, url: f.storyHref, type: "profile", firstName: "Katie", lastName: "Guidry", images: [{ url: f.portrait?.src ?? f.seo.socialImage, alt: f.portrait?.alt ?? "Fix It Shop’s approved emblem" }] },
+  alternates: search.alternates,
+  robots: search.robots,
+  openGraph: { title: f.seo.title, description: f.seo.description, url: search.openGraph?.url, type: "profile", firstName: "Katie", lastName: "Guidry", images: [{ url: f.portrait?.src ?? f.seo.socialImage, alt: f.portrait?.alt ?? "Fix It Shop’s approved emblem" }] },
   twitter: { card: "summary_large_image", title: f.seo.title, description: f.seo.description, images: [f.portrait?.src ?? f.seo.socialImage] },
 };
 export default function FounderPage() {

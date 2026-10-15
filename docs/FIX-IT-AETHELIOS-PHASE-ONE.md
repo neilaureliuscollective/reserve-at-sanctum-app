@@ -82,7 +82,7 @@ route deletion or guessed external Lifestyle destination.
 | `/book` | A | Preserved unfiltered engine and all service/location/provider query parameters; Fix It Shop service chrome; avoids losing another provider’s deep link |
 | `/account` | A | Preserved full customer appointment history across providers; existing team redirect intact; does not erase visits hidden by Katie’s filtered view |
 | `/signin`, `/forgot-password`, `/reset-password`, `/auth/callback` | A/B | Original safe return/recovery and server verification retained; service sign-in copy no longer leads with product brand |
-| `/chair` | A | Fix It Shop service chrome, same answers, explicit consent, private notes, revocation and expiry; consent still discloses platform administrator access |
+| `/chair` | A | Fix It Shop service chrome, same answers, explicit consent, private notes, revocation and expiry; #68 removes platform-owner access and the Katie launch increment aligns public privacy copy |
 | `/my-visit` | A | Existing visit hub retained; linked appointment IDs preserved |
 | `/visit` | A/D | Existing location/professional/service selector retained and reworded as services; no national discovery or additional booking availability invented |
 | `/studio`, `/studio/today`, `/studio/schedule`, `/studio/clients`, `/studio/clients/[id]`, `/studio/operations`, `/studio/insights`, `/studio/brands` and private brand previews | B | Aethelios Booking shell and approved green/gold technology palette; existing scoped reads/mutations and owner-only onboarding/publication retained |
