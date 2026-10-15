@@ -19,12 +19,13 @@ contact details, Chair content, notes or unrelated business records.
 
 Business membership does not confer platform Founder or Chair access. Any
 non-Founder account with a business membership record, including revoked records,
-loses the legacy staff/operator authorization path when a session is loaded with
-business authority enabled.
+loses the legacy staff/operator authorization path when a session is loaded, even with business authority disabled,
+provided the membership schema is available.
 Its own customer appointments remain accessible. Revocation takes effect on the
 next request, including an existing browser session. Business access is disabled
-unless `RESERVE_BUSINESS_AUTHORITY_ENABLED=true`. With the flag off, existing
-legacy sign-in reads only its established role/capability tables. Commissioned
+unless `RESERVE_BUSINESS_AUTHORITY_ENABLED=true`. With the flag off and no membership schema, existing
+legacy sign-in retains its established role/capability behavior. A read-only
+catalog guard avoids querying absent membership tables. Commissioned
 business accounts must have their legacy role normalized to `client` by the
 separately reviewed provisioning transaction, so disabling the flag cannot
 restore their former staff authority. Do not enable or revoke business access
@@ -169,7 +170,8 @@ no crop/shading/overlay, reduced motion and no-JavaScript rendering.
 ## Code-first rollout repair and exact preflight
 
 This continuation has **not verified production**. Keep business authority off
-while installing code on an old schema: existing sign-in skips business tables.
+while installing code on an old schema: existing sign-in avoids absent business tables; existing membership records still
+suppress stale legacy authority when available.
 With authority on and business schema absent/partial, non-Founder identities lose
 legacy staff capabilities and management returns a readiness denial. Memberships
 (including revoked records) are read afresh on subsequent requests when ready.

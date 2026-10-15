@@ -34,11 +34,14 @@ export async function suppressBusinessLegacyAccess(
   env: Record<string, string | undefined> = process.env,
 ): Promise<Actor> {
   if (actor.role === "owner") return actor; // Separate platform Founder authority.
-  if (!businessAuthorityEnabled(env)) return actor;
-  // Without the schema we cannot distinguish migrated/revoked members from
-  // legacy operators. Keep identity but fail closed for every legacy privilege.
-  if (!await featureSchemaReady(db, "business"))
-    return { ...actor, role: "client", provider_id: null, capability_overrides: [] };
+  const enabled = businessAuthorityEnabled(env);
+  const restricted = { ...actor, role: "client" as const, provider_id: null, capability_overrides: [] };
+  // On old schemas the disabled feature cannot affect legacy sign-in. Where
+  // membership records exist, retain suppression even with the feature off:
+  // toggling a flag must not restore stale/revoked legacy operator privileges.
+  if (!await featureSchemaReady(db, "businessIdentity"))
+    return enabled ? restricted : actor;
+  if (enabled && !await featureSchemaReady(db, "business")) return restricted;
   const rows = await db.query(
     "SELECT 1 FROM reserve_business_memberships WHERE user_id=$1 LIMIT 1",
     [actor.id],

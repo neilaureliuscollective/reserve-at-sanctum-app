@@ -5,6 +5,7 @@ import { BookingError } from "./booking-error";
 // additive schema is expected during code-first rollout; connection/permission
 // failures still propagate. This is a shape check, not commissioning acceptance.
 const prerequisites = {
+  businessIdentity: { reserve_business_memberships: ["user_id"] },
   business: {
     reserve_businesses: ["id", "slug", "state"],
     reserve_business_memberships: ["business_id", "user_id", "role", "verified_at", "revoked_at", "revision"],
@@ -31,7 +32,7 @@ export async function featureSchemaReady(db: Queryable, feature: keyof typeof pr
 }
 export async function requireFeatureSchema(db: Queryable, feature: keyof typeof prerequisites) {
   if (!await featureSchemaReady(db, feature))
-    throw new BookingError(feature === "business"
+    throw new BookingError(feature !== "authDelivery"
       ? "Business management is not ready. Required schema must be reviewed before access can open."
       : "Account creation and confirmation are not ready. Please try again later; existing accounts can still sign in.", 503);
 }
