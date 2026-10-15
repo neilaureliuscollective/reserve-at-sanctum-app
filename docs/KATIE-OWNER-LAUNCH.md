@@ -61,7 +61,7 @@ No new payment or billing engine is introduced.
    catalog evidence without exporting environment values or decrypting secrets.
 3. **Schema**: compare the full checksummed migration manifest against the proven
    target's baseline and take an approved restorable backup. Branch deltas from
-   main are `20261011155107_booking_delivery_and_visit_lifecycle.sql`,
+   main are `20261012155107_booking_delivery_and_visit_lifecycle.sql`,
    `20261012232737_katie_booking_duration_and_recovery.sql`, and
    `20261015123000_auth_confirmation_throttle.sql`. Business foundations already
    in main are `20261013090000_business_authority_and_support.sql` and
@@ -117,3 +117,30 @@ Supabase SSR/Auth implementation, plus official [SSR clients](https://supabase.c
 The changelog markdown endpoint was blocked by the execution network, not silently
 assumed reviewed. Cookie verifier continuity is tested against the installed SDK
 with synthetic transport; live hosted confirmation remains a commissioning gate.
+
+## Validation record and PR70 regression
+
+The exact PR70 job logs for run `38374984305`, job `115221979050`, confirm the
+failure occurred at the first `Reserve preview visit` wait, before its first
+mutation. All eight preceding suites and disposable PostgreSQL passed there.
+The workflow ZIP could be retrieved by the connector but its signed download was
+blocked in this executor, so the old page/server state is not available locally.
+No assertion was removed, skipped or converted to a success on timeout.
+
+The complete 11-suite sequence passes locally on this implementation. The new
+harness preserves a page screenshot and visible text on failure, in addition to
+server logs. Both booking pages now render dynamically so preview/calendar
+selection is evaluated at request time instead of being statically captured by a
+production build. This corrects a concrete runtime configuration hazard; the
+historical timeout's precise cause is not proven by a later local pass. The
+current PR's exact-head full CI must establish the acceptance result, and the
+historical result must not be represented as green.
+
+New acceptance includes the real installed Supabase SSR client with mock Auth
+transport, durable delivery limits, owner configuration with 25-minute synthetic
+services, persisted customer/owner appointment identity, fresh sessions/reloads,
+scoped rescheduling and cancellation, revoked-session/legacy denial, and all
+existing booking/DST/privacy tests. Local disposable PostgreSQL separately
+reproduces the old lock-order deadlock and passes the corrected lock ordering,
+request recovery and partial-slot collision checks. Screenshots and the
+rollback-by-default migration plan are under `docs/verification/katie-owner`.
