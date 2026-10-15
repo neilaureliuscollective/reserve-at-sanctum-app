@@ -49,9 +49,14 @@ jobs:
         run: |
           set -e
           for suite in browser booking-pilot chair provider-brands founder-command founder-foundation booking-operations operations katie-launch katie-closed katie-calendar-gate katie-workspace; do
+            rm -rf .next/dev
             npm run preview:reset
             npm run "verify:$suite"
           done
+      - name: Print synthetic browser failure diagnostics
+        if: failure()
+        run: |
+          find artifacts -type f \( -name '*.log' -o -name 'failure.json' -o -name 'diagnostics.json' \) -print -exec tail -n 45 {} \;
       - uses: actions/upload-artifact@v4
         if: always()
         with:

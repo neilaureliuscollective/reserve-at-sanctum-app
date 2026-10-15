@@ -12,15 +12,16 @@ export async function GET(request: Request) {
   const next = safeDestination(requested);
 
   if (code && hasSupabase()) {
-    const { error } = await (
-      await supabase()
-    ).auth.exchangeCodeForSession(code);
-    if (!error) return NextResponse.redirect(new URL(next, origin));
+    try {
+      const { error } = await (await supabase()).auth.exchangeCodeForSession(code);
+      if (!error) return NextResponse.redirect(new URL(next, origin), { headers: { "Cache-Control": "private, no-store" } });
+    } catch { /* Missing verifier or transport outage returns to safe sign-in. */ }
   }
   return NextResponse.redirect(
     new URL(
       `${accountEntranceFor(next)}?next=${encodeURIComponent(next)}&error=oauth`,
       origin,
     ),
+    { headers: { "Cache-Control": "private, no-store" } },
   );
 }

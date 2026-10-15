@@ -221,6 +221,20 @@ test("rescheduling and cancellation release slots atomically, preserve snapshots
     0,
   );
 });
+test("business availability blocks release slots and implicit locations cannot cross scope", async () => {
+  await mutateBusinessWorkspace(db, katie, business, {action:"block",provider:"katie",date:day.toISODate(),start:"09:00",end:"10:00"});
+  let data=await businessWorkspace(db,katie,business,day.toISODate()!);
+  const block=data.blocks[0]; assert.ok(block);
+  const slots=await availability(db,"signature",day.toISODate()!);
+  assert.ok(slots.every(slot=>DateTime.fromISO(slot.start).setZone("America/Chicago").hour>=10));
+  await assert.rejects(mutateBusinessWorkspace(db,other,"synthetic-other",{action:"unblock",provider:"katie",id:block.id}),/outside/);
+  await mutateBusinessWorkspace(db,katie,business,{action:"unblock",provider:"katie",id:block.id});
+  assert.equal(DateTime.fromISO((await availability(db,"signature",day.toISODate()!))[0].start).setZone("America/Chicago").hour,9);
+  await db.query("DELETE FROM reserve_business_provider_locations WHERE business_id=$1",[business]);
+  const provider=data.providers[0];
+  await assert.rejects(mutateBusinessWorkspace(db,katie,business,{action:"configure",acknowledge:false,input:{kind:"provider",provider_id:"katie",target_revision:provider.revision,name:"Synthetic Katie",open_hour:9,close_hour:17,weekdays:[2,3,4,5,6],enabled:true}}),/Location is outside/);
+  await db.query("INSERT INTO reserve_business_provider_locations(business_id,provider_id,location_id) VALUES($1,'katie','eunice')",[business]);
+});
 test("revoked memberships cannot retain a legacy staff bypass and customer permissions survive", async () => {
   const legacy = { ...katie, role: "operator" as const, provider_id: "katie" };
   await db.query(

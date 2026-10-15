@@ -1,3 +1,4 @@
+import { waitForApplication } from "./wait-for-application.mjs";
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -42,6 +43,7 @@ try {
     setTimeout(() => reject(Error("Startup timed out")), 30000).unref();
   });
   await mkdir("artifacts", { recursive: true });
+  await waitForApplication(origin);
   browser = await chromium.launch({
     executablePath: process.env.CHROMIUM_PATH || undefined,
     args: ["--no-sandbox", "--disable-dev-shm-usage"],

@@ -1,3 +1,4 @@
+import { waitForApplication } from "./wait-for-application.mjs";
 import { assertSyntheticVerification } from "./synthetic-verification.mjs";
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
@@ -11,7 +12,8 @@ server.stdout.on("data",d=>logs+=d);server.stderr.on("data",d=>logs+=d);
 await mkdir(artifacts,{recursive:true});
 try {
  await new Promise((resolve,reject)=>{server.stdout.on("data",d=>{if(String(d).includes("Ready in"))resolve();});server.on("exit",c=>reject(Error("Server exit "+c)));setTimeout(()=>reject(Error("Startup timeout")),45000).unref();});
- browser=await chromium.launch({...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:["--no-sandbox","--disable-dev-shm-usage"]});
+ await waitForApplication(origin);
+  browser=await chromium.launch({...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:["--no-sandbox","--disable-dev-shm-usage"]});
  const page=await browser.newPage({viewport:{width:390,height:844}}), errors=[];page.on("pageerror",e=>errors.push(e.message));
  async function login(identity){await page.goto(origin+"/fix-it-shop/app/signin");const response=await page.evaluate(async identity=>{const r=await fetch("/api/auth",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"preview",identity})});return r.status;},identity);assert.equal(response,200);}
  await login("preview-neil");await page.goto(origin+"/studio");

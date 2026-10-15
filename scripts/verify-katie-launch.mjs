@@ -1,3 +1,4 @@
+import { waitForApplication } from "./wait-for-application.mjs";
 import { assertSyntheticVerification } from "./synthetic-verification.mjs";
 import { chromium } from "@playwright/test";
 import { spawn, execFileSync } from "node:child_process";
@@ -21,7 +22,8 @@ const checks=[], audits=[];
 const record=checks.push.bind(checks);checks.push=(message)=>{console.log("PASS "+message);return record(message);};
 try {
  await new Promise((resolve,reject)=>{server.stdout.on("data",d=>{if(String(d).includes("Ready in"))resolve();});server.on("exit",c=>reject(Error("Server exit "+c)));setTimeout(()=>reject(Error("Startup timeout")),45000).unref();});
- browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH || "/usr/bin/chromium",args:["--no-sandbox","--disable-dev-shm-usage"]});
+ await waitForApplication(origin);
+  browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH || "/usr/bin/chromium",args:["--no-sandbox","--disable-dev-shm-usage"]});
  const context=await browser.newContext({viewport:{width:390,height:844}}), page=await context.newPage(), errors=[];
  diagnosticPage=page; page.setDefaultTimeout(25000);page.on("pageerror",e=>errors.push(e.message));
  await context.route("**/*",route=>new URL(route.request().url()).origin===origin ? route.continue() : route.abort());

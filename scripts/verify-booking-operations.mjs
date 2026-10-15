@@ -1,3 +1,4 @@
+import { waitForApplication } from "./wait-for-application.mjs";
 import { assertSyntheticVerification } from "./synthetic-verification.mjs";
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
@@ -12,7 +13,8 @@ server.stdout.on("data",d=>{logs+=d;});server.stderr.on("data",d=>{logs+=d;});
 await mkdir("artifacts/booking-operations",{recursive:true});
 try{
  await new Promise((resolve,reject)=>{server.stdout.on("data",d=>{if(String(d).includes("Ready in"))resolve();});server.on("exit",c=>reject(Error("Server exit "+c)));setTimeout(()=>reject(Error("Startup timeout")),45000).unref();});
- browser=await chromium.launch({...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:["--no-sandbox","--disable-dev-shm-usage"]});
+ await waitForApplication(origin);
+  browser=await chromium.launch({...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:["--no-sandbox","--disable-dev-shm-usage"]});
  const context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage();const errors=[];page.on("pageerror",e=>errors.push(e.message));
  async function api(path,method="GET",body){return page.evaluate(async({path,method,body})=>{const r=await fetch(path,{method,headers:body?{"Content-Type":"application/json"}:{},...(body?{body:JSON.stringify(body)}:{})});return{status:r.status,data:await r.json()};},{path,method,body});}
  await page.goto(origin+"/fix-it-shop/app/signin");

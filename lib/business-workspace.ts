@@ -188,10 +188,14 @@ export async function mutateBusinessWorkspace(
     if (input.action === "configure") {
       const p = input.input;
       await scopedProvider(tx, actor, business, p.provider_id, true);
-      if (p.kind === "provider" && p.location_id) {
+      if (p.kind === "provider") {
+        const [existing] = await tx.query<{ location_id: string | null }>(
+          "SELECT location_id FROM reserve_providers WHERE id=$1 FOR SHARE", [p.provider_id],
+        );
+        const locationId = p.location_id ?? existing?.location_id ?? "eunice";
         const rows = await tx.query(
           "SELECT 1 FROM reserve_business_provider_locations WHERE business_id=$1 AND provider_id=$2 AND location_id=$3 FOR SHARE",
-          [business, p.provider_id, p.location_id],
+          [business, p.provider_id, locationId],
         );
         if (!rows.length)
           throw new BookingError(

@@ -1,3 +1,4 @@
+import { waitForApplication } from "./wait-for-application.mjs";
 import { assertSyntheticVerification } from "./synthetic-verification.mjs";
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
@@ -11,7 +12,8 @@ const server=spawn(process.execPath,["node_modules/next/dist/bin/next","dev","--
 let logs="",browser;server.stdout.on("data",d=>logs+=d);server.stderr.on("data",d=>logs+=d);
 try{
  await new Promise((resolve,reject)=>{server.stdout.on("data",d=>{if(String(d).includes("Ready in"))resolve();});server.on("exit",c=>reject(Error("Server exit "+c)));setTimeout(()=>reject(Error("Startup timeout")),45000).unref();});
- browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH || "/usr/bin/chromium",args:["--no-sandbox","--disable-dev-shm-usage"]});
+ await waitForApplication(origin);
+  browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH || "/usr/bin/chromium",args:["--no-sandbox","--disable-dev-shm-usage"]});
  const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[],audits=[];page.on("pageerror",e=>errors.push(e.message));
  await page.route("**/*",route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
  for(const path of ["/fix-it-shop/app","/fix-it-shop","/book","/book?provider=katie","/fix-it-shop/app/book"]){

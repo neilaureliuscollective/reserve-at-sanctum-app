@@ -144,3 +144,19 @@ existing booking/DST/privacy tests. Local disposable PostgreSQL separately
 reproduces the old lock-order deadlock and passes the corrected lock ordering,
 request recovery and partial-slot collision checks. Screenshots and the
 rollback-by-default migration plan are under `docs/verification/katie-owner`.
+
+The first PR73 CI attempt additionally reproduced a cold-start failure: Chair's
+first `/api/auth` request returned 404 immediately after the Next readiness
+banner. Browser fixtures now wait for actual read-only session/catalog/location
+routes before assertions, and CI removes only `.next/dev` between server runs
+so route/compiler state is not reused across differently configured suites.
+Readiness has a bounded deadline and fails with the last route error. No
+mutation, permission assertion or booking assertion is retried or skipped.
+CI prints synthetic server/failure diagnostics as well as uploading artifacts.
+A final focused review also locked down implicit provider-location fallback:
+configuration must match business location mappings even when the caller omits
+`location_id`. Callback transport failures now return safely to sign-in.
+
+The preserved PR72 image harness passed all seven phone/Fold/desktop widths
+against a local production build, including original image bytes/proportions,
+no crop/shading/overlay, reduced motion and no-JavaScript rendering.
