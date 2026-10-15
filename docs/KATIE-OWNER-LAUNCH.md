@@ -19,11 +19,16 @@ contact details, Chair content, notes or unrelated business records.
 
 Business membership does not confer platform Founder or Chair access. Any
 non-Founder account with a business membership record, including revoked records,
-loses the legacy staff/operator authorization path when a session is loaded.
+loses the legacy staff/operator authorization path when a session is loaded with
+business authority enabled.
 Its own customer appointments remain accessible. Revocation takes effect on the
 next request, including an existing browser session. Business access is disabled
-unless `RESERVE_BUSINESS_AUTHORITY_ENABLED=true`; disabling it does not restore
-legacy authority. `/enter`, installed launch and Studio redirect members into
+unless `RESERVE_BUSINESS_AUTHORITY_ENABLED=true`. With the flag off, existing
+legacy sign-in reads only its established role/capability tables. Commissioned
+business accounts must have their legacy role normalized to `client` by the
+separately reviewed provisioning transaction, so disabling the flag cannot
+restore their former staff authority. Do not enable or revoke business access
+using membership rows alone while leaving legacy authority assigned. `/enter`, installed launch and Studio redirect members into
 management. Staff have assigned-provider appointment/block access; managers and
 business owners also manage configuration. Business IDs are server-resolved at
 the Fix It Shop API and checked against all target objects.
