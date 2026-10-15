@@ -1,3 +1,4 @@
+import { waitForApplication } from "./wait-for-application.mjs";
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -36,6 +37,7 @@ try {
     server.on("exit", (c) => reject(Error("Server exited " + c)));
     setTimeout(() => reject(Error("Startup timed out")), 30000).unref();
   });
+  await waitForApplication("http://localhost:3000");
   browser = await chromium.launch({
     executablePath: process.env.CHROMIUM_PATH || "/tmp/gent-browser/chromium",
     args: ["--no-sandbox", "--disable-dev-shm-usage"],

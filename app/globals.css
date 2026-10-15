@@ -834,6 +834,28 @@ small,
   gap: 10px;
   align-items: center;
 }
+
+section.booking-status-panel {
+  display: block;
+  margin-block: 1.5rem;
+  padding: 1.25rem;
+}
+section.booking-status-panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+section.booking-status-panel p {
+  max-width: 65ch;
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+section.booking-status-panel .button,
+section.booking-status-panel .text-link {
+  margin: 0.35rem 0.75rem 0.35rem 0;
+  max-width: 100%;
+  white-space: normal;
+}
 .brand-page .split-section + .section {
   padding-top: 0;
 }

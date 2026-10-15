@@ -1,14 +1,11 @@
+import { waitForApplication } from "./wait-for-application.mjs";
+import { assertSyntheticVerification } from "./synthetic-verification.mjs";
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { DateTime } from "luxon";
-if (
-  process.env.DATABASE_URL ||
-  process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  process.env.NODE_ENV === "production"
-)
-  throw Error("Synthetic local environment only.");
+assertSyntheticVerification();
 await mkdir("artifacts", { recursive: true });
 const origin = "http://localhost:3000";
 const server = spawn(
@@ -22,7 +19,7 @@ const server = spawn(
     "3000",
   ],
   {
-    env: { ...process.env, RESERVE_DEV_PREVIEW: "true", APP_ORIGIN: origin },
+    env: { ...process.env, RESERVE_DEV_PREVIEW: "true", APP_ORIGIN: origin, RESERVE_BOOKING_EMAIL_ENABLED: "false", RESERVE_BOOKING_CRON_ENABLED: "false" },
     stdio: ["ignore", "pipe", "pipe"],
   },
 );
@@ -38,6 +35,7 @@ try {
     server.on("exit", (c) => reject(Error("Server exit " + c)));
     setTimeout(() => reject(Error("Startup timeout")), 30000).unref();
   });
+  await waitForApplication(origin);
   browser = await chromium.launch({
     executablePath: process.env.CHROMIUM_PATH || "/tmp/chromium",
     args: ["--no-sandbox", "--disable-dev-shm-usage"],
@@ -110,7 +108,19 @@ try {
     .click();
   await page.getByText(/Appointment saved. Reference/).waitFor();
   await visit(origin + "/studio/today");
+  const previousDay = day.plus({ days: 7 }).toISODate();
+  await page.getByLabel("Working day", { exact: true }).fill(previousDay);
+  await page.waitForFunction(value => [...document.querySelectorAll(".provider-slot-list a")].some(link =>
+    new URL(link.href).searchParams.get("time")?.startsWith(value)), previousDay);
+  // Real availability, delayed transport: old-day links must disappear while
+  // the new day's response is pending, then prefill the returned start exactly.
+  await page.route("**/api/studio/day?*", async route => {
+    if (new URL(route.request().url()).searchParams.get("date") === day.toISODate())
+      await new Promise(resolve => setTimeout(resolve, 350));
+    await route.continue();
+  });
   await page.getByLabel("Working day", { exact: true }).fill(day.toISODate());
+  await page.waitForFunction(() => !document.querySelector(".provider-slot-list a"));
   await page
     .locator(".provider-agenda")
     .getByRole("link", { name: name + " ↗", exact: true })
@@ -144,7 +154,7 @@ try {
     );
     await page.screenshot({
       path: `artifacts/katie-studio-day-${width}.png`,
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
   }
   await page
@@ -166,6 +176,7 @@ try {
     day.toISODate(),
   );
   const chosen = new URL(slotHref, origin).searchParams.get("time");
+  assert.equal(DateTime.fromISO(chosen).setZone("America/Chicago").toISODate(), day.toISODate());
   await page.waitForFunction(
     (value) =>
       document.querySelector("#manual-booking select") &&
@@ -223,7 +234,7 @@ try {
     await page.setViewportSize({ width, height: 900 });
     await page.screenshot({
       path: "artifacts/booking-pilot-" + width + ".png",
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
     const overflow = await page.evaluate(() =>
       [...document.querySelectorAll("body *")]
@@ -245,7 +256,7 @@ try {
     );
     await page.screenshot({
       path: "artifacts/booking-pilot-" + width + ".png",
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
   }
   const stored = (
@@ -374,7 +385,7 @@ try {
     );
     await page.screenshot({
       path: `artifacts/katie-insights-${width}.png`,
-      fullPage: true,
+      fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
     });
   }
   // Isolated synthetic transport exercises queue links and pagination even when the local book has no past visits.
@@ -415,7 +426,7 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({
     path: "artifacts/katie-insights-queue-390.png",
-    fullPage: true,
+    fullPage: process.env.RESERVE_VERIFY_VIEWPORT_CAPTURE !== "true",
   });
   const nextPage = page.waitForRequest(
     (r) =>

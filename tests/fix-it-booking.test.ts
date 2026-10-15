@@ -44,4 +44,6 @@ test("branded auth returns stay scoped and reject external or traversing destina
     fixItBooking.signin,
   );
   assert.equal(accountEntranceFor("/account"), "/signin");
+  assert.equal(fixItDestination("/fix-it-shop/manage"), "/fix-it-shop/manage");
+  assert.equal(accountEntranceFor("/fix-it-shop/manage"), fixItBooking.signin);
 });

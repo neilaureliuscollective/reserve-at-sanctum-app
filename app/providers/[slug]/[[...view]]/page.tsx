@@ -11,6 +11,7 @@ import {
   ProviderInstall,
 } from "@/components/provider-booking-world";
 import { BookingFlow } from "@/components/booking-flow";
+import { katieNativeBooking } from "@/lib/katie-launch";
 import { Visits } from "@/components/visits";
 import { SigninForm } from "@/components/signin-form";
 import { PasswordRecovery } from "@/components/password-recovery";
@@ -41,7 +42,7 @@ export default async function Page({
   if (view === "book")
     return (
       <main id="main" className="fix-it-content">
-        <BookingFlow preview={isPreview()} identity={b} />
+        <BookingFlow preview={isPreview()} identity={b} nativeKatieCalendar={katieNativeBooking()} />
       </main>
     );
   if (view === "appointments") {

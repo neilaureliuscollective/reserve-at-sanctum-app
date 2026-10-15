@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "Keyboard service configuration; customer booking persists; owner calendar and fresh cookie session see identical ID; customer and Founder/Chair boundaries; phone/Fold/desktop layouts",
+    "Scoped reschedule and cancellation through real management HTTP actions",
+    "Existing session denied management and legacy Studio after membership revocation"
+  ],
+  "synthetic": true,
+  "mail": "disabled",
+  "payments": "disabled"
+}

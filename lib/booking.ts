@@ -41,6 +41,8 @@ export type Appointment = Row & {
   price: number;
   revision: number;
   status: string;
+  arrived_at?: Date | string | null;
+  no_show_at?: Date | string | null;
   note: string;
   service_name?: string;
   client_name?: string;
@@ -110,7 +112,9 @@ export async function service(db: Queryable, id: string, lock = false) {
 }
 export function units(start: DateTime, count: number) {
   return Array.from(
-    { length: count / 15 },
+    // Starts remain on the existing quarter-hour grid. Claim the final partial
+    // unit too; the appointment's exact end/buffer snapshots are never rounded.
+    { length: Math.ceil(count / 15) },
     (_, i) =>
       start
         .plus({ minutes: i * 15 })
@@ -254,6 +258,11 @@ export async function book(
 ) {
   try {
     return await db.transaction(async (tx) => {
+      // Recovery uses this same account lock to retire a request before a
+      // delayed submission can commit. Never infer failure from a missing row.
+      // NO KEY UPDATE still serializes recovery/creation, while permitting the
+      // user FK's KEY SHARE during a concurrent provider-locked manual booking.
+      await tx.query("SELECT id FROM reserve_users WHERE id=$1 FOR NO KEY UPDATE", [actor.id]);
       const [prior] = await tx.query<AccountAppointment>(
         "SELECT * FROM reserve_appointments WHERE client_id=$1 AND request_key=$2 AND source='online'",
         [actor.id, input.requestKey],
@@ -272,6 +281,9 @@ export async function book(
           );
         return prior;
       }
+      const retired = await tx.query("SELECT request_key FROM reserve_booking_request_fences WHERE client_id=$1 AND request_key=$2", [actor.id, input.requestKey]);
+      if (retired.length)
+        throw new BookingError("This request was safely closed. Review the details and start a new booking.", 409);
       const s = await serviceLocation(
           tx,
           await service(tx, input.serviceId, true),
@@ -351,7 +363,7 @@ export async function change(
   actor: Actor,
   id: string,
   input: {
-    action: "cancel" | "reschedule" | "complete";
+    action: "cancel" | "reschedule" | "complete" | "arrive" | "undo_arrival" | "no_show" | "undo_no_show";
     start?: string;
     revision: number;
   },
@@ -364,13 +376,47 @@ export async function change(
       );
       if (!a || !canAccess(actor, a))
         throw new BookingError("Appointment not found.", 404);
-      if (a.status !== "confirmed")
+      const attendance = ["arrive", "undo_arrival", "no_show", "undo_no_show"].includes(input.action);
+      if (attendance) {
+        requireCapability(actor, "appointments.manage");
+        if (actor.role !== "owner" && actor.provider_id !== a.provider_id)
+          throw new BookingError("This visit is outside your provider schedule.", 403);
+      }
+      if (a.status !== "confirmed" && !(input.action === "undo_no_show" && a.status === "no_show"))
         throw new BookingError("This appointment is no longer active.", 409);
       if (a.revision !== input.revision)
-        throw new BookingError(
-          "This visit changed. Refresh before making another change.",
-          409,
-        );
+        throw new BookingError("This visit changed. Refresh before making another change.", 409);
+      if (attendance) {
+        const now = DateTime.now();
+        if (input.action === "arrive") {
+          const [location] = await tx.query<{ timezone: string }>(
+            "SELECT timezone FROM reserve_locations WHERE id=$1", [a.location_id ?? primaryLocation.id]);
+          const zone = location?.timezone || ZONE;
+          if (a.arrived_at || DateTime.fromJSDate(new Date(a.starts_at)).setZone(zone).toISODate() !== now.setZone(zone).toISODate() || now.toMillis() >= new Date(a.ends_at).getTime())
+            throw new BookingError("Arrival can be recorded once on the appointment day before its scheduled end.", 409);
+          await tx.query("UPDATE reserve_appointments SET arrived_at=now(),revision=revision+1 WHERE id=$1", [id]);
+          // A customer who is already here does not need a queued reminder.
+          await tx.query("UPDATE reserve_booking_messages SET state='superseded' WHERE appointment_id=$1 AND kind='reminder' AND state IN ('manual_required','failed')", [id]);
+          // Arrival is operational metadata, not a time change: preserve pending confirmations.
+          await tx.query("UPDATE reserve_booking_messages SET revision=revision+1 WHERE appointment_id=$1 AND revision=$2 AND kind<>'reminder' AND state IN ('manual_required','failed')", [id,a.revision]);
+        } else if (input.action === "undo_arrival") {
+          if (!a.arrived_at) throw new BookingError("This client has not been marked arrived.", 409);
+          await tx.query("UPDATE reserve_appointments SET arrived_at=NULL,revision=revision+1 WHERE id=$1", [id]);
+          await tx.query("UPDATE reserve_booking_messages SET revision=revision+1 WHERE appointment_id=$1 AND revision=$2 AND kind<>'reminder' AND state IN ('manual_required','failed')", [id,a.revision]);
+        } else if (input.action === "no_show") {
+          if (a.arrived_at || now.toMillis() < new Date(a.ends_at).getTime())
+            throw new BookingError("Record a no-show after the scheduled end, only if the client has not arrived.", 409);
+          await tx.query("UPDATE reserve_appointments SET status='no_show',no_show_at=now(),revision=revision+1 WHERE id=$1", [id]);
+          await tx.query("UPDATE reserve_booking_messages SET state='superseded' WHERE appointment_id=$1 AND state IN ('manual_required','failed')", [id]);
+        } else {
+          await tx.query("UPDATE reserve_appointments SET status='confirmed',no_show_at=NULL,revision=revision+1 WHERE id=$1", [id]);
+        }
+        // Attendance never releases occupied units or alters captured visit terms.
+        await tx.query("INSERT INTO reserve_audit(actor_id,appointment_id,action) VALUES($1,$2,$3)", [actor.id,id,input.action]);
+        return (await tx.query<Appointment>("SELECT * FROM reserve_appointments WHERE id=$1", [id]))[0];
+      }
+      if (input.action !== "cancel" && input.action !== "reschedule" && input.action !== "complete")
+        throw new BookingError("Choose a valid appointment action.");
       if (input.action === "complete") {
         requireCapability(actor, "appointments.manage");
         if (actor.role !== "owner" && actor.provider_id !== a.provider_id)
@@ -437,7 +483,7 @@ export async function change(
         );
         await occupy(tx, a, start, s.minutes + s.buffer);
         await tx.query(
-          "UPDATE reserve_appointments SET starts_at=$1,ends_at=$2,busy_until=$3,revision=revision+1 WHERE id=$4",
+          "UPDATE reserve_appointments SET starts_at=$1,ends_at=$2,busy_until=$3,arrived_at=NULL,revision=revision+1 WHERE id=$4",
           [
             start.toUTC().toISO(),
             start.plus({ minutes: s.minutes }).toUTC().toISO(),
@@ -538,7 +584,7 @@ export async function queueBookingMessage(
     "INSERT INTO reserve_booking_messages(id,appointment_id,revision,kind) VALUES($1,$2,$3,$4) ON CONFLICT(appointment_id,revision,kind) DO NOTHING",
     [randomUUID(), appointment.id, appointment.revision, kind],
   );
-  if (kind !== "cancel")
+  if (kind !== "cancel" && new Date(appointment.starts_at).getTime() > Date.now() + 86400000)
     await tx.query(
       "INSERT INTO reserve_booking_messages(id,appointment_id,revision,kind,available_at) VALUES($1,$2,$3,'reminder',$4) ON CONFLICT(appointment_id,revision,kind) DO NOTHING",
       [

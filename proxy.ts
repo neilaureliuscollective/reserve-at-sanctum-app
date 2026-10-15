@@ -7,6 +7,7 @@ import { supabaseKey, supabaseUrl } from "./lib/supabase-config";
 // remains in each server page / API route, using getUser and database-owned roles.
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
+  response.headers.set("Cache-Control", "private, no-store");
   // Let public pages stream before account services respond. Protected routes
   // retain cookie refresh and authoritative getUser() verification.
   const publicPaths = [
@@ -14,7 +15,6 @@ export async function proxy(request: NextRequest) {
     "/vitalis",
     "/",
     "/home",
-    "/enter",
     "/setup",
     "/fix-it-shop",
     "/book",

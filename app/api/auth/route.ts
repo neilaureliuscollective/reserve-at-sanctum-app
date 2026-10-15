@@ -1,10 +1,14 @@
+import {
+  confirmationRedirect,
+  confirmationMessage,
+  reserveAuthDelivery,
+} from "@/lib/auth-confirmation";
 import { recoveryDestination } from "@/lib/booking-identity";
-import { safeDestination } from "@/lib/experience/entry";
 import { z } from "zod";
 import { hasSupabase, previewLogin, signout, supabase } from "@/lib/auth";
 import { mutationOrigin, failure } from "@/lib/http";
 import { BookingError } from "@/lib/booking";
-import { configured } from "@/lib/db";
+import { configured, database } from "@/lib/db";
 export async function POST(req: Request) {
   try {
     mutationOrigin(req);
@@ -31,16 +35,34 @@ export async function POST(req: Request) {
         "Member sign-in will open when hosted accounts are connected.",
         503,
       );
+    if (body.action === "resend") {
+      const email = z.email().max(254).parse(body.email);
+      const redirectTo = confirmationRedirect(body.next);
+      if (await reserveAuthDelivery(await database(), email)) {
+        // Never reveal account existence, confirmed state or provider errors.
+        try {
+          await (
+            await supabase()
+          ).auth.resend({
+            type: "signup",
+            email,
+            options: { emailRedirectTo: redirectTo },
+          });
+        } catch {
+          /* Generic response; no credentials or address in logs. */
+        }
+      }
+      return Response.json(
+        { ok: true, confirmation: true, message: confirmationMessage },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    }
     if (body.action === "recover") {
       const email = z.email().parse(body.email);
       const { error } = await (
         await supabase()
       ).auth.resetPasswordForEmail(email, {
-        redirectTo: new URL(
-          "/auth/callback?next=" +
-            encodeURIComponent(recoveryDestination(body.next)),
-          process.env.APP_ORIGIN!,
-        ).toString(),
+        redirectTo: confirmationRedirect(recoveryDestination(body.next)),
       });
       if (error)
         throw new BookingError(
@@ -74,16 +96,14 @@ export async function POST(req: Request) {
       .parse(body);
     const client = await supabase();
     if (input.action === "signup") {
+      if (!(await reserveAuthDelivery(await database(), input.email)))
+        return Response.json({ ok: true, verify: true });
       const { data, error } = await client.auth.signUp({
         email: input.email,
         password: input.password,
         options: {
           data: { name: input.name },
-          emailRedirectTo: new URL(
-            "/auth/callback?next=" +
-              encodeURIComponent(safeDestination(input.next)),
-            req.url,
-          ).toString(),
+          emailRedirectTo: confirmationRedirect(input.next),
         },
       });
       if (error)

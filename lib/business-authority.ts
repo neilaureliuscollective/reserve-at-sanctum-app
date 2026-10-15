@@ -1,3 +1,4 @@
+import { requireFeatureSchema } from "./feature-readiness";
 import { BookingError, type Actor } from "./booking";
 import type { Database, Queryable } from "./db";
 
@@ -9,6 +10,7 @@ export function businessAuthorityEnabled(env: Record<string,string|undefined> = 
  * Global owner and editable capability overrides do not grant tenant access. */
 export async function requireBusinessAccess(db: Queryable, actor: Actor, businessId: string, permission: BusinessPermission, env: Record<string,string|undefined> = process.env) {
   if (!businessAuthorityEnabled(env)) throw new BookingError("Business authority has not been commissioned.",503);
+  await requireFeatureSchema(db, "business");
   const [membership] = await db.query<{role:string}>(
     `SELECT m.role FROM reserve_business_memberships m JOIN reserve_businesses b ON b.id=m.business_id
      WHERE m.business_id=$1 AND m.user_id=$2 AND m.revoked_at IS NULL AND m.verified_at IS NOT NULL
@@ -33,6 +35,7 @@ export async function businessAppointments(db: Database, actor: Actor, businessI
 }
 
 export async function revokeBusinessMembership(db: Database, actor: Actor, businessId: string, userId: string, revision: number, env: Record<string,string|undefined> = process.env) {
+  await requireFeatureSchema(db, "business");
   return db.transaction(async tx => {
     // Serialize revocations within a business, including self-revocation and
     // two owners racing, before taking the membership share lock.

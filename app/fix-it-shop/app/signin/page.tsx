@@ -12,7 +12,7 @@ export default async function Page({
   searchParams: Promise<{ next?: string; error?: string }>;
 }) {
   const p = await searchParams,
-    next = fixItDestination(p.next);
+    next = p.next ? fixItDestination(p.next) : "/enter";
   const origin = process.env.APP_ORIGIN;
   if (
     process.env.VERCEL_ENV === "production" &&

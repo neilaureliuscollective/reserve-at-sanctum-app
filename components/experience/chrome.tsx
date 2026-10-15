@@ -34,7 +34,7 @@ export function ExperienceChrome({ children, footer, status }: {
     window.addEventListener("focusout", update);
     return () => { viewport?.removeEventListener("resize", update); window.removeEventListener("focusout", update); };
   }, []);
-  if (path === "/fix-it-shop" || path.startsWith("/providers/") || path === "/fix-it-shop/app" || path.startsWith("/fix-it-shop/app/")) return <>{children}</>;
+  if (path === "/fix-it-shop/manage" || path === "/fix-it-shop" || path.startsWith("/providers/") || path === "/fix-it-shop/app" || path.startsWith("/fix-it-shop/app/")) return <>{children}</>;
   if (["/book", "/account", "/signin", "/forgot-password", "/reset-password", "/chair", "/my-visit", "/visit", "/privacy", "/terms", "/booking-technology"].includes(path)) return <ServiceChrome>{children}</ServiceChrome>;
   if (path.startsWith("/studio")) return <>{children}{status}</>;
   if (path === "/discover") return <div data-lr-theme="mineral"><ArrivalMotion /><PublicNavigation />{children}</div>;
