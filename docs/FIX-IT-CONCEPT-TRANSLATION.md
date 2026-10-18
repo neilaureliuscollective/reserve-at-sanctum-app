@@ -33,7 +33,7 @@ installation or production logo replacement is claimed.
 ## Translation
 
 Home now has a continuous, unframed ink/navy stage with selective irregular blue
-microtexture, live editorial copy, a separate diagonal warm-metal sweep, and a
+microtexture, live editorial copy, a separate diagonal metal sweep, and a
 single dominant visible gold booking action. The old abstract enclosing dashboard
 arch/card is not retained. Phone booking stays in the opening viewport; expanded
 Home uses a lower booking bar without a second bottom navigation bar. The bounded
@@ -70,7 +70,7 @@ separating hinge. Ordinary responsive layout works without that API.
 The documented palette anchors are retained as references, not broad flat fills.
 The scene is substantially darker than the rejected gray-cyan hero, using ink
 backing around #010D1A/#021321, localized deeper blue reflections and irregular
-microrelief. Blue material, lighting, gold sweep and functional type are separate
+microrelief. Blue material, lighting, metal sweep and functional type are separate
 layers. The two checked-in WebPs contain **no logo, text, device frame, status bar,
 button, shop interior or person**. They are original abstract material art, not
 photography or evidence of the premises.
@@ -80,6 +80,11 @@ reflection, a bright rim and bronze return. Fine grain is subordinate. This
 replaces the prior nearly uniform mustard plate plus one diagonal stripe. All
 labels and controls remain real HTML. Concept phone frames, hinges, floor
 reflections and presentation captions are not shipped as app UI.
+
+The later bounded [material balance](FIX-IT-MATERIAL-BALANCE.md) preserves that
+approved blue and button geometry. It makes only the existing ribbon/navigation/
+booking hardware and panel edges steel, and deepens the scoped gold face ramp.
+It retains the reading-overlap correction, single form and five destinations.
 
 The separation of base appearance, reflection and microsurface detail is informed
 by the [Filament material guide](https://google.github.io/filament/Materials.md.html);
@@ -101,7 +106,7 @@ The earlier original 22,636-byte neutral grain is reused for the gold control.
 
 The first stage is eager/high priority. Native picture media selects one master,
 not both. Secondary uses share the same selected URL and may load lazily. Worker
-v15 installs only core public files; a scope-checked message warms only the
+v16 installs only core public files; a scope-checked message warms only the
 selected public stage. The static image fetch path may cache only the two exact
 stage paths. Unlisted paths, queries, external origins, private pages and APIs
 are not intercepted/cached. No account, Chair, card or booking data enters the

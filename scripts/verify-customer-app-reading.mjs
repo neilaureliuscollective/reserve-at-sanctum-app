@@ -17,7 +17,7 @@ const types = { ".html": "text/html", ".css": "text/css", ".mjs": "text/javascri
 const server = createServer(async (req, res) => {
   const file = resolve(publicDir, "." + new URL(req.url, "http://localhost").pathname);
   if (!file.startsWith(publicDir + sep)) { res.writeHead(403).end(); return; }
-  try { res.writeHead(200, { "Content-Type": types[extname(file)] || "application/octet-stream" }).end(await readFile(file)); }
+  try { const bytes = await readFile(file); res.writeHead(200, { "Content-Type": types[extname(file)] || "application/octet-stream" }).end(bytes); }
   catch { res.writeHead(404).end(); }
 });
 await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));

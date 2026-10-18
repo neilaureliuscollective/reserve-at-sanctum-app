@@ -109,7 +109,7 @@ try {
   checks.push("Native share capability with repeat-click guard; clipboard/manual fallback; only website URL is shared, never consultation content");
   const cached=await p.evaluate(async()=>{const keys=await caches.keys();const result={};for(const key of keys){result[key]=(await(await caches.open(key)).keys()).map(r=>new URL(r.url).pathname);}return result;});
   const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/concept.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/fix-it-shop-app/presentation.mjs","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2","/fix-it-shop-app/materials/home-grain.png","/fix-it-shop-app/materials/stage-phone.webp","/fix-it-shop-app/materials/stage-wide.webp"];
-  assert.ok(cached["fix-it-pocket-public-v15"]?.length>=12);assert.ok(cached["fix-it-pocket-public-v15"].every(path=>allowed.includes(path)));
+  assert.ok(cached["fix-it-pocket-public-v16"]?.length>=12);assert.ok(cached["fix-it-pocket-public-v16"].every(path=>allowed.includes(path)));
   const workerScope=await p.evaluate(async()=> (await navigator.serviceWorker.getRegistration()).scope);assert.equal(workerScope,origin+"/fix-it-shop-app/");
   await c.setOffline(true);
   await p.locator("#connection:visible").waitFor();
