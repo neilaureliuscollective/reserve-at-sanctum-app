@@ -38,7 +38,7 @@ jobs:
       - name: Isolated booking, staff, privacy and founder browsers
         run: |
           set -e
-          for suite in fix-it-booking booking-pilot chair provider-brands founder-foundation; do
+          for suite in fix-it-booking booking-pilot chair provider-brands founder-foundation public-first; do
             npm run "verify:$suite"
           done
       - uses: actions/upload-artifact@v4

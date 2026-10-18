@@ -24,6 +24,7 @@ export function saveCard(storage, card) {
 }
 export function deleteCard(storage) { storage.removeItem(CARD_KEY); }
 export function viewFromHash(hash) {
+  if (hash === "#guide") return "home";
   const view = hash.replace(/^#/, "");
   return VIEWS.includes(view) ? view : "home";
 }
