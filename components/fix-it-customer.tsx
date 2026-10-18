@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { fixItCustomerAppHref } from "@/lib/fix-it-customer-app";
 import { fixItPublicBooking as booking } from "@/lib/fix-it-public-booking";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -9,7 +10,7 @@ const base = "/fix-it-shop/app";
 const items = [
   [base, "Home", Home],
   [booking.href, "Book", CalendarPlus],
-  [booking.href, "My visits", CalendarDays],
+  [fixItCustomerAppHref + "#visit", "Visit help", CalendarDays],
   ["/chair", "The Chair", Scissors],
   [base + "/install", "Phone setup", Smartphone],
 ] as const;

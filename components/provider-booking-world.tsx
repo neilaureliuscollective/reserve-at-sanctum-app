@@ -1,3 +1,4 @@
+import { fixItCustomerAppHref } from "@/lib/fix-it-customer-app";
 import { fixItPublicBooking as booking } from "@/lib/fix-it-public-booking";
 import Link from "next/link";
 import { FixItCustomerNav } from "@/components/fix-it-customer";
@@ -51,7 +52,7 @@ export function ProviderWorld({
             {p.name} · {p.professional}
           </span>
           {b.providerId === "katie" && (
-            <><Link href="/fix-it-shop/app/founder">Katie’s story</Link><Link href="/chair">The Chair</Link><a href={booking.href}>Book on GlossGenius ↗</a><Link href="/account">Website appointment history</Link></>
+            <><a href={fixItCustomerAppHref + "#home"}>Customer app</a><Link href="/fix-it-shop/app/founder">Katie’s story</Link><Link href="/chair">The Chair</Link><a href={booking.href}>Book on GlossGenius ↗</a><Link href="/account">Website appointment history</Link></>
           )}
           <Link href="/privacy">Privacy</Link>
           <Link href="/booking-technology">Powered by Aethelios Booking ↗</Link>

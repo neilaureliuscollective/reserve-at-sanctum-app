@@ -70,8 +70,10 @@ try {
   await page.waitForURL("**/fix-it-shop/app/founder");
   await page.locator("#founder-title").waitFor({state:"visible"});
   await page.goBack();await page.waitForURL("**/fix-it-shop/app#services");
+  await page.locator('.fis-film[data-motion="true"]').waitFor();
   const hero=page.locator(`.fis-entrance__copy a[href="${gg}"]`);
-  await hero.focus();await page.keyboard.press("Enter");await page.waitForURL(gg);
+  await hero.focus();
+  assert.equal(await hero.evaluate(el=>el===document.activeElement),true);await page.keyboard.press("Enter");await page.waitForURL(gg);
   await page.goBack();await page.waitForURL("**/fix-it-shop/app#services");
   checks.push("Mobile keyboard Enter navigates directly to exact GlossGenius URL in the same tab; internal anchor/story navigation and browser Back restore the website");
   await page.goto(origin+"/fix-it-shop");
@@ -89,7 +91,8 @@ try {
   checks.push("Five legacy Katie/default routes redirect without signup/calendar screens; unknown/other-provider intent remains on native routes");
   for(const path of ["/manifest.webmanifest","/fix-it-shop/booking.webmanifest"]) {
     const m=await (await c.request.get(origin+path)).json();
-    const items=m.shortcuts.filter(s=>s.name.includes("GlossGenius"));assert.equal(items.length,2);
+    const items=m.shortcuts.filter(s=>s.name.includes("GlossGenius"));assert.equal(items.length,1);
+    assert.ok(m.shortcuts.some(s=>s.name==="Visit help"&&s.url==="/fix-it-shop-app/index.html#visit"));
     assert.ok(items.every(s=>s.url==="/fix-it-shop/app/book"));
   }
   const nojs=await context({javaScriptEnabled:false}), np=await nojs.newPage();

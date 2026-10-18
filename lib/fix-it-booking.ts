@@ -1,3 +1,4 @@
+import { fixItCustomerAppHref } from "./fix-it-customer-app";
 import type { MetadataRoute } from "next";
 import { providerEntrance } from "./booking-identity";
 import { safeDestination } from "./experience/entry";
@@ -33,7 +34,7 @@ export function fixItManifest(): MetadataRoute.Manifest {
     short_name: fixItBooking.name,
     description:
       "Meet Katie Guidry and book on her existing GlossGenius site.",
-    start_url: fixItBooking.base + "/launch",
+    start_url: fixItCustomerAppHref + "#home",
     // Staff, The Chair and auth callbacks stay on the same installed origin.
     scope: "/",
     display: "standalone",
@@ -49,7 +50,8 @@ export function fixItManifest(): MetadataRoute.Manifest {
     // public traffic to GlossGenius without an intermediate booking screen.
     shortcuts: [
       { name: "Book on GlossGenius", url: fixItBooking.book },
-      { name: "Appointments on GlossGenius", url: fixItBooking.book },
+      { name: "My consultation card", url: fixItCustomerAppHref + "#card" },
+      { name: "Visit help", url: fixItCustomerAppHref + "#visit" },
       { name: "My working day", url: "/studio" },
       { name: "The Chair", url: "/chair" },
     ],

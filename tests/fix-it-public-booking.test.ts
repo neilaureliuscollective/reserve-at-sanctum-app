@@ -33,6 +33,6 @@ test("installed shortcuts remain within app scope and clearly identify the exter
   for (const item of shortcuts.filter(s=>s.name.includes("GlossGenius"))) {
     assert.equal(item.url,"/fix-it-shop/app/book");
   }
-  assert.equal(shortcuts.filter(s=>s.name.includes("GlossGenius")).length,2);
+  assert.equal(shortcuts.filter(s=>s.name.includes("GlossGenius")).length,1);
   assert.equal(new URL(fixItPublicBooking.href).pathname,"/");
 });
