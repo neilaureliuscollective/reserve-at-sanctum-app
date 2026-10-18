@@ -1,3 +1,6 @@
+> Historical 7a70937 material proof, superseded for Home/My Card by
+> [the concept translation](FIX-IT-CONCEPT-TRANSLATION.md). Retained for traceability.
+
 # Home material correction — local review
 
 This correction is Home-only, including its visible header and dock. It preserves

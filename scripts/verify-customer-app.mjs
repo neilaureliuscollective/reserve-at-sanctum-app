@@ -31,6 +31,14 @@ try {
   assert.equal(await book.getAttribute("href"),gg);
   const box=await book.boundingBox();assert.ok(box.y+box.height<844-80,"Booking must be visible without scrolling");
   checks.push("Compact browser entry; immediate direct booking; install promotion absent before value");
+  assert.equal(await p.locator("#card-form").count(),1);
+  assert.equal(await p.locator('[data-screen="home"] input,[data-screen="home"] textarea,[data-screen="home"] button[type="submit"]').count(),0);
+  assert.equal(await p.locator('img[src*="images/approved/fix-it-shop"],img[src*="icons/192"]').count(),0);
+  await p.locator('.shop-path').click();await p.locator('[data-screen="shop"]:visible').waitFor();
+  await screen(p,"home");await p.locator('.prepare-path').click();await p.locator('[data-screen="card"]:visible').waitFor();
+  await screen(p,"home");
+  checks.push("Concept Home paths navigate to the existing shop/card; one authoritative form; no fake preview inputs or unapproved crest");
+
   for(const width of [320,390,540,884,1440]) {
     await p.setViewportSize({width,height:900});
     for(const name of ["home","services","card","shop","katie"]) {
@@ -45,7 +53,7 @@ try {
   const reduced=await newContext({viewport:{width:320,height:660},reducedMotion:"reduce"});
   const reducedPage=await reduced.newPage();await reducedPage.goto(origin+base+"#home");await reducedPage.evaluate(()=>document.fonts.ready);
   assert.equal(await reducedPage.evaluate(()=>matchMedia("(prefers-reduced-motion: reduce)").matches),true);
-  assert.equal(await reducedPage.locator(".opening").evaluate(el=>getComputedStyle(el).animationName),"none");
+  assert.equal(await reducedPage.locator(".home-stage").evaluate(el=>getComputedStyle(el).animationName),"none");
   const reducedBook=await reducedPage.locator('[data-screen="home"] [data-book]').boundingBox();assert.ok(reducedBook.y+reducedBook.height<660-80);
   await reducedPage.locator(".quick-book").focus();assert.equal(await reducedPage.locator(".quick-book").evaluate(el=>getComputedStyle(el).outlineWidth),"3px");
   const dock=await reducedPage.locator(".app-nav").boundingBox();assert.ok(dock.y+dock.height<=660);
@@ -99,8 +107,8 @@ try {
   await p.getByRole("button",{name:"Copy website link"}).click();assert.equal(await p.evaluate(()=>window.__copied),origin+"/fix-it-shop/app");
   checks.push("Native share capability with repeat-click guard; clipboard/manual fallback; only website URL is shared, never consultation content");
   const cached=await p.evaluate(async()=>{const keys=await caches.keys();const result={};for(const key of keys){result[key]=(await(await caches.open(key)).keys()).map(r=>new URL(r.url).pathname);}return result;});
-  const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/images/approved/fix-it-shop.webp","/fix-it-shop/app/icons/192.png","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2","/fix-it-shop-app/materials/home-grain.png"];
-  assert.ok(cached["fix-it-pocket-public-v13"]?.length===allowed.length);assert.ok(cached["fix-it-pocket-public-v13"].every(path=>allowed.includes(path)));
+  const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/concept.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/fix-it-shop-app/presentation.mjs","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2","/fix-it-shop-app/materials/home-grain.png","/fix-it-shop-app/materials/stage-phone.webp","/fix-it-shop-app/materials/stage-wide.webp"];
+  assert.ok(cached["fix-it-pocket-public-v14"]?.length>=12);assert.ok(cached["fix-it-pocket-public-v14"].every(path=>allowed.includes(path)));
   const workerScope=await p.evaluate(async()=> (await navigator.serviceWorker.getRegistration()).scope);assert.equal(workerScope,origin+"/fix-it-shop-app/");
   await c.setOffline(true);
   await p.locator("#connection:visible").waitFor();
