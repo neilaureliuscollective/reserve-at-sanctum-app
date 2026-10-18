@@ -31,6 +31,14 @@ async function context({ width = 390, height = 844, returning = false, standalon
   return c;
 }
 async function publicHome(p) { await p.waitForURL(origin + home); await p.locator("#fis-title:visible").waitFor(); }
+async function bookingContrast(p) {
+  return p.locator('.fix-it-nav:visible a.fix-it-book-action').evaluate(e => {
+    const rgb = value => value.match(/[\d.]+/g).slice(0,3).map(Number);
+    const luminance = values => values.map(v => { v /= 255; return v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }).reduce((sum,v,i) => sum + v * [.2126,.7152,.0722][i],0);
+    const text = luminance(rgb(getComputedStyle(e.querySelector('span')).color));
+    return Math.min(...getComputedStyle(e).backgroundImage.match(/rgb\([^)]+\)/g).map(stop => { const background = luminance(rgb(stop)); return (Math.max(text,background) + .05) / (Math.min(text,background) + .05); }));
+  });
+}
 async function guide(p) { await p.locator('.fix-it-nav:visible a[href="' + app + '#guide"]').click(); await p.waitForURL(origin + app + "#guide"); await p.locator('[data-screen="home"]:visible').waitFor(); }
 try {
   const deadline = Date.now() + 60000;
@@ -45,6 +53,7 @@ try {
       assert.ok(navigations <= 4, "Redirect loop " + requested);
       assert.deepEqual(await p.locator('.fix-it-nav:visible a').allTextContents().then(a => a.map(t => t.trim().replace("↗", "").trim())), ["Home", "Services", "Visit guide", "Book now"]);
       assert.equal(await p.locator('.fis-entrance__copy:visible a.button-gold').getAttribute("href"), gg);
+      assert.ok(await bookingContrast(p) >= 4.5, "Book Now text contrast against each actual gradient stop");
       const snapshot = await p.evaluate(() => ({ saved: localStorage.getItem("fix-it-consultation:v1"), unrelated: localStorage.getItem("unrelated-synthetic-record") }));
       assert.equal(Boolean(snapshot.saved), returning);
       if (returning) assert.equal(snapshot.unrelated, "preserved");
@@ -87,7 +96,7 @@ try {
       await p.reload(); await p.waitForFunction(() => !!document.querySelector('[data-screen]:not([hidden])')); assert.equal(p.url(), origin + app + hash);
     }
     await p.locator('.app-nav a[href="' + home + '"]').click(); await publicHome(p);
-    const book = p.locator('.fix-it-nav:visible a.fix-it-book-action'); await book.focus(); await p.keyboard.press("Enter"); await p.waitForURL(gg);
+    const book = p.locator('.fix-it-nav:visible a.fix-it-book-action'); await book.focus(); assert.ok(await bookingContrast(p) >= 4.5, "Focused Book Now contrast"); await p.keyboard.press("Enter"); await p.waitForURL(gg);
     await p.goBack(); await publicHome(p);
     assert.equal(await p.evaluate(() => localStorage.getItem("fix-it-consultation:v1")), before.saved);
     assert.equal(await p.evaluate(() => sessionStorage.getItem("fix-it-consultation-draft:v1")), before.draft);

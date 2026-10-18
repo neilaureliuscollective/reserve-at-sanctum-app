@@ -201,7 +201,7 @@ try {
     await tp.locator('.quick-book').tap();await tp.getByText("Local fixture only.",{exact:true}).waitFor();assert.equal(tp.url(),gg);
     await touch.close();
   }
-  checks.push("Both manifests retain IDs/scope/start URL and serve approved PNG dimensions; emulated touch works across all five destinations, browser Back and direct booking at 390/884 short heights; physical install remains unverified");
+  checks.push("Both manifests retain IDs/scope/start URL and serve approved PNG dimensions; legacy state/history paths and actual touch booking work at 390/884 short heights; physical install remains unverified");
   checks.push("Browser website preserved; legacy customer entry opens public Home; both stable standalone start URLs are handled by the public entry bridge; blocked storage never reports a successful save");
   assert.deepEqual(errors,[]);assert.deepEqual(writes,[]);assert.deepEqual(appApiRequests,[]);assert.ok(external.length>=2);assert.ok(external.every(r=>r.url===gg&&r.method==="GET"));
   await writeFile(dir+"/results.json",JSON.stringify({checks,cached,workerScope,external,writes,errors,appApiRequests,standalone:"emulated display-mode only; physical installation remains unverified",merchant:"intercepted locally; no actual booking/payment/message"},null,2));

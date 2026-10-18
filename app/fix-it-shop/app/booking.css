@@ -570,4 +570,5 @@
 
 /* Public discovery first; optional guide and direct external booking. */
 .fix-it-nav { grid-template-columns:repeat(4,minmax(0,1fr)); }
-.fix-it-nav a.fix-it-book-action { background:linear-gradient(110deg,#e5c984,#c28e26);color:#101a24;box-shadow:inset 0 1px #fff6; }
+.fix-it-nav a.fix-it-book-action,.fix-it-premium .fix-it-nav a.fix-it-book-action { background:linear-gradient(110deg,#e5c984,#c28e26);color:#101a24;box-shadow:inset 0 1px #fff6; }
+.fix-it-nav a.fix-it-book-action > * { color:inherit; }

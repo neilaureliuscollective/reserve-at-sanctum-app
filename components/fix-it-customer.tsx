@@ -20,7 +20,7 @@ export function FixItCustomerNav() {
     <nav className="fix-it-nav" aria-label="Fix It Shop">
       {items.map(([href, label, Icon]) => href === booking.href ? (
         <a key={label} href={href} className="fix-it-book-action" aria-label={`${label} on GlossGenius`}>
-          <Icon size={20} /><span>{label} ↗</span>
+          <Icon size={20} /><span>{label}</span>
         </a>
       ) : (
         <Link
