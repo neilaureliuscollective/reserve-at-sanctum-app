@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { fixItPublicBooking as booking } from "@/lib/fix-it-public-booking";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Home, CalendarPlus, CalendarDays, Smartphone, Scissors } from "lucide-react";
@@ -7,8 +8,8 @@ import type { Appointment } from "@/lib/booking";
 const base = "/fix-it-shop/app";
 const items = [
   [base, "Home", Home],
-  [base + "/book", "Book", CalendarPlus],
-  [base + "/appointments", "My visits", CalendarDays],
+  [booking.href, "Book", CalendarPlus],
+  [booking.href, "My visits", CalendarDays],
   ["/chair", "The Chair", Scissors],
   [base + "/install", "Phone setup", Smartphone],
 ] as const;
@@ -17,7 +18,11 @@ export function FixItCustomerNav() {
   const path = ["/account", "/my-visit"].includes(currentPath) ? base + "/appointments" : ["/book", "/visit"].includes(currentPath) ? base + "/book" : currentPath;
   return (
     <nav className="fix-it-nav" aria-label="Fix It Shop">
-      {items.map(([href, label, Icon]) => (
+      {items.map(([href, label, Icon]) => href === booking.href ? (
+        <a key={label} href={href} aria-label={`${label} on GlossGenius`}>
+          <Icon size={20} /><span>{label} ↗</span>
+        </a>
+      ) : (
         <Link
           key={href}
           href={href}

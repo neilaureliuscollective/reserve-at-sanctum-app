@@ -1,4 +1,5 @@
 "use client";
+import { fixItPublicBooking, publicBookingHref } from "@/lib/fix-it-public-booking";
 import { serviceLocationLabel } from "@/lib/experience/locations";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
@@ -235,7 +236,7 @@ export function Visits({
           )}
           <Link
             href={
-              identity?.book ||
+              !preview && (identity?.providerId === "katie" || (studio && actor.provider_id === "katie")) ? fixItPublicBooking.href : identity?.book ||
               (studio && actor.provider_id === "katie"
                 ? "/fix-it-shop/app/book"
                 : "/book")
@@ -443,7 +444,7 @@ export function Visits({
                 ? "No appointments on this day."
                 : "Appointments will appear here once booked."}
             </p>
-            <Link href={identity?.book || "/book"} className="text-link">
+            <Link href={!preview && identity?.providerId === "katie" ? fixItPublicBooking.href : identity?.book || "/book"} className="text-link">
               Find a moment <ArrowUpRight size={17} />
             </Link>
           </div>
@@ -572,9 +573,9 @@ export function Visits({
                     {(a.status !== "confirmed" || identity) && !studio && (
                       <Link
                         className="text-link"
-                        href={`${identity?.book || "/book"}?service=${a.service_id}&provider=${a.provider_id}&location=${a.location_id || "eunice"}`}
+                        href={publicBookingHref(preview ? "" : a.provider_id, `${identity?.book || "/book"}?service=${a.service_id}&provider=${a.provider_id}&location=${a.location_id || "eunice"}`)}
                       >
-                        Book again <ArrowUpRight size={14} />
+                        Book again{!preview && a.provider_id === "katie" ? " on GlossGenius" : ""} <ArrowUpRight size={14} />
                       </Link>
                     )}
                   </div>

@@ -51,8 +51,9 @@ export default function Page() {
         <p>
           Use your existing account. An installed app may
           need a fresh sign-in. Signing out in this browser also signs you out
-          of this website’s shared session. Booking and appointments require an
-          internet connection.
+          of this website’s shared session. Katie’s appointments and payments are on GlossGenius. This website’s
+          account is separate; its appointment history does not show GlossGenius bookings.
+          Both sites require an internet connection.
         </p>
       </section>
       <Link className="button button-gold" href={brand.base}>

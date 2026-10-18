@@ -1,3 +1,4 @@
+import { fixItPublicBooking as booking } from "@/lib/fix-it-public-booking";
 import Link from "next/link";
 import { FixItCustomerNav } from "@/components/fix-it-customer";
 import type { CSSProperties, ReactNode } from "react";
@@ -42,9 +43,7 @@ export function ProviderWorld({
               </small>
             </span>
           </Link>
-          <Link className="text-link" href={b.visits}>
-            My visits ↗
-          </Link>
+          {b.providerId === "katie" ? <a className="text-link" href={booking.href}>Appointments on GlossGenius ↗</a> : <Link className="text-link" href={b.visits}>My visits ↗</Link>}
         </header>
         {children}
         <footer className="fix-it-footer">
@@ -52,7 +51,7 @@ export function ProviderWorld({
             {p.name} · {p.professional}
           </span>
           {b.providerId === "katie" && (
-            <><Link href="/fix-it-shop/app/founder">Katie’s story</Link><Link href="/chair">The Chair</Link><Link href="/account">Full appointment history</Link></>
+            <><Link href="/fix-it-shop/app/founder">Katie’s story</Link><Link href="/chair">The Chair</Link><a href={booking.href}>Book on GlossGenius ↗</a><Link href="/account">Website appointment history</Link></>
           )}
           <Link href="/privacy">Privacy</Link>
           <Link href="/booking-technology">Powered by Aethelios Booking ↗</Link>

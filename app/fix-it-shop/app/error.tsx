@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { fixItPublicBooking } from "@/lib/fix-it-public-booking";
 export default function ErrorScreen({ reset }: { reset: () => void }) {
   return (
     <main id="main" className="fix-it-content">
@@ -14,12 +14,12 @@ export default function ErrorScreen({ reset }: { reset: () => void }) {
           <button className="button button-gold" onClick={reset}>
             Try again
           </button>
-          <Link
+          <a
             className="button button-outline"
-            href="/fix-it-shop/app/appointments"
+            href={fixItPublicBooking.href}
           >
-            My visits
-          </Link>
+            Appointments on GlossGenius
+          </a>
         </div>
       </section>
     </main>

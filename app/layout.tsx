@@ -1,3 +1,4 @@
+import { fixItPublicBooking as booking } from "@/lib/fix-it-public-booking";
 import { shopifyReadiness } from "@/lib/shopify/config";
 import { fixItBooking } from "@/lib/fix-it-booking";
 import { reserveRelease } from "@/lib/experience/release";
@@ -123,12 +124,12 @@ export default function RootLayout({
             <p>FIX IT SHOP</p>
             <nav aria-label="Fix It Shop destinations">
               <a href="/fix-it-shop/app">Home</a>
-              <a href="/fix-it-shop/app/book">Book</a>
-              <a href="/account">Appointment history</a>
+              <a href={booking.href}>Book on GlossGenius</a>
+              <a href={booking.href}>Appointments on GlossGenius</a>
               <a href="/chair">The Chair</a>
               <a href="/studio">Private Studio</a>
             </nav>
-            <small>Enable JavaScript to book, sign in, or save preferences.</small>
+            <small>Booking is on GlossGenius. Enable JavaScript to sign in here or save preferences.</small>
           </section>
         </noscript>
         <ExperienceChrome footer={<Footer />} status={<StatusRibbon setup={isPreview() || !configured() || !hasSupabase()} checkout={shopifyReadiness().checkoutEnabled} />}>{children}</ExperienceChrome>

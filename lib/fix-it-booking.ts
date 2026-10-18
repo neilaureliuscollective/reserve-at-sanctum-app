@@ -32,7 +32,7 @@ export function fixItManifest(): MetadataRoute.Manifest {
     name: fixItBooking.name,
     short_name: fixItBooking.name,
     description:
-      "Book and manage your visits with Katie Guidry, founder of Fix It Shop.",
+      "Meet Katie Guidry and book on her existing GlossGenius site.",
     start_url: fixItBooking.base + "/launch",
     // Staff, The Chair and auth callbacks stay on the same installed origin.
     scope: "/",
@@ -45,9 +45,11 @@ export function fixItManifest(): MetadataRoute.Manifest {
       type: "image/png",
       purpose: "any" as const,
     })), { src: "/fix-it-shop/app/icons/512-maskable.png?v=steel-symbol-1", sizes: "512x512", type: "image/png", purpose: "maskable" as const }],
+    // PWA shortcuts must remain in scope; this route immediately redirects
+    // public traffic to GlossGenius without an intermediate booking screen.
     shortcuts: [
-      { name: "Book with Katie", url: fixItBooking.book },
-      { name: "My appointments", url: fixItBooking.visits },
+      { name: "Book on GlossGenius", url: fixItBooking.book },
+      { name: "Appointments on GlossGenius", url: fixItBooking.book },
       { name: "My working day", url: "/studio" },
       { name: "The Chair", url: "/chair" },
     ],

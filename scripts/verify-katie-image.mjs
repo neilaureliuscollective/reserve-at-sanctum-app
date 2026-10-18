@@ -73,9 +73,11 @@ try {
         await page.getByRole('link', { name: 'Discover Her Story' }).click();
         await page.waitForURL('**/fix-it-shop/app/founder');
       } else {
-        await page.getByRole('link', { name: 'Find your time with Katie' }).click();
-        await page.waitForURL('**/fix-it-shop/app/book');
-        assert.ok(await page.locator('main').isVisible());
+        const booking = page.getByRole('link', { name: 'Book with Katie on GlossGenius' });
+        assert.equal(await booking.getAttribute('href'), 'https://fixitshop.glossgenius.com/');
+        await context.route('https://fixitshop.glossgenius.com/**', route => route.fulfill({ status: 200, contentType: 'text/html', body: '<p>Local handoff capture</p>' }));
+        await booking.click();
+        await page.waitForURL('https://fixitshop.glossgenius.com/');
       }
     }
     await context.close();
