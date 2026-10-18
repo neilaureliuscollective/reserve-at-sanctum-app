@@ -37,11 +37,14 @@ try {
   assert.equal(await p.locator('[data-screen="home"] input,[data-screen="home"] textarea,[data-screen="home"] button[type="submit"]').count(),0);
   assert.equal(await p.locator('img[src*="images/approved/fix-it-shop"],img[src*="icons/192"]').count(),0);
   assert.equal(await p.locator('img[data-approved-logo]').count(),3);
+  assert.equal(await p.locator('img[data-approved-logo]').evaluateAll(nodes=>nodes.every(img=>new URL(img.src).pathname==="/fix-it-shop-app/identity/hero-emblem-280.webp")),true);
+  assert.equal(await p.locator('.crest-slot').first().evaluate(el=>getComputedStyle(el).backgroundImage),"none");
+  assert.equal(await p.locator('.home-stage img[data-approved-logo]').evaluate(el=>getComputedStyle(el).animationName),"emblem-breathe");
   assert.equal(await p.getByText(/Approved crest.*not available/).count(),0);
   await p.locator('.shop-path').click();await p.locator('[data-screen="shop"]:visible').waitFor();
   await screen(p,"home");await p.locator('.prepare-path').click();await p.locator('[data-screen="card"]:visible').waitFor();
   await screen(p,"home");
-  checks.push("Home paths navigate to the existing shop/card; one authoritative form; exact approved logo replaces all three placeholders");
+  checks.push("Home paths navigate to the existing shop/card; one authoritative form; approved transparent center emblem appears in all three identity slots");
 
   for(const width of [320,390,540,884,1440]) {
     await p.setViewportSize({width,height:900});
@@ -58,6 +61,7 @@ try {
   const reducedPage=await reduced.newPage();await reducedPage.goto(origin+base+"#home");await reducedPage.evaluate(()=>document.fonts.ready);
   assert.equal(await reducedPage.evaluate(()=>matchMedia("(prefers-reduced-motion: reduce)").matches),true);
   assert.equal(await reducedPage.locator(".home-stage").evaluate(el=>getComputedStyle(el).animationName),"none");
+  assert.equal(await reducedPage.locator('.home-stage img[data-approved-logo]').evaluate(el=>getComputedStyle(el).animationName),"none");
   const reducedBook=await reducedPage.locator('[data-screen="home"] [data-book]:visible').boundingBox();assert.ok(reducedBook.y+reducedBook.height<660-80);
   await reducedPage.locator(".quick-book").focus();assert.equal(await reducedPage.locator(".quick-book").evaluate(el=>getComputedStyle(el).outlineWidth),"3px");
   const dock=await reducedPage.locator(".app-nav").boundingBox();assert.ok(dock.y+dock.height<=660);
@@ -112,8 +116,8 @@ try {
   checks.push("Native share capability with repeat-click guard; clipboard/manual fallback; only website URL is shared, never consultation content");
   const cached=await p.evaluate(async()=>{const keys=await caches.keys();const result={};for(const key of keys){result[key]=(await(await caches.open(key)).keys()).map(r=>new URL(r.url).pathname);}return result;});
   const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/concept.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/fix-it-shop-app/presentation.mjs","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2","/fix-it-shop-app/materials/home-grain.png","/fix-it-shop-app/materials/stage-phone.webp","/fix-it-shop-app/materials/stage-wide.webp"];
-  allowed.push(...["full-logo-280.webp","favicon-16.png","favicon-32.png","favicon.ico","icon-180.png"].map(name=>"/fix-it-shop-app/identity/"+name));
-  assert.ok(cached["fix-it-pocket-public-v17"]?.length>=17);assert.ok(cached["fix-it-pocket-public-v17"].every(path=>allowed.includes(path)));
+  allowed.push(...["hero-emblem-280.webp","favicon-16.png","favicon-32.png","favicon.ico","icon-180.png"].map(name=>"/fix-it-shop-app/identity/"+name));
+  assert.ok(cached["fix-it-pocket-public-v18"]?.length>=17);assert.ok(cached["fix-it-pocket-public-v18"].every(path=>allowed.includes(path)));
   const workerScope=await p.evaluate(async()=> (await navigator.serviceWorker.getRegistration()).scope);assert.equal(workerScope,origin+"/fix-it-shop-app/");
   await c.setOffline(true);
   await p.locator("#connection:visible").waitFor();

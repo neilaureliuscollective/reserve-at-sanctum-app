@@ -24,7 +24,7 @@ try {
   await context.route("**/*", route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
   const page = await context.newPage(); page.on("pageerror", error => result.errors.push(error.message));
   await page.goto(origin + "/fix-it-shop-app/index.html#card");
-  await page.waitForFunction(async () => !!navigator.serviceWorker.controller && (await caches.keys()).includes("fix-it-pocket-public-v16"));
+  await page.waitForFunction(async () => !!navigator.serviceWorker.controller && (await caches.keys()).includes("fix-it-pocket-public-v17"));
   await page.getByLabel("What would you like to change?").fill("Synthetic saved visit survives identity update.");
   await page.getByRole("button", { name: "Save on this device" }).click();
   const saved = await page.evaluate(() => { localStorage.setItem("unrelated-synthetic-record", "preserved"); return localStorage.getItem("fix-it-consultation:v1"); });
@@ -38,8 +38,8 @@ try {
     await (await navigator.serviceWorker.getRegistration()).update();
     await controlled;
   });
-  await page.waitForFunction(async () => { const keys = await caches.keys(); return keys.includes("fix-it-pocket-public-v17") && !keys.includes("fix-it-pocket-public-v16"); });
-  assert.equal(await page.evaluate(async () => (await (await (await caches.open("fix-it-pocket-public-v17")).match("/fix-it-shop-app/index.html")).text()).includes("data-approved-logo")), true, "Updated cache must contain the new identity document");
+  await page.waitForFunction(async () => { const keys = await caches.keys(); return keys.includes("fix-it-pocket-public-v18") && !keys.includes("fix-it-pocket-public-v17"); });
+  assert.equal(await page.evaluate(async () => (await (await (await caches.open("fix-it-pocket-public-v18")).match("/fix-it-shop-app/index.html")).text()).includes("data-approved-logo")), true, "Updated cache must contain the new identity document");
   await page.reload();
   await page.getByLabel("What would you like to change?").waitFor();
   assert.equal(await page.getByLabel("What would you like to change?").inputValue(), "Synthetic saved visit survives identity update.");
@@ -47,9 +47,9 @@ try {
   assert.equal(await page.evaluate(() => localStorage.getItem("unrelated-synthetic-record")), "preserved");
   assert.equal(await page.locator("img[data-approved-logo]").count(), 3);
   await page.screenshot({ path: output + "/update-card-preserved.png", fullPage: true });
-  result.checks.push("Same browser/origin updated actual v16 worker to v17; online reload kept saved card and unrelated local record byte-for-byte");
-  result.cached = await page.evaluate(async () => (await (await caches.open("fix-it-pocket-public-v17")).keys()).map(request => new URL(request.url).pathname));
-  assert.ok(result.cached.includes("/fix-it-shop-app/identity/full-logo-280.webp"));
+  result.checks.push("Same browser/origin updated actual v17 worker to v18; online reload kept saved card and unrelated local record byte-for-byte");
+  result.cached = await page.evaluate(async () => (await (await caches.open("fix-it-pocket-public-v18")).keys()).map(request => new URL(request.url).pathname));
+  assert.ok(result.cached.includes("/fix-it-shop-app/identity/hero-emblem-280.webp"));
   assert.ok(result.cached.every(path => path.startsWith("/fix-it-shop-app/") && !path.includes("/api/")));
   await context.setOffline(true);
   await page.reload(); await page.getByLabel("What would you like to change?").waitFor();

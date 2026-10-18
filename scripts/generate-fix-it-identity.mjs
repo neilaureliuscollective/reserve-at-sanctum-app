@@ -3,7 +3,8 @@ import { readFile, writeFile, mkdir, copyFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 
-// Deterministic exports only: no crop, redraw, transparency removal or AI.
+// Deterministic exports only. The separately supplied hero is an approved
+// imagegen edit; this script only uniformly resizes its complete alpha canvas.
 const originals = "assets/approved/fix-it-shop";
 const output = "public/fix-it-shop-app/identity";
 const expected = {
@@ -29,6 +30,15 @@ async function save(name, bytes, size, role) {
 for (const size of [280, 560]) {
   const bytes = await sharp(`${originals}/full-logo.png`).resize(size, size, { kernel: "lanczos3", fit: "fill" }).webp({ lossless: true, effort: 6 }).toBuffer();
   await save(`full-logo-${size}.webp`, bytes, size, "uniform resize of complete opaque full logo");
+}
+const hero = await readFile(`${originals}/hero-emblem-transparent.png`);
+const heroSha = "9a1ebc8924f0d322dcc349bf16a3f7bd6399213c13c8976baf39b9dcecfe2ce8";
+assert.equal(sha(hero), heroSha);
+const heroMeta = await sharp(hero).metadata();
+assert.equal(heroMeta.width, 1254); assert.equal(heroMeta.height, 1254);
+assert.equal(heroMeta.hasAlpha, true);
+for (const size of [280, 560]) {
+  await save(`hero-emblem-${size}.webp`, await sharp(hero).resize(size, size, { kernel: "lanczos3", fit: "fill" }).webp({ lossless: true, effort: 6 }).toBuffer(), size, "complete supplied transparent emblem; uniform resize, no crop, lettering or backplate");
 }
 for (const size of [16, 32, 48, 180, 192, 512]) {
   const bytes = await sharp(`${originals}/app-icon.png`).resize(size, size, { kernel: "lanczos3", fit: "fill" }).png(png).toBuffer();
@@ -57,5 +67,5 @@ await writeFile("app/favicon.ico", ico);
 await writeFile("public/favicon.ico", ico);
 await copyFile(`${output}/icon-192.png`, "app/icon.png");
 await copyFile(`${output}/icon-180.png`, "app/apple-icon.png");
-await writeFile(`${originals}/derivatives.json`, JSON.stringify({ sourceCommit: "a4cab5fcde22052cab12142c3c53d41b95b99aa9", originals: expected, engine: { sharp: sharp.versions.sharp, vips: sharp.versions.vips }, processing: "uniform Lanczos3 resizing; lossless RGB exports; maskable opaque padding only", outputs }, null, 2) + "\n");
-console.log(`Verified both exact opaque originals; wrote ${outputs.length} deterministic identity exports.`);
+await writeFile(`${originals}/derivatives.json`, JSON.stringify({ sourceCommit: "a4cab5fcde22052cab12142c3c53d41b95b99aa9", originals: expected, hero: { sourceCommit: "ce64ab7e97ea36d84d71f846cfcf95d157485a69", path: `${originals}/hero-emblem-transparent.png`, sha256: heroSha, provenance: "Supplied imagegen-edited transparent center emblem from approved text-free icon; no lettering" }, engine: { sharp: sharp.versions.sharp, vips: sharp.versions.vips }, processing: "uniform Lanczos3 resizing; lossless RGB/alpha exports; platform icons remain opaque; maskable opaque padding only", outputs }, null, 2) + "\n");
+console.log(`Verified two exact opaque originals and supplied transparent hero; wrote ${outputs.length} deterministic identity exports.`);

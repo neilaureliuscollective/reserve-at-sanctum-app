@@ -4,11 +4,17 @@
     "full-logo.png": "c8f5c125f3529761a8a4303a4fddca9d30d2b2f7179286d1e81fec723c56366c",
     "app-icon.png": "97a168d3bc0983a2e3fc37879b7f771f702299ea665a3055ebe7a2403192f9b7"
   },
+  "hero": {
+    "sourceCommit": "ce64ab7e97ea36d84d71f846cfcf95d157485a69",
+    "path": "assets/approved/fix-it-shop/hero-emblem-transparent.png",
+    "sha256": "9a1ebc8924f0d322dcc349bf16a3f7bd6399213c13c8976baf39b9dcecfe2ce8",
+    "provenance": "Supplied imagegen-edited transparent center emblem from approved text-free icon; no lettering"
+  },
   "engine": {
     "sharp": "0.35.5",
     "vips": "8.18.7"
   },
-  "processing": "uniform Lanczos3 resizing; lossless RGB exports; maskable opaque padding only",
+  "processing": "uniform Lanczos3 resizing; lossless RGB/alpha exports; platform icons remain opaque; maskable opaque padding only",
   "outputs": [
     {
       "path": "public/fix-it-shop-app/identity/full-logo-280.webp",
@@ -23,6 +29,20 @@
       "role": "uniform resize of complete opaque full logo",
       "bytes": 326358,
       "sha256": "91466a9e0b71722403b2711ff2b96adbc8f447be3994487f5b7aad00700c307b"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/hero-emblem-280.webp",
+      "size": 280,
+      "role": "complete supplied transparent emblem; uniform resize, no crop, lettering or backplate",
+      "bytes": 61182,
+      "sha256": "fe46e1d688a5a50ed3cc497d86b25f4383877357d65fdfa7fa2a8eab5d7d2d37"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/hero-emblem-560.webp",
+      "size": 560,
+      "role": "complete supplied transparent emblem; uniform resize, no crop, lettering or backplate",
+      "bytes": 185220,
+      "sha256": "277d1d55147924b477b5a07786dded4f2fe7bcc7d70285b5d2a1f1eee6691acd"
     },
     {
       "path": "public/fix-it-shop-app/identity/favicon-16.png",

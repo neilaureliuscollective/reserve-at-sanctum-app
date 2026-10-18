@@ -4,6 +4,21 @@ import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import sharp from "sharp";
 
+test("supplied center emblem retains approved bytes and transparent canvas independently of opaque installation icons", async () => {
+  const bytes = await readFile("assets/approved/fix-it-shop/hero-emblem-transparent.png");
+  assert.equal(createHash("sha256").update(bytes).digest("hex"), "9a1ebc8924f0d322dcc349bf16a3f7bd6399213c13c8976baf39b9dcecfe2ce8");
+  const source = await sharp(bytes).metadata();
+  assert.equal(source.width, 1254); assert.equal(source.height, 1254); assert.equal(source.hasAlpha, true);
+  for (const size of [280,560]) {
+    const { data, info } = await sharp(`public/fix-it-shop-app/identity/hero-emblem-${size}.webp`).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    assert.equal(info.width, size); assert.equal(info.height, size);
+    let clear = 0, visible = 0;
+    for (let at = 3; at < data.length; at += 4) { if (data[at] === 0) clear++; if (data[at] > 16) visible++; }
+    assert.ok(clear > size * size * .5); assert.ok(visible > size * size * .15);
+    for (const pixel of [0,size-1,(size-1)*size,size*size-1]) assert.ok(data[pixel*4+3] <= 1, "Transparent corners must not become a rectangular plate");
+  }
+});
+
 test("approved identity originals retain exact supplied hashes and opaque square geometry", async () => {
   for (const [name, expected] of Object.entries({
     "full-logo.png": "c8f5c125f3529761a8a4303a4fddca9d30d2b2f7179286d1e81fec723c56366c",

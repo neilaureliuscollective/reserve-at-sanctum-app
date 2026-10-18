@@ -17,7 +17,7 @@
 #fix-it-pocket .stage-ribbon{position:absolute;z-index:-3;pointer-events:none;right:-166px;top:-68px;width:172px;height:680px;transform:rotate(30deg);border-radius:36% 5% 40% 8%;background:linear-gradient(90deg,#242b31 0%,#303940 13%,#5a6168 33%,#8a949c 48%,#737d85 56%,#3e464d 78%,#242b31 100%);border-left:2px solid #9aa5ad;box-shadow:-13px 0 22px #0008,inset 8px 0 15px #c6d0d82e,11px 0 22px #0009}
 #fix-it-pocket .stage-ribbon::after{content:"";position:absolute;inset:0;background:url('./materials/home-grain.png');opacity:.5;border-radius:inherit}
 #fix-it-pocket .stage-shade{position:absolute;z-index:-2;inset:0;pointer-events:none;background:linear-gradient(90deg,#010d1af0, #010d1ab3 42%,#010d1a30 76%,#010d1a08),linear-gradient(0deg,#010d1af2,transparent 30%,transparent 90%,#010d1a50)}
-#fix-it-pocket .crest-slot{position:absolute;z-index:-1;right:4px;top:34px;width:148px;height:154px;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse,#010d1ab8,transparent 70%);pointer-events:none}
+#fix-it-pocket .crest-slot{position:absolute;z-index:-1;right:4px;top:34px;width:148px;height:154px;display:flex;align-items:center;justify-content:center;text-align:center;background:none;pointer-events:none}
 #fix-it-pocket .crest-slot img{display:block;width:140px;max-width:100%;height:auto;max-height:100%;object-fit:contain}
 #fix-it-pocket .stage-copy{position:relative;max-width:76%;padding-top:30px}
 #fix-it-pocket .eyebrow{font:600 .59rem/1.6 FixItSans,Arial,sans-serif;letter-spacing:.17em;color:#e8cc94}
@@ -78,11 +78,15 @@
 #fix-it-pocket .founder-mark{container-type:inline-size;container-name:identitymark}
 /* Preserve the former identity row's line-box/padding geometry at enlarged
    text without retaining false missing-logo text or moving the content below. */
-#fix-it-pocket .identity-approved{font-size:.78rem;line-height:1.75;margin:0;padding:24px 10px;position:relative;z-index:1}
+#fix-it-pocket .identity-approved{font-size:.78rem;line-height:1.75;margin:0;padding:24px 10px;position:relative;z-index:1;overflow:hidden}
 #fix-it-pocket .identity-approved::before{content:"\00a0";white-space:pre}
 @container identitymark (max-width:calc(15.54rem + 20px)){#fix-it-pocket .identity-approved::before{content:"\00a0\A\00a0"}}
 @container identitymark (max-width:calc(8.523rem + 20px)){#fix-it-pocket .identity-approved::before{content:"\00a0\A\00a0\A\00a0"}}
 #fix-it-pocket .identity-approved img{position:absolute;left:50%;top:0;transform:translateX(-50%);height:100%;width:auto;max-width:100%;margin:0;object-fit:contain;filter:none}
+/* Light follows the transparent metal silhouette; no image panel or backplate.
+   A 1.5px rise and a small highlight change never move text or controls. */
+#fix-it-pocket img[data-approved-logo]{filter:drop-shadow(0 3px 3px #0009) drop-shadow(0 -1px 1px #d4e6f522);animation:emblem-breathe 9s ease-in-out infinite}
+@keyframes emblem-breathe{0%,100%{translate:0 0;filter:drop-shadow(0 3px 3px #0009) drop-shadow(0 -1px 1px #d4e6f522)}50%{translate:0 -1.5px;filter:brightness(1.025) drop-shadow(0 4px 3px #0009) drop-shadow(0 -1px 1px #d4e6f52b)}}
 #fix-it-pocket [data-screen]:not([data-screen="home"]):not([data-screen="card"]){padding-top:30px}
 #fix-it-pocket :is(a,button,summary,input,textarea):focus-visible{outline:3px solid #f7dda5;outline-offset:4px;scroll-margin-block:115px}
 #fix-it-pocket :is(h1,main):focus{outline:none}

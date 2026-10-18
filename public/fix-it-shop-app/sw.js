@@ -1,11 +1,11 @@
 // Public app files only. Never cache Next pages, auth, APIs, private records,
 // provider pages or external sites. Optional stage art is selected by <picture>.
-const CACHE = "fix-it-pocket-public-v17";
+const CACHE = "fix-it-pocket-public-v18";
 const APP = "/fix-it-shop-app/index.html";
 const CORE_ASSETS = [APP, "/fix-it-shop-app/app.css", "/fix-it-shop-app/concept.css", "/fix-it-shop-app/app.mjs", "/fix-it-shop-app/state.mjs", "/fix-it-shop-app/presentation.mjs", "/fix-it-shop-app/fonts/display-regular.woff2", "/fix-it-shop-app/fonts/display-italic.woff2", "/fix-it-shop-app/fonts/sans-regular.woff2", "/fix-it-shop-app/fonts/sans-semibold.woff2", "/fix-it-shop-app/materials/home-grain.png"];
 const STAGE_ASSETS = ["/fix-it-shop-app/materials/stage-phone.webp", "/fix-it-shop-app/materials/stage-wide.webp"];
 // Exact, derived public identity used by the HTML. No record/storage migration.
-const IDENTITY_ASSETS = ["/fix-it-shop-app/identity/full-logo-280.webp", "/fix-it-shop-app/identity/favicon-16.png", "/fix-it-shop-app/identity/favicon-32.png", "/fix-it-shop-app/identity/favicon.ico", "/fix-it-shop-app/identity/icon-180.png"];
+const IDENTITY_ASSETS = ["/fix-it-shop-app/identity/hero-emblem-280.webp", "/fix-it-shop-app/identity/favicon-16.png", "/fix-it-shop-app/identity/favicon-32.png", "/fix-it-shop-app/identity/favicon.ico", "/fix-it-shop-app/identity/icon-180.png"];
 const PUBLIC_ASSETS = [...CORE_ASSETS, ...IDENTITY_ASSETS, ...STAGE_ASSETS];
 async function publicStage(path) {
   const cache = await caches.open(CACHE);
