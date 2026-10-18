@@ -1,0 +1,88 @@
+{
+  "sourceCommit": "a4cab5fcde22052cab12142c3c53d41b95b99aa9",
+  "originals": {
+    "full-logo.png": "c8f5c125f3529761a8a4303a4fddca9d30d2b2f7179286d1e81fec723c56366c",
+    "app-icon.png": "97a168d3bc0983a2e3fc37879b7f771f702299ea665a3055ebe7a2403192f9b7"
+  },
+  "engine": {
+    "sharp": "0.35.5",
+    "vips": "8.18.7"
+  },
+  "processing": "uniform Lanczos3 resizing; lossless RGB exports; maskable opaque padding only",
+  "outputs": [
+    {
+      "path": "public/fix-it-shop-app/identity/full-logo-280.webp",
+      "size": 280,
+      "role": "uniform resize of complete opaque full logo",
+      "bytes": 85216,
+      "sha256": "6563524d59b0890db9fd7bf8d19f96ac290993cebdecb49dc2d7567744936d0e"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/full-logo-560.webp",
+      "size": 560,
+      "role": "uniform resize of complete opaque full logo",
+      "bytes": 326358,
+      "sha256": "91466a9e0b71722403b2711ff2b96adbc8f447be3994487f5b7aad00700c307b"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/favicon-16.png",
+      "size": 16,
+      "role": "uniform resize of complete opaque app icon",
+      "bytes": 833,
+      "sha256": "5d701b277def2aa87e0a8f871257a6bf7ddcbcbdced321a0876aae926a3c12fa"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/favicon-32.png",
+      "size": 32,
+      "role": "uniform resize of complete opaque app icon",
+      "bytes": 2761,
+      "sha256": "f99323e30a4131f9da122d73705af90e6bba015fc10468c5eb880bb2ee66c6ce"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/favicon-48.png",
+      "size": 48,
+      "role": "uniform resize of complete opaque app icon",
+      "bytes": 5711,
+      "sha256": "ea44e1a06741f43d3effabf88c8ee9e20504e798bc368f6c9836b2dffe543d36"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/icon-180.png",
+      "size": 180,
+      "role": "uniform resize of complete opaque app icon",
+      "bytes": 60583,
+      "sha256": "71fbee3df1bbfa93fe6acbfbcc3ff5637973ea1d6076e6b51ce3c763f4f03552"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/icon-192.png",
+      "size": 192,
+      "role": "uniform resize of complete opaque app icon",
+      "bytes": 68116,
+      "sha256": "a8743344069876fa79ab9cea1f8e723f0001cbc937352de0f15f81af87d2e281"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/icon-512.png",
+      "size": 512,
+      "role": "uniform resize of complete opaque app icon",
+      "bytes": 458980,
+      "sha256": "4414d5149fb1e97a8eb95f578a46af7386c1f61bd670de994efe9bd48f035ccb"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/icon-512-maskable.png",
+      "size": 512,
+      "role": "complete original uniformly resized to 448; opaque 32px padding, no crop",
+      "bytes": 358514,
+      "sha256": "fb1204ecf54f206d739aac3fa38341ce3144fb19120fd5b9f16e9f7e5e187f27"
+    },
+    {
+      "path": "public/fix-it-shop-app/identity/favicon.ico",
+      "size": [
+        16,
+        32,
+        48
+      ],
+      "role": "ICO container of exact 16/32/48 PNG exports",
+      "bytes": 9359,
+      "sha256": "169c1cb38dd7edaa3b7e20c8b11a575746d6996fd1775b4c2da4ac7809fc8046"
+    }
+  ]
+}

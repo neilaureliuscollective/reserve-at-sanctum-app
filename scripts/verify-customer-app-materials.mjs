@@ -12,7 +12,7 @@ const { values } = parseArgs({ options: {
   phase: { type: "string" }, "artifacts-dir": { type: "string" },
   "baseline-dir": { type: "string" }, "public-dir": { type: "string", default: "public" },
 } });
-assert.ok(["before", "after"].includes(values.phase));
+assert.ok(["before", "after", "inspect"].includes(values.phase));
 const output = resolve(values["artifacts-dir"]), publicDir = resolve(values["public-dir"]);
 const baselineDir = values["baseline-dir"] && resolve(values["baseline-dir"]);
 if (values.phase === "after") assert.ok(baselineDir);
@@ -235,12 +235,12 @@ try {
   if (baselineDir) assert.deepEqual(states, JSON.parse(await readFile(baselineDir + "/states.json", "utf8")), "Button/state geometry, gradient stop positions, reflection layout or focus style changed");
   await controlContrast();
   assert.deepEqual(errors, []);
-  if (values.phase === "after") {
+  if (values.phase !== "before") {
     assert.deepEqual(contrast.filter(item => item.minimum < item.threshold), [], "Text contrast failed over actual composites");
     assert.ok(contrast.filter(item => item.caption).every(item => item.minimum >= 5), "Small gold captions should retain 5:1 headroom");
     assert.deepEqual(controls.filter(item => item.contrast < 3), [], "Control/focus contrast failed over actual composites");
   }
-  console.log(JSON.stringify({ phase: values.phase, captures: captures.length, changedOutsideMasks: captures.reduce((sum, item) => sum + (item.pixelDiff?.outsideAllowed || 0), 0), textSamples: contrast.length, contrastFailures: contrast.filter(item => item.minimum < item.threshold), captionMinimum: Math.min(...contrast.filter(item => item.caption).map(item => item.minimum)), controls: controls.length, controlMinimum: Math.min(...controls.map(item => item.contrast)), goldBands }, null, 2));
+  console.log(JSON.stringify({ phase: values.phase, captures: captures.length, pixelComparisons: baselineDir ? captures.length : 0, changedOutsideMasks: baselineDir ? captures.reduce((sum, item) => sum + item.pixelDiff.outsideAllowed, 0) : null, textSamples: contrast.length, contrastFailures: contrast.filter(item => item.minimum < item.threshold), captionMinimum: Math.min(...contrast.filter(item => item.caption).map(item => item.minimum)), controls: controls.length, controlMinimum: Math.min(...controls.map(item => item.contrast)), goldBands }, null, 2));
 } catch (error) { errors.push(String(error)); throw error; }
 finally {
   await writeFile(output + "/captures.json", JSON.stringify(captures, null, 2));

@@ -1,86 +1,83 @@
-# Fix It Shop customer app — local release review
+# Fix It Shop customer app — current release review
 
-This report belongs to the final bounded material pass on the preserved
-ordinary-reading repair `da71f2079b303e2461b54103d247500b3b72de0a`, itself a direct
-descendant of `2e1f3ba6400dc4062cfc5efb2c12348a11e99487`. The accompanying review ZIP's
-`commit.txt` and `validation.json` bind this report, source, captures and logs to
-the exact final local commit. No owner-auth PR73 implementation or CI result is
-evidence for this candidate. No push, merge, deployment or hosted change occurred.
+This report travels with the exact approved-identity continuation of
+`2f049d79628a61731d668dc49cb310076b47157a`. The companion `commit.txt`,
+`validation.json` and source hashes bind all final evidence to its precise local
+commit. It preserves `da71f20` and `2e1f3ba`; no PR73 owner-auth implementation or
+old CI is evidence for this customer-app candidate.
 
-**Decision: the public-app flow passes local verification, but a branded live
-release is not complete.** The exact approved crest/icon and real installation/
-update acceptance remain gates. This is a public website/consultation app with
-GlossGenius handoff, not Katie's native calendar or management commissioning.
+**Status: the missing-logo blocker is resolved and the local public customer flow
+is reviewable. Hosted preview isolation and physical installation/update acceptance
+remain open.** No production release is implied.
 
-## Exact scope and preservation
+## Verified identity and preservation
 
-The booking strip now owns a Home grid row before Share rather than floating
-over its text. The final pass applies only the supplied steel/gold selector map.
-The approved blue images, grain, fonts, base CSS, card and state scripts are
-byte-identical to `2e1f3ba`. Blue source/crop/layer declarations stay unchanged;
-14 material comparisons have zero pixel changes outside isolated ribbon,
-navigation, shelf, frame-edge and scoped-gold paint masks. Selected navigation
-blue interiors are protected inside the shell masks. Button/type bounds,
-padding/radius, reflection stop positions and shadow extents match `da71f20`.
-The ribbon and specified support hardware become steel, and the existing gold
-face is deeper; the right panes retain their blue interiors. The expanded strip
-keeps the overlap repair's position and size. No other material map was applied.
-Normal document scrolling remains; there is no hidden-text mask or nested pane.
+The exact full logo and app icon come from asset commit
+`a4cab5fcde22052cab12142c3c53d41b95b99aa9`. Both supplied SHA-256 hashes pass;
+originals stay opaque RGB 1254-square. Complete uniform resized exports replace
+all three missing-logo notices, plus root/Katie app, maskable, Apple and favicon
+assets. No crop, redraw, invented transparency or exhausted download route is
+used. Native-size and simulated-mask captures are supplied. See
+[identity provenance and processing](FIX-IT-APPROVED-IDENTITY.md).
 
-## Observed local results
+The approved blue, steel, gold, all button/type dimensions and the repaired
+booking/Share placement remain unchanged. Forty viewport/state comparisons
+against `2f049d7` show matching geometry/materials and zero changed pixels outside
+the replaced identity paint areas (including the old placeholder's existing
+paint overflow at enlarged text). The one original form and five destinations
+remain. Inner-page aesthetic polish is deferred.
 
-| Area | Evidence and practical limit |
+## Customer-flow evidence
+
+| Boundary | Observed result / limit |
 | --- | --- |
-| Public booking | Every compact-app `data-book` link is exactly `https://fixitshop.glossgenius.com/`. Public website/story/install/privacy links and Katie/default legacy booking redirects pass the existing browser suite. No signup/calendar fallback is inserted. Unknown/other-provider intent remains separate. The synthetic preview's native engine is retained only for isolated preview testing. Merchant requests are intercepted; no real booking/payment was attempted. |
-| Five destinations | Home, Services, My card, The shop and Katie work through the existing hashes, selected navigation state and browser Back. The actual shop/prepare paths open their existing screens. Five widths pass the functional browser; short-height touch journeys pass at 390 and 884px. |
-| Consultation/privacy | Explicit local save, reload, unsaved tab edits, text-only Show Katie, delete/cancel/delete-confirm, cross-tab draft invalidation, blocked storage and offline reopening pass. The compact app makes no application API request or mutation. It has no automatic Katie delivery, account sync or appointment inference. Share sends only the website URL. Local storage is readable by someone using that browser profile and is not backed up. |
-| Ordinary reading/focus | The new regression fails on the preserved original at 884×900 before any focus action. The repair passes 390×900, 884×900 and 884×600, including both expanded sizes at 200% text: 33 ordinary-scroll samples and 85 keyboard targets. Share's heading, description and action are fully readable without focusing them. These are actual browser captures, not physical Fold tests. |
-| Manifests/icons | Both manifests retain stable IDs (`/` and `/fix-it-shop/app`), scope `/`, standalone display and start URL `/fix-it-shop-app/index.html#home`. The serving 192/512 PNGs and maskable icon pass response/signature/dimension checks. Those are historical compatibility icons, not the unavailable newly approved identity. The compact HTML has no old crest/favicon substitute. Stable IDs do not prove OS icon/name refresh or independent installs on one origin. |
-| Service worker/offline | Worker scope is `/fix-it-shop-app/`; version `fix-it-pocket-public-v16` installs 11 core public files and warms only the selected public material. The functional suite intentionally visits both sizes and observes 13 allowlisted cached paths. Unit tests verify v14/v15 retirement while retaining v16/unrelated caches, and reject private/API/external/query paths. Card storage stays separate from the cache. Online reopening/reload is required to receive a new document; existing physical-install upgrade was not exercised. |
-| Entry routes | `/enter`, the installed launch and both manifest start URLs reach the compact customer Home. Ordinary `/` and `/fix-it-shop/app` browser visits retain the existing full website; this repair does not silently replace that public entrance. Existing private records/provider routes remain separate. |
-| Build/verification | 31 affected unit/domain/cache tests pass; TypeScript and production build pass. The complete customer-app browser passes against the production build; public GlossGenius/other-provider regression passes with local synthetic fixtures. JS syntax/diff checks pass. No lint task is configured. The GitHub workflow has not run on this unpublished local commit; older PR73 checks must not be substituted. |
-| Material contrast | A fresh scan checks 1,070 actual text composites across all five states, including scoped-gold and navigation normal/hover/pressed/focus states: all pass, with 5.764:1 minimum (also the small CTA caption minimum). Forty actual control/focus samples pass 3:1, minimum 4.861:1. These sampled checks are not a complete accessibility certification. |
+| Public booking | Compact-app Book actions are exactly `https://fixitshop.glossgenius.com/`. Existing public website links and Katie/default legacy redirects use that same destination, without signup or closed native-calendar fallback. Other-provider intent remains separate. The merchant is intercepted locally; no real booking/payment is made. |
+| Navigation and return | Home, Services, My card, The shop and Katie retain hashes and selected state. Shop/prepare paths, browser Back/Forward and direct booking return preserve the local card/draft. Phone/Fold widths, short-height touch and keyboard are tested synthetically. |
+| Card/privacy | Explicit save, reload, tab edit/draft, text-only Show Katie, delete/cancel/confirm, cross-tab invalidation, unavailable storage and offline reopening remain. No automatic Katie delivery, account sync or booking inference exists. Share contains only the website URL. Anyone using that browser profile can read the card; it is not a backup service. |
+| Entry routes | Installed launches, `/enter` and both manifest start URLs reach `/fix-it-shop-app/index.html#home`. Ordinary `/` and `/fix-it-shop/app` visits retain the separate existing full website. Private records and other-provider routes are not repurposed. |
+| Install metadata | Stable manifest IDs `/` and `/fix-it-shop/app`, scope `/`, start URL and shortcuts remain. Versioned icon responses must match the approved derivative bytes, including maskable. Root favicon and Apple assets are derived from the approved app icon. Physical icon/name refresh and overlapping installations are not established by emulation. |
+| Public cache/update | v17 precaches 16 exact public files (11 existing core + five identity files), with only the chosen existing blue image warmed. The suite visits both sizes and can observe 18 allowlisted paths. Actual same-origin v16→v17 controller update, online reload and fresh offline reopen preserve a saved synthetic card and unrelated local record byte-for-byte. No localStorage clearing, API/private record caching or offline booking is introduced. |
+| Reading/contrast | Five ordinary-reading cases, 33 scroll samples and 85 keyboard targets pass, including 884×600 and 200% text. A fresh identity-era scan has 1,068 passing text samples (caption minimum 5.764:1) and 40 control/focus samples (minimum 4.861:1). These sampled checks are not full accessibility certification. |
+| Tests/build | Thirty-four focused tests pass before committing. The exact final head's full repository tests, typecheck/build and production customer-app/public regression runs are recorded in the companion validation/logs, not inferred from older heads. No lint task is configured. No GitHub CI exists for the unpublished local head. |
 
-The preserved larger composition/contrast audit at `2e1f3ba` is historical
-supporting evidence. The final pass has its own paint-mask, geometry, contrast,
-reading/focus and functional evidence; prior samples are not relabeled as fresh.
+GlossGenius remains the appointment/payment authority. This public-app work does
+not commission native scheduling, Katie management, Auth roles, email delivery,
+payments or database schema. There is no new credential or production SQL.
 
-## Specific identity blocker
+## Hosted preview — specific bounded requirement
 
-The intended exact crest is Library item
-`libfile_0edeab1bb1688191b86b0579b3dbe253`; the approved phone icon is
-`libfile_834a1f7182c481918ed81c9feda69bdc`. Their bytes are unavailable in this
-executor. No retry, substitute logo or guessed new asset was used. The Home
-stage explicitly says “Approved crest not available in this preview”; the
-shared install metadata still serves historical icons for compatibility.
+No working shared preview URL has been verified for this exact candidate.
+Read-only Vercel metadata identified the existing project
+`prj_GKN7RVVFAiQfWdTpHT63e0wNydgn` (`reserve-at-sanctum-app`, team Stutes Legacy,
+Node 24/Next.js) and no overrides for `codex/katie-public-glossgenius`.
+Global DATABASE_URL and Auth/AI/commerce bindings are assigned to both production
+and preview. Values were not decrypted or retained; no setting was changed.
+Publishing the full Next application to this inherited environment would not
+establish an isolated non-production acceptance target.
 
-Before branded release, obtain those exact usable files through an approved
-handoff, integrate the crest and required app-icon exports, remove the temporary
-missing-identity notice, and verify the final sizes/contrast/real OS appearance.
-The approved blue and button designs must remain unchanged. The reference
-transfer/fidelity limitations in the composition document remain recorded;
-passing behavior does not imply final identity or scene acceptance.
+Before hosted publication, authorize either a clean non-production preview
+project or **preview-only, candidate-branch-scoped isolation** of inherited hosted
+DB/Auth/outbound integrations. For this public app, hosted DB/Auth/AI/payment/mail
+credentials are unnecessary: preview can run without those bindings, with
+`RESERVE_DEV_PREVIEW=false`, booking email/cron disabled and APP_ORIGIN set to its
+actual HTTPS preview origin. Keep production bindings/domains untouched and
+retain preview access protection. Publication of the exact reviewed candidate
+ref must also be authorized; no new task/competing implementation is required.
+No credentials should be pasted into the review artifact or created for this.
 
-## Minimal remaining release path
+## Remaining release path
 
-1. Resolve the exact crest/icon blocker and review the final rendered identity.
-   Recheck only the affected image/layout/install behavior; keep the approved
-   blue and button designs. No new services/prices, native booking or owner-auth
-   work is needed to make the public consultation/GG handoff operate.
-2. After explicit publication approval, put the chosen exact reviewed commit on
-   the intended existing release branch/PR, run its own repository CI and these
-   customer-app/readability suites, and inspect an authorized HTTPS preview.
-   On actual iPhone/Samsung/Fold, check fresh/existing install, online update and
-   reopen, icon/launch, Back, keyboard/touch, short/folded layouts, offline local
-   card/delete, and the intended GG handoff. Include a manual assistive-technology
-   pass. Do not perform a real booking or write against a shared production DB
-   as a preview test. Public UI release does not require a new database migration,
-   authority grant, credential change or calendar/payment cutover.
-3. Once those gates and the exact deployed target are accepted, obtain explicit
-   deployment approval for that exact commit. GlossGenius remains authoritative;
-   no native calendar, mail, payment, domain or Katie permission activation is
-   included. Confirm the deployed SHA and public entry/install routes afterward.
-
-Reverting the public-app commits restores the prior UI, but installed clients
-may retain an old document until an online update/reload. Preserve consultation
-storage keys; do not clear customer browser storage as an update workaround.
+1. Review the supplied exact-identity phone/Fold captures and icon-size sheet;
+   the former missing-logo dependency is complete. Keep the approved materials
+   and layout. Broader inner-page/marketing polish is not part of this release.
+2. Authorize the bounded isolated preview setup and candidate publication above.
+   Run this exact candidate's own CI and the supplied customer-app/identity/update
+   suites against the approved HTTPS target without hosted mutation fixtures.
+3. Verify fresh and existing iPhone/Samsung/Fold installs, icon/launch, online
+   update/reopen, short/folded navigation, Back, local card/offline/delete, and GG
+   handoff. Include manual assistive-technology acceptance. OS behavior and native
+   hinge support remain physical-device checks.
+4. After those gates and exact target/SHA are accepted, obtain explicit approval
+   before any production deployment. No merge/deploy/domain/DB/permission/payment
+   or native-calendar cutover is included here. Preserve saved storage keys and
+   use online worker update/reload; never clear customer card storage to update.

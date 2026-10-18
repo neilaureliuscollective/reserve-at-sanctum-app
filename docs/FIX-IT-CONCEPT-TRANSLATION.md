@@ -1,5 +1,7 @@
 # Fix It Shop concept translation — local review candidate
 
+Current identity status: the later [approved identity integration](FIX-IT-APPROVED-IDENTITY.md) resolves the historical missing-logo dependency below using exact originals from asset commit `a4cab5f`. Composition/material history remains preserved.
+
 This pass supersedes the rejected 7a70937 dashboard/material arrangement. It is a
 composition plus material translation for Home at 390px and 884px, with the
 expanded My Card relationship and adaptive five-destination navigation. It is not

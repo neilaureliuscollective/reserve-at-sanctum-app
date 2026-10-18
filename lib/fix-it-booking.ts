@@ -41,11 +41,11 @@ export function fixItManifest(): MetadataRoute.Manifest {
     background_color: "#070b10",
     theme_color: fixItBooking.theme,
     icons: [...[192, 512].map((size) => ({
-      src: `/fix-it-shop/app/brand-icons/${size}?v=steel-symbol-1`,
+      src: `/fix-it-shop/app/brand-icons/${size}?v=approved-identity-20261018`,
       sizes: `${size}x${size}`,
       type: "image/png",
       purpose: "any" as const,
-    })), { src: "/fix-it-shop/app/icons/512-maskable.png?v=steel-symbol-1", sizes: "512x512", type: "image/png", purpose: "maskable" as const }],
+    })), { src: "/fix-it-shop/app/icons/512-maskable.png?v=approved-identity-20261018", sizes: "512x512", type: "image/png", purpose: "maskable" as const }],
     // PWA shortcuts must remain in scope; this route immediately redirects
     // public traffic to GlossGenius without an intermediate booking screen.
     shortcuts: [

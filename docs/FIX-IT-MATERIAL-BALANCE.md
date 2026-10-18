@@ -1,5 +1,7 @@
 # Fix It Shop — bounded final material balance
 
+This records the preserved `2f049d7` material pass. The later [identity integration](FIX-IT-APPROVED-IDENTITY.md) resolves its historical missing-logo dependency without changing these materials or layout.
+
 The baseline is the preserved overlap/readiness commit
 `da71f2079b303e2461b54103d247500b3b72de0a`, directly after the approved blue/button
 geometry candidate `2e1f3ba6400dc4062cfc5efb2c12348a11e99487`. This is the requested

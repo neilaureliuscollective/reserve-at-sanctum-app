@@ -1,6 +1,6 @@
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
-import { mkdir, writeFile, access } from "node:fs/promises";
+import { mkdir, writeFile, readFile, access } from "node:fs/promises";
 import assert from "node:assert/strict";
 if (process.env.DATABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.RESERVE_BOOKING_EMAIL_ENABLED === "true") throw Error("Isolated local verification only");
 for (const file of [".env.local", ".env.development.local", ".env.development", ".env"]) await access(file).then(()=>{throw Error("Use an isolated checkout without env files");},()=>{});
@@ -35,10 +35,12 @@ try {
   assert.equal(await p.locator("#card-form").count(),1);
   assert.equal(await p.locator('[data-screen="home"] input,[data-screen="home"] textarea,[data-screen="home"] button[type="submit"]').count(),0);
   assert.equal(await p.locator('img[src*="images/approved/fix-it-shop"],img[src*="icons/192"]').count(),0);
+  assert.equal(await p.locator('img[data-approved-logo]').count(),3);
+  assert.equal(await p.getByText(/Approved crest.*not available/).count(),0);
   await p.locator('.shop-path').click();await p.locator('[data-screen="shop"]:visible').waitFor();
   await screen(p,"home");await p.locator('.prepare-path').click();await p.locator('[data-screen="card"]:visible').waitFor();
   await screen(p,"home");
-  checks.push("Concept Home paths navigate to the existing shop/card; one authoritative form; no fake preview inputs or unapproved crest");
+  checks.push("Home paths navigate to the existing shop/card; one authoritative form; exact approved logo replaces all three placeholders");
 
   for(const width of [320,390,540,884,1440]) {
     await p.setViewportSize({width,height:900});
@@ -109,7 +111,8 @@ try {
   checks.push("Native share capability with repeat-click guard; clipboard/manual fallback; only website URL is shared, never consultation content");
   const cached=await p.evaluate(async()=>{const keys=await caches.keys();const result={};for(const key of keys){result[key]=(await(await caches.open(key)).keys()).map(r=>new URL(r.url).pathname);}return result;});
   const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/concept.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/fix-it-shop-app/presentation.mjs","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2","/fix-it-shop-app/materials/home-grain.png","/fix-it-shop-app/materials/stage-phone.webp","/fix-it-shop-app/materials/stage-wide.webp"];
-  assert.ok(cached["fix-it-pocket-public-v16"]?.length>=12);assert.ok(cached["fix-it-pocket-public-v16"].every(path=>allowed.includes(path)));
+  allowed.push(...["full-logo-280.webp","favicon-16.png","favicon-32.png","favicon.ico","icon-180.png"].map(name=>"/fix-it-shop-app/identity/"+name));
+  assert.ok(cached["fix-it-pocket-public-v17"]?.length>=17);assert.ok(cached["fix-it-pocket-public-v17"].every(path=>allowed.includes(path)));
   const workerScope=await p.evaluate(async()=> (await navigator.serviceWorker.getRegistration()).scope);assert.equal(workerScope,origin+"/fix-it-shop-app/");
   await c.setOffline(true);
   await p.locator("#connection:visible").waitFor();
@@ -149,8 +152,10 @@ try {
       const bytes=await response.body(),[width,height]=icon.sizes.split("x").map(Number);
       assert.equal(bytes.subarray(0,8).toString("hex"),"89504e470d0a1a0a");
       assert.equal(bytes.readUInt32BE(16),width);assert.equal(bytes.readUInt32BE(20),height);
+      assert.deepEqual(bytes,await readFile(`public/fix-it-shop/app/icons/${icon.purpose==="maskable"?"512-maskable":width}.png`));
     }
   }
+  assert.deepEqual(await (await standalone.request.get(origin+"/favicon.ico")).body(),await readFile("app/favicon.ico"));
   await standalone.close();
   const blocked=await newContext();await blocked.addInitScript(()=>{Object.defineProperty(window,"localStorage",{get(){throw new DOMException("Blocked","SecurityError");}});Object.defineProperty(window,"sessionStorage",{get(){throw new DOMException("Blocked","SecurityError");}});});
   const bp=await blocked.newPage();await bp.goto(origin+base+"#card");await bp.getByLabel("What would you like to change?").fill("Synthetic unsaved only");await bp.getByRole("button",{name:"Save on this device"}).click();
@@ -176,7 +181,7 @@ try {
     await tp.locator('.quick-book').tap();await tp.getByText("Local fixture only.",{exact:true}).waitFor();assert.equal(tp.url(),gg);
     await touch.close();
   }
-  checks.push("Both manifests retain IDs/scope/start URL and serving PNG dimensions; emulated touch works across all five destinations, browser Back and direct booking at 390/884 short heights; approved replacement icon and physical install remain unverified");
+  checks.push("Both manifests retain IDs/scope/start URL and serve approved PNG dimensions; emulated touch works across all five destinations, browser Back and direct booking at 390/884 short heights; physical install remains unverified");
   checks.push("Browser website preserved; legacy customer entry and both standalone manifests open compact app; blocked storage never reports a successful save");
   assert.deepEqual(errors,[]);assert.deepEqual(writes,[]);assert.deepEqual(appApiRequests,[]);assert.ok(external.length>=2);assert.ok(external.every(r=>r.url===gg&&r.method==="GET"));
   await writeFile(dir+"/results.json",JSON.stringify({checks,cached,workerScope,external,writes,errors,appApiRequests,standalone:"emulated display-mode only; physical installation remains unverified",merchant:"intercepted locally; no actual booking/payment/message"},null,2));
