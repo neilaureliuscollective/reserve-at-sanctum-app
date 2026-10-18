@@ -105,3 +105,27 @@ No new photos, testimonials or availability were invented. Existing public-site
 noindex and deployment decisions remain outside this preview. No GitHub writes,
 push, merge, deployment, account/merchant/database settings, paid providers,
 spending or infrastructure provisioning are authorized or performed here.
+
+## Material restoration after a8fa439
+
+This bounded presentation pass restores the repository’s Cormorant Garamond and
+Manrope typefaces, imperial blue, warm metallic gold, brushed steel and layered
+glass edges. Sources are the existing `sanctum-steel.css`, customer `home.css`,
+and local rendered reference screenshots. The app retains its compact tasks;
+Fold gains a two-column Home and paired consultation fields. No app data,
+booking URL, sharing logic or private/native implementation is changed.
+
+Existing room/environment plates are documented concept art, not verified shop
+photographs, so no new photographic setting is introduced. Depth uses CSS light,
+material edges and the existing crest. The currently displayed logo remains
+explicitly provisional relative to the separately approved replacement: the exact
+new logo/icon Library files could not be materialized in the earlier bounded
+attempt. Those exhausted transfers are not retried and no approximation is used.
+
+Four existing Fontsource WOFF2 files are bundled locally with their licenses and
+added to the worker’s public-only allowlist. Cache revision v10 updates the
+presentation/fonts without touching consultation data. The pass uses static
+layers rather than animation; reduced motion, focus/touch sizing and safe-area
+clearance remain tested. The review package includes paired a8fa439 and current
+phone/Fold captures, plus the patch, local commit bundle and validation logs.
+Visual acceptance is for Neil’s review; passing tests alone does not approve it.

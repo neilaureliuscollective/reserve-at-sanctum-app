@@ -37,10 +37,19 @@ try {
       await screen(p,name);
       assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${name} overflow ${width}`);
       const tiny=await p.locator("a,button,summary").evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect()).filter(r=>r.width>0&&r.height>0).some(r=>r.height<44||r.width<44));assert.equal(tiny,false,`Small touch target ${name} ${width}`);
+      await p.evaluate(()=>document.fonts.ready);
       if([390,884].includes(width))await p.screenshot({path:`${dir}/${name}-${width}.png`,fullPage:true});
     }
   }
   assert.equal(await p.locator('img[src*="katie-guidry"]').count(),0);
+  const reduced=await newContext({viewport:{width:320,height:660},reducedMotion:"reduce"});
+  const reducedPage=await reduced.newPage();await reducedPage.goto(origin+base+"#home");await reducedPage.evaluate(()=>document.fonts.ready);
+  assert.equal(await reducedPage.evaluate(()=>matchMedia("(prefers-reduced-motion: reduce)").matches),true);
+  assert.equal(await reducedPage.locator(".opening").evaluate(el=>getComputedStyle(el).animationName),"none");
+  const reducedBook=await reducedPage.locator('[data-screen="home"] [data-book]').boundingBox();assert.ok(reducedBook.y+reducedBook.height<660-80);
+  await reducedPage.locator(".quick-book").focus();assert.equal(await reducedPage.locator(".quick-book").evaluate(el=>getComputedStyle(el).outlineWidth),"3px");
+  const dock=await reducedPage.locator(".app-nav").boundingBox();assert.ok(dock.y+dock.height<=660);
+  await reducedPage.screenshot({path:dir+"/reduced-home-320.png",fullPage:true});await reduced.close();
   checks.push("Five app screens at phone/Fold/desktop widths; touch controls; brand-led Katie screen with no generated portrait");
   await p.setViewportSize({width:390,height:844});
   await screen(p,"card");assert.equal(await p.evaluate(()=>document.activeElement.id),"card-title");
@@ -90,8 +99,8 @@ try {
   await p.getByRole("button",{name:"Copy website link"}).click();assert.equal(await p.evaluate(()=>window.__copied),origin+"/fix-it-shop/app");
   checks.push("Native share capability with repeat-click guard; clipboard/manual fallback; only website URL is shared, never consultation content");
   const cached=await p.evaluate(async()=>{const keys=await caches.keys();const result={};for(const key of keys){result[key]=(await(await caches.open(key)).keys()).map(r=>new URL(r.url).pathname);}return result;});
-  const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/images/approved/fix-it-shop.webp","/fix-it-shop/app/icons/192.png"];
-  assert.ok(cached["fix-it-pocket-public-v7"]?.length===allowed.length);assert.ok(cached["fix-it-pocket-public-v7"].every(path=>allowed.includes(path)));
+  const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/images/approved/fix-it-shop.webp","/fix-it-shop/app/icons/192.png","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2"];
+  assert.ok(cached["fix-it-pocket-public-v10"]?.length===allowed.length);assert.ok(cached["fix-it-pocket-public-v10"].every(path=>allowed.includes(path)));
   const workerScope=await p.evaluate(async()=> (await navigator.serviceWorker.getRegistration()).scope);assert.equal(workerScope,origin+"/fix-it-shop-app/");
   await c.setOffline(true);
   await p.locator("#connection:visible").waitFor();
