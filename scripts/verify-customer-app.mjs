@@ -2,6 +2,7 @@ import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile, readFile, access } from "node:fs/promises";
 import assert from "node:assert/strict";
+import sharp from "sharp";
 if (process.env.DATABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.RESERVE_BOOKING_EMAIL_ENABLED === "true") throw Error("Isolated local verification only");
 for (const file of [".env.local", ".env.development.local", ".env.development", ".env"]) await access(file).then(()=>{throw Error("Use an isolated checkout without env files");},()=>{});
 const origin="http://localhost:3000", base="/fix-it-shop-app/index.html", gg="https://fixitshop.glossgenius.com/", dir="artifacts/customer-app";
@@ -155,7 +156,22 @@ try {
       assert.deepEqual(bytes,await readFile(`public/fix-it-shop/app/icons/${icon.purpose==="maskable"?"512-maskable":width}.png`));
     }
   }
-  assert.deepEqual(await (await standalone.request.get(origin+"/favicon.ico")).body(),await readFile("app/favicon.ico"));
+  // Next's metadata loader may repack ICO/PNG containers. Verify the served
+  // approved pixels and full opacity rather than its compression/header bytes.
+  async function approvedPixels(bytes,path,size){
+    const meta=await sharp(bytes).metadata();assert.equal(meta.width,size);assert.equal(meta.height,size);
+    assert.deepEqual(await sharp(bytes).removeAlpha().raw().toBuffer(),await sharp(await readFile(path)).removeAlpha().raw().toBuffer());
+    const rgba=await sharp(bytes).ensureAlpha(1).raw().toBuffer();
+    for(let at=3;at<rgba.length;at+=4)assert.equal(rgba[at],255);
+  }
+  const favicon=await(await standalone.request.get(origin+"/favicon.ico")).body();
+  assert.equal(favicon.readUInt16LE(2),1);assert.equal(favicon.readUInt16LE(4),3);
+  for(const[index,size]of[16,32,48].entries()){
+    const at=6+index*16,offset=favicon.readUInt32LE(at+12),length=favicon.readUInt32LE(at+8);
+    await approvedPixels(favicon.subarray(offset,offset+length),`public/fix-it-shop-app/identity/favicon-${size}.png`,size);
+  }
+  for(const[path,size]of[["/icon.png",192],["/apple-icon.png",180]])
+    await approvedPixels(await(await standalone.request.get(origin+path)).body(),`public/fix-it-shop-app/identity/icon-${size}.png`,size);
   await standalone.close();
   const blocked=await newContext();await blocked.addInitScript(()=>{Object.defineProperty(window,"localStorage",{get(){throw new DOMException("Blocked","SecurityError");}});Object.defineProperty(window,"sessionStorage",{get(){throw new DOMException("Blocked","SecurityError");}});});
   const bp=await blocked.newPage();await bp.goto(origin+base+"#card");await bp.getByLabel("What would you like to change?").fill("Synthetic unsaved only");await bp.getByRole("button",{name:"Save on this device"}).click();
