@@ -2,7 +2,7 @@ import { CARD_KEY, DRAFT_KEY, RESET_KEY, FIELDS, emptyCard, parseCard, hasConten
 const GG = "https://fixitshop.glossgenius.com/";
 const WEBSITE = new URL("/fix-it-shop/app", location.origin).href;
 const $ = id => document.getElementById(id);
-const titles = { home: "Home", services: "Services", card: "My consultation card", show: "Show Katie", shop: "The shop", katie: "Katie Guidry", visit: "Visit help" };
+const titles = { home: "Visit guide", services: "Services", card: "My consultation card", show: "Show Katie", shop: "The shop", katie: "Katie Guidry", visit: "Visit help" };
 let saved = null, draft = emptyCard(), installEvent = null, shareBusy = false, storageIssue = false;
 let installed = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
 function message(text) { $("app-message").textContent = text; }
@@ -50,10 +50,11 @@ function renderShow() {
   }
 }
 function renderView(focus = true) {
+  if (window.openFixItPublicHome?.()) return;
   const view = viewFromHash(location.hash);
   document.querySelectorAll("[data-screen]").forEach(node => { node.hidden = node.dataset.screen !== view; });
   document.querySelectorAll(".app-nav a").forEach(node => {
-    const active = node.hash === `#${view === "show" ? "card" : view}`;
+    const active = node.hash === "#guide";
     if (active) node.setAttribute("aria-current", "page"); else node.removeAttribute("aria-current");
   });
   $("delete-confirm").hidden = true;
@@ -83,6 +84,9 @@ FIELDS.forEach(key => { $(key).value = draft[key]; });
 if (tabDraft && !storageIssue && JSON.stringify(tabDraft) !== JSON.stringify(saved)) $("card-status").textContent = "Draft kept for this tab. Choose Save to keep it on this device.";
 else if (saved && !storageIssue) $("card-status").textContent = "Saved on this device. Not sent to Katie.";
 updateSummary(); renderView(false); updateConnection();
+const publicHomeUnavailable = () => { renderView(false); message("The public shop could not be opened. Your on-device Visit guide is available here."); };
+if (window.fixItPublicHomeUnavailable) publicHomeUnavailable();
+window.addEventListener("fixit-public-home-unavailable", publicHomeUnavailable);
 window.addEventListener("hashchange", () => renderView());
 window.addEventListener("online", updateConnection); window.addEventListener("offline", updateConnection);
 window.addEventListener("pageshow", () => { if (draftReset !== currentReset()) clearDraft(); updateConnection(); readSaved(); updateSummary(); });

@@ -4,15 +4,14 @@ import { fixItCustomerAppHref } from "@/lib/fix-it-customer-app";
 import { fixItPublicBooking as booking } from "@/lib/fix-it-public-booking";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Home, CalendarPlus, CalendarDays, Smartphone, Scissors } from "lucide-react";
+import { Home, CalendarPlus, CalendarDays, Scissors } from "lucide-react";
 import type { Appointment } from "@/lib/booking";
 const base = "/fix-it-shop/app";
 const items = [
   [base, "Home", Home],
-  [booking.href, "Book", CalendarPlus],
-  [fixItCustomerAppHref + "#visit", "Visit help", CalendarDays],
-  ["/chair", "The Chair", Scissors],
-  [base + "/install", "Phone setup", Smartphone],
+  [base + "#services", "Services", Scissors],
+  [fixItCustomerAppHref + "#guide", "Visit guide", CalendarDays],
+  [booking.href, "Book now", CalendarPlus],
 ] as const;
 export function FixItCustomerNav() {
   const currentPath = usePathname();
@@ -20,7 +19,7 @@ export function FixItCustomerNav() {
   return (
     <nav className="fix-it-nav" aria-label="Fix It Shop">
       {items.map(([href, label, Icon]) => href === booking.href ? (
-        <a key={label} href={href} aria-label={`${label} on GlossGenius`}>
+        <a key={label} href={href} className="fix-it-book-action" aria-label={`${label} on GlossGenius`}>
           <Icon size={20} /><span>{label} ↗</span>
         </a>
       ) : (

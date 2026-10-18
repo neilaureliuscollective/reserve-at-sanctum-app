@@ -18,13 +18,13 @@ async function newContext(options={}) {
   await c.route("https://fixitshop.glossgenius.com/**",r=>{external.push({url:r.request().url(),method:r.request().method()});return r.fulfill({contentType:"text/html",body:"<title>Captured GlossGenius handoff</title><p>Local fixture only.</p>"});});
   return c;
 }
-async function screen(p,name){await p.locator(`.app-nav a[href="#${name}"]`).click();await p.waitForFunction(n=>document.querySelector(`[data-screen="${n}"]`).hidden===false,name);}
+async function screen(p,name){await p.evaluate(name=>location.hash="#"+(name==="home"?"guide":name),name);await p.waitForFunction(n=>document.querySelector(`[data-screen="${n}"]`).hidden===false,name);}
 try {
   const deadline=Date.now()+60000;
   while(Date.now()<deadline){if(server.exitCode!==null)throw Error("Server stopped");try{if(ready&&(await fetch(origin+base)).ok)break;}catch{}await new Promise(r=>setTimeout(r,250));}
   browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||"/usr/bin/chromium",args:["--no-sandbox","--disable-dev-shm-usage"]});
   const c=await newContext(), p=await c.newPage();activePage=p;p.setDefaultTimeout(20000);
-  await p.goto(origin+base+"#home");
+  await p.goto(origin+base+"#guide");
   await p.waitForFunction(()=>document.querySelector("#offline-ready").textContent.includes("offline copy is ready"));
   await p.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
   assert.equal(await p.locator("#install-promotion").isVisible(),false);
@@ -58,7 +58,7 @@ try {
   }
   assert.equal(await p.locator('img[src*="katie-guidry"]').count(),0);
   const reduced=await newContext({viewport:{width:320,height:660},reducedMotion:"reduce"});
-  const reducedPage=await reduced.newPage();await reducedPage.goto(origin+base+"#home");await reducedPage.evaluate(()=>document.fonts.ready);
+  const reducedPage=await reduced.newPage();await reducedPage.goto(origin+base+"#guide");await reducedPage.evaluate(()=>document.fonts.ready);
   assert.equal(await reducedPage.evaluate(()=>matchMedia("(prefers-reduced-motion: reduce)").matches),true);
   assert.equal(await reducedPage.locator(".home-stage").evaluate(el=>getComputedStyle(el).animationName),"none");
   assert.equal(await reducedPage.locator('.home-stage img[data-approved-logo]').evaluate(el=>getComputedStyle(el).animationName),"none");
@@ -115,9 +115,9 @@ try {
   await p.getByRole("button",{name:"Copy website link"}).click();assert.equal(await p.evaluate(()=>window.__copied),origin+"/fix-it-shop/app");
   checks.push("Native share capability with repeat-click guard; clipboard/manual fallback; only website URL is shared, never consultation content");
   const cached=await p.evaluate(async()=>{const keys=await caches.keys();const result={};for(const key of keys){result[key]=(await(await caches.open(key)).keys()).map(r=>new URL(r.url).pathname);}return result;});
-  const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/concept.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/fix-it-shop-app/presentation.mjs","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2","/fix-it-shop-app/materials/home-grain.png","/fix-it-shop-app/materials/stage-phone.webp","/fix-it-shop-app/materials/stage-wide.webp"];
+  const allowed=[base,"/fix-it-shop-app/public-entry.js","/fix-it-shop-app/app.css","/fix-it-shop-app/concept.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/fix-it-shop-app/presentation.mjs","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2","/fix-it-shop-app/materials/home-grain.png","/fix-it-shop-app/materials/stage-phone.webp","/fix-it-shop-app/materials/stage-wide.webp"];
   allowed.push(...["hero-emblem-280.webp","favicon-16.png","favicon-32.png","favicon.ico","icon-180.png"].map(name=>"/fix-it-shop-app/identity/"+name));
-  assert.ok(cached["fix-it-pocket-public-v18"]?.length>=17);assert.ok(cached["fix-it-pocket-public-v18"].every(path=>allowed.includes(path)));
+  assert.ok(cached["fix-it-pocket-public-v19"]?.length>=18);assert.ok(cached["fix-it-pocket-public-v19"].every(path=>allowed.includes(path)));
   const workerScope=await p.evaluate(async()=> (await navigator.serviceWorker.getRegistration()).scope);assert.equal(workerScope,origin+"/fix-it-shop-app/");
   await c.setOffline(true);
   await p.locator("#connection:visible").waitFor();
@@ -144,8 +144,8 @@ try {
   checks.push("Scoped public-only offline cache; offline fresh-page reopening/read/edit/delete; honest blocked external booking while offline; deleted card stays deleted after reload");
   const standalone=await newContext();
   await standalone.addInitScript(()=>{const original=window.matchMedia.bind(window);window.matchMedia=q=>q==="(display-mode: standalone)"?{...original(q),matches:true,addEventListener(){},removeEventListener(){}}:original(q);});
-  const sp=await standalone.newPage();await sp.goto(origin+"/enter",{waitUntil:"commit"});await sp.waitForURL("**/fix-it-shop-app/index.html#home",{waitUntil:"domcontentloaded"});
-  await sp.getByRole("heading",{name:/Your time/}).waitFor();await sp.screenshot({path:dir+"/standalone-home-390.png",fullPage:true});
+  const sp=await standalone.newPage();await sp.goto(origin+"/enter",{waitUntil:"commit"});await sp.waitForURL("**/fix-it-shop/app",{waitUntil:"domcontentloaded"});
+  await sp.getByRole("heading",{name:/A little time/}).waitFor();await sp.screenshot({path:dir+"/standalone-home-390.png",fullPage:true});
   await sp.goto(origin+"/fix-it-shop/app");await sp.getByRole("heading",{name:/A little time/}).waitFor();assert.equal(new URL(sp.url()).pathname,"/fix-it-shop/app");
   for(const path of ["/manifest.webmanifest","/fix-it-shop/booking.webmanifest"]){
     const manifest=await(await standalone.request.get(origin+path)).json();
@@ -193,16 +193,16 @@ try {
   await presentation.close();
   for(const width of [390,884]){
     const touch=await newContext({hasTouch:true,isMobile:true,viewport:{width,height:600}}),tp=await touch.newPage();activePage=tp;
-    await tp.goto(origin+base+"#home");assert.ok(await tp.evaluate(()=>navigator.maxTouchPoints>0));
+    await tp.goto(origin+base+"#guide");assert.ok(await tp.evaluate(()=>navigator.maxTouchPoints>0));
     for(const name of ["services","card","shop","katie","home"]){
-      await tp.locator(`.app-nav a[href="#${name}"]`).tap();await tp.locator(`[data-screen="${name}"]:visible`).waitFor();
+      await tp.evaluate(name=>location.hash="#"+(name==="home"?"guide":name),name);await tp.locator(`[data-screen="${name}"]:visible`).waitFor();
     }
     await tp.goBack();await tp.locator('[data-screen="katie"]:visible').waitFor();
     await tp.locator('.quick-book').tap();await tp.getByText("Local fixture only.",{exact:true}).waitFor();assert.equal(tp.url(),gg);
     await touch.close();
   }
   checks.push("Both manifests retain IDs/scope/start URL and serve approved PNG dimensions; emulated touch works across all five destinations, browser Back and direct booking at 390/884 short heights; physical install remains unverified");
-  checks.push("Browser website preserved; legacy customer entry and both standalone manifests open compact app; blocked storage never reports a successful save");
+  checks.push("Browser website preserved; legacy customer entry opens public Home; both stable standalone start URLs are handled by the public entry bridge; blocked storage never reports a successful save");
   assert.deepEqual(errors,[]);assert.deepEqual(writes,[]);assert.deepEqual(appApiRequests,[]);assert.ok(external.length>=2);assert.ok(external.every(r=>r.url===gg&&r.method==="GET"));
   await writeFile(dir+"/results.json",JSON.stringify({checks,cached,workerScope,external,writes,errors,appApiRequests,standalone:"emulated display-mode only; physical installation remains unverified",merchant:"intercepted locally; no actual booking/payment/message"},null,2));
   console.log("PASS customer app: "+checks.join("; "));

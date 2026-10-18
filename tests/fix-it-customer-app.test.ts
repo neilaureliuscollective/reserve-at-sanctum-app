@@ -24,6 +24,7 @@ test("device storage failures cannot be reported as successful saves or deletion
   assert.throws(()=>deleteCard(storage),e=>e===error);
 });
 test("screen state remains a bounded local route, including unknown/deep-link recovery", () => {
+  assert.equal(viewFromHash("#guide"), "home");
   for(const view of ["home","services","card","show","shop","katie","visit"])assert.equal(viewFromHash("#"+view),view);
   for(const input of ["","#unknown","#//evil.invalid","#<script>","#card?appointment=confirmed"])assert.equal(viewFromHash(input),"home");
 });
