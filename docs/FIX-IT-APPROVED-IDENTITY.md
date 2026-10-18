@@ -19,6 +19,10 @@ Two lossless logo WebPs (280/560), opaque PNG icons (180/192/512), favicon PNGs
 in. The second generator run reproduced all ten outputs and provenance exactly.
 `derivatives.json` records sizes, hashes, role and processing.
 
+Turbopack requires RGBA PNG entries inside ICO. Its entries therefore add only
+an alpha channel fixed at 255; a pixel-level test verifies identical RGB to the
+opaque 16/32/48 PNGs and no transparent pixel. The original PNGs remain exact RGB.
+
 The maskable export uniformly scales the entire app-icon original to 448px and
 centers it on an opaque 512px navy canvas, with 32px padding on each side. Its
 entire detected gold emblem fits more than eight pixels inside the central
@@ -70,7 +74,7 @@ records remain outside the worker. Updating the cache never clears localStorage.
   controller, then reloads the new cached document. The saved synthetic card and
   an unrelated local record remain byte-identical. A fresh offline reopen keeps
   the card and decodes the approved logo from the v17 public cache.
-- Thirty-four targeted identity/cache/card/booking/provider tests pass. The final
+- Thirty-five targeted identity/cache/card/booking/provider tests pass. The final
   commit's full-test, typecheck, build and production browser results are bound
   separately in the accompanying exact-head review evidence.
 

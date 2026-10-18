@@ -41,17 +41,18 @@ const inset = await sharp(`${originals}/app-icon.png`).resize(448, 448, { kernel
 const maskable = await sharp({ create: { width: 512, height: 512, channels: 3, background: "#010d1a" } }).composite([{ input: inset, left: 32, top: 32 }]).removeAlpha().png(png).toBuffer();
 await save("icon-512-maskable.png", maskable, 512, "complete original uniformly resized to 448; opaque 32px padding, no crop");
 await writeFile("public/fix-it-shop/app/icons/512-maskable.png", maskable);
-// ICO container embeds the exact opaque PNG derivatives without new processing.
-const sizes = [16, 32, 48], images = await Promise.all(sizes.map(size => readFile(`${output}/favicon-${size}.png`)));
+// Turbopack's ICO decoder requires RGBA PNG entries. Add only alpha=255,
+// preserving every RGB pixel; this introduces no transparent pixels.
+const sizes = [16, 32, 48], images = await Promise.all(sizes.map(size => sharp(`${output}/favicon-${size}.png`).ensureAlpha(1).png(png).toBuffer()));
 const header = Buffer.alloc(6 + sizes.length * 16); header.writeUInt16LE(1, 2); header.writeUInt16LE(sizes.length, 4);
 let offset = header.length;
 for (let index = 0; index < sizes.length; index++) {
   const at = 6 + index * 16; header[at] = sizes[index]; header[at + 1] = sizes[index];
-  header.writeUInt16LE(1, at + 4); header.writeUInt16LE(24, at + 6);
+  header.writeUInt16LE(1, at + 4); header.writeUInt16LE(32, at + 6);
   header.writeUInt32LE(images[index].length, at + 8); header.writeUInt32LE(offset, at + 12); offset += images[index].length;
 }
 const ico = Buffer.concat([header, ...images]);
-await save("favicon.ico", ico, sizes, "ICO container of exact 16/32/48 PNG exports");
+await save("favicon.ico", ico, sizes, "ICO container of 16/32/48 exports with identical RGB and fully opaque alpha=255 for decoder compatibility");
 await writeFile("app/favicon.ico", ico);
 await copyFile(`${output}/icon-192.png`, "app/icon.png");
 await copyFile(`${output}/icon-180.png`, "app/apple-icon.png");

@@ -36,3 +36,19 @@ test("maskable keeps all gold identity pixels inside its central 40 percent radi
   assert.ok(goldPixels > 10000); assert.ok(furthest < 512 * .4 - 8, `Gold radius ${furthest} exceeds safe margin`);
   assert.deepEqual(await readFile("public/fix-it-shop/app/icons/512-maskable.png"), await readFile("public/fix-it-shop-app/identity/icon-512-maskable.png"));
 });
+test("ICO entries are compatible RGBA with identical favicon RGB and no transparent pixels", async () => {
+  const ico = await readFile("public/fix-it-shop-app/identity/favicon.ico");
+  assert.equal(ico.readUInt16LE(2), 1); assert.equal(ico.readUInt16LE(4), 3);
+  for (const [index, size] of [16, 32, 48].entries()) {
+    const at = 6 + index * 16, length = ico.readUInt32LE(at + 8), offset = ico.readUInt32LE(at + 12);
+    assert.equal(ico.readUInt16LE(at + 6), 32);
+    const decoded = await sharp(ico.subarray(offset, offset + length)).raw().toBuffer({ resolveWithObject: true });
+    const rgb = await sharp(`public/fix-it-shop-app/identity/favicon-${size}.png`).raw().toBuffer();
+    assert.equal(decoded.info.channels, 4); assert.equal(decoded.info.width, size);
+    for (let pixel = 0; pixel < size * size; pixel++) {
+      assert.deepEqual(decoded.data.subarray(pixel * 4, pixel * 4 + 3), rgb.subarray(pixel * 3, pixel * 3 + 3));
+      assert.equal(decoded.data[pixel * 4 + 3], 255);
+    }
+  }
+  assert.deepEqual(await readFile("app/favicon.ico"), ico);
+});

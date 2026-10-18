@@ -80,9 +80,9 @@
         32,
         48
       ],
-      "role": "ICO container of exact 16/32/48 PNG exports",
-      "bytes": 9359,
-      "sha256": "169c1cb38dd7edaa3b7e20c8b11a575746d6996fd1775b4c2da4ac7809fc8046"
+      "role": "ICO container of 16/32/48 exports with identical RGB and fully opaque alpha=255 for decoder compatibility",
+      "bytes": 10460,
+      "sha256": "df1316b7785db896431b891e96d8f21a2f4cd01addbb6ae50df52b7ec9efe268"
     }
   ]
 }
