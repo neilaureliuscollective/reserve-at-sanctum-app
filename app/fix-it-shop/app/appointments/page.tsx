@@ -1,3 +1,4 @@
+import { fixItPublicBooking } from "@/lib/fix-it-public-booking";
 import { currentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Visits } from "@/components/visits";
@@ -6,6 +7,8 @@ import { fixItBooking as brand } from "@/lib/fix-it-booking";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "My appointments" };
 export default async function Page() {
+  // Existing website records remain at /account; new appointments live on GG.
+  if (!isPreview()) redirect(fixItPublicBooking.href);
   const actor = await currentUser();
   if (!actor)
     redirect(brand.signin + "?next=" + encodeURIComponent(brand.visits));

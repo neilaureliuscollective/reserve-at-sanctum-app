@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
 
 export function KatieBookingShortcut({ href, label }: { href: string; label: string }) {
   const [visible, setVisible] = useState(false);
@@ -23,5 +22,5 @@ export function KatieBookingShortcut({ href, label }: { href: string; label: str
     return () => observer.disconnect();
   }, []);
   // Keep the viewport shortcut outside the page's cinematic containing blocks.
-  return visible ? createPortal(<aside className="katie-booking-shortcut" aria-label="Katie’s visit shortcut"><Link prefetch={false} href={href}><span>FIX IT SHOP / KATIE GUIDRY</span><strong>{label}<ArrowUpRight size={16}/></strong></Link></aside>, document.body) : null;
+  return visible ? createPortal(<aside className="katie-booking-shortcut" aria-label="Katie’s visit shortcut"><a href={href}><span>FIX IT SHOP / KATIE GUIDRY</span><strong>{label}<ArrowUpRight size={16}/></strong></a></aside>, document.body) : null;
 }

@@ -1,0 +1,19 @@
+{
+  "origin": "Original deterministic abstract material generation using existing NumPy/Pillow, seed 28102026. No paid APIs, external image, reference crop, logo, lettering, photography or people. Two art-directed crops from one material master. Gold sweep remains a separate CSS layer; useful text and controls are HTML.",
+  "assets": [
+    {
+      "file": "materials/stage-phone.webp",
+      "width": 640,
+      "height": 880,
+      "bytes": 20874,
+      "sha256": "3d774d4b5322d2863659f68158117806d5569f183a9acd789b372290637638cb"
+    },
+    {
+      "file": "materials/stage-wide.webp",
+      "width": 900,
+      "height": 1100,
+      "bytes": 37488,
+      "sha256": "f83ca425cd3c18a691100112fb5cb8ef02785456d78823adf478f81d0b63f010"
+    }
+  ]
+}

@@ -14,8 +14,8 @@ test("Fix It Shop has a stable distinct identity while existing root installatio
   assert.equal(reserve.id, "/");
   assert.equal(reserve.scope, "/");
   assert.equal(reserve.name, "Fix It Shop");
-  assert.equal(reserve.start_url, "/enter");
-  assert.equal(fix.start_url, fixItBooking.base + "/launch");
+  assert.equal(reserve.start_url, "/fix-it-shop-app/index.html#home");
+  assert.equal(fix.start_url, "/fix-it-shop-app/index.html#home");
   assert.ok(fix.icons?.some(i => i.purpose === "maskable"));
   assert.equal(fix.name, "Fix It Shop");
   assert.ok(fix.start_url?.startsWith(fix.scope!));

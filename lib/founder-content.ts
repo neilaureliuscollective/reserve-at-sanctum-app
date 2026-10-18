@@ -1,4 +1,4 @@
-import { fixItBooking } from "./fix-it-booking";
+import { fixItPublicBooking } from "./fix-it-public-booking";
 
 export type FounderAsset = { src: string; alt: string; width: number; height: number; position?: string };
 // Only install approved Katie photographs. Null intentionally renders a labeled
@@ -15,7 +15,7 @@ export const founderContent = {
   militaryPhotograph: null as FounderAsset | null,
   personalQuote: null as { text: string; attribution: string } | null, // Katie-approved words only
   storyHref: "/fix-it-shop/app/founder",
-  bookingHref: fixItBooking.book,
+  bookingHref: fixItPublicBooking.href,
   book: { title: "Mr. Bell’s Fixit Shop", author: "Ronne Peltzman", year: "1981" },
   chapters: [
     { id: "katie", label: "The founder", headline: "The woman behind the standard.", paragraphs: ["A higher standard begins with the person behind it.", "Katie Guidry founded Fix It Shop with a clear purpose: a better grooming experience for men. Professional attention, a straightforward conversation, and room to feel at ease."] },

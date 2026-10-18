@@ -1,4 +1,5 @@
 "use client";
+import { fixItPublicBooking } from "@/lib/fix-it-public-booking";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { DateTime } from "luxon";
@@ -291,7 +292,11 @@ export function BookingFlow({
                       : "Choose your service with your professional."}
                   </p>
                   <div className="service-list">
-                    {services.map((s) => (
+                    {services.map((s) => !preview && s.provider_id === "katie" ? (
+                      <a className="service-option" href={fixItPublicBooking.href} key={s.id}>
+                        <span className="service-description"><strong>{s.name}</strong><span>View current details and book on GlossGenius ↗</span></span>
+                      </a>
+                    ) : (
                       <button
                         className={`service-option ${selected === s.id ? "selected" : ""}`}
                         onClick={() => {

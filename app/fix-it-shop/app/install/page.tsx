@@ -1,7 +1,6 @@
+import { fixItCustomerAppHref } from "@/lib/fix-it-customer-app";
 import Image from "next/image";
-import Link from "next/link";
 import { FixItInstall } from "@/components/fix-it-install";
-import { fixItBooking as brand } from "@/lib/fix-it-booking";
 export const metadata = { title: "On your phone" };
 export default function Page() {
   return (
@@ -23,6 +22,7 @@ export default function Page() {
         Open this link directly in your phone’s browser. Check that the
         suggested name is Fix It Shop and the icon matches the symbol above.
       </p>
+      <p>Try the customer app first: make an optional consultation card on this device, then add it to your home screen if it is useful to you. The card is not sent to Katie.</p>
       <FixItInstall />
       <section>
         <h2>iPhone or iPad</h2>
@@ -51,13 +51,12 @@ export default function Page() {
         <p>
           Use your existing account. An installed app may
           need a fresh sign-in. Signing out in this browser also signs you out
-          of this website’s shared session. Booking and appointments require an
-          internet connection.
+          of this website’s shared session. Katie’s appointments and payments are on GlossGenius. This website’s
+          account is separate; its appointment history does not show GlossGenius bookings.
+          Both sites require an internet connection.
         </p>
       </section>
-      <Link className="button button-gold" href={brand.base}>
-        Open Fix It Shop
-      </Link>
+      <a className="button button-gold" href={fixItCustomerAppHref + "#home"}>Open the customer app</a>
     </main>
   );
 }

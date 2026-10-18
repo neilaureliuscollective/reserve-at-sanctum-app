@@ -71,7 +71,7 @@ try {
   assert.equal(master.id, "/");
   assert.equal(master.name, "Fix It Shop");
   assert.equal(master.scope, "/");
-  assert.equal(master.start_url, "/enter");
+  assert.equal(master.start_url, "/fix-it-shop-app/index.html#home");
   assert.ok(master.icons.some(icon => icon.purpose === "maskable"));
   await visit("/");
   await page.waitForURL("**/fix-it-shop/app");
@@ -179,21 +179,16 @@ try {
     id = ics.split("/").at(-2);
   assert.equal((await context.request.get(origin + ics)).status(), 200);
   await visit(base);
-  await page
-    .getByRole("heading", { name: "Your next visit.", exact: true })
-    .waitFor();
+  // The public website now sends new Katie bookings to GlossGenius, even when
+  // the isolated native engine is exercised below. Historical native records
+  // remain available on their existing account/appointments route.
+  assert.equal(await page.locator(".fix-it-next").count(), 0);
+  assert.ok(await page.locator('a[href="https://fixitshop.glossgenius.com/"]').count());
   assert.equal(
     await page.locator('.fix-it-nav [aria-current="page"]').innerText(),
     "Home",
   );
-  await page.getByRole("link", { name: /Manage this visit/ }).click();
-  await page.waitForLoadState("networkidle");
-  await visit(base + "/book");
-  await page
-    .getByRole("link", { name: /My visits/ })
-    .first()
-    .click();
-  await page.waitForLoadState("networkidle");
+  await visit(base + "/appointments");
   const ref = id.slice(0, 8).toUpperCase();
   let card = page.locator(".appointment").filter({ hasText: ref });
   await card.waitFor();

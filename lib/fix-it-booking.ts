@@ -1,3 +1,4 @@
+import { fixItCustomerAppHref } from "./fix-it-customer-app";
 import type { MetadataRoute } from "next";
 import { providerEntrance } from "./booking-identity";
 import { safeDestination } from "./experience/entry";
@@ -32,22 +33,25 @@ export function fixItManifest(): MetadataRoute.Manifest {
     name: fixItBooking.name,
     short_name: fixItBooking.name,
     description:
-      "Book and manage your visits with Katie Guidry, founder of Fix It Shop.",
-    start_url: fixItBooking.base + "/launch",
+      "Meet Katie Guidry and book on her existing GlossGenius site.",
+    start_url: fixItCustomerAppHref + "#home",
     // Staff, The Chair and auth callbacks stay on the same installed origin.
     scope: "/",
     display: "standalone",
     background_color: "#070b10",
     theme_color: fixItBooking.theme,
     icons: [...[192, 512].map((size) => ({
-      src: `/fix-it-shop/app/brand-icons/${size}?v=steel-symbol-1`,
+      src: `/fix-it-shop/app/brand-icons/${size}?v=approved-identity-20261018`,
       sizes: `${size}x${size}`,
       type: "image/png",
       purpose: "any" as const,
-    })), { src: "/fix-it-shop/app/icons/512-maskable.png?v=steel-symbol-1", sizes: "512x512", type: "image/png", purpose: "maskable" as const }],
+    })), { src: "/fix-it-shop/app/icons/512-maskable.png?v=approved-identity-20261018", sizes: "512x512", type: "image/png", purpose: "maskable" as const }],
+    // PWA shortcuts must remain in scope; this route immediately redirects
+    // public traffic to GlossGenius without an intermediate booking screen.
     shortcuts: [
-      { name: "Book with Katie", url: fixItBooking.book },
-      { name: "My appointments", url: fixItBooking.visits },
+      { name: "Book on GlossGenius", url: fixItBooking.book },
+      { name: "My consultation card", url: fixItCustomerAppHref + "#card" },
+      { name: "Visit help", url: fixItCustomerAppHref + "#visit" },
       { name: "My working day", url: "/studio" },
       { name: "The Chair", url: "/chair" },
     ],
