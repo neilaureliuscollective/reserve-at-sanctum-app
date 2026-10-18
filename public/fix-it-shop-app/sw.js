@@ -1,8 +1,8 @@
 // Scope is this static public app only. Never cache Next pages, auth, APIs,
 // appointments, Chair records or any response containing account information.
-const CACHE = "fix-it-pocket-public-v10";
+const CACHE = "fix-it-pocket-public-v13";
 const APP = "/fix-it-shop-app/index.html";
-const PUBLIC_ASSETS = [APP, "/fix-it-shop-app/app.css", "/fix-it-shop-app/app.mjs", "/fix-it-shop-app/state.mjs", "/images/approved/fix-it-shop.webp", "/fix-it-shop/app/icons/192.png", "/fix-it-shop-app/fonts/display-regular.woff2", "/fix-it-shop-app/fonts/display-italic.woff2", "/fix-it-shop-app/fonts/sans-regular.woff2", "/fix-it-shop-app/fonts/sans-semibold.woff2"];
+const PUBLIC_ASSETS = [APP, "/fix-it-shop-app/app.css", "/fix-it-shop-app/app.mjs", "/fix-it-shop-app/state.mjs", "/images/approved/fix-it-shop.webp", "/fix-it-shop/app/icons/192.png", "/fix-it-shop-app/fonts/display-regular.woff2", "/fix-it-shop-app/fonts/display-italic.woff2", "/fix-it-shop-app/fonts/sans-regular.woff2", "/fix-it-shop-app/fonts/sans-semibold.woff2", "/fix-it-shop-app/materials/home-grain.png"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(PUBLIC_ASSETS.map(url => new Request(url, { credentials: "omit", cache: "reload" })))).then(() => self.skipWaiting()));
 });

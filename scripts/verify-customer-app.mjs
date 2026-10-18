@@ -99,8 +99,8 @@ try {
   await p.getByRole("button",{name:"Copy website link"}).click();assert.equal(await p.evaluate(()=>window.__copied),origin+"/fix-it-shop/app");
   checks.push("Native share capability with repeat-click guard; clipboard/manual fallback; only website URL is shared, never consultation content");
   const cached=await p.evaluate(async()=>{const keys=await caches.keys();const result={};for(const key of keys){result[key]=(await(await caches.open(key)).keys()).map(r=>new URL(r.url).pathname);}return result;});
-  const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/images/approved/fix-it-shop.webp","/fix-it-shop/app/icons/192.png","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2"];
-  assert.ok(cached["fix-it-pocket-public-v10"]?.length===allowed.length);assert.ok(cached["fix-it-pocket-public-v10"].every(path=>allowed.includes(path)));
+  const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/images/approved/fix-it-shop.webp","/fix-it-shop/app/icons/192.png","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2","/fix-it-shop-app/materials/home-grain.png"];
+  assert.ok(cached["fix-it-pocket-public-v13"]?.length===allowed.length);assert.ok(cached["fix-it-pocket-public-v13"].every(path=>allowed.includes(path)));
   const workerScope=await p.evaluate(async()=> (await navigator.serviceWorker.getRegistration()).scope);assert.equal(workerScope,origin+"/fix-it-shop-app/");
   await c.setOffline(true);
   await p.locator("#connection:visible").waitFor();

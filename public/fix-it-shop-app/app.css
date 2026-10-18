@@ -141,3 +141,131 @@ button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,t
 @media(min-width:700px){.app-nav a{font-size:11px}}
 /* High-contrast inactive labels over the brightest steel part of the dock. */
 .app-nav a{color:#edf3fb}.app-nav a[aria-current=page]{color:#ffe3a9}
+
+/* HOME MATERIAL PROOF ONLY. Accepted e53740f styles above remain unchanged.
+   Opaque neutral metal prevents canvas color bleed. Blue is confined to the
+   selected nav inset. Original deterministic grain: materials/home-grain.png. */
+body:has([data-screen="home"]:not([hidden])){
+  --gold:#D4A853;--light:#F5F4EF;--line:#ABB2B94D;
+  --glass-shadow:0 18px 38px #00000080,0 3px 9px #12141766,inset 0 1px 0 #F5F4EF66,inset 0 -1px 0 #11141680;
+  color:#F5F4EF;
+  background:radial-gradient(ellipse 85% 600px at 3% 120px,#1C2023,transparent 72%),linear-gradient(152deg,#121417,#1C2023 48%,#121417);
+}
+body:has([data-screen="home"]:not([hidden])) .app-header{
+  border-bottom-color:#ABB2B955;
+  background:url('./materials/home-grain.png'),linear-gradient(120deg,#4D545A,#353B40 50%,#23272B);
+  box-shadow:inset 0 1px #F5F4EF33,0 5px 24px #00000077;
+}
+body:has([data-screen="home"]:not([hidden])) .wordmark{color:#F5F4EF}
+body:has([data-screen="home"]:not([hidden])) .wordmark small{color:#D3D6D8}
+body:has([data-screen="home"]:not([hidden])) .header-help{color:#D4A853}
+body:has([data-screen="home"]:not([hidden])) .quick-book{
+  color:#D4A853;border-color:#D4A85399;
+  background:url('./materials/home-grain.png'),linear-gradient(130deg,#121417,#1C2024);
+  box-shadow:inset 0 1px #F5F4EF33,inset 0 -1px #121417,0 5px 12px #00000033;
+}
+body:has([data-screen="home"]:not([hidden])) .opening{
+  border-color:#AAB2BA99;
+  background:url('./materials/home-grain.png'),linear-gradient(125deg,#535A60,#43494F 32%,#30363B 68%,#202428);
+  box-shadow:0 20px 44px #00000094,inset 0 1px #F5F4EF99,inset 0 -1px #11141688;
+}
+body:has([data-screen="home"]:not([hidden])) .opening::before{
+  border-color:#C5CBD144;
+  box-shadow:inset 9px 0 23px #F5F4EF08,0 0 0 14px #F5F4EF03,0 0 0 15px #C5CBD112,0 0 0 29px #12141722,0 0 0 30px #CBD1D718;
+  background:linear-gradient(115deg,#F5F4EF06,transparent 55%);
+}
+body:has([data-screen="home"]:not([hidden])) .opening::after{
+  background:linear-gradient(124deg,#F5F4EF06,transparent 32%,transparent 74%,#12141713);border-color:#F5F4EF19;
+}
+body:has([data-screen="home"]:not([hidden])) h1{color:#F5F4EF;text-shadow:0 3px 15px #00000033}
+body:has([data-screen="home"]:not([hidden])) h1 em{color:#D4A853}
+body:has([data-screen="home"]:not([hidden])) :is(.eyebrow,.card-mark){color:#F5F4EF}
+body:has([data-screen="home"]:not([hidden])) :is(.lead,.opening .caption){color:#DFE1E1}
+body:has([data-screen="home"]:not([hidden])) .primary{
+  color:#121417;border-color:#D4A853;border-top-color:#F2DDA8;border-bottom-color:#79592D;
+  background:url('./materials/home-grain.png'),linear-gradient(111deg,#B48849 0%,#C59B50 28%,#D4A853 47%,#E7C982 51%,#F2DDA8 55%,#F2DDA8 57%,#E7C982 61%,#D4A853 65%,#B48849 100%);
+  box-shadow:inset 0 1px #F2DDA8,inset 0 -2px #79592D,inset 1px 0 #E7C98299,0 7px 0 #12141780,0 13px 25px #00000066;
+}
+body:has([data-screen="home"]:not([hidden])) .primary small{color:#121417}
+body:has([data-screen="home"]:not([hidden])) :is(.task-card,.task-tile,.share-row,.panel){
+  border-color:#AAB2BA80;border-top-color:#F5F4EF80;border-bottom-color:#15191D;
+  background:url('./materials/home-grain.png'),linear-gradient(132deg,#535A60,#43494F 28%,#30363B 58%,#202428);
+}
+body:has([data-screen="home"]:not([hidden])) :is(.task-card,.task-tile,.share-row,.panel)::before{
+  border-color:#F5F4EF1A;background:linear-gradient(120deg,#F5F4EF06,transparent 29%,transparent 73%,#12141712);
+}
+body:has([data-screen="home"]:not([hidden])) .task-card::after{
+  background:linear-gradient(154deg,transparent 17%,#F5F4EF05 18%,transparent 29%,transparent 70%,#12141712 100%);
+}
+body:has([data-screen="home"]:not([hidden])) :is(.task-card h2,.task-tile h2,.share-row h2,.panel h2){color:#F5F4EF}
+body:has([data-screen="home"]:not([hidden])) :is(.task-card p:not(.eyebrow),.task-tile p,.share-row p,.panel p){color:#DFE1E1}
+body:has([data-screen="home"]:not([hidden])) :is(.task-card strong,.task-tile strong){color:#D4A853}
+body:has([data-screen="home"]:not([hidden])) .task-tile>span{
+  color:#F5F4EF;border-color:#ABB2B966;
+  background:url('./materials/home-grain.png'),linear-gradient(135deg,#121417,#1C2024);
+  box-shadow:inset 0 1px #F5F4EF33,0 4px 10px #00000044;
+}
+body:has([data-screen="home"]:not([hidden])) .share-row button{
+  color:#F5F4EF;border-color:#ABB2B980;
+  background:url('./materials/home-grain.png'),linear-gradient(120deg,#121417,#1C2024);
+  box-shadow:inset 0 1px #F5F4EF44,0 5px 12px #00000033;
+}
+body:has([data-screen="home"]:not([hidden])) .app-nav{
+  border-color:#ABB2B980;border-top-color:#F5F4EFA0;border-bottom-color:#15191D;
+  background:url('./materials/home-grain.png'),linear-gradient(127deg,#4D545A,#353B40 40%,#23272B);
+  box-shadow:0 12px 32px #000000AA,inset 0 1px #F5F4EF55,inset 0 -1px #121417;
+}
+body:has([data-screen="home"]:not([hidden])) .app-nav a{color:#F5F4EF}
+body:has([data-screen="home"]:not([hidden])) .app-nav a[aria-current=page]{
+  color:#F5F4EF;border-color:#D4A85399;
+  background:linear-gradient(133deg,#0F3B4C,#172A33 48%,#121417);
+  box-shadow:inset 0 1px #F5F4EF33,0 5px 10px #00000044;
+}
+body:has([data-screen="home"]:not([hidden])) .app-footer{border-top-color:#ABB2B93B}
+body:has([data-screen="home"]:not([hidden])) .app-footer p{color:#CDD1D3}
+body:has([data-screen="home"]:not([hidden])) .app-footer a{color:#D4A853}
+body:has([data-screen="home"]:not([hidden])) :is(button,a,summary,input,textarea):focus-visible{outline-color:#D4A853}
+@media(hover:hover){
+  body:has([data-screen="home"]:not([hidden])) :is(.task-card,.task-tile):hover{
+    border-color:#F5F4EFA0;box-shadow:var(--glass-shadow),0 0 22px #F5F4EF08;
+  }
+}
+body:has([data-screen="home"]:not([hidden])) :is(.secondary,input,textarea){
+  color:#F5F4EF;border-color:#ABB2B980;
+  background:url('./materials/home-grain.png'),linear-gradient(135deg,#121417,#1C2024);
+}
+
+/* Lower-contrast brushing on charcoal; CTA keeps its 3–5% grain layer. */
+body:has([data-screen="home"]:not([hidden])) :is(.app-header,.opening,.task-card,.task-tile,.share-row,.panel,.app-nav,.quick-book,.share-row button,.task-tile>span,.secondary,input,textarea){background-blend-mode:soft-light,normal}
+/* Rich gold text highlight keeps small actions and the emphasized word legible
+   over steel/arch reflections; the CTA body and selected trim retain #D4A853. */
+body:has([data-screen="home"]:not([hidden])) :is(h1 em,.task-card strong,.task-tile strong){color:#DEB562}
+
+/* BLUE-LED HOME CORRECTION: preserve the existing geometry and gold CTA paint.
+   Blue is opaque satin/enamel, not a transparent wash or brushed substrate.
+   The preceding Home proof and accepted e53740f rules remain traceable. */
+body:has([data-screen="home"]:not([hidden])) .opening{
+  background:linear-gradient(125deg,#214654,#0F3B4C 32%,#102B37 68%,#0B2733);
+  background-blend-mode:normal;
+}
+body:has([data-screen="home"]:not([hidden])) :is(.task-card,.task-tile:last-child){
+  background:linear-gradient(132deg,#214654,#0F3B4C 28%,#102B37 58%,#0B2733);
+  background-blend-mode:normal;
+}
+body:has([data-screen="home"]:not([hidden])) .app-header{
+  background:linear-gradient(120deg,#1C2023,#121417 50%,#161A1D);
+  background-blend-mode:normal;
+}
+body:has([data-screen="home"]:not([hidden])) .share-row{
+  background:linear-gradient(132deg,#1C2023,#121417 58%,#161A1D);
+  background-blend-mode:normal;
+}
+body:has([data-screen="home"]:not([hidden])) .app-nav{
+  background:linear-gradient(127deg,#102B37,#0B2733 40%,#0B2733);
+  background-blend-mode:normal;
+}
+body:has([data-screen="home"]:not([hidden])) .app-nav a[aria-current=page]{border-color:#D4A853}
+body:has([data-screen="home"]:not([hidden])) .task-tile:first-child :is(strong,span){color:#F5F4EF}
+body:has([data-screen="home"]:not([hidden])) .task-tile:first-child:focus-visible{outline-color:#F5F4EF}
+/* A Stone White keyboard ring remains distinct where it crosses the steel dock rim. */
+body:has([data-screen="home"]:not([hidden])) .app-nav a:focus-visible{outline-color:#F5F4EF}
