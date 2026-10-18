@@ -156,8 +156,8 @@ try {
       assert.deepEqual(bytes,await readFile(`public/fix-it-shop/app/icons/${icon.purpose==="maskable"?"512-maskable":width}.png`));
     }
   }
-  // Next's metadata loader may repack ICO/PNG containers. Verify the served
-  // approved pixels and full opacity rather than its compression/header bytes.
+  // Verify root identity pixels too: a legacy public file can take precedence
+  // over metadata assets. Container compression differences are not identity.
   async function approvedPixels(bytes,path,size){
     const meta=await sharp(bytes).metadata();assert.equal(meta.width,size);assert.equal(meta.height,size);
     assert.deepEqual(await sharp(bytes).removeAlpha().raw().toBuffer(),await sharp(await readFile(path)).removeAlpha().raw().toBuffer());

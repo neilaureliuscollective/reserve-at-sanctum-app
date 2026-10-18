@@ -22,6 +22,9 @@ in. The second generator run reproduced all ten outputs and provenance exactly.
 Turbopack requires RGBA PNG entries inside ICO. Its entries therefore add only
 an alpha channel fixed at 255; a pixel-level test verifies identical RGB to the
 opaque 16/32/48 PNGs and no transparent pixel. The original PNGs remain exact RGB.
+Both `app/favicon.ico` and the existing `public/favicon.ico` receive that export;
+the production browser checks actual root/manifest icon pixels, so an old public
+favicon cannot silently override the approved metadata identity.
 
 The maskable export uniformly scales the entire app-icon original to 448px and
 centers it on an opaque 512px navy canvas, with 32px padding on each side. Its

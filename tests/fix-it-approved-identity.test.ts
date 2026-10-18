@@ -51,4 +51,5 @@ test("ICO entries are compatible RGBA with identical favicon RGB and no transpar
     }
   }
   assert.deepEqual(await readFile("app/favicon.ico"), ico);
+  assert.deepEqual(await readFile("public/favicon.ico"), ico);
 });

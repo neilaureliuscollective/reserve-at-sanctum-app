@@ -54,6 +54,7 @@ for (let index = 0; index < sizes.length; index++) {
 const ico = Buffer.concat([header, ...images]);
 await save("favicon.ico", ico, sizes, "ICO container of 16/32/48 exports with identical RGB and fully opaque alpha=255 for decoder compatibility");
 await writeFile("app/favicon.ico", ico);
+await writeFile("public/favicon.ico", ico);
 await copyFile(`${output}/icon-192.png`, "app/icon.png");
 await copyFile(`${output}/icon-180.png`, "app/apple-icon.png");
 await writeFile(`${originals}/derivatives.json`, JSON.stringify({ sourceCommit: "a4cab5fcde22052cab12142c3c53d41b95b99aa9", originals: expected, engine: { sharp: sharp.versions.sharp, vips: sharp.versions.vips }, processing: "uniform Lanczos3 resizing; lossless RGB exports; maskable opaque padding only", outputs }, null, 2) + "\n");
