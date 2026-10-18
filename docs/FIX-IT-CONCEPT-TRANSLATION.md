@@ -36,7 +36,9 @@ Home now has a continuous, unframed ink/navy stage with selective irregular blue
 microtexture, live editorial copy, a separate diagonal warm-metal sweep, and a
 single dominant visible gold booking action. The old abstract enclosing dashboard
 arch/card is not retained. Phone booking stays in the opening viewport; expanded
-Home uses a lower booking bar without a second bottom navigation bar.
+Home uses a lower booking bar without a second bottom navigation bar. The bounded
+overlap repair places it in its own layout row before Share; it no longer floats
+over ordinary reading. The stage, consultation preview and materials are unchanged.
 
 Two quieter cropped material openings lead to the existing shop and My Card.
 Services remains directly available in the unchanged five destinations. The
@@ -99,7 +101,7 @@ The earlier original 22,636-byte neutral grain is reused for the gold control.
 
 The first stage is eager/high priority. Native picture media selects one master,
 not both. Secondary uses share the same selected URL and may load lazily. Worker
-v14 installs only core public files; a scope-checked message warms only the
+v15 installs only core public files; a scope-checked message warms only the
 selected public stage. The static image fetch path may cache only the two exact
 stage paths. Unlisted paths, queries, external origins, private pages and APIs
 are not intercepted/cached. No account, Chair, card or booking data enters the
@@ -127,7 +129,7 @@ integration, physical devices and final brand acceptance remain required.
 No push, merge, deployment, live database/settings change or paid API call is
 included in this bounded local pass.
 
-## Final local validation record
+## Preserved composition validation at 2e1f3ba
 
 The focused suite passed 30 tests, including the new selected-art cache/privacy
 checks. Typecheck, production build, JS syntax and both customer-app/public
@@ -148,3 +150,22 @@ remained false in this browser. A separate synthetic contract substituted two
 432px segments and a 20px gap into the real parsed conditional rules; controls
 remained within usable segments across all seven screens. This does not establish
 native API or physical folding-device acceptance.
+
+## Bounded ordinary-reading repair
+
+The preserved `2e1f3ba` candidate's fixed strip covered Share at 884×900 even
+without focus. Extra padding after the page content did not reserve space at
+that reading position. `scripts/verify-customer-app-reading.mjs` reproduces the
+failure using live text-range/bar intersections before any focus operation.
+The strip now occupies a real Home grid row immediately before Share. Its size
+adapts naturally to enlarged text, with no nested scrolling or hidden text mask.
+Only genuinely fixed surfaces contribute to focus insets. The worker cache is
+versioned so returning installations can receive the corrected HTML/CSS/JS.
+
+The regression captures ordinary reading at 390×900, 884×900 and 884×600,
+including both expanded sizes at 200% text. It checks the complete Share copy
+and action without focusing them, samples page scrolling for strip/text
+intersections, then independently verifies keyboard targets. The release report
+and new bundle distinguish these checks from the preserved broader composition
+audit and from physical-device/brand acceptance. No new aesthetic pass or asset
+transfer is included.

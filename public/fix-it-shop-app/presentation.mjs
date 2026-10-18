@@ -30,10 +30,12 @@ const nav = document.querySelector('.app-nav');
 const masthead = document.querySelector('.app-header');
 const bookingBar = document.querySelector('.expanded-booking');
 const expanded = matchMedia('(min-width: 800px)');
+const fixedBookingHeight = () => bookingBar && getComputedStyle(bookingBar).position === 'fixed'
+  ? Math.ceil(bookingBar.getBoundingClientRect().height) : 0;
 function updateInsets() {
   root.style.setProperty('--navigation-height', `${expanded.matches ? 0 : Math.ceil(nav?.getBoundingClientRect().height || 0)}px`);
   root.style.setProperty('--masthead-height', `${Math.ceil(masthead?.getBoundingClientRect().height || 0)}px`);
-  root.style.setProperty('--booking-bar-height', `${Math.ceil(bookingBar?.getBoundingClientRect().height || 0)}px`);
+  root.style.setProperty('--booking-bar-height', `${fixedBookingHeight()}px`);
 }
 if ('ResizeObserver' in window) {
   const observer = new ResizeObserver(updateInsets);
@@ -48,7 +50,7 @@ function revealFocusedControl(target) {
   if (!(target instanceof HTMLElement) || !target.matches('a,button,input,textarea,summary') || target.closest('.app-header,.app-nav,.expanded-booking')) return;
   const rect = target.getBoundingClientRect();
   const top = (masthead?.getBoundingClientRect().bottom || 0) + 14;
-  const fixedBottom = Math.max(expanded.matches ? 0 : (nav?.getBoundingClientRect().height || 0), bookingBar?.getBoundingClientRect().height || 0);
+  const fixedBottom = Math.max(expanded.matches ? 0 : (nav?.getBoundingClientRect().height || 0), fixedBookingHeight());
   const bottom = innerHeight - fixedBottom - 22;
   if (rect.top >= top && rect.bottom <= bottom) return;
   const delta = rect.height > bottom - top

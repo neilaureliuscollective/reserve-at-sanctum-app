@@ -144,10 +144,11 @@
  #fix-it-pocket .prompt-preview li span{font-family:FixItDisplay,Georgia,serif;font-size:1rem;color:#d6ba83}
  #fix-it-pocket .consultation-entry .entry-privacy{margin-top:auto!important;font-size:.67rem!important}
  #fix-it-pocket .consultation-entry strong{font-size:.87rem;color:#f1d29a}
- #fix-it-pocket .share-row{grid-column:1 / -1;margin:4px 0 0;padding:18px 0 20px}
- #fix-it-pocket:has([data-screen="home"]:not([hidden])) main{padding-bottom:136px}
+ #fix-it-pocket .share-row{grid-column:1 / -1;grid-row:4;margin:4px 0 0;padding:18px 0 20px}
  #fix-it-pocket .expanded-booking{display:none}
- #fix-it-pocket:has([data-screen="home"]:not([hidden])) .expanded-booking{position:fixed;z-index:18;bottom:14px;left:calc(max(0px,(100vw - 1480px)/2) + var(--rail) + 24px);right:max(24px,calc((100vw - 1480px)/2 + 24px));display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 18px;border:1px solid #8198a44d;border-top-color:#d7bf8a80;border-radius:14px;background:#020f1cf5;box-shadow:0 10px 25px #0009}
+ /* The strip owns a real row before Share. End padding alone cannot keep a
+    fixed strip from covering ordinary text at intermediate reading positions. */
+ #fix-it-pocket:has([data-screen="home"]:not([hidden])) .expanded-booking{position:relative;grid-column:1 / -1;grid-row:3;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 18px;border:1px solid #8198a44d;border-top-color:#d7bf8a80;border-radius:14px;background:#020f1cf5;box-shadow:0 10px 25px #0009}
  #fix-it-pocket .expanded-booking p{font-family:FixItDisplay,Georgia,serif;font-size:1.5rem;line-height:1.1;margin:0 0 7px;color:#f5f4ef}
  #fix-it-pocket .expanded-booking>div>small{font-size:.64rem;line-height:1.6;color:#d0dbe0}
  #fix-it-pocket .expanded-booking .primary{width:260px;flex:none;min-height:66px;font-size:.84rem;padding:12px 17px}
@@ -171,7 +172,7 @@
 }
 @media(min-width:800px) and (horizontal-viewport-segments:2){
  #fix-it-pocket :is([data-screen="home"],[data-screen="card"]){grid-template-columns:minmax(0,calc(env(viewport-segment-width 0 0) - var(--rail) - 40px)) minmax(0,1fr);column-gap:calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0) + 32px)}
- #fix-it-pocket:has([data-screen="home"]:not([hidden])) .expanded-booking{left:calc(env(viewport-segment-left 1 0) + 16px);right:24px;display:block}
+ #fix-it-pocket:has([data-screen="home"]:not([hidden])) .expanded-booking{grid-column:2;display:block}
  #fix-it-pocket .expanded-booking>div{display:none}
  #fix-it-pocket .expanded-booking .primary{width:100%}
  #fix-it-pocket .share-row{display:grid;grid-template-columns:minmax(0,calc(env(viewport-segment-width 0 0) - var(--rail) - 40px)) minmax(0,1fr);column-gap:calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0) + 32px)}
@@ -187,7 +188,7 @@ html:has(#fix-it-pocket){scroll-padding-top:110px;scroll-padding-bottom:112px}
 #fix-it-pocket #card-form textarea{border-color:#6d879b;border-top-color:#36506a;border-bottom-color:#9eabaf}
 html:has(#fix-it-pocket){scroll-padding-top:calc(var(--masthead-height,90px) + 18px);scroll-padding-bottom:calc(max(var(--navigation-height,80px),var(--booking-bar-height,0px)) + 28px)}
 #fix-it-pocket main{padding-bottom:calc(var(--navigation-height,80px) + 32px)}
-@media(min-width:800px){#fix-it-pocket:has([data-screen="home"]:not([hidden])) main{padding-bottom:calc(var(--booking-bar-height,100px) + 40px)}}
+@media(min-width:800px){#fix-it-pocket:has([data-screen="home"]:not([hidden])) main{padding-bottom:40px}}
 @media(min-width:800px) and (horizontal-viewport-segments:2){
  #fix-it-pocket .app-header .wordmark{flex:none;width:calc(env(viewport-segment-width 0 0) - var(--rail) - 48px);max-width:100%}
  #fix-it-pocket .app-footer{max-width:calc(env(viewport-segment-width 0 0) - var(--rail) - 40px)}

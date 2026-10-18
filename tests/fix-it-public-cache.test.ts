@@ -5,7 +5,7 @@ import { runInNewContext } from "node:vm";
 const origin = "https://local.preview.invalid";
 async function worker() {
   const listeners = new Map<string, (event: any) => void>();
-  const saved = new Map<string, Response>(), requested: Request[] = [];
+  const saved = new Map<string, Response>(), requested: Request[] = [], deleted: string[] = [];
   const cache = {
     match: async (path: string) => saved.get(path),
     put: async (path: string, response: Response) => { saved.set(path, response); },
@@ -14,7 +14,7 @@ async function worker() {
   const localRequest = class extends Request { constructor(path: string, options?: RequestInit) { super(new URL(path, origin), options); } };
   runInNewContext(await readFile("public/fix-it-shop-app/sw.js", "utf8"), {
     self: { location: { origin }, clients: { claim: async () => {} }, skipWaiting: async () => {}, addEventListener: (name: string, fn: (e: any) => void) => listeners.set(name, fn) },
-    caches: { open: async () => cache, keys: async () => [], delete: async () => true }, URL, Request: localRequest,
+    caches: { open: async () => cache, keys: async () => ["fix-it-pocket-public-v14", "fix-it-pocket-public-v15", "unrelated-site-cache"], delete: async (name: string) => { deleted.push(name); return true; } }, URL, Request: localRequest,
     fetch: async (r: Request) => { requested.push(r); return new Response("public material"); },
   });
   async function event(name: string, values: any = {}) {
@@ -22,8 +22,12 @@ async function worker() {
     listeners.get(name)!({ ...values, waitUntil: (p: Promise<unknown>) => promises.push(p) });
     await Promise.all(promises);
   }
-  return { event, saved, requested, listeners };
+  return { event, saved, requested, listeners, deleted };
 }
+test("activation retires the prior app cache while preserving the current version and unrelated caches", async () => {
+  const w = await worker(); await w.event("activate");
+  assert.deepEqual(w.deleted, ["fix-it-pocket-public-v14"]);
+});
 test("public worker installs core only, without downloading both responsive material masters or old logos", async () => {
   const w = await worker(); await w.event("install");
   assert.equal(w.saved.size, 11);

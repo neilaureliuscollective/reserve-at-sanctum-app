@@ -27,8 +27,9 @@ try {
   await p.waitForFunction(()=>document.querySelector("#offline-ready").textContent.includes("offline copy is ready"));
   await p.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
   assert.equal(await p.locator("#install-promotion").isVisible(),false);
-  const book=p.locator('[data-screen="home"] [data-book]');
+  const book=p.locator('[data-screen="home"] [data-book]:visible');
   assert.equal(await book.getAttribute("href"),gg);
+  assert.equal(await p.locator('[data-book]').evaluateAll((nodes, destination)=>nodes.every(node=>node.href===destination),gg),true);
   const box=await book.boundingBox();assert.ok(box.y+box.height<844-80,"Booking must be visible without scrolling");
   checks.push("Compact browser entry; immediate direct booking; install promotion absent before value");
   assert.equal(await p.locator("#card-form").count(),1);
@@ -54,7 +55,7 @@ try {
   const reducedPage=await reduced.newPage();await reducedPage.goto(origin+base+"#home");await reducedPage.evaluate(()=>document.fonts.ready);
   assert.equal(await reducedPage.evaluate(()=>matchMedia("(prefers-reduced-motion: reduce)").matches),true);
   assert.equal(await reducedPage.locator(".home-stage").evaluate(el=>getComputedStyle(el).animationName),"none");
-  const reducedBook=await reducedPage.locator('[data-screen="home"] [data-book]').boundingBox();assert.ok(reducedBook.y+reducedBook.height<660-80);
+  const reducedBook=await reducedPage.locator('[data-screen="home"] [data-book]:visible').boundingBox();assert.ok(reducedBook.y+reducedBook.height<660-80);
   await reducedPage.locator(".quick-book").focus();assert.equal(await reducedPage.locator(".quick-book").evaluate(el=>getComputedStyle(el).outlineWidth),"3px");
   const dock=await reducedPage.locator(".app-nav").boundingBox();assert.ok(dock.y+dock.height<=660);
   await reducedPage.screenshot({path:dir+"/reduced-home-320.png",fullPage:true});await reduced.close();
@@ -108,7 +109,7 @@ try {
   checks.push("Native share capability with repeat-click guard; clipboard/manual fallback; only website URL is shared, never consultation content");
   const cached=await p.evaluate(async()=>{const keys=await caches.keys();const result={};for(const key of keys){result[key]=(await(await caches.open(key)).keys()).map(r=>new URL(r.url).pathname);}return result;});
   const allowed=[base,"/fix-it-shop-app/app.css","/fix-it-shop-app/concept.css","/fix-it-shop-app/app.mjs","/fix-it-shop-app/state.mjs","/fix-it-shop-app/presentation.mjs","/fix-it-shop-app/fonts/display-regular.woff2","/fix-it-shop-app/fonts/display-italic.woff2","/fix-it-shop-app/fonts/sans-regular.woff2","/fix-it-shop-app/fonts/sans-semibold.woff2","/fix-it-shop-app/materials/home-grain.png","/fix-it-shop-app/materials/stage-phone.webp","/fix-it-shop-app/materials/stage-wide.webp"];
-  assert.ok(cached["fix-it-pocket-public-v14"]?.length>=12);assert.ok(cached["fix-it-pocket-public-v14"].every(path=>allowed.includes(path)));
+  assert.ok(cached["fix-it-pocket-public-v15"]?.length>=12);assert.ok(cached["fix-it-pocket-public-v15"].every(path=>allowed.includes(path)));
   const workerScope=await p.evaluate(async()=> (await navigator.serviceWorker.getRegistration()).scope);assert.equal(workerScope,origin+"/fix-it-shop-app/");
   await c.setOffline(true);
   await p.locator("#connection:visible").waitFor();
@@ -138,7 +139,18 @@ try {
   const sp=await standalone.newPage();await sp.goto(origin+"/enter",{waitUntil:"commit"});await sp.waitForURL("**/fix-it-shop-app/index.html#home",{waitUntil:"domcontentloaded"});
   await sp.getByRole("heading",{name:/Your time/}).waitFor();await sp.screenshot({path:dir+"/standalone-home-390.png",fullPage:true});
   await sp.goto(origin+"/fix-it-shop/app");await sp.getByRole("heading",{name:/A little time/}).waitFor();assert.equal(new URL(sp.url()).pathname,"/fix-it-shop/app");
-  for(const path of ["/manifest.webmanifest","/fix-it-shop/booking.webmanifest"]){const manifest=await(await standalone.request.get(origin+path)).json();assert.equal(manifest.start_url,base+"#home");}
+  for(const path of ["/manifest.webmanifest","/fix-it-shop/booking.webmanifest"]){
+    const manifest=await(await standalone.request.get(origin+path)).json();
+    assert.equal(manifest.start_url,base+"#home");assert.equal(manifest.scope,"/");assert.equal(manifest.display,"standalone");
+    assert.equal(manifest.id,path==="/manifest.webmanifest"?"/":"/fix-it-shop/app");
+    assert.ok(manifest.icons.some(icon=>icon.purpose==="maskable"));
+    for(const icon of manifest.icons){
+      const response=await standalone.request.get(origin+icon.src);assert.equal(response.status(),200);
+      const bytes=await response.body(),[width,height]=icon.sizes.split("x").map(Number);
+      assert.equal(bytes.subarray(0,8).toString("hex"),"89504e470d0a1a0a");
+      assert.equal(bytes.readUInt32BE(16),width);assert.equal(bytes.readUInt32BE(20),height);
+    }
+  }
   await standalone.close();
   const blocked=await newContext();await blocked.addInitScript(()=>{Object.defineProperty(window,"localStorage",{get(){throw new DOMException("Blocked","SecurityError");}});Object.defineProperty(window,"sessionStorage",{get(){throw new DOMException("Blocked","SecurityError");}});});
   const bp=await blocked.newPage();await bp.goto(origin+base+"#card");await bp.getByLabel("What would you like to change?").fill("Synthetic unsaved only");await bp.getByRole("button",{name:"Save on this device"}).click();
@@ -154,6 +166,17 @@ try {
   await photoPage.waitForFunction(()=>!!navigator.serviceWorker.controller);await presentation.setOffline(true);await photoPage.locator("#connection:visible").waitFor();
   await photoPage.screenshot({path:dir+"/consultation-offline-390.png",fullPage:true});
   await presentation.close();
+  for(const width of [390,884]){
+    const touch=await newContext({hasTouch:true,isMobile:true,viewport:{width,height:600}}),tp=await touch.newPage();activePage=tp;
+    await tp.goto(origin+base+"#home");assert.ok(await tp.evaluate(()=>navigator.maxTouchPoints>0));
+    for(const name of ["services","card","shop","katie","home"]){
+      await tp.locator(`.app-nav a[href="#${name}"]`).tap();await tp.locator(`[data-screen="${name}"]:visible`).waitFor();
+    }
+    await tp.goBack();await tp.locator('[data-screen="katie"]:visible').waitFor();
+    await tp.locator('.quick-book').tap();await tp.getByText("Local fixture only.",{exact:true}).waitFor();assert.equal(tp.url(),gg);
+    await touch.close();
+  }
+  checks.push("Both manifests retain IDs/scope/start URL and serving PNG dimensions; emulated touch works across all five destinations, browser Back and direct booking at 390/884 short heights; approved replacement icon and physical install remain unverified");
   checks.push("Browser website preserved; legacy customer entry and both standalone manifests open compact app; blocked storage never reports a successful save");
   assert.deepEqual(errors,[]);assert.deepEqual(writes,[]);assert.deepEqual(appApiRequests,[]);assert.ok(external.length>=2);assert.ok(external.every(r=>r.url===gg&&r.method==="GET"));
   await writeFile(dir+"/results.json",JSON.stringify({checks,cached,workerScope,external,writes,errors,appApiRequests,standalone:"emulated display-mode only; physical installation remains unverified",merchant:"intercepted locally; no actual booking/payment/message"},null,2));
