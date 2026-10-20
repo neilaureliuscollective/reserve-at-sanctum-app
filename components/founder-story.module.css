@@ -7,3 +7,26 @@
 .world[data-still="true"] *{animation:none!important;transition:none!important}
 .world .biography{font-size:13px;line-height:1.8;max-width:365px;margin-top:20px}.closingPortrait{width:min(900px,100%);margin:0 auto 55px}.sectionHeading h2{max-width:1000px;margin-inline:auto}
 .world .standard h2,.world .standard h3{color:#122639}
+
+/* Light editorial chapter surfaces; portrait artwork and biography are untouched. */
+.story {--ink:#f5f4ef;--text:#192b3c;--muted:#4c5c69;--gold:#123c80;background:#f5f4ef;}
+.story .hero {background:radial-gradient(ellipse at 85% 25%,#b6c9dc70,transparent 65%);}
+.story :is(.identity,.intro) {color:#192b3c;}
+.story :is(.identity span,.pictureIndex,.topline>span,.motionControl,.sectionHeading>p:last-child,.bookStage figcaption,.bookConnection>span,.endnote) {color:#4c5c69;}
+.story :is(.topline,.heroFoot,.endnote,.motionControl) {border-color:#b6c9dc;}
+.story .chapters {background:#102c48;border-color:#b6c9dc;box-shadow:0 10px 28px #102c4818;}
+.story .chapters a,.story .chapters a span {color:#f5f4ef;}
+.story .bookChapter {background:#fff;}
+.story .bookStage {box-shadow:0 24px 45px #102c4828;}
+.story .bookTitle em {color:#ddbd82;}
+.story .standard {background:#e9edf0;}
+.story .standard :is(.eyebrow,em),.story .principles span {color:#123c80;}
+.story .service {background:#f5f4ef;}
+.story .serviceInscription {border-color:#b6c9dc;}
+.story .serviceInscription,.story .serviceInscription strong {color:#102c48;}
+.story .invitation {background:radial-gradient(ellipse at 10% 0%,#315779,transparent 70%),#102c48;color:#f5f4ef;--gold:#b6c9dc;}
+.story .invitation p,.story .invitationCopy>small {color:#e3eaf0;}
+.story .bookingLink {background:#f5f4ef;color:#102c48;border:1px solid #b6c9dc;border-radius:8px;}
+.story .bookingLink:hover {background:#fff;}
+.story a:focus-visible,.story button:focus-visible {outline:3px solid #123c80;box-shadow:0 0 0 5px #fff;}
+.story :is(h1,h2,h3) {color:inherit;}

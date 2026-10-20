@@ -217,3 +217,51 @@ html:has(#fix-it-pocket){scroll-padding-top:calc(var(--masthead-height,90px) + 1
 /* The same public navigation in both surfaces; all controls retain 44px targets. */
 @media(max-width:799px){#fix-it-pocket .app-nav{grid-template-columns:repeat(4,minmax(0,1fr))}}
 #fix-it-pocket .app-nav a[data-book]{background:linear-gradient(110deg,#e5c984,#c28e26);color:#101a24;border-color:#d4a853;box-shadow:inset 0 1px #fff6}
+
+/* Warm steel edition — this standalone public document only. */
+#fix-it-pocket {--gold:#123c80;--light:#192b3c;--line:#b6c9dc;--deep:#f5f4ef;--blue:#102c48;background:#f5f4ef;color:#192b3c;color-scheme:light;}
+#fix-it-pocket .app-header {background:#f5f4ef;border-color:#b6c9dc;box-shadow:0 5px 22px #102c4810;}
+#fix-it-pocket .wordmark {color:#102c48;}
+#fix-it-pocket .wordmark small,#fix-it-pocket p,#fix-it-pocket .lead,#fix-it-pocket .fine,#fix-it-pocket .app-footer p {color:#4c5c69;}
+#fix-it-pocket :is(h1,h2) {color:#192b3c;text-shadow:none;}
+#fix-it-pocket :is(h1 em,.eyebrow,.header-help,.text-action,summary,.app-footer a,.app-message,.show-card h2) {color:#123c80;}
+#fix-it-pocket .quick-book,#fix-it-pocket .primary,#fix-it-pocket :is(.stage-booking,.expanded-booking,.card-pane) .primary {background:linear-gradient(130deg,#194985,#102c48);color:#fff;border:1px solid #123c80;box-shadow:inset 0 1px #ffffff50,0 8px 20px #102c4820;}
+#fix-it-pocket :is(.stage-booking,.expanded-booking,.card-pane) .primary small {color:#fff;}
+#fix-it-pocket :is(.panel,.card-pane,.consultation-entry) {background:#fff;border-color:#b6c9dc;box-shadow:0 14px 30px #102c4810;}
+#fix-it-pocket .consultation-entry h2,#fix-it-pocket .card-pane h1 {color:#192b3c;}
+#fix-it-pocket .consultation-entry>p:not(.eyebrow),#fix-it-pocket .card-pane :is(.lead,.fine,.quiet) {color:#4c5c69;}
+#fix-it-pocket .consultation-entry .entry-privacy {color:#123c80!important;}
+#fix-it-pocket .consultation-entry strong,#fix-it-pocket .card-pane h1 em {color:#123c80;}
+#fix-it-pocket label {color:#192b3c;}
+#fix-it-pocket :is(textarea,input) {background:#fff;color:#192b3c;border-color:#5a6168;box-shadow:inset 0 2px 6px #102c4808;}
+#fix-it-pocket .local-label {color:#123c80;border-color:#123c80;}
+#fix-it-pocket .secondary,#fix-it-pocket .card-pane .secondary {background:#edf1f4;color:#102c48;border-color:#5a6168;}
+#fix-it-pocket .quiet {color:#4c5c69;}
+#fix-it-pocket .show-card article p {color:#192b3c;}
+#fix-it-pocket .app-nav {background:#102c48;border-color:#b6c9dc;box-shadow:0 9px 24px #102c4828;}
+#fix-it-pocket .app-nav a {color:#e3eaf0;}
+#fix-it-pocket .app-nav a[aria-current=page] {color:#fff;background:#ffffff18;border-color:#b6c9dc;}
+#fix-it-pocket .app-nav a[data-book] {color:#102c48;background:#f5f4ef;border-color:#b6c9dc;}
+#fix-it-pocket .brand-stage {--gold:#edc985;color:#f5f4ef;}
+#fix-it-pocket .brand-stage :is(h1,h2) {color:#f5f4ef;}
+#fix-it-pocket .brand-stage .eyebrow,#fix-it-pocket .brand-stage .caption {color:#e3eaf0;}
+#fix-it-pocket .brand-stage .lead {color:#e3eaf0;}
+#fix-it-pocket .story-path .eyebrow {color:#e3eaf0;}
+#fix-it-pocket .story-path h2 {color:#f5f4ef;}
+#fix-it-pocket .founder-mark {background:linear-gradient(135deg,#315779,#102c48);border-color:#b6c9dc;}
+#fix-it-pocket .founder-mark span {color:#e3eaf0;}
+#fix-it-pocket .expanded-booking p {color:#f5f4ef;}
+#fix-it-pocket :focus-visible {outline:3px solid #123c80;outline-offset:4px;box-shadow:0 0 0 5px #fff;}
+#fix-it-pocket .app-nav a:focus-visible {outline-color:#fff;box-shadow:none;}
+#fix-it-pocket .skip {background:#102c48;color:#fff;}
+#fix-it-pocket img[data-approved-logo] {animation:none;}
+@supports(backdrop-filter:blur(12px)) {#fix-it-pocket .app-nav {background:#102c48f2;backdrop-filter:blur(12px);}}
+@media(prefers-reduced-motion:reduce) {#fix-it-pocket * {animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+#fix-it-pocket #card-form label {color:#192b3c;}
+#fix-it-pocket #card-form textarea {background:#fff;color:#192b3c;border-color:#5a6168;box-shadow:inset 0 2px 6px #102c4808;}
+#fix-it-pocket .prompt-preview li {color:#4c5c69;}
+#fix-it-pocket .prompt-preview li span {color:#123c80;}
+#fix-it-pocket :is(a,button,summary,input,textarea):focus-visible {outline-color:#123c80;}
+#fix-it-pocket .app-nav a:focus-visible {outline-color:#fff;}
+#fix-it-pocket .share-row p {color:#4c5c69;}
+#fix-it-pocket .share-row h2 {color:#192b3c;}

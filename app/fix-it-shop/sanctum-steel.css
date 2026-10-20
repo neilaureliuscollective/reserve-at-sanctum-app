@@ -78,3 +78,24 @@
  .fix-it-premium .fix-it-next{padding:20px;flex-wrap:wrap}.fix-it-premium .fix-it-next .button {width:100%}
 }
 @media(prefers-reduced-motion:reduce){.sanctum-steel *,.fix-it-premium *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Retained /fix-it-shop public story: match the light customer world. */
+.sanctum-steel.katie-cinema {--reserve-text-primary:#192b3c;--reserve-text-secondary:#4c5c69;--reserve-text-muted:#4c5c69;--katie-border:#b6c9dc;--steel-edge:#b6c9dc;background:#f5f4ef;color:#192b3c;}
+.sanctum-steel.katie-cinema :is(.katie-founder,.katie-preference,.katie-arrival-details,.katie-discretion) {background:#f5f4ef;}
+.sanctum-steel.katie-cinema :is(h1,h2,h3) {color:inherit;}
+.sanctum-steel.katie-cinema :is(.katie-kicker,.katie-link,em) {color:#123c80;}
+.sanctum-steel.katie-cinema .steel-public-nav {background:#f5f4ef;color:#192b3c;}
+.sanctum-steel.katie-cinema .steel-public-nav>a {color:#102c48;}
+.sanctum-steel.katie-cinema .button.button-gold {background:linear-gradient(130deg,#194985,#102c48);color:#fff;border-color:#123c80;}
+.sanctum-steel.katie-cinema .katie-hero,.sanctum-steel.katie-cinema .katie-film {--reserve-text-primary:#f5f4ef;--reserve-text-secondary:#e3eaf0;--reserve-text-muted:#e3eaf0;color:#f5f4ef;}
+.sanctum-steel.katie-cinema :is(.katie-hero,.katie-film) :is(.katie-kicker,.katie-link,em) {color:#b6c9dc;}
+.sanctum-steel.katie-cinema .katie-hero {background:#102c48;}
+.sanctum-steel.katie-cinema .katie-founder p:not(.katie-kicker),.sanctum-steel.katie-cinema .katie-arrival-details>div>p:not(.katie-kicker) {color:#4c5c69;}
+.sanctum-steel.katie-cinema .katie-founder-principles {color:#123c80;}
+.sanctum-steel.katie-cinema .katie-founder-mark {background:linear-gradient(130deg,#315779,#102c48);}
+.sanctum-steel.katie-cinema .katie-choice,.sanctum-steel.katie-cinema .katie-location-details article {background:#fff;box-shadow:0 20px 40px #102c4818;border-color:#b6c9dc;}
+.sanctum-steel.katie-cinema .katie-location-details p {color:#4c5c69;}
+.sanctum-steel.katie-cinema .katie-choice__options button {background:#f5f4ef;color:#102c48;border-color:#5a6168;}
+.sanctum-steel.katie-cinema .katie-choice__options button[aria-pressed=true] {background:#102c48;color:#fff;}
+.sanctum-steel.katie-cinema .katie-nav {background:#102c48;color:#f5f4ef;}
+.sanctum-steel.katie-cinema :focus-visible {outline:3px solid #123c80;box-shadow:0 0 0 5px #fff;}
