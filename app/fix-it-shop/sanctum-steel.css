@@ -78,3 +78,13 @@
  .fix-it-premium .fix-it-next{padding:20px;flex-wrap:wrap}.fix-it-premium .fix-it-next .button {width:100%}
 }
 @media(prefers-reduced-motion:reduce){.sanctum-steel *,.fix-it-premium *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Soft stone relief retains the original alloy on navigation and choice surfaces. */
+.sanctum-steel.katie-cinema .katie-founder,.sanctum-steel.katie-cinema .katie-arrival-details {background:#d5d3c9;color:#192126;}
+.sanctum-steel.katie-cinema :is(.katie-founder,.katie-arrival-details) :is(h2,h3) {color:#192126;}
+.sanctum-steel.katie-cinema :is(.katie-founder,.katie-arrival-details) :is(em,.katie-kicker,.katie-link,.katie-founder-principles) {color:#674714;}
+.sanctum-steel.katie-cinema .katie-founder p:not(.katie-kicker),.sanctum-steel.katie-cinema .katie-arrival-details>div>p:not(.katie-kicker) {color:#414c54;}
+.sanctum-steel.katie-cinema .katie-location-details article {background:#e2dfd4;border-color:#8a949c;box-shadow:0 14px 30px #12141733;}
+.sanctum-steel.katie-cinema .katie-location-details p {color:#414c54;}
+.sanctum-steel.katie-cinema .steel-public-nav,.sanctum-steel.katie-cinema .katie-choice {background:linear-gradient(#12141755,#12141755),var(--steel-material);}
+.sanctum-steel.katie-cinema .katie-services {background:#c7c9c5;}

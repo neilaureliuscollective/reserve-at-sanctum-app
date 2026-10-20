@@ -217,3 +217,56 @@ html:has(#fix-it-pocket){scroll-padding-top:calc(var(--masthead-height,90px) + 1
 /* The same public navigation in both surfaces; all controls retain 44px targets. */
 @media(max-width:799px){#fix-it-pocket .app-nav{grid-template-columns:repeat(4,minmax(0,1fr))}}
 #fix-it-pocket .app-nav a[data-book]{background:linear-gradient(110deg,#e5c984,#c28e26);color:#101a24;border-color:#d4a853;box-shadow:inset 0 1px #fff6}
+
+/* Brushed steel and gold restored; muted stone is reading relief. */
+#fix-it-pocket {--gold:#674714;--light:#192126;--line:#8a949c;--deep:#d5d3c9;--blue:#102c48;background:#d5d3c9;color:#192126;color-scheme:light;}
+#fix-it-pocket .app-header {background:linear-gradient(#12141755,#12141755),url('./materials/home-grain.png'),var(--pocket-steel);background-blend-mode:normal,soft-light,normal;border-color:#8a949c;box-shadow:inset 0 1px #f5f4ef55,0 5px 22px #12141755;}
+#fix-it-pocket .wordmark {color:#e0bb6a;}
+#fix-it-pocket p,#fix-it-pocket .lead,#fix-it-pocket .fine,#fix-it-pocket .app-footer p {color:#414c54;}
+#fix-it-pocket :is(h1,h2) {color:#192126;text-shadow:none;}
+#fix-it-pocket :is(h1 em,.eyebrow,.header-help,.text-action,summary,.app-footer a,.app-message,.show-card h2) {color:#674714;}
+#fix-it-pocket :is(.stage-booking,.expanded-booking,.card-pane) .primary small {color:#121417;}
+#fix-it-pocket :is(.panel,.card-pane,.consultation-entry) {background:#e2dfd4;border-color:#8a949c;box-shadow:0 14px 30px #102c4810;}
+#fix-it-pocket .consultation-entry h2,#fix-it-pocket .card-pane h1 {color:#192126;}
+#fix-it-pocket .consultation-entry>p:not(.eyebrow),#fix-it-pocket .card-pane :is(.lead,.fine,.quiet) {color:#414c54;}
+#fix-it-pocket .consultation-entry .entry-privacy {color:#123c80!important;}
+#fix-it-pocket .consultation-entry strong,#fix-it-pocket .card-pane h1 em {color:#674714;}
+#fix-it-pocket label {color:#192126;}
+#fix-it-pocket :is(textarea,input) {background:#e2dfd4;color:#192126;border-color:#5a6168;box-shadow:inset 0 2px 6px #102c4808;}
+#fix-it-pocket .local-label {color:#674714;border-color:#674714;}
+#fix-it-pocket .secondary,#fix-it-pocket .card-pane .secondary {background:#c7c9c5;color:#102c48;border-color:#5a6168;}
+#fix-it-pocket .quiet {color:#414c54;}
+#fix-it-pocket .show-card article p {color:#192126;}
+#fix-it-pocket .app-nav {background:url('./materials/home-grain.png'),var(--pocket-steel);background-blend-mode:soft-light,normal;border-color:#8a949c;box-shadow:inset 0 1px #f5f4ef66,0 9px 24px #12141788;}
+#fix-it-pocket .app-nav a {color:#e3eaf0;}
+#fix-it-pocket .app-nav a[data-book] {color:#121417;background:linear-gradient(115deg,#e0bb6a,#c4912f);border-color:#e0bb6a;}
+#fix-it-pocket .brand-stage {--gold:#edc985;color:#d5d3c9;}
+#fix-it-pocket .brand-stage :is(h1,h2) {color:#d5d3c9;}
+#fix-it-pocket .brand-stage .eyebrow,#fix-it-pocket .brand-stage .caption {color:#e3eaf0;}
+#fix-it-pocket .brand-stage .lead {color:#e3eaf0;}
+#fix-it-pocket .story-path .eyebrow {color:#e3eaf0;}
+#fix-it-pocket .story-path h2 {color:#d5d3c9;}
+#fix-it-pocket .founder-mark {background:var(--pocket-steel);border-color:#8a949c;}
+#fix-it-pocket .founder-mark span {color:#e3eaf0;}
+#fix-it-pocket .expanded-booking p {color:#d5d3c9;}
+#fix-it-pocket :focus-visible {outline:3px solid #123c80;outline-offset:4px;box-shadow:0 0 0 5px #e2dfd4;}
+#fix-it-pocket .skip {background:#102c48;color:#e2dfd4;}
+#fix-it-pocket img[data-approved-logo] {animation:none;}
+@supports(backdrop-filter:blur(12px)) {#fix-it-pocket .app-nav {backdrop-filter:blur(12px);}}
+@media(prefers-reduced-motion:reduce) {#fix-it-pocket * {animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+#fix-it-pocket #card-form label {color:#192126;}
+#fix-it-pocket #card-form textarea {background:#e2dfd4;color:#192126;border-color:#5a6168;box-shadow:inset 0 2px 6px #102c4808;}
+#fix-it-pocket .prompt-preview li {color:#414c54;}
+#fix-it-pocket .prompt-preview li span {color:#674714;}
+#fix-it-pocket .app-nav a:focus-visible {outline-color:#e2dfd4;}
+#fix-it-pocket .share-row p {color:#414c54;}
+#fix-it-pocket .share-row h2 {color:#192126;}
+
+#fix-it-pocket {--pocket-steel:repeating-linear-gradient(102deg,transparent 0 2px,#f5f4ef06 2px 3px,transparent 3px 5px),linear-gradient(128deg,#263139 0%,#5a6168 27%,#39464e 43%,#20282e 68%,#121417 100%);}
+#fix-it-pocket .wordmark small {color:#dce2e4;}
+#fix-it-pocket .app-header .header-help {color:#e0bb6a;}
+#fix-it-pocket .quick-book,#fix-it-pocket .primary,#fix-it-pocket :is(.stage-booking,.expanded-booking,.card-pane) .primary {background:linear-gradient(115deg,#eed299,#e0bb6a 30%,#c4912f);color:#121417;border:1px solid #e0bb6a;border-bottom-color:#8b6424;box-shadow:inset 0 1px #f5f4ef88,inset 0 -2px #8b642444,0 8px 20px #12141744;}
+#fix-it-pocket .app-nav a[aria-current=page] {background:#102c48;color:#e0bb6a;border-color:#e0bb6a;}
+#fix-it-pocket .brand-stage :is(h1,h2),#fix-it-pocket .story-path h2 {color:#f5f4ef;}
+#fix-it-pocket .brand-stage .eyebrow,#fix-it-pocket .story-path .eyebrow {color:#e0bb6a;}
+#fix-it-pocket :is(a,button,summary,input,textarea):focus-visible {outline-color:#e0bb6a;box-shadow:0 0 0 5px #121417;}

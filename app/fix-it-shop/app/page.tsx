@@ -11,7 +11,7 @@ import { FixItVisitFilm, FixItAtmosphere } from "@/components/fix-it-home-scenes
 import { isPreview } from "@/lib/db";
 import { fixItBooking as brand } from "@/lib/fix-it-booking";
 import "./home.css";
-import { FounderFeature } from "@/components/founder-feature";
+
 
 export const dynamic = "force-dynamic";
 export default async function Page() {
@@ -20,7 +20,7 @@ export default async function Page() {
   return <main id="main" className="fix-it-home">
     {isPreview() && <p className="fis-preview" role="note">Development preview · services, prices and accounts are illustrative.</p>}
     <section className="fis-entrance" aria-labelledby="fis-title">
-      <div className="fis-entrance__environment"><Image src={cover} alt="" fill preload sizes="100vw" unoptimized={Boolean(profile.cover)} /><div className="fis-entrance__shade" /></div>
+      <div className="fis-entrance__environment"><Image src={cover} alt="" fill preload sizes="(max-width: 700px) 100vw, 62vw" unoptimized={Boolean(profile.cover)} /><div className="fis-entrance__shade" /></div>
       <div className="fis-entrance__copy">
         <p className="fis-kicker">KATIE GUIDRY’S INDEPENDENT MEN’S SALON</p>
         <h1 id="fis-title">A little time.<br /><em>A lot of care.</em></h1>
@@ -31,7 +31,10 @@ export default async function Page() {
       <div className="fis-entrance__bottom"><a href="#katie">Step inside <ArrowDown size={15} /></a><small>{profile.cover ? "FIX IT SHOP" : "ILLUSTRATIVE SETTING · NOT THE FINISHED LOCATION"}</small></div>
     </section>
     {actor?.provider_id === "katie" && hasCapability(actor, "studio.read") && <div className="fis-account"><section className="fix-it-next"><div><p className="eyebrow">YOUR PRIVATE FIX IT SHOP STUDIO</p><h2>Your working day, ready.</h2><p>Open your calendar, client history, and availability.</p></div><Link className="button button-gold" href="/studio/today">Open my Studio ↗</Link></section></div>}
-    <FounderFeature />
+    <section id="katie" className="fis-brand-story fis-wrap" aria-labelledby="fis-founder-title">
+      <div className="fis-brand-story__material"><span className="fis-brand-story__index">01 / A PERSONAL STANDARD</span><Image src="/fix-it-shop-app/identity/hero-emblem-560.webp" alt="Fix It Shop’s approved emblem" width={560} height={560} sizes="(max-width: 700px) 75vw, 35vw"/><span className="fis-brand-story__inscription">HER BUSINESS. HER STANDARD.</span></div>
+      <div className="fis-brand-story__copy"><p className="fis-kicker">THE WOMAN BEHIND THE STANDARD</p><h2 id="fis-founder-title">Personal care.<br/><em>By Katie.</em></h2><p className="fis-brand-story__intro">A higher standard begins with the person behind it.</p><p>Katie Guidry. Founder and owner, Marine veteran and cosmetologist. A treasured family book. A meaningful name. A personal approach to the care that goes into every visit.</p><a className="fis-link" href="/fix-it-shop/app/founder">Discover her story <ArrowUpRight size={18}/></a></div>
+    </section>
     <section className="fis-standard fis-wrap" aria-label="Katie’s approach"><p className="fis-kicker">THE CARE BEHIND THE VISIT</p><div>{[
       ["01", "Listen first.", "A direction begins with you. What you like, what you would change, and how your hair fits into your life."],
       ["02", "Work with care.", "Attention to shape, texture and the details that make a look feel considered."],

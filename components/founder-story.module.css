@@ -7,3 +7,23 @@
 .world[data-still="true"] *{animation:none!important;transition:none!important}
 .world .biography{font-size:13px;line-height:1.8;max-width:365px;margin-top:20px}.closingPortrait{width:min(900px,100%);margin:0 auto 55px}.sectionHeading h2{max-width:1000px;margin-inline:auto}
 .world .standard h2,.world .standard h3{color:#122639}
+
+/* Brushed steel chapters with a muted stone reading interval. */
+.story {--gold:#e0bb6a;--muted:#dce2e4;}
+.story .hero {background:linear-gradient(#12141766,#12141766),var(--steel-material);}
+.story .topline,.story .chapters {background:linear-gradient(#12141755,#12141755),var(--steel-material);border-color:#8a949c;box-shadow:inset 0 1px #f5f4ef44,0 10px 28px #12141744;}
+.story .chapters a {color:#f5f4ef;}
+.story .chapters a span {color:#e0bb6a;background:#121417;padding:3px 5px;border-radius:3px;}
+.story .bookChapter {background:#d5d3c9;color:#192126;--gold:#674714;--muted:#414c54;}
+.story .bookChapter h2 {color:#192126;}
+.story .sectionHeading>p:last-child,.story .bookStage figcaption,.story .bookConnection>span {color:#414c54;}
+.story .bookReservation {--gold:#e0bb6a;}
+.story .standard {background:#c7c9c5;}
+.story .standard :is(.eyebrow,em),.story .principles span {color:#674714;}
+.story .service {background:linear-gradient(120deg,#102c48,#0f2438);}
+.story .invitation {background:linear-gradient(#12141766,#12141766),var(--steel-material);}
+.story .bookingLink {background:linear-gradient(115deg,#eed299,#e0bb6a 30%,#c4912f);color:#121417;border:1px solid #e0bb6a;border-radius:8px;box-shadow:inset 0 1px #fff8,0 7px 18px #12141755;}
+.story .bookingLink:hover {background:#e0bb6a;}
+.story a:focus-visible,.story button:focus-visible {outline:3px solid #e0bb6a;box-shadow:0 0 0 5px #121417;}
+.story .bookCopy p {color:#303a40;}
+.story .bookConnection em {color:#563b15;}
