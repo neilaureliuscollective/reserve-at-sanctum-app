@@ -34,6 +34,14 @@ Tests use local synthetic accounts/PGlite. They do not prove live Supabase OAuth
 hosted Postgres concurrency, Katie’s role assignment or physical-phone installation.
 Read the Phase One release gates before inviting real customers.
 
+## Production booking readiness
+
+See [the current readiness inventory and pilot acceptance process](docs/AETHELIOS-BOOKING-PRODUCTION-READINESS.md).
+Booking email is disabled until approved sender, scheduler and delivery acceptance.
+`npm run db:migrate` now prints a checksum plan without contacting a database;
+explicit reviewed application uses a separate admin migration connection.
+No public booking activation or production data change is authorized by a build.
+
 ## Historical implementation record
 
 The following describes prior releases. Its former master-brand, physical-house,
