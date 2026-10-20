@@ -20,7 +20,7 @@ export default async function Page() {
   return <main id="main" className="fix-it-home">
     {isPreview() && <p className="fis-preview" role="note">Development preview · services, prices and accounts are illustrative.</p>}
     <section className="fis-entrance" aria-labelledby="fis-title">
-      <div className="fis-entrance__environment"><Image src={cover} alt="" fill preload sizes="(max-width: 700px) 100vw, 58vw" unoptimized={Boolean(profile.cover)} /><div className="fis-entrance__shade" /></div>
+      <div className="fis-entrance__environment"><Image src={cover} alt="" fill preload sizes="(max-width: 700px) 100vw, 62vw" unoptimized={Boolean(profile.cover)} /><div className="fis-entrance__shade" /></div>
       <div className="fis-entrance__copy">
         <p className="fis-kicker">KATIE GUIDRY’S INDEPENDENT MEN’S SALON</p>
         <h1 id="fis-title">A little time.<br /><em>A lot of care.</em></h1>

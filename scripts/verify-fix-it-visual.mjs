@@ -3,7 +3,7 @@ import { chromium } from '@playwright/test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 const origin=process.env.VISUAL_ORIGIN || 'http://localhost:3147';
-const dir='artifacts/visual-pass';
+const dir=process.env.VISUAL_ARTIFACT_DIR || 'artifacts/visual-pass';
 await fs.mkdir(dir,{recursive:true});
 const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH || '/usr/bin/chromium',args:['--no-sandbox']});
 const results=[];
@@ -16,7 +16,14 @@ try {
   assert.equal(await page.locator('img[src*="katie-guidry"]').count(),0);
   assert.equal(await page.locator('#katie a').getAttribute('href'),'/fix-it-shop/app/founder');
   assert.equal(await page.locator('.fix-it-book-action').getAttribute('href'),'https://fixitshop.glossgenius.com/');
+  await page.waitForFunction(()=>document.querySelector('.fis-motion')?.disabled === true);
   assert.equal(await page.locator('.fis-film').getAttribute('data-motion'),'false');
+  if(process.env.VISUAL_REQUIRE_STEEL==='true') {
+   assert.match(await page.locator('.fix-it-nav').evaluate(e=>getComputedStyle(e).backgroundImage),/home-grain\.png/);
+   assert.match(await page.locator('.fix-it-masthead').evaluate(e=>getComputedStyle(e).backgroundImage),/repeating-linear-gradient/);
+   assert.equal(await page.locator('.fis-entrance__environment').evaluate(e=>getComputedStyle(e).opacity),'1');
+   assert.equal(await page.locator('#menu-title').evaluate(e=>getComputedStyle(e).color),'rgb(245, 244, 239)');
+  }
   await page.screenshot({path:`${dir}/after-home-${width}.png`});
   await page.locator('#katie').scrollIntoViewIfNeeded();
   await page.screenshot({path:`${dir}/after-brand-story-${width}.png`});

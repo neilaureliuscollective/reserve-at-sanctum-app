@@ -1,79 +1,107 @@
-/* Public Fix It Shop only. Existing artwork supplies its own approved gold. */
+/* Katie's existing brushed alloy, blue and gold; soft stone is selective relief. */
 .fix-it-app.fix-it-premium {
-  --fis-canvas:#f5f4ef; --fis-surface:#fff; --fis-text:#192b3c;
-  --fis-muted:#4c5c69; --fis-accent:#123c80; --fis-edge:#b6c9dc;
+  --fis-stone:#d5d3c9; --fis-surface:#e2dfd4; --fis-text:#192126;
+  --fis-muted:#414c54; --fis-accent:#102c48; --fis-edge:#8a949c;
+  --fis-bronze:#674714;
   --reserve-text-primary:var(--fis-text); --reserve-text-secondary:var(--fis-muted);
-  --reserve-text-muted:var(--fis-muted); --reserve-border:#b6c9dc;
-  --reserve-background:var(--fis-canvas); --reserve-surface:#fff;
-  --reserve-surface-raised:#edf1f4; --reserve-border-control:#5a6168;
-  --line:#b6c9dc; --paper:#f5f4ef; color:var(--fis-text);background:var(--fis-canvas);color-scheme:light;
+  --reserve-text-muted:var(--fis-muted); --reserve-border:#8a949c;
+  --reserve-background:var(--fis-stone); --reserve-surface:var(--fis-surface);
+  --reserve-surface-raised:#c7c9c5; --reserve-border-control:#5a6168;
+  --line:#8a949c; --paper:#f5f4ef; color:var(--fis-text);background:var(--fis-stone);color-scheme:light;
 }
-.fix-it-premium .fix-it-masthead {background:#f5f4ef;border-color:#c1cbd1;box-shadow:0 4px 24px #102c4809;}
-.fix-it-premium .fix-it-masthead>a:first-child,.fix-it-premium .fix-it-masthead .text-link {color:#102c48;}
-.fix-it-premium .fix-it-masthead small,.fix-it-premium .fix-it-footer {color:#4c5c69;}
+.fix-it-premium .fix-it-masthead {
+  background:linear-gradient(#12141740,#12141740),var(--steel-material);
+  border-block:1px solid #8a949c;box-shadow:inset 0 1px #f5f4ef50,0 8px 28px #12141755;
+}
+.fix-it-premium .fix-it-masthead>a:first-child {color:#efd08c;}
+.fix-it-premium .fix-it-masthead .text-link {color:#f5f4ef;border-color:#e0bb6a60;}
+.fix-it-premium .fix-it-masthead small {color:#dce2e4;}
+.fix-it-premium .fix-it-footer {color:#414c54;border-color:#8a949c;}
 .fix-it-premium .fix-it-footer a {min-height:44px;display:inline-flex;align-items:center;}
-.fix-it-premium .button.button-gold {background:linear-gradient(130deg,#194985,#102c48);color:#fff;border-color:#123c80;box-shadow:inset 0 1px #ffffff40,0 8px 20px #102c4820;}
-.fix-it-premium .button.button-outline {background:#fff;color:#102c48;border-color:#5a6168;}
-.fix-it-premium .fix-it-nav {background:#102c48;border-color:#b6c9dc;box-shadow:0 -8px 32px #102c4820;}
-.fix-it-premium .fix-it-nav a {color:#e3eaf0;}
-.fix-it-premium .fix-it-nav a[aria-current="page"] {color:#fff;background:#ffffff18;}
-.fix-it-premium .fix-it-nav .fix-it-book-action {background:#f5f4ef;color:#102c48;border:1px solid #b6c9dc;}
-.fix-it-premium :focus-visible {outline:3px solid #123c80;outline-offset:5px;box-shadow:0 0 0 5px #fff;}
-.fix-it-premium .fix-it-content :is(p,.eyebrow),.fix-it-premium .fix-it-content em {color:#4c5c69;}
-.fix-it-premium .fix-it-next {background:#fff;border-color:#b6c9dc;box-shadow:0 12px 30px #102c4810;}
-.fix-it-premium .fix-it-home {--fis-gold:#123c80;--fis-ink:#192b3c;--fis-paper:#f5f4ef;background:#f5f4ef;color:#192b3c;}
-.fix-it-premium .fix-it-home p {color:#4c5c69;}
-.fix-it-premium .fis-entrance {min-height:690px;background:#f5f4ef;}
-.fix-it-premium .fis-entrance__environment {left:42%;}
+.fix-it-premium .button.button-gold {
+  background:linear-gradient(115deg,#eed299,#e0bb6a 30%,#c4912f);color:#121417;
+  border:1px solid #e0bb6a;border-bottom-color:#8b6424;
+  box-shadow:inset 0 1px #fff8,inset 0 -2px #8b642444,0 7px 18px #12141740;
+}
+.fix-it-premium .button.button-outline {background:var(--steel-material);color:#f5f4ef;border-color:#8a949c;}
+.fix-it-premium .fix-it-nav {
+  background:url('/fix-it-shop-app/materials/home-grain.png'),var(--steel-material);
+  background-blend-mode:soft-light,normal;border-color:#8a949c;
+  box-shadow:inset 0 1px #f5f4ef66,0 -8px 28px #12141755;
+}
+.fix-it-premium .fix-it-nav a {color:#f5f4ef;}
+.fix-it-premium .fix-it-nav a[aria-current="page"] {color:#e0bb6a;background:#102c48;border:1px solid #e0bb6a80;box-shadow:inset 0 1px #f5f4ef33,0 4px 9px #12141755;}
+.fix-it-premium .fix-it-nav a.fix-it-book-action {background:linear-gradient(115deg,#e0bb6a,#c4912f);color:#121417;border:1px solid #e0bb6a;}
+.fix-it-premium :focus-visible {outline:3px solid #e0bb6a;outline-offset:5px;box-shadow:0 0 0 5px #121417;}
+.fix-it-premium .fix-it-content :is(p,.eyebrow) {color:#414c54;}
+.fix-it-premium .fix-it-content :is(h1,h2,h3) {color:#192126;}
+.fix-it-premium .fix-it-content em {color:#674714;}
+.fix-it-premium .fix-it-next {background:linear-gradient(#12141740,#12141740),var(--steel-material);color:#f5f4ef;border-color:#8a949c;box-shadow:inset 0 1px #f5f4ef55,0 14px 30px #12141733;}
+.fix-it-premium .fix-it-next :is(h2,p) {color:#f5f4ef;}
+.fix-it-premium .fix-it-home {--fis-gold:#674714;--fis-ink:#192126;--fis-paper:#d5d3c9;background:#d5d3c9;color:#192126;}
+.fix-it-premium .fix-it-home :is(h1,h2,h3) {color:inherit;}
+.fix-it-premium .fix-it-home p {color:#414c54;}
+.fix-it-premium .fis-entrance {
+  --fis-gold:#e0bb6a;color:#f5f4ef;min-height:690px;
+  background:linear-gradient(#12141755,#12141755),var(--steel-material);border-bottom:1px solid #8a949c;
+}
+.fix-it-premium .fis-entrance__environment {left:38%;opacity:1;mask-image:linear-gradient(90deg,transparent,#000 30%);}
 .fix-it-premium .fis-entrance__environment img {object-position:65% center;}
-.fix-it-premium .fis-entrance__shade {background:linear-gradient(90deg,#f5f4ef 0%,#f5f4efed 12%,#f5f4ef00 55%),linear-gradient(0deg,#f5f4ef,transparent 30%);}
-.fix-it-premium .fis-entrance__copy {padding-block:80px 150px;}
+.fix-it-premium .fis-entrance__shade {background:linear-gradient(90deg,#303a40,#273137d9 20%,#12141750 65%),linear-gradient(0deg,#121417,transparent 40%);}
+.fix-it-premium .fis-entrance__copy {padding-block:80px 140px;}
 .fix-it-premium .fis-entrance h1 {max-width:650px;}
-.fix-it-premium .fis-entrance__copy>.fis-lead {max-width:380px;}
-.fix-it-premium .fis-entrance__signature span:last-child {color:#4c5c69;border-color:#b6c9dc;}
-.fix-it-premium .fis-entrance__bottom small {color:#192b3c;background:#f5f4efed;padding:6px 10px;border-radius:4px;}
+.fix-it-premium .fis-entrance__copy>.fis-lead {max-width:380px;color:#e3e7e8;}
+.fix-it-premium .fis-entrance__signature span:last-child {color:#dce2e4;border-color:#e0bb6a60;}
+.fix-it-premium .fis-entrance__bottom small {color:#dce2e4;background:#121417c9;padding:6px 10px;border-radius:4px;}
 .fix-it-premium .fis-brand-story {display:grid;grid-template-columns:1fr 1fr;gap:8%;align-items:center;padding-block:95px 110px;}
-.fix-it-premium .fis-brand-story__material {position:relative;isolation:isolate;overflow:hidden;min-height:460px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 25px;background:radial-gradient(ellipse at 65% 15%,#7c9bb7 0%,transparent 55%),linear-gradient(135deg,#102c48,#163e65 60%,#091c30);border-radius:180px 180px 12px 12px;border:1px solid #b6c9dc;box-shadow:inset 0 1px #ffffff9a,0 30px 60px #102c4822;}
-.fix-it-premium .fis-brand-story__material::before {content:"";position:absolute;inset:16px;border:1px solid #b6c9dc70;border-radius:inherit;z-index:-1;background:linear-gradient(115deg,transparent 25%,#e6eef322 26%,transparent 43%);}
-.fix-it-premium .fis-brand-story__material img {width:min(100%,320px);height:auto;filter:drop-shadow(0 18px 15px #0006);}
-.fix-it-premium .fis-brand-story__index,.fix-it-premium .fis-brand-story__inscription {font-size:9px;letter-spacing:.16em;line-height:1.8;color:#f5f4ef;text-align:center;}
+.fix-it-premium .fis-brand-story__material {
+  position:relative;isolation:isolate;overflow:hidden;min-height:460px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 25px;
+  background:url('/fix-it-shop-app/materials/home-grain.png'),var(--steel-material);background-blend-mode:soft-light,normal;
+  border-radius:180px 180px 12px 12px;border:1px solid #8a949c;
+  box-shadow:inset 0 2px #f5f4ef99,inset 0 -4px #121417,0 28px 45px #12141745;
+}
+.fix-it-premium .fis-brand-story__material::before {content:"";position:absolute;inset:16px;border:1px solid #e0bb6a70;border-radius:inherit;z-index:-1;background:linear-gradient(115deg,transparent 25%,#f5f4ef18 26%,transparent 43%);}
+.fix-it-premium .fis-brand-story__material img {width:min(100%,320px);height:auto;filter:drop-shadow(0 18px 15px #0008);}
+.fix-it-premium .fis-brand-story__index,.fix-it-premium .fis-brand-story__inscription {font-size:9px;letter-spacing:.16em;line-height:1.8;color:#e0bb6a;background:#121417;padding:7px 12px;border-radius:4px;text-align:center;}
 .fix-it-premium .fis-brand-story__index {margin-bottom:15px;}
 .fix-it-premium .fis-brand-story__inscription {margin-top:20px;}
-.fix-it-premium .fis-brand-story__intro {font:28px/1.3 var(--serif);color:#192b3c;}
-.fix-it-premium .fis-standard>div {border-color:#b6c9dc;}
-.fix-it-premium .fis-journey {background:#e8edf0;}
-.fix-it-premium .fis-film__heading {color:#192b3c;}
-.fix-it-premium .fis-motion {background:#fff;color:#102c48;border-color:#5a6168;}
-.fix-it-premium :is(.fis-film__chapter,.fis-return,.fis-atmosphere) {--fis-gold:#b6c9dc;color:#f5f4ef;}
-.fix-it-premium :is(.fis-film__chapter,.fis-return,.fis-atmosphere) p {color:#e3eaf0;}
-.fix-it-premium :is(.fis-film__chapter,.fis-return,.fis-atmosphere) .fis-kicker {color:#d8e5ef;}
+.fix-it-premium .fis-brand-story__intro {font:28px/1.3 var(--serif);color:#192126;}
+.fix-it-premium .fis-standard>div {border-color:#8a949c;}
+.fix-it-premium .fis-journey {background:linear-gradient(#12141766,#12141766),var(--steel-material);}
+.fix-it-premium .fis-film__heading {--fis-gold:#e0bb6a;color:#f5f4ef;}
+.fix-it-premium .fis-motion {background:#121417;color:#e0bb6a;border-color:#8a949c;}
+.fix-it-premium :is(.fis-film__chapter,.fis-return,.fis-atmosphere) {--fis-gold:#e0bb6a;color:#f5f4ef;}
+.fix-it-premium :is(.fis-film__chapter,.fis-return,.fis-atmosphere) p {color:#e3e7e8;}
+.fix-it-premium :is(.fis-film__chapter,.fis-return,.fis-atmosphere) .fis-kicker {color:#e0bb6a;}
 .fix-it-premium .fis-film__copy {text-shadow:0 2px 12px #0008;}
 .fix-it-premium .fis-film__veil {background:linear-gradient(0deg,#070f1b,#070f1bd9 45%,#070f1b20);}
-.fix-it-premium .fis-film__progress [data-active="true"] {color:#fff;}
-.fix-it-premium .fis-film__progress [data-active="true"] i {background:#fff;}
-.fix-it-premium .fis-services {background:#fff;border-block:1px solid #d4dce2;}
-.fix-it-premium .fis-services :is(em,.fis-kicker) {color:#123c80;}
-.fix-it-premium .fis-atmosphere {border-color:#b6c9dc;box-shadow:inset 0 1px #fff6,0 20px 45px #102c4820;}
-.fix-it-premium .fis-atmosphere__options button {border-color:#b6c9dc;color:#e3eaf0;}
-.fix-it-premium .fis-atmosphere__options button[aria-pressed="true"] {background:#f5f4ef;color:#102c48;border-color:#fff;}
-.fix-it-premium .fis-return .button-gold {border-color:#b6c9dc;}
-@supports(backdrop-filter:blur(12px)) {.fix-it-premium .fix-it-nav {background:#102c48f2;backdrop-filter:blur(12px);}}
+.fix-it-premium .fis-film__progress [data-active="true"] {color:#e0bb6a;}
+.fix-it-premium .fis-film__progress [data-active="true"] i {background:#e0bb6a;}
+.fix-it-premium .fis-services {--fis-gold:#e0bb6a;background:linear-gradient(120deg,#102c48,#173c60);padding-block:85px;border-block:1px solid #8a949c;color:#f5f4ef;box-shadow:inset 0 1px #f5f4ef33,inset 0 -1px #121417;}
+.fix-it-premium .fis-services :is(h2,h3,p) {color:#f5f4ef;}
+.fix-it-premium .fis-services :is(em,.fis-kicker) {color:#e0bb6a;}
+.fix-it-premium .fis-atmosphere {background:linear-gradient(#12141755,#12141755),var(--steel-material);border-color:#8a949c;box-shadow:inset 0 1px #f5f4ef99,0 20px 45px #12141733;}
+.fix-it-premium .fis-atmosphere__options button {background:#121417;border-color:#8a949c;color:#f5f4ef;}
+.fix-it-premium .fis-atmosphere__options button[aria-pressed="true"] {background:#102c48;color:#e0bb6a;border-color:#e0bb6a;}
+.fix-it-premium .fis-atmosphere>small {color:#dce2e4;}
+.fix-it-premium .fix-it-install section,.fix-it-premium .fix-it-auth .signin-panel {background:#e2dfd4;color:#192126;border-color:#8a949c;box-shadow:inset 0 1px #f5f4ef80,0 12px 30px #12141720;}
+@supports(backdrop-filter:blur(12px)) {.fix-it-premium .fix-it-nav {backdrop-filter:blur(12px);}}
 @media(max-width:700px) {
  .fix-it-premium .fix-it-masthead {padding:16px 20px;}
  .fix-it-premium .fix-it-masthead>a:first-child {font-size:14px;letter-spacing:.05em;}
  .fix-it-premium .fix-it-masthead .text-link {font-size:11px;max-width:125px;}
- .fix-it-premium .fis-entrance {min-height:700px;}
- .fix-it-premium .fis-entrance__environment {left:0;opacity:.28;}
- .fix-it-premium .fis-entrance__shade {background:linear-gradient(90deg,#f5f4efff,#f5f4efb8),linear-gradient(0deg,#f5f4ef,transparent);}
- .fix-it-premium .fis-entrance__copy {padding-block:60px 150px;}
+ .fix-it-premium .fis-entrance {min-height:670px;}
+ .fix-it-premium .fis-entrance__environment {left:0;opacity:1;mask-image:none;}
+ .fix-it-premium .fis-entrance__shade {background:linear-gradient(90deg,#263139e8,#12141799),linear-gradient(0deg,#121417,transparent 60%);}
+ .fix-it-premium .fis-entrance__copy {padding-block:60px 140px;}
  .fix-it-premium .fis-brand-story {grid-template-columns:1fr;gap:45px;padding-block:55px 70px;}
  .fix-it-premium .fis-brand-story__material {min-height:365px;max-width:420px;width:100%;margin:auto;}
  .fix-it-premium .fis-brand-story__material img {width:250px;}
 }
 @media(prefers-reduced-motion:reduce) {.fix-it-premium * {scroll-behavior:auto!important;animation:none!important;transition:none!important;}}
-.fix-it-premium .fix-it-home :is(h1,h2,h3) {color:inherit;}
-.fix-it-premium .fix-it-nav a.fix-it-book-action {background:#f5f4ef;color:#102c48;border-color:#b6c9dc;}
-.fix-it-premium .fix-it-content :is(h1,h2,h3) {color:#192b3c;}
-.fix-it-premium .fix-it-install section,.fix-it-premium .fix-it-auth .signin-panel {background:#fff;color:#192b3c;border-color:#b6c9dc;box-shadow:0 12px 30px #102c4810;}
-/* Opaque inscription keeps small text legible over the steel highlight. */
-.fix-it-premium .fis-brand-story__index {background:#102c48;padding:6px 10px;border-radius:4px;}
+.fix-it-premium .fix-it-home .fis-kicker {color:var(--fis-gold);}
+/* Keep the service focal panel's text independent of the older light-menu rules. */
+.fix-it-premium .fix-it-home .fis-services :is(h2,h3,p) {color:#f5f4ef;}
+.fix-it-premium .fix-it-home .fis-services :is(em,.fis-kicker) {color:#e0bb6a;}
+.fix-it-premium .fis-atmosphere__response>span {display:inline-block;background:#121417;color:#e0bb6a;padding:5px 8px;border-radius:3px;}
+.fix-it-premium .fix-it-home .fis-atmosphere>.fis-kicker {display:inline-block;background:#121417;color:#e0bb6a;padding:7px 10px;border-radius:3px;}
